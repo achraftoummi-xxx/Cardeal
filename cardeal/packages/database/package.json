@@ -1,0 +1,12 @@
+{
+  "name": "@cardeal/database",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.ts",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1"
+  },
+  "devDependencies": {
+    "typescript": "latest"
+  }
+}

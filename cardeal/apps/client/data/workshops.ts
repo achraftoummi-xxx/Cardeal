@@ -1,0 +1,32 @@
+export const workshops = [
+  {
+    name: "QuickFix Auto",
+    services: ["Oil change", "Brake repair", "Diagnostics"],
+    distance: "1.2km",
+    brand: "Toyota",
+    model: "Camry",
+    year: "2023",
+    engine: "2.5L",
+    capacity: "2000",
+  },
+  {
+    name: "Metro Garage",
+    services: ["Engine repair", "Cooling system", "Diagnostics"],
+    distance: "3.8km",
+    brand: "Honda",
+    model: "Civic",
+    year: "2022",
+    engine: "2.0L",
+    capacity: "1800",
+  },
+  {
+    name: "Elite Motors",
+    services: ["Brake repair", "Diagnostics"],
+    distance: "5.1km",
+    brand: "BMW",
+    model: "3 Series",
+    year: "2021",
+    engine: "3.0L",
+    capacity: "3000",
+  },
+];

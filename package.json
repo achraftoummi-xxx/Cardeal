@@ -1,0 +1,32 @@
+{
+  "name": "cardeal-monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "npm@10.9.8",
+  "workspaces": [
+    "cardeal/apps/*",
+    "cardeal/packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev --filter=@cardeal/client",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
+  },
+  "devDependencies": {
+    "eslint": "latest",
+    "prettier": "latest",
+    "tailwindcss": "^4.3.3",
+    "turbo": "^2.10.5",
+    "typescript": "5.7.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.110.7",
+    "@tailwindcss/postcss": "^4.3.3",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.24.0",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "tailwind-merge": "^3.6.0"
+  }
+}

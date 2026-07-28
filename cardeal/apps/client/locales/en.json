@@ -1,0 +1,44 @@
+{
+  "site": {
+    "name": "CarDeal"
+  },
+  "nav": {
+    "findService": "Find a Service",
+    "requestQuote": "Request a Quote",
+    "searchParts": "Search Parts"
+  },
+  "buttons": {
+    "becomePartner": "Become a Partner",
+    "login": "Login",
+    "joinNetwork": "Join our network"
+  },
+  "hero": {
+    "title": "Find the right garage. {highlight} Keep your car running.",
+    "highlight": "Compare repair offers.",
+    "subtitle": "Submit one repair request and receive offers from trusted garages near you."
+  },
+  "vehicleFinder": {
+    "title": "Find your vehicle",
+    "stepInfo": "Step {current} of {total}: Select your {label}"
+  },
+  "how": {
+    "title": "How CarDeal works",
+    "steps": [
+      { "title": "Describe your problem", "desc": "Share details about your vehicle and the issues you're facing." },
+      { "title": "Receive offers", "desc": "Get transparent repair quotes from multiple trusted garages." },
+      { "title": "Choose the best", "desc": "Compare and book the best service directly through our platform." }
+    ]
+  },
+  "services": {
+    "title": "Popular services",
+    "items": ["Oil change", "Brake repair", "Diagnostics", "Engine repair", "Cooling system", "Car parts"]
+  },
+  "why": {
+    "title": "Why choose CarDeal",
+    "reasons": ["Transparent prices", "Verified garages", "Customer reviews", "Easy appointments"]
+  },
+  "partner": {
+    "title": "Grow your garage with CarDeal",
+    "cta": "Join our network"
+  }
+}
