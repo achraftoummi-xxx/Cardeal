@@ -1,3 +1,6 @@
 [build]
 command = "npm install && npm run build"
 output_dir = "cardeal/apps/client/.next"
+
+[env]
+SKIP_DEPENDENCY_INSTALL = "true"
