@@ -24,3 +24,5 @@ To run the frontend application:
 1. Navigate to `apps/client`
 2. Install dependencies (if not already handled)
 3. Run `npm run dev`
+
+> Built line by line locally
