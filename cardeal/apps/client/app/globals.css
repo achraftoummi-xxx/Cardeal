@@ -1,22 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-m2-surface: #121212;
-  --color-m2-surface-1dp: #1d1d1d;
-  --color-m2-surface-2dp: #212121;
-  --color-m2-surface-3dp: #242424;
-  --color-m2-surface-4dp: #272727;
-  --color-m2-surface-6dp: #2c2c2c;
-  --color-m2-surface-8dp: #2e2e2e;
-  --color-m2-surface-12dp: #333333;
-  --color-m2-surface-16dp: #353535;
-  --color-m2-surface-24dp: #383838;
-  --color-m2-primary: #bb86fc;
-  --color-m2-secondary: #03dac6;
-  --color-m2-error: #cf6679;
-  --color-m2-text-high: rgba(255, 255, 255, 0.87);
-  --color-m2-text-medium: rgba(255, 255, 255, 0.6);
-  --color-m2-text-disabled: rgba(255, 255, 255, 0.38);
+  --color-saas-surface: #09090b;
+  --color-saas-card: #18181b;
+  --color-saas-elevated: #1e1e21;
+  --color-saas-border: #27272a;
+  --color-saas-primary: #3b82f6;
+  --color-saas-accent: #6366f1;
 }
 
 @layer base {
@@ -44,30 +34,26 @@
   }
 
   .dark {
-    /* Material Design 2 Dark Theme */
-    /* Base background — never pure black (#121212) */
-    --background: 0 0% 7%;
-    --foreground: 0 0% 100%;
-    /* Elevation surfaces (1dp → 24dp) */
-    --card: 0 0% 11%;
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 11%;
-    --popover-foreground: 0 0% 100%;
-    /* M2 desaturated accents */
-    --primary: 267 95% 76%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 168 97% 43%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 0 0% 13%;
-    --muted-foreground: 0 0% 63%;
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 354 50% 61%;
-    --destructive-foreground: 0 0% 0%;
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 267 95% 76%;
-    --radius: 0.5rem;
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 6% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 6% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 6% 7%;
+    --muted-foreground: 240 4% 65%;
+    --accent: 240 4% 12%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 217 91% 60%;
+    --radius: 0.75rem;
   }
 
   * {

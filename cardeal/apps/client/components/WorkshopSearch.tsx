@@ -79,23 +79,23 @@ export default function WorkshopSearch({ brandModels, workshops }: Props) {
   }
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
+    <div className="rounded-2xl border border-zinc-800/60 bg-zinc-900/70 p-6 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-8">
       {/* Location bar */}
-      <div className="mb-6 flex flex-wrap items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+      <div className="mb-6 flex flex-wrap items-center gap-3 rounded-xl border border-zinc-700/50 bg-zinc-800/40 px-5 py-3 shadow-inner shadow-black/10">
         <div className="flex items-center gap-2 text-sm">
-          <span className={`h-2 w-2 rounded-full ${locationActive ? "bg-emerald-400" : "bg-slate-600"}`} />
-          <span className="text-slate-400">
+          <span className={`h-2 w-2 rounded-full ring-1 ring-inset ${locationActive ? "bg-emerald-400 ring-emerald-500/30" : "bg-zinc-600 ring-zinc-500/30"}`} />
+          <span className="text-zinc-400">
             {locationActive ? "Location active" : "Location not activated"}
           </span>
         </div>
         <button
           onClick={activateLocation}
-          className="rounded-lg border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-slate-300 transition-colors hover:bg-white/10"
+          className="rounded-lg border border-zinc-700/50 bg-zinc-800/50 px-4 py-1.5 text-sm text-zinc-300 shadow-sm transition-all hover:bg-zinc-700/50 hover:text-zinc-100"
         >
           {locationActive ? "Update location" : "Activate location"}
         </button>
         {coords && (
-          <span className="rounded-md bg-white/5 px-2.5 py-1 text-xs text-slate-500">
+          <span className="rounded-md bg-zinc-800/50 px-2.5 py-1 text-xs text-zinc-500">
             {coords.lat.toFixed(4)}, {coords.lng.toFixed(4)}
           </span>
         )}
@@ -127,27 +127,27 @@ export default function WorkshopSearch({ brandModels, workshops }: Props) {
       </div>
 
       {/* Search input */}
-      <div className="mt-6 flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-2 sm:px-5">
+      <div className="mt-6 flex items-center gap-3 rounded-xl border border-zinc-700/50 bg-zinc-800/40 px-4 py-2 shadow-inner shadow-black/10 sm:px-5">
         <input
-          className="flex-1 bg-transparent py-2 text-sm text-white outline-none placeholder:text-slate-500"
+          className="flex-1 bg-transparent py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-500"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Service keyword (e.g. brake, oil, battery)"
         />
         {query && (
-          <button onClick={() => setQuery("")} className="text-slate-500 transition-colors hover:text-white">
+          <button onClick={() => setQuery("")} className="text-zinc-500 transition-colors hover:text-zinc-300">
             <X size={18} />
           </button>
         )}
-        <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-500">
+        <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/25 active:scale-95">
           <Search size={16} />
           <span className="hidden sm:inline">Search</span>
         </button>
       </div>
 
       {/* Workshop results */}
-      <div className="mt-6 border-t border-white/10 pt-5">
-        <p className="mb-4 text-sm text-slate-400">
+      <div className="mt-6 border-t border-zinc-800/60 pt-5">
+        <p className="mb-4 text-sm text-zinc-400">
           {results.length
             ? `${results.length} workshop${results.length > 1 ? "s" : ""} nearby`
             : "No workshops found"}
@@ -157,20 +157,20 @@ export default function WorkshopSearch({ brandModels, workshops }: Props) {
           {results.map((w) => (
             <div
               key={w.name}
-              className="flex shrink-0 items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 transition-colors hover:border-blue-500/50 hover:bg-white/10"
+              className="flex shrink-0 items-center gap-3 rounded-xl border border-zinc-700/50 bg-zinc-800/30 px-4 py-3 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/30 hover:bg-zinc-800/50 hover:shadow-md"
             >
               <div>
-                <p className="whitespace-nowrap text-sm font-medium text-white">{w.name}</p>
-                <p className="text-xs text-slate-400">{w.services.slice(0, 2).join(", ")}</p>
+                <p className="whitespace-nowrap text-sm font-medium text-zinc-100">{w.name}</p>
+                <p className="text-xs text-zinc-400">{w.services.slice(0, 2).join(", ")}</p>
               </div>
-              <span className="rounded-full bg-blue-500/20 px-2.5 py-0.5 text-xs font-medium text-blue-300">
+              <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-400 ring-1 ring-blue-500/20">
                 {w.distance}
               </span>
             </div>
           ))}
         </div>
 
-        <div className="mt-4 flex items-center gap-2 border-t border-white/10 pt-4 text-xs text-slate-500">
+        <div className="mt-4 flex items-center gap-2 border-t border-zinc-800/60 pt-4 text-xs text-zinc-500">
           <MapPin size={14} />
           Filters + location help find relevant workshops
         </div>
@@ -182,21 +182,21 @@ export default function WorkshopSearch({ brandModels, workshops }: Props) {
 function Select({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (v: string) => void }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-slate-400">
+      <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500">
         {label}
       </label>
       <div className="relative">
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 pr-10 text-sm text-white outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50"
+          className="w-full appearance-none rounded-xl border border-zinc-700/50 bg-zinc-800/50 px-4 py-3 pr-10 text-sm text-zinc-100 shadow-sm outline-none transition-all focus:border-blue-500/50 focus:bg-zinc-800/80 focus:ring-2 focus:ring-blue-500/20"
         >
           {options.map((o) => (
-            <option key={o} value={o} className="bg-slate-800 text-white">{o || "Any"}</option>
+            <option key={o} value={o} className="bg-zinc-900 text-zinc-100">{o || "Any"}</option>
           ))}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-          <svg className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>

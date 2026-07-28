@@ -31,14 +31,14 @@ export default function LanguageSelector({ className = "" }: { className?: strin
     <div ref={ref} className={`relative ${className}`}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--background)] px-2 py-1 text-sm text-[var(--foreground)] transition-colors hover:bg-[var(--muted)]"
+        className="flex items-center gap-2 rounded-lg border border-zinc-700/50 bg-zinc-800/30 px-2.5 py-1.5 text-sm text-zinc-300 shadow-sm transition-all hover:border-zinc-600/50 hover:bg-zinc-700/30"
       >
         <div className="h-4 w-5 overflow-hidden rounded-sm">
           <Flag code={current.code} style={{ width: 20, height: 14 }} />
         </div>
         <span>{current.label}</span>
         <svg
-          className={`h-3 w-3 text-[var(--muted-foreground)] transition-transform ${open ? "rotate-180" : ""}`}
+          className={`h-3 w-3 text-zinc-500 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -48,7 +48,7 @@ export default function LanguageSelector({ className = "" }: { className?: strin
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-1 w-32 overflow-hidden rounded-lg border border-slate-700 bg-slate-900 py-1 shadow-xl">
+        <div className="absolute right-0 top-full z-50 mt-1.5 w-32 overflow-hidden rounded-xl border border-zinc-700/50 bg-zinc-900/95 py-1 shadow-2xl shadow-black/40 backdrop-blur-xl">
           {Object.keys(locales).map((l) => {
             const isActive = l === locale;
             return (
@@ -60,8 +60,8 @@ export default function LanguageSelector({ className = "" }: { className?: strin
                 }}
                 className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors ${
                   isActive
-                    ? "bg-blue-600 text-white"
-                    : "text-slate-200 hover:bg-slate-800"
+                    ? "bg-blue-600/20 text-blue-400"
+                    : "text-zinc-300 hover:bg-zinc-800/80"
                 }`}
               >
                 <div className="h-3.5 w-5 overflow-hidden rounded-sm">
