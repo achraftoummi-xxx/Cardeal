@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { MapPin, Navigation, Loader2, Search, X } from "lucide-react";
+import { MapPin, Crosshair, Loader2, Search, X } from "lucide-react";
 
 type TomTomSuggestion = {
   id: string;
@@ -165,7 +165,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
 
   return (
     <div className={cn("", className)}>
-      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
         <div className="flex items-center gap-2 text-sm">
           {status === "loading" || status === "geocoding" ? (
             <Loader2 size={14} className="animate-spin text-blue-400" />
@@ -191,7 +191,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
             disabled={status === "loading" || status === "geocoding"}
             className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-muted/50 px-3 py-1.5 text-sm text-muted-foreground shadow-sm transition-all hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
           >
-            <Navigation size={14} />
+            <Crosshair size={14} />
             Activate location
           </button>
         )}
