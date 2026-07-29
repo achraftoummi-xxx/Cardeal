@@ -62,20 +62,33 @@ export default function LocationBar({ onLocationChange, className }: Props) {
         const { latitude: lat, longitude: lng } = pos.coords;
         setStatus("geocoding");
         try {
+          if (!apiKey) {
+            setError("TomTom API key is not configured");
+            setStatus("idle");
+            return;
+          }
           const res = await fetch(
             `${TOMTOM_BASE}/search/2/reverseGeocode/${lat},${lng}.json?key=${apiKey}`
           );
+          if (!res.ok) {
+            setError("Could not resolve address. Try typing a location.");
+            setStatus("idle");
+            return;
+          }
           const data = await res.json();
           const addr = data?.addresses?.[0]?.address;
-          const label = addr?.municipality || addr?.freeformAddress || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+          const label = addr?.freeformAddress || addr?.municipality || addr?.streetName;
+          if (!label) {
+            setError("Could not resolve address. Try typing a location.");
+            setStatus("idle");
+            return;
+          }
           notify({ label, lat, lng });
           setInputValue(label);
           setStatus("ready");
         } catch {
-          const label = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-          notify({ label, lat, lng });
-          setInputValue(label);
-          setStatus("ready");
+          setError("Could not resolve address. Try typing a location.");
+          setStatus("idle");
         }
       },
       () => {
