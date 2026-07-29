@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Search, X, MapPin } from "lucide-react";
+import LocationBar from "@/components/LocationBar";
 
 export type Workshop = {
   name: string;
@@ -20,11 +21,11 @@ export type Workshop = {
 type Props = {
   brandModels: Record<string, string[]>;
   workshops: Workshop[];
-  externalLocation?: { lat: number; lng: number } | null;
+  onLocationChange?: (location: { lat: number; lng: number; label: string } | null) => void;
   onResultsFiltered?: (results: Workshop[]) => void;
 };
 
-export default function WorkshopSearch({ brandModels, workshops, externalLocation, onResultsFiltered }: Props) {
+export default function WorkshopSearch({ brandModels, workshops, onLocationChange, onResultsFiltered }: Props) {
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
@@ -32,12 +33,6 @@ export default function WorkshopSearch({ brandModels, workshops, externalLocatio
   const [capacity, setCapacity] = useState("");
   const [cylinders, setCylinders] = useState("");
   const [query, setQuery] = useState("");
-
-  const [locationActive, setLocationActive] = useState(false);
-  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
-
-  const effectiveCoords = externalLocation ?? coords;
-  const effectiveLocationActive = externalLocation ? true : locationActive;
 
   const models = useMemo(() => {
     if (!brand) return [];
@@ -71,48 +66,9 @@ export default function WorkshopSearch({ brandModels, workshops, externalLocatio
     onResultsFiltered?.(results);
   }, [results, onResultsFiltered]);
 
-  function activateLocation() {
-    if (!navigator.geolocation) {
-      setCoords({ lat: 52.52, lng: 13.405 });
-      setLocationActive(true);
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
-        setLocationActive(true);
-      },
-      () => {
-        setCoords({ lat: 52.52, lng: 13.405 });
-        setLocationActive(true);
-      }
-    );
-  }
-
   return (
     <div className="rounded-2xl border border-border bg-card p-6 shadow-2xl shadow-black/10 dark:shadow-black/40 backdrop-blur-xl sm:p-8">
-      {/* Location bar */}
-      <div className="mb-6 flex flex-wrap items-center gap-3 rounded-xl border border-border bg-muted/50 px-5 py-3 shadow-inner shadow-black/5 dark:shadow-black/10">
-        <div className="flex items-center gap-2 text-sm">
-          <span className={`h-2 w-2 rounded-full ring-1 ring-inset ${effectiveLocationActive ? "bg-emerald-400 ring-emerald-500/30" : "bg-zinc-600 ring-zinc-500/30"}`} />
-          <span className="text-zinc-400">
-            {effectiveLocationActive ? "Location active" : "Location not activated"}
-          </span>
-        </div>
-        {!externalLocation && (
-          <button
-            onClick={activateLocation}
-            className="rounded-lg border border-zinc-700/50 bg-zinc-800/50 px-4 py-1.5 text-sm text-zinc-300 shadow-sm transition-all hover:bg-zinc-700/50 hover:text-zinc-100"
-          >
-            {effectiveLocationActive ? "Update location" : "Activate location"}
-          </button>
-        )}
-        {effectiveCoords && (
-          <span className="rounded-md bg-zinc-800/50 px-2.5 py-1 text-xs text-zinc-500">
-            {effectiveCoords.lat.toFixed(4)}, {effectiveCoords.lng.toFixed(4)}
-          </span>
-        )}
-      </div>
+      <LocationBar onLocationChange={onLocationChange} className="mb-6" />
 
       {/* Filter grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

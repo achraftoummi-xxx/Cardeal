@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import WorkshopSearch from "@/components/WorkshopSearch";
 import type { Workshop } from "@/components/WorkshopSearch";
-import LocationBar from "@/components/LocationBar";
 import NearbyMap from "@/components/NearbyMap";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useTranslation } from "@/components/TranslationProvider";
@@ -57,15 +56,11 @@ export default function Page() {
               </p>
             </div>
 
-            <div className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-2xl shadow-black/10 dark:shadow-black/40 backdrop-blur-xl sm:p-6">
-              <LocationBar onLocationChange={setSelectedLocation} />
-            </div>
-
-            <div className="mt-6">
+            <div className="mt-8">
               <WorkshopSearch
                 brandModels={brandModels}
                 workshops={workshops}
-                externalLocation={selectedLocation}
+                onLocationChange={setSelectedLocation}
                 onResultsFiltered={setFilteredWorkshops}
               />
             </div>
