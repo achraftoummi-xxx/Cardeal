@@ -6,11 +6,21 @@ type Theme = "light" | "dark" | "system";
 
 type ThemeContextValue = {
   theme: Theme;
+  resolvedTheme: "light" | "dark";
   setTheme: (t: Theme) => void;
   toggle: () => void;
 };
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+
+function getResolved(t: Theme): "light" | "dark" {
+  if (t === "system") {
+    return typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+  return t;
+}
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
@@ -22,27 +32,27 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   });
 
-  useEffect(() => {
-    const apply = (t: Theme) => {
-      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const effective = t === "system" ? (prefersDark ? "dark" : "light") : t;
+  const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light");
 
-      if (effective === "dark") {
+  useEffect(() => {
+    const update = () => {
+      const r = getResolved(theme);
+      setResolvedTheme(r);
+      if (r === "dark") {
         document.documentElement.classList.add("dark");
       } else {
         document.documentElement.classList.remove("dark");
       }
     };
 
-    apply(theme);
+    update();
 
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const listener = () => {
-      if (theme === "system") apply("system");
+      if (theme === "system") update();
     };
 
     mq.addEventListener?.("change", listener);
-
     return () => mq.removeEventListener?.("change", listener);
   }, [theme]);
 
@@ -55,7 +65,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const setTheme = (t: Theme) => setThemeState(t);
   const toggle = () => setThemeState((s) => (s === "dark" ? "light" : "dark"));
 
-  return <ThemeContext.Provider value={{ theme, setTheme, toggle }}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggle }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
 export function useTheme() {

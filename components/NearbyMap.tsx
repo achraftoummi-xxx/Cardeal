@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useTheme } from "@/components/ThemeProvider";
+import { cn } from "@/lib/utils";
 
 type Workshop = {
   name: string;
@@ -23,7 +25,17 @@ type Props = {
   className?: string;
 };
 
+function getTomTomStyle(isDark: boolean) {
+  const key = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
+  if (!key) return undefined;
+  return isDark
+    ? `https://api.tomtom.com/style/1/clone/basic-night.json?key=${key}`
+    : `https://api.tomtom.com/style/1/clone/basic-main.json?key=${key}`;
+}
+
 export default function NearbyMap({ location, workshops, className = "" }: Props) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
@@ -54,13 +66,14 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       container: containerRef.current,
       center: location ? [location.lng, location.lat] : [2.3522, 48.8566],
       zoom: location ? 14 : 5,
+      style: getTomTomStyle(isDark),
     });
 
     map.addControl(new ttModule.FullscreenControl(), "top-left");
     map.addControl(new ttModule.NavigationControl(), "top-left");
 
     mapRef.current = map;
-  }, [ready, ttModule, location]);
+  }, [ready, ttModule, location, isDark]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -68,6 +81,17 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     map.setCenter([location.lng, location.lat]);
     map.setZoom(14);
   }, [location]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ttModule) return;
+
+    const token = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
+    const styleUrl = getTomTomStyle(isDark);
+    if (styleUrl) {
+      map.setStyle(styleUrl);
+    }
+  }, [isDark, ttModule]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -86,10 +110,10 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       el.textContent = w.name.charAt(0).toUpperCase();
 
       const popup = new ttModule.Popup({ offset: 25 }).setHTML(`
-        <div class="bg-zinc-900 text-zinc-100 p-3 rounded-xl min-w-[180px]">
+        <div class="${isDark ? "bg-zinc-900 text-zinc-100" : "bg-white text-zinc-900"} p-3 rounded-xl min-w-[180px] shadow-lg">
           <p class="font-semibold text-sm">${w.name}</p>
-          <p class="text-xs text-zinc-400 mt-1">${w.services.slice(0, 3).join(" · ")}</p>
-          <div class="flex items-center gap-2 mt-2 text-xs text-zinc-500">
+          <p class="text-xs ${isDark ? "text-zinc-400" : "text-zinc-500"} mt-1">${w.services.slice(0, 3).join(" · ")}</p>
+          <div class="flex items-center gap-2 mt-2 text-xs ${isDark ? "text-zinc-500" : "text-zinc-400"}">
             <span>${w.brand} ${w.model}</span>
             <span>·</span>
             <span>${w.distance}</span>
@@ -104,14 +128,19 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
       markersRef.current.push(marker);
     });
-  }, [workshops, ttModule]);
+  }, [workshops, ttModule, isDark]);
 
   return (
     <div className={className}>
-      <div className="relative h-[420px] w-full overflow-hidden rounded-2xl border border-zinc-800/60 bg-zinc-900 shadow-2xl shadow-black/40 sm:h-[480px] lg:h-[520px]">
+      <div
+        className={cn(
+          "relative h-[420px] w-full overflow-hidden rounded-2xl border shadow-2xl sm:h-[480px] lg:h-[520px]",
+          "border-border bg-background shadow-black/10 dark:shadow-black/40"
+        )}
+      >
         {!ready && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-zinc-950/80">
-            <div className="flex items-center gap-2 text-sm text-zinc-400">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/80">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 size={16} className="animate-spin" />
               Loading map...
             </div>

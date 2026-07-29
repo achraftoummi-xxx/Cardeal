@@ -174,7 +174,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
           ) : (
             <span className="h-2 w-2 rounded-full bg-zinc-600 ring-1 ring-zinc-500/30" />
           )}
-          <span className="text-zinc-400">
+          <span className="text-muted-foreground">
             {status === "loading"
               ? "Detecting location..."
               : status === "geocoding"
@@ -189,7 +189,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
           <button
             onClick={handleGeolocation}
             disabled={status === "loading" || status === "geocoding"}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700/50 bg-zinc-800/50 px-3 py-1.5 text-sm text-zinc-300 shadow-sm transition-all hover:bg-zinc-700/50 hover:text-zinc-100 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-muted/50 px-3 py-1.5 text-sm text-muted-foreground shadow-sm transition-all hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
           >
             <Navigation size={14} />
             Activate location
@@ -202,11 +202,11 @@ export default function LocationBar({ onLocationChange, className }: Props) {
       )}
 
       <div className="relative mt-3">
-        <div className="flex items-center gap-2 rounded-xl border border-zinc-700/50 bg-zinc-800/40 px-3 py-2 shadow-inner shadow-black/10 transition-all focus-within:border-blue-500/50 focus-within:ring-1 focus-within:ring-blue-500/20 sm:px-4">
-          <Search size={16} className="shrink-0 text-zinc-500" />
+        <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-3 py-2 shadow-inner shadow-black/5 transition-all focus-within:border-blue-500/50 focus-within:ring-1 focus-within:ring-blue-500/20 sm:px-4">
+          <Search size={16} className="shrink-0 text-muted-foreground" />
           <input
             ref={inputRef}
-            className="flex-1 bg-transparent py-1 text-sm text-zinc-100 outline-none placeholder:text-zinc-500"
+            className="flex-1 bg-transparent py-1 text-sm text-foreground outline-none placeholder:text-muted-foreground"
             value={inputValue}
             onChange={(e) => handleInputChange(e.target.value)}
             placeholder={location ? "Change location" : "Search city or address..."}
@@ -222,7 +222,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
           {location && (
             <button
               onClick={clearLocation}
-              className="flex items-center gap-1 rounded-md bg-zinc-700/40 px-2 py-1 text-xs text-zinc-400 transition-colors hover:bg-zinc-700/60 hover:text-zinc-200"
+              className="flex items-center gap-1 rounded-md bg-muted/50 px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               <MapPin size={12} />
               Clear
@@ -233,19 +233,19 @@ export default function LocationBar({ onLocationChange, className }: Props) {
         {showDropdown && suggestions.length > 0 && (
           <div
             ref={dropdownRef}
-            className="absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-xl border border-zinc-700/50 bg-zinc-900 shadow-2xl shadow-black/40"
+            className="absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-xl border border-border bg-popover shadow-2xl shadow-black/10 dark:shadow-black/40"
           >
             {suggestions.map((s) => (
               <button
                 key={s.id}
                 onClick={() => selectSuggestion(s)}
-                className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-zinc-300 transition-colors hover:bg-zinc-800/60 hover:text-zinc-100"
+                className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-popover-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
               >
-                <MapPin size={14} className="shrink-0 text-zinc-500" />
+                <MapPin size={14} className="shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
                   <span className="block truncate">{s.address.freeformAddress}</span>
                   {s.address.municipality && (
-                    <span className="block truncate text-xs text-zinc-500">
+                    <span className="block truncate text-xs text-muted-foreground">
                       {s.address.municipality}, {s.address.country}
                     </span>
                   )}
