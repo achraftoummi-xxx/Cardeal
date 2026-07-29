@@ -1,32 +1,35 @@
 {
-  "name": "cardeal-monorepo",
+  "name": "cardeal",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "packageManager": "npm@10.9.8",
-  "workspaces": [
-    "cardeal/apps/*",
-    "cardeal/packages/*"
-  ],
   "scripts": {
-    "dev": "turbo dev --filter=@cardeal/client",
-    "build": "turbo build",
-    "lint": "turbo lint",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
-  },
-  "devDependencies": {
-    "eslint": "latest",
-    "prettier": "latest",
-    "tailwindcss": "^4.3.3",
-    "turbo": "^2.10.5",
-    "typescript": "5.7.3"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.7",
     "@tailwindcss/postcss": "^4.3.3",
+    "autoprefixer": "^10.5.4",
     "clsx": "^2.1.1",
     "lucide-react": "^1.24.0",
+    "next": "15.0.0",
+    "postcss": "^8.5.19",
     "react": "19.2.7",
     "react-dom": "19.2.7",
-    "tailwind-merge": "^3.6.0"
+    "react-world-flags": "^1.6.0",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "22.0.0",
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "eslint": "latest",
+    "prettier": "latest",
+    "typescript": "5.7.3"
   }
 }
