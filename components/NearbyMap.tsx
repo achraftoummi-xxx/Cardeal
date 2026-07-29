@@ -41,12 +41,17 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
   useEffect(() => {
     if (!ready || !ttModule || !containerRef.current || mapRef.current) return;
 
+    const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
+    if (!apiKey) return;
+
+    ttModule.setProductInfo("Cardeal", "1.0");
+
     const map = ttModule.map({
-      key: process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "",
+      key: apiKey,
       container: containerRef.current,
       center: location ? [location.lng, location.lat] : [2.3522, 48.8566],
       zoom: location ? 14 : 5,
-      style: "tomtom://vector/1/dark-main",
+      style: `https://api.tomtom.com/style/1/clone/basic-night.json?key=${apiKey}`,
     });
 
     map.addControl(new ttModule.FullscreenControl(), "top-left");
