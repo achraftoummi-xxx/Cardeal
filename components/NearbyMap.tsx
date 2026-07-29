@@ -61,16 +61,12 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
     tt.setProductInfo("Cardeal", "1.0");
 
-    const styleUrl = isDark
-      ? `https://api.tomtom.com/style/1/style/basic-night.json?key=${apiKey}`
-      : `https://api.tomtom.com/style/1/style/basic-main.json?key=${apiKey}`;
-
     const map = tt.map({
       key: apiKey,
       container: containerRef.current,
       center: location ? [location.lng, location.lat] : [2.3522, 48.8566],
       zoom: location ? 14 : 5,
-      style: styleUrl,
+      style: isDark ? "basic-night" : "basic-main",
     });
 
     map.addControl(new tt.FullscreenControl(), "top-left");
