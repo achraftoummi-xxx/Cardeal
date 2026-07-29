@@ -42,7 +42,10 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     if (!ready || !ttModule || !containerRef.current || mapRef.current) return;
 
     const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
-    if (!apiKey) return;
+    if (!apiKey) {
+      console.warn("[NearbyMap] TomTom API key (NEXT_PUBLIC_TOMTOM_API_KEY) is not configured — map will not render");
+      return;
+    }
 
     ttModule.setProductInfo("Cardeal", "1.0");
 

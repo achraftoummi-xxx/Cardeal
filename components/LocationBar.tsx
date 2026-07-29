@@ -63,7 +63,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
         setStatus("geocoding");
         try {
           if (!apiKey) {
-            setError("TomTom API key is not configured");
+            console.error("[LocationBar] TomTom API key (NEXT_PUBLIC_TOMTOM_API_KEY) is not configured");
             setStatus("idle");
             return;
           }
