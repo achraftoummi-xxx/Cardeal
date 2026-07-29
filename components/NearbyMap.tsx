@@ -51,7 +51,6 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       container: containerRef.current,
       center: location ? [location.lng, location.lat] : [2.3522, 48.8566],
       zoom: location ? 14 : 5,
-      style: `https://api.tomtom.com/style/1/clone/basic-night.json?key=${apiKey}`,
     });
 
     map.addControl(new ttModule.FullscreenControl(), "top-left");
