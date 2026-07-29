@@ -25,33 +25,26 @@ type Props = {
   className?: string;
 };
 
-function getTomTomStyle(isDark: boolean) {
-  const key = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
-  if (!key) return undefined;
-  return isDark
-    ? `https://api.tomtom.com/style/1/clone/basic-night.json?key=${key}`
-    : `https://api.tomtom.com/style/1/clone/basic-main.json?key=${key}`;
-}
-
 export default function NearbyMap({ location, workshops, className = "" }: Props) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
+  const ttRef = useRef<any>(null);
   const mapRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
   const [ready, setReady] = useState(false);
-  const [ttModule, setTtModule] = useState<any>(null);
 
   useEffect(() => {
     import("@tomtom-international/web-sdk-maps").then((mod) => {
-      setTtModule(() => mod.default);
+      ttRef.current = mod.default;
       setReady(true);
     });
     import("@tomtom-international/web-sdk-maps/dist/maps.css");
   }, []);
 
   useEffect(() => {
-    if (!ready || !ttModule || !containerRef.current || mapRef.current) return;
+    const tt = ttRef.current;
+    if (!ready || !tt || !containerRef.current) return;
 
     const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
     if (!apiKey) {
@@ -59,21 +52,33 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       return;
     }
 
-    ttModule.setProductInfo("Cardeal", "1.0");
+    if (mapRef.current) {
+      mapRef.current.remove();
+      mapRef.current = null;
+    }
+    markersRef.current.forEach((m) => m.remove());
+    markersRef.current = [];
 
-    const map = ttModule.map({
+    tt.setProductInfo("Cardeal", "1.0");
+
+    const map = tt.map({
       key: apiKey,
       container: containerRef.current,
       center: location ? [location.lng, location.lat] : [2.3522, 48.8566],
       zoom: location ? 14 : 5,
-      style: getTomTomStyle(isDark),
+      style: isDark ? "tomtom://vector/1/basic-night" : "tomtom://vector/1/basic-main",
     });
 
-    map.addControl(new ttModule.FullscreenControl(), "top-left");
-    map.addControl(new ttModule.NavigationControl(), "top-left");
+    map.addControl(new tt.FullscreenControl(), "top-left");
+    map.addControl(new tt.NavigationControl(), "top-left");
 
     mapRef.current = map;
-  }, [ready, ttModule, location, isDark]);
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
+  }, [ready, isDark]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -84,18 +89,8 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !ttModule) return;
-
-    const token = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
-    const styleUrl = getTomTomStyle(isDark);
-    if (styleUrl) {
-      map.setStyle(styleUrl);
-    }
-  }, [isDark, ttModule]);
-
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map || !ttModule) return;
+    const tt = ttRef.current;
+    if (!map || !tt) return;
 
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
@@ -109,7 +104,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
         "flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-lg shadow-blue-500/30 ring-2 ring-white/20 cursor-pointer transition-transform hover:scale-110";
       el.textContent = w.name.charAt(0).toUpperCase();
 
-      const popup = new ttModule.Popup({ offset: 25 }).setHTML(`
+      const popup = new tt.Popup({ offset: 25 }).setHTML(`
         <div class="${isDark ? "bg-zinc-900 text-zinc-100" : "bg-white text-zinc-900"} p-3 rounded-xl min-w-[180px] shadow-lg">
           <p class="font-semibold text-sm">${w.name}</p>
           <p class="text-xs ${isDark ? "text-zinc-400" : "text-zinc-500"} mt-1">${w.services.slice(0, 3).join(" · ")}</p>
@@ -121,14 +116,14 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
         </div>
       `);
 
-      const marker = new ttModule.Marker({ element: el })
+      const marker = new tt.Marker({ element: el })
         .setLngLat([w.lng!, w.lat!])
         .setPopup(popup)
         .addTo(map);
 
       markersRef.current.push(marker);
     });
-  }, [workshops, ttModule, isDark]);
+  }, [workshops, isDark]);
 
   return (
     <div className={className}>
