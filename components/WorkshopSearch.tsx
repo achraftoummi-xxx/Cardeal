@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search, X, MapPin } from "lucide-react";
 
-type Workshop = {
+export type Workshop = {
   name: string;
   services: string[];
   distance: string;
@@ -13,14 +13,18 @@ type Workshop = {
   engine: string;
   capacity: string;
   cylinders?: string;
+  lat?: number;
+  lng?: number;
 };
 
 type Props = {
   brandModels: Record<string, string[]>;
   workshops: Workshop[];
+  externalLocation?: { lat: number; lng: number } | null;
+  onResultsFiltered?: (results: Workshop[]) => void;
 };
 
-export default function WorkshopSearch({ brandModels, workshops }: Props) {
+export default function WorkshopSearch({ brandModels, workshops, externalLocation, onResultsFiltered }: Props) {
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
@@ -31,6 +35,9 @@ export default function WorkshopSearch({ brandModels, workshops }: Props) {
 
   const [locationActive, setLocationActive] = useState(false);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+
+  const effectiveCoords = externalLocation ?? coords;
+  const effectiveLocationActive = externalLocation ? true : locationActive;
 
   const models = useMemo(() => {
     if (!brand) return [];
@@ -60,6 +67,10 @@ export default function WorkshopSearch({ brandModels, workshops }: Props) {
     });
   }, [query, brand, model, year, engine, capacity, cylinders, workshops]);
 
+  useEffect(() => {
+    onResultsFiltered?.(results);
+  }, [results, onResultsFiltered]);
+
   function activateLocation() {
     if (!navigator.geolocation) {
       setCoords({ lat: 52.52, lng: 13.405 });
@@ -83,20 +94,22 @@ export default function WorkshopSearch({ brandModels, workshops }: Props) {
       {/* Location bar */}
       <div className="mb-6 flex flex-wrap items-center gap-3 rounded-xl border border-zinc-700/50 bg-zinc-800/40 px-5 py-3 shadow-inner shadow-black/10">
         <div className="flex items-center gap-2 text-sm">
-          <span className={`h-2 w-2 rounded-full ring-1 ring-inset ${locationActive ? "bg-emerald-400 ring-emerald-500/30" : "bg-zinc-600 ring-zinc-500/30"}`} />
+          <span className={`h-2 w-2 rounded-full ring-1 ring-inset ${effectiveLocationActive ? "bg-emerald-400 ring-emerald-500/30" : "bg-zinc-600 ring-zinc-500/30"}`} />
           <span className="text-zinc-400">
-            {locationActive ? "Location active" : "Location not activated"}
+            {effectiveLocationActive ? "Location active" : "Location not activated"}
           </span>
         </div>
-        <button
-          onClick={activateLocation}
-          className="rounded-lg border border-zinc-700/50 bg-zinc-800/50 px-4 py-1.5 text-sm text-zinc-300 shadow-sm transition-all hover:bg-zinc-700/50 hover:text-zinc-100"
-        >
-          {locationActive ? "Update location" : "Activate location"}
-        </button>
-        {coords && (
+        {!externalLocation && (
+          <button
+            onClick={activateLocation}
+            className="rounded-lg border border-zinc-700/50 bg-zinc-800/50 px-4 py-1.5 text-sm text-zinc-300 shadow-sm transition-all hover:bg-zinc-700/50 hover:text-zinc-100"
+          >
+            {effectiveLocationActive ? "Update location" : "Activate location"}
+          </button>
+        )}
+        {effectiveCoords && (
           <span className="rounded-md bg-zinc-800/50 px-2.5 py-1 text-xs text-zinc-500">
-            {coords.lat.toFixed(4)}, {coords.lng.toFixed(4)}
+            {effectiveCoords.lat.toFixed(4)}, {effectiveCoords.lng.toFixed(4)}
           </span>
         )}
       </div>

@@ -1,7 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import WorkshopSearch from "@/components/WorkshopSearch";
+import type { Workshop } from "@/components/WorkshopSearch";
+import LocationBar from "@/components/LocationBar";
+import NearbyMap from "@/components/NearbyMap";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useTranslation } from "@/components/TranslationProvider";
 import { brandModels } from "@/data/carBrands";
@@ -9,6 +13,8 @@ import { workshops } from "@/data/workshops";
 
 export default function Page() {
   const { t } = useTranslation();
+  const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number; label: string } | null>(null);
+  const [filteredWorkshops, setFilteredWorkshops] = useState<Workshop[]>(workshops);
 
   const howSteps = t("how.steps") as unknown as Array<{ title: string; desc: string }>;
   const services = t("services.items") as unknown as string[];
@@ -41,15 +47,31 @@ export default function Page() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(99,102,241,0.1)_0%,transparent_50%)]" />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
         <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:py-36">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-3xl font-extrabold leading-tight tracking-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
-              {t("hero.title", { highlight: t("hero.highlight") })}
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg md:text-xl">
-              {t("hero.subtitle")}
-            </p>
-            <div className="mt-10 md:mt-14">
-              <WorkshopSearch brandModels={brandModels} workshops={workshops} />
+          <div className="mx-auto max-w-4xl">
+            <div className="text-center">
+              <h1 className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-3xl font-extrabold leading-tight tracking-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
+                {t("hero.title", { highlight: t("hero.highlight") })}
+              </h1>
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg md:text-xl">
+                {t("hero.subtitle")}
+              </p>
+            </div>
+
+            <div className="mt-8 rounded-2xl border border-zinc-800/60 bg-zinc-900/70 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-6">
+              <LocationBar onLocationChange={setSelectedLocation} />
+            </div>
+
+            <div className="mt-6">
+              <WorkshopSearch
+                brandModels={brandModels}
+                workshops={workshops}
+                externalLocation={selectedLocation}
+                onResultsFiltered={setFilteredWorkshops}
+              />
+            </div>
+
+            <div className="mt-6">
+              <NearbyMap location={selectedLocation} workshops={filteredWorkshops} />
             </div>
           </div>
         </div>
