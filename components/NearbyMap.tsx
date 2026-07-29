@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
-import { useTheme } from "@/components/ThemeProvider";
 import { cn } from "@/lib/utils";
 
 type Workshop = {
@@ -26,13 +25,12 @@ type Props = {
 };
 
 export default function NearbyMap({ location, workshops, className = "" }: Props) {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
   const ttRef = useRef<any>(null);
   const mapRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
   const [ready, setReady] = useState(false);
+  const [prefersDark, setPrefersDark] = useState(false);
 
   useEffect(() => {
     import("@tomtom-international/web-sdk-maps").then((mod) => {
@@ -52,12 +50,8 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       return;
     }
 
-    if (mapRef.current) {
-      mapRef.current.remove();
-      mapRef.current = null;
-    }
-    markersRef.current.forEach((m) => m.remove());
-    markersRef.current = [];
+    const initialDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setPrefersDark(initialDark);
 
     tt.setProductInfo("Cardeal", "1.0");
 
@@ -66,7 +60,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       container: containerRef.current,
       center: location ? [location.lng, location.lat] : [2.3522, 48.8566],
       zoom: location ? 14 : 5,
-      style: isDark ? "basic-night" : "basic-main",
+      style: initialDark ? "basic-night" : "basic-main",
     });
 
     map.addControl(new tt.FullscreenControl(), "top-left");
@@ -74,11 +68,20 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
     mapRef.current = map;
 
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const handler = (e: MediaQueryListEvent) => {
+      const dark = e.matches;
+      setPrefersDark(dark);
+      map.setStyle(dark ? "basic-night" : "basic-main");
+    };
+    mq.addEventListener("change", handler);
+
     return () => {
+      mq.removeEventListener("change", handler);
       map.remove();
       mapRef.current = null;
     };
-  }, [ready, isDark]);
+  }, [ready]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -105,10 +108,10 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       el.textContent = w.name.charAt(0).toUpperCase();
 
       const popup = new tt.Popup({ offset: 25 }).setHTML(`
-        <div class="${isDark ? "bg-zinc-900 text-zinc-100" : "bg-white text-zinc-900"} p-3 rounded-xl min-w-[180px] shadow-lg">
+        <div class="${prefersDark ? "bg-zinc-900 text-zinc-100" : "bg-white text-zinc-900"} p-3 rounded-xl min-w-[180px] shadow-lg">
           <p class="font-semibold text-sm">${w.name}</p>
-          <p class="text-xs ${isDark ? "text-zinc-400" : "text-zinc-500"} mt-1">${w.services.slice(0, 3).join(" · ")}</p>
-          <div class="flex items-center gap-2 mt-2 text-xs ${isDark ? "text-zinc-500" : "text-zinc-400"}">
+          <p class="text-xs ${prefersDark ? "text-zinc-400" : "text-zinc-500"} mt-1">${w.services.slice(0, 3).join(" · ")}</p>
+          <div class="flex items-center gap-2 mt-2 text-xs ${prefersDark ? "text-zinc-500" : "text-zinc-400"}">
             <span>${w.brand} ${w.model}</span>
             <span>·</span>
             <span>${w.distance}</span>
@@ -123,7 +126,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
       markersRef.current.push(marker);
     });
-  }, [workshops, isDark]);
+  }, [workshops, prefersDark]);
 
   return (
     <div className={className}>
