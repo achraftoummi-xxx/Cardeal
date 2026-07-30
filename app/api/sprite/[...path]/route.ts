@@ -1,4 +1,4 @@
-const CDN_BASE = "https://cdn.protomaps.com/tiles/v4/sprites";
+const CDN_BASE = "https://protomaps.github.io/basemaps-assets/sprites/v4";
 
 export async function GET(
   _request: Request,
