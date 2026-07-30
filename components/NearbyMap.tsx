@@ -59,23 +59,31 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
     const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
     const zoom = location ? 14 : DEFAULT_ZOOM;
-    const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-day";
+    const stylePath = resolvedTheme === "dark" ? "2/basic_mono-dark" : "2/basic_street-light";
+    const styleUrl = `https://api.tomtom.com/style/1/style/${stylePath}?key=${apiKey}`;
+
     const map = tt.map({
       key: apiKey,
       container: containerRef.current,
       center,
       zoom,
-      style: styleName,
+      style: styleUrl,
     });
 
     map.addControl(new tt.FullscreenControl(), "top-left");
     map.addControl(new tt.NavigationControl(), "top-left");
 
-    map.on("load", () => map.invalidateSize());
+    map.on("load", () => {
+      map.invalidateSize();
+    });
 
     mapRef.current = map;
 
-    const onResize = () => map.invalidateSize();
+    const onResize = () => {
+      if (mapRef.current) {
+        mapRef.current.invalidateSize();
+      }
+    };
     window.addEventListener("resize", onResize);
 
     return () => {
@@ -85,13 +93,18 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     };
   }, [ready]);
 
-  // Dynamically update TomTom map style when resolvedTheme changes using valid built-in style names
+  // Dynamically update TomTom map style when resolvedTheme changes using valid v2 API style query paths
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
 
-    const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-day";
-    map.setStyle(styleName);
+    const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
+    if (!apiKey) return;
+
+    const stylePath = resolvedTheme === "dark" ? "2/basic_mono-dark" : "2/basic_street-light";
+    const styleUrl = `https://api.tomtom.com/style/1/style/${stylePath}?key=${apiKey}`;
+
+    map.setStyle(styleUrl);
 
     map.once("styledata", () => {
       map.invalidateSize();
