@@ -202,9 +202,12 @@ export default function LocationBar({ onLocationChange, className }: Props) {
       )}
 
       <div className="relative mt-3">
+        <label htmlFor="location-search-input" className="sr-only">Search city or address</label>
         <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-3 py-2 shadow-inner shadow-black/5 transition-all focus-within:border-blue-500/50 focus-within:ring-1 focus-within:ring-blue-500/20 sm:px-4">
           <Search size={16} className="shrink-0 text-muted-foreground" />
           <input
+            id="location-search-input"
+            name="locationQuery"
             ref={inputRef}
             className="flex-1 bg-transparent py-1 text-sm text-foreground outline-none placeholder:text-muted-foreground"
             value={inputValue}

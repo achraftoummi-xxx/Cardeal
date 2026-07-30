@@ -96,22 +96,29 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
       </div>
 
       {/* Search input */}
-      <div className="mt-6 flex items-center gap-3 rounded-xl border border-border bg-muted/50 px-4 py-2 shadow-inner shadow-black/5 dark:shadow-black/10 sm:px-5">
-        <input
-          className="flex-1 bg-transparent py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Service keyword (e.g. brake, oil, battery)"
-        />
-        {query && (
-          <button onClick={() => setQuery("")} className="text-zinc-500 transition-colors hover:text-zinc-300">
-            <X size={18} />
+      <div className="mt-6">
+        <label htmlFor="service-search-input" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500">
+          Search Services
+        </label>
+        <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/50 px-4 py-2 shadow-inner shadow-black/5 dark:shadow-black/10 sm:px-5">
+          <input
+            id="service-search-input"
+            name="serviceQuery"
+            className="flex-1 bg-transparent py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Service keyword (e.g. brake, oil, battery)"
+          />
+          {query && (
+            <button onClick={() => setQuery("")} className="text-zinc-500 transition-colors hover:text-zinc-300">
+              <X size={18} />
+            </button>
+          )}
+          <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/25 active:scale-95">
+            <Search size={16} />
+            <span className="hidden sm:inline">Search</span>
           </button>
-        )}
-        <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/25 active:scale-95">
-          <Search size={16} />
-          <span className="hidden sm:inline">Search</span>
-        </button>
+        </div>
       </div>
 
       {/* Workshop results */}
@@ -149,13 +156,16 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
 }
 
 function Select({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (v: string) => void }) {
+  const fieldId = `select-${label.toLowerCase()}`;
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500">
+      <label htmlFor={fieldId} className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500">
         {label}
       </label>
       <div className="relative">
         <select
+          id={fieldId}
+          name={label.toLowerCase()}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className="w-full appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm text-foreground shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
