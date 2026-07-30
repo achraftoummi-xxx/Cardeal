@@ -4,12 +4,19 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import WorkshopSearch from "@/components/WorkshopSearch";
 import type { Workshop } from "@/components/WorkshopSearch";
-import NearbyMap from "@/components/NearbyMap";
+import dynamic from "next/dynamic";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useTranslation } from "@/components/TranslationProvider";
 import { brandModels } from "@/data/carBrands";
 import { workshops } from "@/data/workshops";
+
+const NearbyMap = dynamic(() => import("@/components/NearbyMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="relative h-[420px] w-full animate-pulse rounded-2xl border border-border bg-card/50 shadow-2xl sm:h-[480px] lg:h-[520px]" />
+  ),
+});
 
 export default function Page() {
   const { t } = useTranslation();
