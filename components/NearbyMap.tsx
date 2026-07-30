@@ -44,14 +44,14 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     import("@tomtom-international/web-sdk-maps/dist/maps.css");
   }, []);
 
-  // Initialize map instance once with official v2 style endpoint format and try/catch error safety
+  // Initialize map instance once with wildcard version routing '2*' and 'basic_main.json' / 'basic_mono-dark.json'
   useEffect(() => {
     const tt = ttRef.current;
     if (!ready || !tt || !containerRef.current) return;
 
     const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
     if (!apiKey) {
-      console.warn("[NearbyMap] TomTom API key is not configured");
+      console.warn("❌ [TomTom Telemetry] TomTom API key is not configured");
       return;
     }
 
@@ -60,8 +60,14 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
       const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
       const zoom = location ? 14 : DEFAULT_ZOOM;
-      const styleName = resolvedTheme === "dark" ? "basic_mono-dark.json" : "basic_street-light.json";
-      const styleUrl = `https://api.tomtom.com/map/1/style/22.2.1-9/2/${styleName}?key=${apiKey}`;
+      const styleName = resolvedTheme === "dark" ? "basic_mono-dark.json" : "basic_main.json";
+      const styleUrl = `https://api.tomtom.com/map/1/style/2*/2/${styleName}?key=${apiKey}`;
+
+      console.groupCollapsed(`🗺️ [TomTom Telemetry] Initial Style Resolution`);
+      console.log("Resolved Theme:", resolvedTheme);
+      console.log("Selected Style File:", styleName);
+      console.log("Resolved URL Endpoint:", styleUrl);
+      console.groupEnd();
 
       const map = tt.map({
         key: apiKey,
@@ -75,9 +81,14 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       map.addControl(new tt.NavigationControl(), "top-left");
 
       map.on("load", () => {
+        console.info("✅ [TomTom Telemetry] Map successfully loaded background tiles and vector layers.");
         try {
           map.invalidateSize();
         } catch {}
+      });
+
+      map.on("error", (event: any) => {
+        console.error("🚨 [TomTom Telemetry] Map engine error event triggered:", event);
       });
 
       mapRef.current = map;
@@ -93,6 +104,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
       return () => {
         window.removeEventListener("resize", onResize);
+        console.info("🧹 [TomTom Telemetry] Cleaning up map instance.");
         try {
           if (mapRef.current) {
             mapRef.current.remove();
@@ -101,11 +113,11 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
         } catch {}
       };
     } catch (err) {
-      console.error("[NearbyMap] initialization error:", err);
+      console.error("🔥 [TomTom Telemetry] Exception thrown during map setup:", err);
     }
   }, [ready]);
 
-  // Dynamically update TomTom map style when resolvedTheme changes using official v2 API style endpoint
+  // Dynamically update TomTom map style when resolvedTheme changes using wildcard version routing
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -114,18 +126,25 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     if (!apiKey) return;
 
     try {
-      const styleName = resolvedTheme === "dark" ? "basic_mono-dark.json" : "basic_street-light.json";
-      const styleUrl = `https://api.tomtom.com/map/1/style/22.2.1-9/2/${styleName}?key=${apiKey}`;
+      const styleName = resolvedTheme === "dark" ? "basic_mono-dark.json" : "basic_main.json";
+      const styleUrl = `https://api.tomtom.com/map/1/style/2*/2/${styleName}?key=${apiKey}`;
+
+      console.groupCollapsed(`🔄 [TomTom Telemetry] Dynamic Style Update`);
+      console.log("Resolved Theme:", resolvedTheme);
+      console.log("Selected Style File:", styleName);
+      console.log("Resolved URL Endpoint:", styleUrl);
+      console.groupEnd();
 
       map.setStyle(styleUrl);
 
       map.once("styledata", () => {
         try {
           map.invalidateSize();
+          console.info("✨ [TomTom Telemetry] Style successfully applied and size invalidated.");
         } catch {}
       });
     } catch (err) {
-      console.error("[NearbyMap] style update error:", err);
+      console.error("❌ [TomTom Telemetry] Failed to update map style via setStyle():", err);
     }
   }, [resolvedTheme]);
 
