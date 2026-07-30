@@ -1,7 +1,3 @@
-export const runtime = "edge";
-
-import { NextResponse } from "next/server";
-
 const CDN_BASE = "https://cdn.protomaps.com/tiles/v4/sprites";
 
 export async function GET(
@@ -19,12 +15,12 @@ export async function GET(
     headers.set("Access-Control-Allow-Origin", "*");
     headers.set("Vary", "Origin");
 
-    return new NextResponse(originRes.body, {
+    return new Response(originRes.body, {
       status: originRes.status,
-      statusText: originRes.statusText,
       headers,
     });
-  } catch {
-    return new NextResponse(null, { status: 502 });
+  } catch (err) {
+    console.error("sprite proxy error:", err);
+    return new Response("Upstream fetch failed", { status: 502 });
   }
 }

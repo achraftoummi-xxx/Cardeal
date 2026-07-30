@@ -75,7 +75,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
             setStatus("idle");
             return;
           }
-          const data = await res.json();
+          const data: any = await res.json();
           const addr = data?.addresses?.[0]?.address;
           const label = addr?.freeformAddress || addr?.municipality || addr?.streetName;
           if (!label) {
@@ -107,7 +107,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
         const res = await fetch(
           `${TOMTOM_BASE}/search/2/search/${encodeURIComponent(query)}.json?key=${apiKey}&limit=5&countrySet=FR`
         );
-        const data = await res.json();
+        const data: { results?: TomTomSuggestion[] } = await res.json();
         setSuggestions(data?.results ?? []);
         setShowDropdown(true);
       } catch {
