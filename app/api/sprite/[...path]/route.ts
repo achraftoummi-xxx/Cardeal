@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { NextResponse } from "next/server";
 
 const CDN_BASE = "https://cdn.protomaps.com/tiles/v4/sprites";
