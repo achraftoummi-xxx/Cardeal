@@ -11,11 +11,11 @@ const API_KEY = process.env.NEXT_PUBLIC_PROTOMAPS_API_KEY || "";
 if (typeof window !== "undefined" && !API_KEY) {
   console.warn("NEXT_PUBLIC_PROTOMAPS_API_KEY is not set. Map tiles will not render.");
 }
+const ORIGIN = typeof window !== "undefined" ? window.location.origin : "";
 const TILES_URL = `https://api.protomaps.com/tiles/v4/{z}/{x}/{y}.mvt?key=${API_KEY}`;
 const GLYPHS_URL = `https://api.protomaps.com/glyphs/v2/{fontstack}/{range}.pbf?key=${API_KEY}`;
 const ATTRIBUTION =
   '&copy; <a href="https://protomaps.com">Protomaps</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>';
-const SPRITE_URL = "/api/sprite/sprite";
 
 type Workshop = {
   name: string;
@@ -40,7 +40,7 @@ type Props = {
 const DEFAULT_CENTER: [number, number] = [10.1861, 36.8838];
 const DEFAULT_ZOOM = 12;
 
-function buildStyle(flavor: typeof LIGHT): maplibregl.StyleSpecification {
+function buildStyle(flavor: typeof LIGHT, origin: string): maplibregl.StyleSpecification {
   const sourceId = "protomaps";
   return {
     version: 8,
@@ -54,13 +54,10 @@ function buildStyle(flavor: typeof LIGHT): maplibregl.StyleSpecification {
       },
     },
     glyphs: GLYPHS_URL,
-    sprite: SPRITE_URL,
+    sprite: `${origin}/api/sprite/sprite`,
     layers: layers(sourceId, flavor, { lang: "en" }),
   };
 }
-
-const LIGHT_STYLE = buildStyle(LIGHT);
-const BLACK_STYLE = buildStyle(BLACK);
 
 export default function NearbyMap({ location, workshops, className = "" }: Props) {
   const mapElement = useRef<HTMLDivElement>(null);
@@ -89,13 +86,13 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     try {
       const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
       const zoom = location ? 14 : DEFAULT_ZOOM;
-      const style = resolvedTheme === "dark" ? BLACK_STYLE : LIGHT_STYLE;
+      const flavor = resolvedTheme === "dark" ? BLACK : LIGHT;
 
       mapInstance.current = new maplibregl.Map({
         container: mapElement.current,
         center: center as [number, number],
         zoom,
-        style,
+        style: buildStyle(flavor, ORIGIN),
       });
 
       mapInstance.current.addControl(new maplibregl.NavigationControl(), "top-left");
@@ -128,8 +125,8 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
   useEffect(() => {
     if (!mapInstance.current) return;
-    const style = resolvedTheme === "dark" ? BLACK_STYLE : LIGHT_STYLE;
-    mapInstance.current.setStyle(style);
+    const flavor = resolvedTheme === "dark" ? BLACK : LIGHT;
+    mapInstance.current.setStyle(buildStyle(flavor, ORIGIN));
   }, [resolvedTheme]);
 
   useEffect(() => {
