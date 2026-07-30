@@ -3,8 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { layers, LIGHT, BLACK } from "@protomaps/basemaps";
 import { cn } from "@/lib/utils";
 import { useTheme } from "./ThemeProvider";
+
+const API_KEY = process.env.NEXT_PUBLIC_PROTOMAPS_API_KEY || "";
+const TILES_URL = `https://api.protomaps.com/tiles/v4/{z}/{x}/{y}.mvt?key=${API_KEY}`;
+const GLYPHS_URL = `https://api.protomaps.com/glyphs/v2/{fontstack}/{range}.pbf?key=${API_KEY}`;
+const ATTRIBUTION =
+  '&copy; <a href="https://protomaps.com">Protomaps</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>';
 
 type Workshop = {
   name: string;
@@ -28,6 +35,27 @@ type Props = {
 
 const DEFAULT_CENTER: [number, number] = [10.1861, 36.8838];
 const DEFAULT_ZOOM = 12;
+
+function buildStyle(flavor: typeof LIGHT): maplibregl.StyleSpecification {
+  const sourceId = "protomaps";
+  return {
+    version: 8,
+    name: `Protomaps ${flavor === LIGHT ? "light" : "dark"}`,
+    sources: {
+      [sourceId]: {
+        type: "vector",
+        tiles: [TILES_URL],
+        maxzoom: 15,
+        attribution: ATTRIBUTION,
+      },
+    },
+    glyphs: GLYPHS_URL,
+    layers: layers(sourceId, flavor, { lang: "en" }),
+  };
+}
+
+const LIGHT_STYLE = buildStyle(LIGHT);
+const BLACK_STYLE = buildStyle(BLACK);
 
 export default function NearbyMap({ location, workshops, className = "" }: Props) {
   const mapElement = useRef<HTMLDivElement>(null);
@@ -53,24 +81,27 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
   useEffect(() => {
     if (!mapElement.current || mapInstance.current) return;
 
-    const flavor = resolvedTheme === "dark" ? "black" : "light";
-    const apiKey = process.env.NEXT_PUBLIC_PROTOMAPS_API_KEY;
-
     try {
       const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
       const zoom = location ? 14 : DEFAULT_ZOOM;
+      const style = resolvedTheme === "dark" ? BLACK_STYLE : LIGHT_STYLE;
 
       mapInstance.current = new maplibregl.Map({
         container: mapElement.current,
         center: center as [number, number],
-        zoom: zoom,
-        style: `https://api.protomaps.com/styles/v5/${flavor}/en.json?key=${apiKey}`,
+        zoom,
+        style,
       });
 
       mapInstance.current.addControl(new maplibregl.NavigationControl(), "top-left");
 
       mapInstance.current.on("load", () => {
         mapInstance.current?.resize();
+      });
+
+      mapInstance.current.on("error", (e) => {
+        if (e.error?.status === 404 || e.error?.status === 403) return;
+        console.error("Map error:", e.error);
       });
     } catch (err) {
       console.error("Error initializing map:", err);
@@ -88,15 +119,8 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
   useEffect(() => {
     if (!mapInstance.current) return;
-
-    const flavor = resolvedTheme === "dark" ? "black" : "light";
-    const apiKey = process.env.NEXT_PUBLIC_PROTOMAPS_API_KEY;
-
-    try {
-      mapInstance.current.setStyle(`https://api.protomaps.com/styles/v5/${flavor}/en.json?key=${apiKey}`);
-    } catch (err) {
-      console.error("Failed to update map theme:", err);
-    }
+    const style = resolvedTheme === "dark" ? BLACK_STYLE : LIGHT_STYLE;
+    mapInstance.current.setStyle(style);
   }, [resolvedTheme]);
 
   useEffect(() => {

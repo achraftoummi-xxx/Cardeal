@@ -11,6 +11,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
   },
   "dependencies": {
+    "@protomaps/basemaps": "^5.7.2",
     "@supabase/supabase-js": "^2.110.7",
     "autoprefixer": "^10.5.4",
     "clsx": "^2.1.1",
