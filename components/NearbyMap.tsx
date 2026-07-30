@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "./ThemeProvider";
 
 type Workshop = {
   name: string;
@@ -33,7 +34,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
   const mapRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
   const [ready, setReady] = useState(false);
-  const [prefersDark, setPrefersDark] = useState(false);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     import("@tomtom-international/web-sdk-maps").then((mod) => {
@@ -43,6 +44,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     import("@tomtom-international/web-sdk-maps/dist/maps.css");
   }, []);
 
+  // Initialize map instance once
   useEffect(() => {
     const tt = ttRef.current;
     if (!ready || !tt || !containerRef.current) return;
@@ -53,14 +55,11 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       return;
     }
 
-    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setPrefersDark(isDark);
-
     tt.setProductInfo("Cardeal", "1.0");
 
     const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
     const zoom = location ? 14 : DEFAULT_ZOOM;
-    const styleName = isDark ? "basic-night" : "basic-main";
+    const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-main";
 
     const map = tt.map({
       key: apiKey,
@@ -77,26 +76,31 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
     mapRef.current = map;
 
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = (e: MediaQueryListEvent) => {
-      const dark = e.matches;
-      setPrefersDark(dark);
-      const nextStyle = dark ? "basic-night" : "basic-main";
-      map.setStyle(`https://api.tomtom.com/style/1/style/${nextStyle}?key=${apiKey}`);
-    };
-    mq.addEventListener("change", handler);
-
     const onResize = () => map.invalidateSize();
     window.addEventListener("resize", onResize);
 
     return () => {
-      mq.removeEventListener("change", handler);
       window.removeEventListener("resize", onResize);
       map.remove();
       mapRef.current = null;
     };
   }, [ready]);
 
+  // Dynamically update TomTom map style when resolvedTheme changes (without remounting the map container or losing coordinates)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
+    if (!apiKey) return;
+
+    const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-main";
+    const styleUrl = `https://api.tomtom.com/style/1/style/${styleName}?key=${apiKey}`;
+
+    map.setStyle(styleUrl);
+  }, [resolvedTheme]);
+
+  // Center map on location change
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !location) return;
@@ -105,6 +109,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     map.invalidateSize();
   }, [location]);
 
+  // Render workshop markers & popups
   useEffect(() => {
     const map = mapRef.current;
     const tt = ttRef.current;
@@ -116,6 +121,8 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     const withCoords = workshops.filter((w) => w.lat != null && w.lng != null);
     if (withCoords.length === 0) return;
 
+    const isDark = resolvedTheme === "dark";
+
     withCoords.forEach((w) => {
       const el = document.createElement("div");
       el.className =
@@ -123,10 +130,10 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       el.textContent = w.name.charAt(0).toUpperCase();
 
       const popup = new tt.Popup({ offset: 25 }).setHTML(`
-        <div class="${prefersDark ? "bg-zinc-900 text-zinc-100" : "bg-white text-zinc-900"} p-3 rounded-xl min-w-[180px] shadow-lg">
+        <div class="${isDark ? "bg-zinc-900 text-zinc-100" : "bg-white text-zinc-900"} p-3 rounded-xl min-w-[180px] shadow-lg">
           <p class="font-semibold text-sm">${w.name}</p>
-          <p class="text-xs ${prefersDark ? "text-zinc-400" : "text-zinc-500"} mt-1">${w.services.slice(0, 3).join(" · ")}</p>
-          <div class="flex items-center gap-2 mt-2 text-xs ${prefersDark ? "text-zinc-500" : "text-zinc-400"}">
+          <p class="text-xs ${isDark ? "text-zinc-400" : "text-zinc-500"} mt-1">${w.services.slice(0, 3).join(" · ")}</p>
+          <div class="flex items-center gap-2 mt-2 text-xs ${isDark ? "text-zinc-500" : "text-zinc-400"}">
             <span>${w.brand} ${w.model}</span>
             <span>·</span>
             <span>${w.distance}</span>
@@ -141,7 +148,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
       markersRef.current.push(marker);
     });
-  }, [workshops, prefersDark]);
+  }, [workshops, resolvedTheme]);
 
   return (
     <div className={className}>

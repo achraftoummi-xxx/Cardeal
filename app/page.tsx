@@ -6,6 +6,7 @@ import WorkshopSearch from "@/components/WorkshopSearch";
 import type { Workshop } from "@/components/WorkshopSearch";
 import NearbyMap from "@/components/NearbyMap";
 import LanguageSelector from "@/components/LanguageSelector";
+import ThemeToggle from "@/components/ThemeToggle";
 import { useTranslation } from "@/components/TranslationProvider";
 import { brandModels } from "@/data/carBrands";
 import { workshops } from "@/data/workshops";
@@ -33,6 +34,7 @@ export default function Page() {
             <a href="#" className="transition-colors hover:text-foreground">{t("nav.searchParts")}</a>
           </div>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <LanguageSelector />
             <Button variant="outline" className="hidden text-sm sm:inline-flex">{t("buttons.becomePartner")}</Button>
             <Button className="text-sm">{t("buttons.login")}</Button>
