@@ -148,13 +148,19 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     }
   }, [resolvedTheme]);
 
-  // Center map on location change
+  // Center map on location change with safety guard
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !location) return;
-    map.setCenter([location.lng, location.lat]);
-    map.setZoom(14);
-    map.invalidateSize();
+    try {
+      if (typeof map.setCenter === "function" && typeof map.setZoom === "function") {
+        map.setCenter([location.lng, location.lat]);
+        map.setZoom(14);
+        map.invalidateSize();
+      }
+    } catch (err) {
+      console.warn("⚠️ [TomTom Telemetry] Failed to center map on location:", err);
+    }
   }, [location]);
 
   // Render workshop markers & popups
