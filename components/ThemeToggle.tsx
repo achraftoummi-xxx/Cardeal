@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 
@@ -11,9 +12,18 @@ const options = [
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div className="h-8 w-32 animate-pulse rounded-full bg-muted" />;
+  }
 
   return (
-    <div className="flex items-center gap-1 rounded-full border border-border bg-background p-1 shadow-sm" role="radiogroup" aria-label="Theme selection">
+    <div className="flex items-center gap-1 rounded-full border border-border bg-background p-1 shadow-sm" role="radiogroup" aria-label="Theme selector">
       {options.map(({ value, label, icon: Icon }) => (
         <button
           key={value}
