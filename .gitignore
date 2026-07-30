@@ -8,5 +8,6 @@ coverage/
 !.env.example
 .next/
 .open-next/
+worker-configuration.d.ts
 .turbo/
 *.tsbuildinfo
