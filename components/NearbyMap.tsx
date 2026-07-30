@@ -44,7 +44,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     import("@tomtom-international/web-sdk-maps/dist/maps.css");
   }, []);
 
-  // Initialize map instance once
+  // Initialize map instance once with official v2 style endpoint format and try/catch error safety
   useEffect(() => {
     const tt = ttRef.current;
     if (!ready || !tt || !containerRef.current) return;
@@ -60,14 +60,15 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
       const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
       const zoom = location ? 14 : DEFAULT_ZOOM;
-      const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-day";
+      const styleName = resolvedTheme === "dark" ? "basic_mono-dark.json" : "basic_street-light.json";
+      const styleUrl = `https://api.tomtom.com/map/1/style/22.2.1-9/2/${styleName}?key=${apiKey}`;
 
       const map = tt.map({
         key: apiKey,
         container: containerRef.current,
         center,
         zoom,
-        style: styleName,
+        style: styleUrl,
       });
 
       map.addControl(new tt.FullscreenControl(), "top-left");
@@ -104,14 +105,19 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     }
   }, [ready]);
 
-  // Dynamically update TomTom map style when resolvedTheme changes using robust SDK built-in style aliases
+  // Dynamically update TomTom map style when resolvedTheme changes using official v2 API style endpoint
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
 
+    const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
+    if (!apiKey) return;
+
     try {
-      const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-day";
-      map.setStyle(styleName);
+      const styleName = resolvedTheme === "dark" ? "basic_mono-dark.json" : "basic_street-light.json";
+      const styleUrl = `https://api.tomtom.com/map/1/style/22.2.1-9/2/${styleName}?key=${apiKey}`;
+
+      map.setStyle(styleUrl);
 
       map.once("styledata", () => {
         try {
