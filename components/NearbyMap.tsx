@@ -44,7 +44,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     import("@tomtom-international/web-sdk-maps/dist/maps.css");
   }, []);
 
-  // Initialize map instance once with wildcard version routing '2*' and 'basic_main.json' / 'basic_mono-dark.json'
+  // Initialize map instance once using SDK built-in styles
   useEffect(() => {
     const tt = ttRef.current;
     if (!ready || !tt || !containerRef.current) return;
@@ -60,13 +60,10 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
       const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
       const zoom = location ? 14 : DEFAULT_ZOOM;
-      const styleName = resolvedTheme === "dark" ? "basic_mono-dark.json" : "basic_main.json";
-      const styleUrl = `https://api.tomtom.com/map/1/style/2*/2/${styleName}?key=${apiKey}`;
+      const targetStyle = resolvedTheme === "dark" ? tt.styles.night : tt.styles.main;
 
-      console.groupCollapsed(`🗺️ [TomTom Telemetry] Initial Style Resolution`);
+      console.groupCollapsed(`🗺️ [TomTom Telemetry] Initializing Built-in Style`);
       console.log("Resolved Theme:", resolvedTheme);
-      console.log("Selected Style File:", styleName);
-      console.log("Resolved URL Endpoint:", styleUrl);
       console.groupEnd();
 
       const map = tt.map({
@@ -74,7 +71,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
         container: containerRef.current,
         center,
         zoom,
-        style: styleUrl,
+        styles: targetStyle,
       });
 
       map.addControl(new tt.FullscreenControl(), "top-left");
@@ -117,30 +114,25 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     }
   }, [ready]);
 
-  // Dynamically update TomTom map style when resolvedTheme changes using wildcard version routing
+  // Dynamically update TomTom map style when resolvedTheme changes using SDK built-in styles
   useEffect(() => {
     const map = mapRef.current;
-    if (!map) return;
-
-    const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
-    if (!apiKey) return;
+    const tt = ttRef.current;
+    if (!map || !tt) return;
 
     try {
-      const styleName = resolvedTheme === "dark" ? "basic_mono-dark.json" : "basic_main.json";
-      const styleUrl = `https://api.tomtom.com/map/1/style/2*/2/${styleName}?key=${apiKey}`;
+      const targetStyle = resolvedTheme === "dark" ? tt.styles.night : tt.styles.main;
 
-      console.groupCollapsed(`🔄 [TomTom Telemetry] Dynamic Style Update`);
+      console.groupCollapsed(`🔄 [TomTom Telemetry] Dynamic Style Update (Built-in)`);
       console.log("Resolved Theme:", resolvedTheme);
-      console.log("Selected Style File:", styleName);
-      console.log("Resolved URL Endpoint:", styleUrl);
       console.groupEnd();
 
-      map.setStyle(styleUrl);
+      map.setStyle(targetStyle);
 
       map.once("styledata", () => {
         try {
           map.invalidateSize();
-          console.info("✨ [TomTom Telemetry] Style successfully applied and size invalidated.");
+          console.info("✨ [TomTom Telemetry] Built-in style successfully applied and size invalidated.");
         } catch {}
       });
     } catch (err) {
