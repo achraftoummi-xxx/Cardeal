@@ -8,10 +8,14 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "./ThemeProvider";
 
 const API_KEY = process.env.NEXT_PUBLIC_PROTOMAPS_API_KEY || "";
+if (typeof window !== "undefined" && !API_KEY) {
+  console.warn("NEXT_PUBLIC_PROTOMAPS_API_KEY is not set. Map tiles will not render.");
+}
 const TILES_URL = `https://api.protomaps.com/tiles/v4/{z}/{x}/{y}.mvt?key=${API_KEY}`;
 const GLYPHS_URL = `https://api.protomaps.com/glyphs/v2/{fontstack}/{range}.pbf?key=${API_KEY}`;
 const ATTRIBUTION =
   '&copy; <a href="https://protomaps.com">Protomaps</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>';
+const SPRITE_URL = "https://cdn.protomaps.com/tiles/v4/sprites/sprite";
 
 type Workshop = {
   name: string;
@@ -50,6 +54,7 @@ function buildStyle(flavor: typeof LIGHT): maplibregl.StyleSpecification {
       },
     },
     glyphs: GLYPHS_URL,
+    sprite: SPRITE_URL,
     layers: layers(sourceId, flavor, { lang: "en" }),
   };
 }
