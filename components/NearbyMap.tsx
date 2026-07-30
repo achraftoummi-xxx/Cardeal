@@ -59,14 +59,13 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
     const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
     const zoom = location ? 14 : DEFAULT_ZOOM;
-    const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-main";
-
+    const styleVariant = resolvedTheme === "dark" ? "2/basic_mono-dark" : "2/basic_street-light";
     const map = tt.map({
       key: apiKey,
       container: containerRef.current,
       center,
       zoom,
-      style: `https://api.tomtom.com/style/1/style/${styleName}?key=${apiKey}`,
+      style: `https://api.tomtom.com/style/1/style/${styleVariant}?key=${apiKey}`,
     });
 
     map.addControl(new tt.FullscreenControl(), "top-left");
@@ -86,7 +85,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     };
   }, [ready]);
 
-  // Dynamically update TomTom map style when resolvedTheme changes (without remounting the map container or losing coordinates)
+  // Dynamically update TomTom map style when resolvedTheme changes using v2 API endpoints
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -94,8 +93,8 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
     if (!apiKey) return;
 
-    const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-main";
-    const styleUrl = `https://api.tomtom.com/style/1/style/${styleName}?key=${apiKey}`;
+    const styleVariant = resolvedTheme === "dark" ? "2/basic_mono-dark" : "2/basic_street-light";
+    const styleUrl = `https://api.tomtom.com/style/1/style/${styleVariant}?key=${apiKey}`;
 
     map.setStyle(styleUrl);
   }, [resolvedTheme]);
