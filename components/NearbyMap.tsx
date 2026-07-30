@@ -15,7 +15,6 @@ const TILES_URL = `https://api.protomaps.com/tiles/v4/{z}/{x}/{y}.mvt?key=${API_
 const GLYPHS_URL = `https://api.protomaps.com/glyphs/v2/{fontstack}/{range}.pbf?key=${API_KEY}`;
 const ATTRIBUTION =
   '&copy; <a href="https://protomaps.com">Protomaps</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>';
-const SPRITE_URL = "https://cdn.protomaps.com/tiles/v4/sprites/sprite";
 
 type Workshop = {
   name: string;
@@ -54,7 +53,6 @@ function buildStyle(flavor: typeof LIGHT): maplibregl.StyleSpecification {
       },
     },
     glyphs: GLYPHS_URL,
-    sprite: SPRITE_URL,
     layers: layers(sourceId, flavor, { lang: "en" }),
   };
 }
@@ -105,7 +103,11 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       });
 
       mapInstance.current.on("error", (e) => {
-        if (e.error?.status === 404 || e.error?.status === 403) return;
+        if (e.error?.status === 404) return;
+        if (e.error?.status === 403) {
+          console.warn("Protomaps tile 403 — verify API key and CORS whitelist");
+          return;
+        }
         console.error("Map error:", e.error);
       });
     } catch (err) {
