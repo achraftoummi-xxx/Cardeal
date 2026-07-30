@@ -60,4 +60,21 @@
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.2s ease, color 0.2s ease;
   }
+
+  /* Dark mode TomTom map control and watermark optimization */
+  .dark .mapboxgl-ctrl-group,
+  .dark .tt-ctrl-group,
+  .dark .mapboxgl-ctrl-logo,
+  .dark .mapboxgl-ctrl-attrib {
+    opacity: 0.35;
+    transition: opacity 0.25s ease-in-out;
+    filter: invert(1) hue-rotate(180deg) brightness(0.8);
+  }
+
+  .dark .mapboxgl-ctrl-group:hover,
+  .dark .tt-ctrl-group:hover,
+  .dark .mapboxgl-ctrl-logo:hover,
+  .dark .mapboxgl-ctrl-attrib:hover {
+    opacity: 0.95;
+  }
 }
