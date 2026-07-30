@@ -55,41 +55,53 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       return;
     }
 
-    tt.setProductInfo("Cardeal", "1.0");
+    try {
+      tt.setProductInfo("Cardeal", "1.0");
 
-    const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
-    const zoom = location ? 14 : DEFAULT_ZOOM;
-    const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-day";
+      const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
+      const zoom = location ? 14 : DEFAULT_ZOOM;
+      const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-day";
 
-    const map = tt.map({
-      key: apiKey,
-      container: containerRef.current,
-      center,
-      zoom,
-      style: styleName,
-    });
+      const map = tt.map({
+        key: apiKey,
+        container: containerRef.current,
+        center,
+        zoom,
+        style: styleName,
+      });
 
-    map.addControl(new tt.FullscreenControl(), "top-left");
-    map.addControl(new tt.NavigationControl(), "top-left");
+      map.addControl(new tt.FullscreenControl(), "top-left");
+      map.addControl(new tt.NavigationControl(), "top-left");
 
-    map.on("load", () => {
-      map.invalidateSize();
-    });
+      map.on("load", () => {
+        try {
+          map.invalidateSize();
+        } catch {}
+      });
 
-    mapRef.current = map;
+      mapRef.current = map;
 
-    const onResize = () => {
-      if (mapRef.current) {
-        mapRef.current.invalidateSize();
-      }
-    };
-    window.addEventListener("resize", onResize);
+      const onResize = () => {
+        try {
+          if (mapRef.current) {
+            mapRef.current.invalidateSize();
+          }
+        } catch {}
+      };
+      window.addEventListener("resize", onResize);
 
-    return () => {
-      window.removeEventListener("resize", onResize);
-      map.remove();
-      mapRef.current = null;
-    };
+      return () => {
+        window.removeEventListener("resize", onResize);
+        try {
+          if (mapRef.current) {
+            mapRef.current.remove();
+            mapRef.current = null;
+          }
+        } catch {}
+      };
+    } catch (err) {
+      console.error("[NearbyMap] initialization error:", err);
+    }
   }, [ready]);
 
   // Dynamically update TomTom map style when resolvedTheme changes using robust SDK built-in style aliases
@@ -97,12 +109,18 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     const map = mapRef.current;
     if (!map) return;
 
-    const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-day";
-    map.setStyle(styleName);
+    try {
+      const styleName = resolvedTheme === "dark" ? "basic-night" : "basic-day";
+      map.setStyle(styleName);
 
-    map.once("styledata", () => {
-      map.invalidateSize();
-    });
+      map.once("styledata", () => {
+        try {
+          map.invalidateSize();
+        } catch {}
+      });
+    } catch (err) {
+      console.error("[NearbyMap] style update error:", err);
+    }
   }, [resolvedTheme]);
 
   // Center map on location change
