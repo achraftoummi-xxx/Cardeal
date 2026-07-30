@@ -24,6 +24,9 @@ type Props = {
   className?: string;
 };
 
+const DEFAULT_CENTER: [number, number] = [10.1861, 36.8838];
+const DEFAULT_ZOOM = 12;
+
 export default function NearbyMap({ location, workshops, className = "" }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const ttRef = useRef<any>(null);
@@ -34,7 +37,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
   useEffect(() => {
     import("@tomtom-international/web-sdk-maps").then((mod) => {
-      ttRef.current = mod.default;
+      ttRef.current = mod.default || mod;
       setReady(true);
     });
     import("@tomtom-international/web-sdk-maps/dist/maps.css");
@@ -46,25 +49,31 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
 
     const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY ?? "";
     if (!apiKey) {
-      console.warn("[NearbyMap] TomTom API key (NEXT_PUBLIC_TOMTOM_API_KEY) is not configured — map will not render");
+      console.warn("[NearbyMap] TomTom API key is not configured");
       return;
     }
 
-    const initialDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setPrefersDark(initialDark);
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setPrefersDark(isDark);
 
     tt.setProductInfo("Cardeal", "1.0");
+
+    const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
+    const zoom = location ? 14 : DEFAULT_ZOOM;
+    const styleName = isDark ? "basic-night" : "basic-main";
 
     const map = tt.map({
       key: apiKey,
       container: containerRef.current,
-      center: location ? [location.lng, location.lat] : [2.3522, 48.8566],
-      zoom: location ? 14 : 5,
-      style: initialDark ? "basic-night" : "basic-main",
+      center,
+      zoom,
+      style: `https://api.tomtom.com/style/1/style/${styleName}?key=${apiKey}`,
     });
 
     map.addControl(new tt.FullscreenControl(), "top-left");
     map.addControl(new tt.NavigationControl(), "top-left");
+
+    map.on("load", () => map.invalidateSize());
 
     mapRef.current = map;
 
@@ -72,12 +81,17 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     const handler = (e: MediaQueryListEvent) => {
       const dark = e.matches;
       setPrefersDark(dark);
-      map.setStyle(dark ? "basic-night" : "basic-main");
+      const nextStyle = dark ? "basic-night" : "basic-main";
+      map.setStyle(`https://api.tomtom.com/style/1/style/${nextStyle}?key=${apiKey}`);
     };
     mq.addEventListener("change", handler);
 
+    const onResize = () => map.invalidateSize();
+    window.addEventListener("resize", onResize);
+
     return () => {
       mq.removeEventListener("change", handler);
+      window.removeEventListener("resize", onResize);
       map.remove();
       mapRef.current = null;
     };
@@ -88,6 +102,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     if (!map || !location) return;
     map.setCenter([location.lng, location.lat]);
     map.setZoom(14);
+    map.invalidateSize();
   }, [location]);
 
   useEffect(() => {

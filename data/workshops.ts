@@ -8,6 +8,8 @@ export const workshops = [
     year: "2023",
     engine: "2.5L",
     capacity: "2000",
+    lat: 36.8898,
+    lng: 10.1912,
   },
   {
     name: "Metro Garage",
@@ -18,6 +20,8 @@ export const workshops = [
     year: "2022",
     engine: "2.0L",
     capacity: "1800",
+    lat: 36.8765,
+    lng: 10.1789,
   },
   {
     name: "Elite Motors",
@@ -28,5 +32,7 @@ export const workshops = [
     year: "2021",
     engine: "3.0L",
     capacity: "3000",
+    lat: 36.895,
+    lng: 10.195,
   },
 ];
