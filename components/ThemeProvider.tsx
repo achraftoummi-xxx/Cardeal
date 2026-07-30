@@ -23,47 +23,56 @@ function getResolved(t: Theme): "light" | "dark" {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    try {
-      const stored = localStorage.getItem("theme");
-      return (stored as Theme) || "system";
-    } catch {
-      return "system";
-    }
-  });
-
-  const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">(() => getResolved(theme));
+  const [theme, setThemeState] = useState<Theme>("system");
+  const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const update = () => {
-      const r = getResolved(theme);
-      setResolvedTheme(r);
-      const root = document.documentElement;
-      if (r === "dark") {
-        root.classList.add("dark");
-      } else {
-        root.classList.remove("dark");
+    try {
+      const stored = localStorage.getItem("theme");
+      if (stored === "light" || stored === "dark" || stored === "system") {
+        setThemeState(stored);
       }
-    };
+    } catch {}
+    setMounted(true);
+  }, []);
 
-    update();
-
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const listener = () => {
-      if (theme === "system") {
-        update();
-      }
-    };
-
-    mq.addEventListener?.("change", listener);
-    return () => mq.removeEventListener?.("change", listener);
+  useEffect(() => {
+    const r = getResolved(theme);
+    setResolvedTheme(r);
+    const root = document.documentElement;
+    if (r === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
   }, [theme]);
 
   useEffect(() => {
+    if (!mounted) return;
     try {
       localStorage.setItem("theme", theme);
     } catch {}
-  }, [theme]);
+  }, [theme, mounted]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const listener = () => {
+      if (theme === "system") {
+        const r = getResolved("system");
+        setResolvedTheme(r);
+        const root = document.documentElement;
+        if (r === "dark") {
+          root.classList.add("dark");
+        } else {
+          root.classList.remove("dark");
+        }
+      }
+    };
+    mq.addEventListener("change", listener);
+    return () => mq.removeEventListener("change", listener);
+  }, [theme, mounted]);
 
   const setTheme = (t: Theme) => {
     setThemeState(t);
@@ -76,8 +85,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const value = { theme, resolvedTheme, setTheme, toggle };
+
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggle }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { cn } from "@/lib/utils";
@@ -26,7 +26,7 @@ type Props = {
   className?: string;
 };
 
-const DEFAULT_CENTER: [number, number] = [10.1861, 36.8838]; // Ariana / Tunis
+const DEFAULT_CENTER: [number, number] = [10.1861, 36.8838];
 const DEFAULT_ZOOM = 12;
 
 export default function NearbyMap({ location, workshops, className = "" }: Props) {
@@ -34,8 +34,22 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
   const mapInstance = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<maplibregl.Marker[]>([]);
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  // Initialize map instance securely on mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mapElement.current || !mounted) return;
+    const el = mapElement.current;
+    const observer = new ResizeObserver(() => {
+      mapInstance.current?.resize();
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [mounted]);
+
   useEffect(() => {
     if (!mapElement.current || mapInstance.current) return;
 
@@ -56,14 +70,15 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       mapInstance.current.addControl(new maplibregl.NavigationControl(), "top-left");
 
       mapInstance.current.on("load", () => {
-        console.info("✅ Protomaps map loaded successfully.");
         mapInstance.current?.resize();
       });
     } catch (err) {
-      console.error("🔥 Error initializing Protomaps map:", err);
+      console.error("Error initializing map:", err);
     }
 
     return () => {
+      markersRef.current.forEach((m) => m.remove());
+      markersRef.current = [];
       if (mapInstance.current) {
         mapInstance.current.remove();
         mapInstance.current = null;
@@ -71,7 +86,6 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     };
   }, []);
 
-  // Dynamically update theme/style layers instantly without page refreshes
   useEffect(() => {
     if (!mapInstance.current) return;
 
@@ -81,11 +95,10 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     try {
       mapInstance.current.setStyle(`https://api.protomaps.com/styles/v5/${flavor}/en.json?key=${apiKey}`);
     } catch (err) {
-      console.error("❌ Failed to update map theme style:", err);
+      console.error("Failed to update map theme:", err);
     }
   }, [resolvedTheme]);
 
-  // Center map on location change
   useEffect(() => {
     if (!mapInstance.current || !location) return;
     try {
@@ -95,11 +108,10 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
         essential: true,
       });
     } catch (err) {
-      console.warn("⚠️ Failed to flyTo location:", err);
+      console.warn("Failed to flyTo location:", err);
     }
   }, [location]);
 
-  // Dynamically sync markers instantly whenever workshop data changes
   useEffect(() => {
     if (!mapInstance.current) return;
 
@@ -147,6 +159,28 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       >
         <div ref={mapElement} className="absolute inset-0 h-full w-full" />
       </div>
+      <style jsx global>{`
+        .maplibregl-ctrl-bottom-right,
+        .maplibregl-ctrl-top-left {
+          opacity: 0.3;
+          transition: opacity 0.25s ease-in-out;
+        }
+        .maplibregl-map:hover .maplibregl-ctrl-bottom-right,
+        .maplibregl-map:hover .maplibregl-ctrl-top-left {
+          opacity: 1;
+        }
+        .maplibregl-ctrl-attrib {
+          background: transparent !important;
+          box-shadow: none !important;
+          font-size: 10px;
+        }
+        .maplibregl-ctrl-attrib-button {
+          display: none !important;
+        }
+        .maplibregl-ctrl-attrib-inner {
+          font-size: 10px;
+        }
+      `}</style>
     </div>
   );
 }

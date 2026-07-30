@@ -60,16 +60,4 @@
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.2s ease, color 0.2s ease;
   }
-
-  /* MapLibre / Protomaps — subtle attribution and controls */
-  .maplibregl-ctrl-bottom-right,
-  .maplibregl-ctrl-top-left {
-    opacity: 0.4;
-    transition: opacity 0.2s ease-in-out;
-  }
-
-  .maplibregl-map:hover .maplibregl-ctrl-bottom-right,
-  .maplibregl-map:hover .maplibregl-ctrl-top-left {
-    opacity: 1;
-  }
 }
