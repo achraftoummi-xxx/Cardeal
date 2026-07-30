@@ -22,6 +22,49 @@ export default function Page() {
   const { t } = useTranslation();
   const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number; label: string } | null>(null);
   const [filteredWorkshops, setFilteredWorkshops] = useState<Workshop[]>(workshops);
+  const [showLogin, setShowLogin] = useState(false);
+
+  if (showLogin) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
+        <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-8 shadow-2xl">
+          <div className="mb-8 text-center">
+            <div className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent">
+              {t("site.name")}
+            </div>
+            <p className="mt-2 text-sm text-muted-foreground">Sign in to your account</p>
+          </div>
+          <form
+            onSubmit={(e) => { e.preventDefault(); setShowLogin(false); }}
+            className="space-y-4"
+          >
+            <div>
+              <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">Email</label>
+              <input
+                type="email"
+                required
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
+                placeholder="you@example.com"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">Password</label>
+              <input
+                type="password"
+                required
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
+                placeholder="••••••••"
+              />
+            </div>
+            <Button type="submit" className="w-full">Sign In</Button>
+          </form>
+          <p className="mt-6 text-center text-xs text-muted-foreground">
+            <button onClick={() => setShowLogin(false)} className="underline hover:text-foreground">Back to home</button>
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const howSteps = t("how.steps") as unknown as Array<{ title: string; desc: string }>;
   const services = t("services.items") as unknown as string[];
@@ -44,7 +87,7 @@ export default function Page() {
             <ThemeToggle />
             <LanguageSelector />
             <Button variant="outline" className="hidden text-sm sm:inline-flex">{t("buttons.becomePartner")}</Button>
-            <Button className="text-sm">{t("buttons.login")}</Button>
+            <Button onClick={() => setShowLogin(true)} className="text-sm">{t("buttons.login")}</Button>
           </div>
         </nav>
       </header>
