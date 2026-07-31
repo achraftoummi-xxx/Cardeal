@@ -410,6 +410,7 @@ function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (
         {query || value ? (
           <button
             type="button"
+            onMouseDown={(e) => e.preventDefault()}
             onClick={handleClear}
             className="absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-500 transition-colors hover:text-zinc-300"
             aria-label={t("search.clearServiceCategory")}
