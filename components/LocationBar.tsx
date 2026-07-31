@@ -16,14 +16,18 @@ type Props = {
   className?: string;
 };
 
+const toFallbackLabel = (lat: number, lng: number) => `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+
 /**
  * Dependency-free location input.
  * - Browser Geolocation API for the user's current position (no API keys).
+ * - Reverse geocoding via OpenStreetMap Nominatim so the search input
+ *   shows a human-readable place name instead of raw coordinates.
  * - Free-text city/address input passed straight to the search query
  *   (geocoding is handled downstream by the SerpApi backend).
  */
 export default function LocationBar({ onLocationChange, className }: Props) {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const [status, setStatus] = useState<"idle" | "loading" | "ready">("idle");
   const [location, setLocation] = useState<LocationResult | null>(null);
   const [error, setError] = useState("");
@@ -37,19 +41,57 @@ export default function LocationBar({ onLocationChange, className }: Props) {
     onLocationChange?.(loc);
   }
 
+  /* ---- Reverse geocoding (OpenStreetMap Nominatim) ---- */
+  const reverseGeocode = useCallback(
+    async (lat: number, lng: number): Promise<string | null> => {
+      try {
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=14&accept-language=${locale}`
+        );
+        if (!res.ok) return null;
+        const data = (await res.json()) as {
+          display_name?: string;
+          address?: {
+            city?: string;
+            town?: string;
+            village?: string;
+            municipality?: string;
+            suburb?: string;
+            neighbourhood?: string;
+          };
+        };
+        const a = data?.address;
+        return (
+          a?.city ||
+          a?.town ||
+          a?.village ||
+          a?.municipality ||
+          a?.suburb ||
+          a?.neighbourhood ||
+          (typeof data?.display_name === "string" ? data.display_name : null) ||
+          null
+        );
+      } catch {
+        return null;
+      }
+    },
+    [locale]
+  );
+
   /* ---- Browser Geolocation (no external service) ---- */
-  function handleGeolocation() {
+  async function handleGeolocation() {
     if (!navigator.geolocation) {
       setError(t("location.geoNotSupported"));
       return;
     }
     setStatus("loading");
     setError("");
+    inputRef.current?.focus();
 
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
         const { latitude: lat, longitude: lng } = pos.coords;
-        const label = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+        const label = (await reverseGeocode(lat, lng)) ?? toFallbackLabel(lat, lng);
         notify({ label, lat, lng });
         setInputValue(label);
         setStatus("ready");
@@ -81,44 +123,18 @@ export default function LocationBar({ onLocationChange, className }: Props) {
 
   return (
     <div className={cn("", className)}>
-      <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
-        <div className="flex items-center gap-2 text-sm">
-          {status === "loading" ? (
-            <Loader2 size={14} className="animate-spin text-blue-400" />
-          ) : location ? (
-            <span className="h-2 w-2 rounded-full bg-emerald-400 ring-1 ring-emerald-500/30" />
-          ) : (
-            <span className="h-2 w-2 rounded-full bg-zinc-600 ring-1 ring-zinc-500/30" />
-          )}
-          <span className="text-muted-foreground">
-            {status === "loading"
-              ? t("location.detecting")
-              : location
-              ? location.label
-              : t("location.notActivated")}
-          </span>
-        </div>
+      {error && <p className="mb-2 text-xs text-amber-400">{error}</p>}
 
-        {!location && (
-          <button
-            onClick={handleGeolocation}
-            disabled={status === "loading"}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-muted/50 px-3 py-1.5 text-sm text-muted-foreground shadow-sm transition-all hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
-          >
-            <Crosshair size={14} />
-            {t("location.activate")}
-          </button>
-        )}
-      </div>
-
-      {error && <p className="mt-2 text-xs text-amber-400">{error}</p>}
-
-      <div className="relative mt-3">
+      <div className="relative">
         <label htmlFor="location-search-input" className="sr-only">
           {t("location.searchCityAria")}
         </label>
         <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-3 py-2 shadow-inner shadow-black/5 transition-all focus-within:border-blue-500/50 focus-within:ring-1 focus-within:ring-blue-500/20 sm:px-4">
-          <Search size={16} className="shrink-0 text-muted-foreground" />
+          {status === "loading" ? (
+            <Loader2 size={16} className="shrink-0 animate-spin text-blue-400" />
+          ) : (
+            <Search size={16} className="shrink-0 text-muted-foreground" />
+          )}
           <input
             id="location-search-input"
             name="locationQuery"
@@ -128,18 +144,28 @@ export default function LocationBar({ onLocationChange, className }: Props) {
             onChange={(e) => handleInputChange(e.target.value)}
             placeholder={location ? t("location.changePlaceholder") : t("location.placeholder")}
           />
-          {inputValue && (
+          {inputValue && !location && (
             <button
               onClick={clearLocation}
+              aria-label={t("location.clear")}
               className="text-zinc-500 transition-colors hover:text-zinc-300"
             >
               <X size={16} />
             </button>
           )}
+          {!location && status !== "loading" && (
+            <button
+              onClick={handleGeolocation}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-muted/50 px-3 py-1.5 text-sm text-muted-foreground shadow-sm transition-all hover:bg-accent hover:text-accent-foreground"
+            >
+              <Crosshair size={14} />
+              <span className="hidden sm:inline">{t("location.activate")}</span>
+            </button>
+          )}
           {location && (
             <button
               onClick={clearLocation}
-              className="flex items-center gap-1 rounded-md bg-muted/50 px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              className="flex shrink-0 items-center gap-1 rounded-md bg-muted/50 px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               <MapPin size={12} />
               {t("location.clear")}
