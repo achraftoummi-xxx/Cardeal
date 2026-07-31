@@ -7,11 +7,6 @@ import "leaflet/dist/leaflet.css";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
 import { localized } from "@/lib/i18n";
-import carRepairIconAsset from "../assets/icons/car-repair.png";
-
-/* Imported assets resolve to a URL string at runtime (Next.js bundler) */
-const WORKSHOP_ICON_URL =
-  typeof carRepairIconAsset === "string" ? carRepairIconAsset : carRepairIconAsset.src;
 
 type Workshop = {
   name: string;
@@ -122,11 +117,12 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
   );
 
   /* Custom repair-shop marker: 40x40 pin whose bottom-center point
-     sits exactly on the geographic coordinate. */
+     sits exactly on the geographic coordinate. Served as a static
+     asset from the public/ directory. */
   const workshopIcon = useMemo(
     () =>
       L.icon({
-        iconUrl: WORKSHOP_ICON_URL,
+        iconUrl: "/assets/icons/car-repair.png",
         iconSize: [40, 40],
         iconAnchor: [20, 40],
         popupAnchor: [0, -40],
