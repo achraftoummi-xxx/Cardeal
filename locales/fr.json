@@ -5,7 +5,8 @@
   "nav": {
     "findService": "Trouver un service",
     "requestQuote": "Demander un devis",
-    "searchParts": "Rechercher des pièces"
+    "searchParts": "Rechercher des pièces",
+    "menu": "Menu"
   },
   "buttons": {
     "becomePartner": "Devenir partenaire",

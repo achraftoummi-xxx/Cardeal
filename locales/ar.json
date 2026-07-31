@@ -5,7 +5,8 @@
   "nav": {
     "findService": "البحث عن خدمة",
     "requestQuote": "اطلب عرض سعر",
-    "searchParts": "البحث عن قطع"
+    "searchParts": "البحث عن قطع",
+    "menu": "القائمة"
   },
   "buttons": {
     "becomePartner": "كن شريكًا",

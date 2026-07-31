@@ -53,6 +53,30 @@
     border-color: hsl(var(--border));
   }
 
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Prevent horizontal scroll on small screens without breaking
+     position: sticky (overflow: clip does not create a scroll
+     container, unlike overflow: hidden). */
+  body {
+    overflow-x: clip;
+  }
+
+  /* iOS Safari auto-zooms into inputs whose font-size is below 16px.
+     Bump form controls to 16px on mobile viewports only, so the
+     desktop design (text-sm) stays untouched. */
+  @media (max-width: 640px) {
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));

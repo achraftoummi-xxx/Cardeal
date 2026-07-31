@@ -37,7 +37,7 @@ function GoogleIcon({ size = 18 }: { size?: number }) {
 }
 
 const inputClasses =
-  "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20";
+  "w-full max-sm:min-h-12 rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20";
 
 const labelClasses =
   "mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground";
@@ -132,7 +132,7 @@ export default function LoginModal({ open, onClose }: Props) {
       />
       <div
         className={cn(
-          "relative w-full rounded-2xl border border-border bg-card p-6 shadow-2xl sm:p-8",
+          "relative w-full rounded-2xl border border-border bg-card p-6 shadow-2xl max-sm:max-h-[92dvh] max-sm:overflow-y-auto sm:p-8",
           mode === "signup" ? "max-w-xl mx-4" : "max-w-md mx-4"
         )}
       >
@@ -144,8 +144,8 @@ export default function LoginModal({ open, onClose }: Props) {
           <X size={18} />
         </button>
 
-        <div className="mb-6 text-center">
-          <div className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent">
+        <div className="mb-6 text-center max-sm:mb-4">
+          <div className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent max-sm:text-2xl">
             {t("site.name")}
           </div>
           <p className="mt-2 text-sm text-muted-foreground">
@@ -157,13 +157,13 @@ export default function LoginModal({ open, onClose }: Props) {
           type="button"
           onClick={handleGoogleConnect}
           aria-label={t("auth.connectGoogle")}
-          className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium text-foreground shadow-sm transition-all hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          className="flex w-full max-sm:min-h-12 items-center justify-center gap-2.5 rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium text-foreground shadow-sm transition-all hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
         >
           <GoogleIcon size={18} />
           {t("auth.connectGoogle")}
         </button>
 
-        <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
+        <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground max-sm:my-4">
           <span className="h-px flex-1 bg-border" />
           {mode === "login" ? t("auth.signInTitle") : t("auth.signupTitle")}
           <span className="h-px flex-1 bg-border" />
@@ -213,7 +213,7 @@ export default function LoginModal({ open, onClose }: Props) {
             </Button>
           </form>
         ) : (
-          <div className="max-h-[55vh] overflow-y-auto pr-1">
+          <div className="max-h-[50vh] overflow-y-auto pr-1 max-sm:max-h-[40vh]">
             <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="signup-name" className={labelClasses}>
@@ -384,14 +384,14 @@ export default function LoginModal({ open, onClose }: Props) {
           </div>
         )}
 
-        <p className="mt-6 text-center text-xs text-muted-foreground">
+        <p className="mt-6 text-center text-xs text-muted-foreground max-sm:mt-4">
           {mode === "login" ? (
             <>
               {t("auth.noAccount")}{" "}
               <button
                 type="button"
                 onClick={() => switchMode("signup")}
-                className="underline hover:text-foreground"
+                className="max-sm:py-1.5 underline hover:text-foreground"
               >
                 {t("auth.joinUs")}
               </button>
@@ -402,7 +402,7 @@ export default function LoginModal({ open, onClose }: Props) {
               <button
                 type="button"
                 onClick={() => switchMode("login")}
-                className="underline hover:text-foreground"
+                className="max-sm:py-1.5 underline hover:text-foreground"
               >
                 {t("auth.signInLink")}
               </button>
@@ -410,11 +410,11 @@ export default function LoginModal({ open, onClose }: Props) {
           )}
         </p>
 
-        <p className="mt-4 text-center text-xs text-muted-foreground">
+        <p className="mt-4 text-center text-xs text-muted-foreground max-sm:mt-2">
           <button
             type="button"
             onClick={onClose}
-            className="underline hover:text-foreground"
+            className="max-sm:py-1.5 underline hover:text-foreground"
           >
             {t("auth.backHome")}
           </button>

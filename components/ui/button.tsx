@@ -12,7 +12,7 @@ export const Button = ({ className, variant = "primary", ...props }: React.Butto
   };
   return (
     <button
-      className={cn("rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200", variants[variant], className)}
+      className={cn("rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 max-sm:min-h-12", variants[variant], className)}
       {...props}
     />
   );

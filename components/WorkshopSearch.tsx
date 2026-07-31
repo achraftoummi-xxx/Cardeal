@@ -234,7 +234,7 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
         <label htmlFor="service-search-input" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500">
           {t("search.services")}
         </label>
-        <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/50 px-4 py-2 shadow-inner shadow-black/5 dark:shadow-black/10 sm:px-5">
+        <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/50 px-4 py-2 shadow-inner shadow-black/5 dark:shadow-black/10 max-sm:min-h-12 sm:px-5">
           <input
             id="service-search-input"
             name="serviceQuery"
@@ -244,11 +244,11 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
             placeholder={t("search.keywordPlaceholder")}
           />
           {query && (
-            <button onClick={() => setQuery("")} className="text-zinc-500 transition-colors hover:text-zinc-300" aria-label={t("location.clear")}>
+            <button onClick={() => setQuery("")} className="max-sm:p-2 text-zinc-500 transition-colors hover:text-zinc-300" aria-label={t("location.clear")}>
               <X size={18} />
             </button>
           )}
-          <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/25 active:scale-95">
+          <button className="flex max-sm:min-h-12 items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/25 active:scale-95">
             <Search size={16} />
             <span className="hidden sm:inline">{t("search.search")}</span>
           </button>
@@ -265,11 +265,11 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
             : t("results.noWorkshops")}
         </p>
 
-        <div className="flex flex-nowrap gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+        <div className="flex flex-nowrap gap-3 overflow-x-auto pb-2 max-sm:snap-x max-sm:snap-mandatory sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
           {results.map((w) => (
             <div
               key={w.name}
-              className="flex shrink-0 items-center gap-2.5 rounded-xl border border-border bg-card/50 px-3 py-2.5 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/30 hover:bg-accent hover:shadow-md sm:gap-3 sm:px-4 sm:py-3"
+              className="flex w-64 max-sm:snap-start shrink-0 items-center gap-2.5 rounded-xl border border-border bg-card/50 px-3 py-2.5 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/30 hover:bg-accent hover:shadow-md sm:w-auto sm:gap-3 sm:px-4 sm:py-3"
             >
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-foreground">{w.name}</p>
@@ -318,7 +318,7 @@ function Select({
           name={label.toLowerCase()}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm text-foreground shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
+          className="w-full max-sm:min-h-12 appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm text-foreground shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
         >
           {options.map((o) => {
             const v = typeof o === "string" ? o : o.value;

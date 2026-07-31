@@ -129,7 +129,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
         <label htmlFor="location-search-input" className="sr-only">
           {t("location.searchCityAria")}
         </label>
-        <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-3 py-2 shadow-inner shadow-black/5 transition-all focus-within:border-blue-500/50 focus-within:ring-1 focus-within:ring-blue-500/20 sm:px-4">
+        <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-3 py-2 shadow-inner shadow-black/5 transition-all max-sm:min-h-12 focus-within:border-blue-500/50 focus-within:ring-1 focus-within:ring-blue-500/20 sm:px-4">
           {status === "loading" ? (
             <Loader2 size={16} className="shrink-0 animate-spin text-blue-400" />
           ) : (
@@ -148,7 +148,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
             <button
               onClick={clearLocation}
               aria-label={t("location.clear")}
-              className="text-zinc-500 transition-colors hover:text-zinc-300"
+              className="max-sm:p-2 text-zinc-500 transition-colors hover:text-zinc-300"
             >
               <X size={16} />
             </button>
@@ -156,7 +156,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
           {!location && status !== "loading" && (
             <button
               onClick={handleGeolocation}
-              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-muted/50 px-3 py-1.5 text-sm text-muted-foreground shadow-sm transition-all hover:bg-accent hover:text-accent-foreground"
+              className="inline-flex max-sm:self-stretch shrink-0 items-center gap-1.5 rounded-lg border border-border bg-muted/50 px-3 py-1.5 text-sm text-muted-foreground shadow-sm transition-all hover:bg-accent hover:text-accent-foreground"
             >
               <Crosshair size={14} />
               <span className="hidden sm:inline">{t("location.activate")}</span>
