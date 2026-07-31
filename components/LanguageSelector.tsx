@@ -31,7 +31,7 @@ export default function LanguageSelector({ className = "" }: { className?: strin
     <div ref={ref} className={`relative ${className}`}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 rounded-lg border border-zinc-700/50 bg-zinc-800/30 px-2.5 py-1.5 text-sm text-zinc-300 shadow-sm transition-all hover:border-zinc-600/50 hover:bg-zinc-700/30"
+        className="flex items-center gap-2 rounded-lg border border-zinc-700/50 bg-white px-2.5 py-1.5 text-sm text-zinc-700 shadow-sm transition-all hover:border-zinc-600/50 hover:bg-zinc-700/30 dark:bg-zinc-800/30 dark:text-zinc-300 dark:hover:border-zinc-600/50 dark:hover:bg-zinc-700/30"
       >
         <div className="h-4 w-5 overflow-hidden rounded-sm">
           <Flag code={current.code} style={{ width: 20, height: 14 }} />
@@ -48,7 +48,7 @@ export default function LanguageSelector({ className = "" }: { className?: strin
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-1.5 w-32 overflow-hidden rounded-xl border border-zinc-700/50 bg-zinc-900/95 py-1 shadow-2xl shadow-black/40 backdrop-blur-xl">
+        <div className="absolute right-0 top-full z-50 mt-1.5 w-32 overflow-hidden rounded-xl border border-zinc-700/50 bg-white py-1 shadow-2xl shadow-black/40 backdrop-blur-xl dark:bg-zinc-900/95">
           {Object.keys(locales).map((l) => {
             const isActive = l === locale;
             return (
@@ -60,8 +60,8 @@ export default function LanguageSelector({ className = "" }: { className?: strin
                 }}
                 className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors ${
                   isActive
-                    ? "bg-blue-600/20 text-blue-400"
-                    : "text-zinc-300 hover:bg-zinc-800/80"
+                    ? "bg-blue-600/10 text-blue-600 dark:bg-blue-600/20 dark:text-blue-400"
+                    : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800/80"
                 }`}
               >
                 <div className="h-3.5 w-5 overflow-hidden rounded-sm">
