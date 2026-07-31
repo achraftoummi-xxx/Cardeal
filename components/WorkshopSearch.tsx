@@ -18,6 +18,74 @@ export type Workshop = {
   lng?: number;
 };
 
+export const SERVICE_CATEGORIES: string[] = [
+  "Oil Change",
+  "Engine Oil Replacement",
+  "Oil Filter Replacement",
+  "Air Filter Replacement",
+  "Fuel Filter Replacement",
+  "Cabin Filter Replacement",
+  "Brake Pads Replacement",
+  "Brake Disc Replacement",
+  "Brake Fluid Change",
+  "Brake Inspection",
+  "Battery Replacement",
+  "Battery Diagnosis",
+  "Alternator Repair",
+  "Starter Motor Repair",
+  "Engine Diagnostics",
+  "Check Engine Light Diagnosis",
+  "Engine Repair",
+  "Engine Tune-Up",
+  "Spark Plug Replacement",
+  "Ignition Coil Replacement",
+  "Timing Belt Replacement",
+  "Timing Chain Replacement",
+  "Clutch Replacement",
+  "Clutch Repair",
+  "Transmission Service",
+  "Transmission Repair",
+  "Gearbox Oil Change",
+  "Coolant Change",
+  "Radiator Repair",
+  "Cooling System Repair",
+  "Thermostat Replacement",
+  "Water Pump Replacement",
+  "AC Service",
+  "AC Recharge",
+  "AC Repair",
+  "Suspension Repair",
+  "Shock Absorber Replacement",
+  "Strut Replacement",
+  "Wheel Alignment",
+  "Wheel Balancing",
+  "Tire Replacement",
+  "Tire Repair",
+  "TPMS Service",
+  "Steering Repair",
+  "Power Steering Service",
+  "Exhaust Repair",
+  "Catalytic Converter Repair",
+  "Muffler Replacement",
+  "AdBlue Service",
+  "DPF Cleaning",
+  "Turbo Repair",
+  "Injector Cleaning",
+  "Fuel System Cleaning",
+  "Car Inspection",
+  "Vehicle Maintenance",
+  "Electrical Diagnosis",
+  "Sensor Replacement",
+  "ECU Diagnostics",
+  "Software Update",
+  "Body Repair",
+  "Paint Repair",
+  "Windshield Replacement",
+  "Glass Repair",
+  "Interior Repair",
+  "Other",
+];
+
 type Props = {
   brandModels: Record<string, string[]>;
   workshops: Workshop[];
@@ -33,6 +101,7 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
   const [capacity, setCapacity] = useState("");
   const [cylinders, setCylinders] = useState("");
   const [query, setQuery] = useState("");
+  const [serviceCategory, setServiceCategory] = useState("");
 
   const models = useMemo(() => {
     if (!brand) return [];
@@ -58,9 +127,17 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
       if (engine && w.engine.toLowerCase() !== engine.toLowerCase()) return false;
       if (capacity && w.capacity !== capacity) return false;
       if (cylinders && (w as any).cylinders !== cylinders) return false;
+      if (serviceCategory) {
+        const svc = serviceCategory.toLowerCase();
+        const matches = w.services.some((s) => {
+          const ws = s.toLowerCase();
+          return ws.includes(svc) || svc.includes(ws);
+        });
+        if (!matches) return false;
+      }
       return true;
     });
-  }, [query, brand, model, year, engine, capacity, cylinders, workshops]);
+  }, [query, brand, model, year, engine, capacity, cylinders, serviceCategory, workshops]);
 
   useEffect(() => {
     onResultsFiltered?.(results);
@@ -93,6 +170,11 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
         />
         <Select label="Capacity" value={capacity} onChange={setCapacity} options={capacities} />
         <Select label="Cylinders" value={cylinders} onChange={setCylinders} options={cylindersOptions} />
+      </div>
+
+      {/* Service category combobox (searchable, custom values allowed) */}
+      <div className="mt-6">
+        <ServiceCategorySelect value={serviceCategory} onChange={setServiceCategory} />
       </div>
 
       {/* Search input */}
@@ -179,6 +261,103 @@ function Select({ label, value, options, onChange }: { label: string; value: str
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return SERVICE_CATEGORIES.filter((o) => !q || o.toLowerCase().includes(q));
+  }, [query]);
+
+  const handleFocus = () => {
+    setQuery(value);
+    setOpen(true);
+  };
+
+  const handleChange = (v: string) => {
+    setQuery(v);
+    setOpen(true);
+  };
+
+  const handleBlur = () => {
+    const q = query.trim();
+    if (q && q !== value) onChange(q);
+    setOpen(false);
+  };
+
+  const handleSelect = (option: string) => {
+    onChange(option);
+    setQuery("");
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <label htmlFor="service-category-select" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500">
+        Service Category
+      </label>
+      <div className="relative">
+        <input
+          id="service-category-select"
+          name="serviceCategory"
+          role="combobox"
+          aria-expanded={open}
+          aria-controls="service-category-options"
+          autoComplete="off"
+          className="w-full rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm text-foreground shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
+          value={open ? query : value}
+          onChange={(e) => handleChange(e.target.value)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          placeholder="Select or type a service (e.g. Oil Change)"
+        />
+        {open && query ? (
+          <button
+            type="button"
+            onClick={() => setQuery("")}
+            className="absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-500 transition-colors hover:text-zinc-300"
+            aria-label="Clear service category"
+          >
+            <X size={18} />
+          </button>
+        ) : (
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        )}
+        {open && (
+          <ul
+            id="service-category-options"
+            role="listbox"
+            className="absolute z-20 mt-1 max-h-60 w-full overflow-y-auto rounded-xl border border-border bg-card py-1 shadow-lg shadow-black/10 dark:shadow-black/40"
+          >
+            {filtered.map((option) => (
+              <li
+                key={option}
+                role="option"
+                aria-selected={option === value}
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => handleSelect(option)}
+                className="cursor-pointer px-4 py-2 text-sm text-foreground transition-colors hover:bg-accent hover:text-blue-500"
+              >
+                {option}
+              </li>
+            ))}
+            {filtered.length === 0 && (
+              <li className="px-4 py-2 text-sm text-muted-foreground">
+                No matches — keep typing to add a custom service
+              </li>
+            )}
+          </ul>
+        )}
       </div>
     </div>
   );
