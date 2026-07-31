@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import L, { divIcon } from "leaflet";
+import L from "leaflet";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { cn } from "@/lib/utils";
@@ -130,14 +130,15 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     []
   );
 
+  /* Custom user-position marker: 36x36 pin whose bottom-center point
+     sits exactly on the user's coordinates. */
   const userIcon = useMemo(
     () =>
-      divIcon({
-        className: "",
-        html: `<svg width="32" height="32" viewBox="0 0 24 24" fill="#3b82f6" stroke="white" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3" fill="white" stroke="none"/></svg>`,
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -30],
+      L.icon({
+        iconUrl: "/assets/icons/pin-map.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 36],
+        popupAnchor: [0, -36],
       }),
     []
   );
