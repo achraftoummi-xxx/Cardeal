@@ -244,5 +244,32 @@
     "brake-repair": "Bremsenreparatur",
     "cooling-system": "Kühlsystem",
     "diagnostics": "Diagnose"
+  },
+  "partnerForm": {
+    "title": "Werde Partner",
+    "personalSection": "Persönliche Informationen",
+    "businessSection": "Geschäftsinformationen",
+    "serviceCategory": "Geschäftstätigkeit und Servicekategorie",
+    "specializedBrand": "Spezialisierte Marke",
+    "brandPlaceholder": "z. B. BMW, Mercedes, Toyota",
+    "openDays": "Öffnungstage",
+    "openTime": "Öffnungszeiten",
+    "from": "Von",
+    "to": "Bis",
+    "staffMembers": "Mitarbeiter",
+    "extraServices": "Zusätzliche Dienstleistungen",
+    "pricingLow": "Niedrigster Preis",
+    "pricingHigh": "Höchster Preis",
+    "submit": "Anfrage senden",
+    "closeAria": "Partnerformular schließen",
+    "priceError": "Der höchste Preis muss größer oder gleich dem niedrigsten sein",
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+    "pricing": "Preisgestaltung"
   }
 }

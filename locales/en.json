@@ -244,5 +244,32 @@
     "brake-repair": "Brake repair",
     "cooling-system": "Cooling system",
     "diagnostics": "Diagnostics"
+  },
+  "partnerForm": {
+    "title": "Become a Partner",
+    "personalSection": "Personal Information",
+    "businessSection": "Business Information",
+    "serviceCategory": "Business Activity & Service Category",
+    "specializedBrand": "Specialized Brand",
+    "brandPlaceholder": "e.g. BMW, Mercedes, Toyota",
+    "openDays": "Opening Days",
+    "openTime": "Opening Hours",
+    "from": "From",
+    "to": "To",
+    "staffMembers": "Staff Members",
+    "extraServices": "Extra Services",
+    "pricingLow": "Lowest Price",
+    "pricingHigh": "Highest Price",
+    "submit": "Send Request",
+    "closeAria": "Close partner form",
+    "priceError": "Highest price must be greater than or equal to the lowest price",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "pricing": "Pricing"
   }
 }

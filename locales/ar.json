@@ -244,5 +244,32 @@
     "brake-repair": "إصلاح الفرامل",
     "cooling-system": "نظام التبريد",
     "diagnostics": "تشخيص الأعطال"
+  },
+  "partnerForm": {
+    "title": "كن شريكًا",
+    "personalSection": "المعلومات الشخصية",
+    "businessSection": "معلومات العمل",
+    "serviceCategory": "نشاط العمل وفئة الخدمة",
+    "specializedBrand": "العلامة التجارية المتخصصة",
+    "brandPlaceholder": "مثال: بي إم دبليو، مرسيدس، تويوتا",
+    "openDays": "أيام العمل",
+    "openTime": "ساعات العمل",
+    "from": "من",
+    "to": "إلى",
+    "staffMembers": "عدد الموظفين",
+    "extraServices": "خدمات إضافية",
+    "pricingLow": "أقل سعر",
+    "pricingHigh": "أعلى سعر",
+    "submit": "إرسال الطلب",
+    "closeAria": "إغلاق نموذج الشريك",
+    "priceError": "يجب أن يكون أعلى سعر أكبر من أو يساوي أقل سعر",
+    "monday": "الاثنين",
+    "tuesday": "الثلاثاء",
+    "wednesday": "الأربعاء",
+    "thursday": "الخميس",
+    "friday": "الجمعة",
+    "saturday": "السبت",
+    "sunday": "الأحد",
+    "pricing": "التسعير"
   }
 }

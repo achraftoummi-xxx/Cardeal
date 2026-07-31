@@ -244,5 +244,32 @@
     "brake-repair": "Réparation de freins",
     "cooling-system": "Système de refroidissement",
     "diagnostics": "Diagnostic"
+  },
+  "partnerForm": {
+    "title": "Devenez partenaire",
+    "personalSection": "Informations personnelles",
+    "businessSection": "Informations commerciales",
+    "serviceCategory": "Activité et catégorie de service",
+    "specializedBrand": "Marque spécialisée",
+    "brandPlaceholder": "ex. BMW, Mercedes, Toyota",
+    "openDays": "Jours d'ouverture",
+    "openTime": "Heures d'ouverture",
+    "from": "De",
+    "to": "À",
+    "staffMembers": "Membres du personnel",
+    "extraServices": "Services supplémentaires",
+    "pricingLow": "Prix le plus bas",
+    "pricingHigh": "Prix le plus élevé",
+    "submit": "Envoyer la demande",
+    "closeAria": "Fermer le formulaire partenaire",
+    "priceError": "Le prix le plus élevé doit être supérieur ou égal au prix le plus bas",
+    "monday": "Lundi",
+    "tuesday": "Mardi",
+    "wednesday": "Mercredi",
+    "thursday": "Jeudi",
+    "friday": "Vendredi",
+    "saturday": "Samedi",
+    "sunday": "Dimanche",
+    "pricing": "Tarification"
   }
 }

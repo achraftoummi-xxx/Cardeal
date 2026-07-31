@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
 import LoginModal from "@/components/LoginModal";
+import PartnerModal from "@/components/PartnerModal";
 import { useTranslation } from "@/components/TranslationProvider";
 import { brandModels } from "@/data/carBrands";
 import { workshops } from "@/data/workshops";
@@ -25,6 +26,7 @@ export default function Page() {
   const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number; label: string } | null>(null);
   const [filteredWorkshops, setFilteredWorkshops] = useState<Workshop[]>(workshops);
   const [showLogin, setShowLogin] = useState(false);
+  const [showPartner, setShowPartner] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const howSteps = t("how.steps") as unknown as Array<{ title: string; desc: string }>;
@@ -54,7 +56,7 @@ export default function Page() {
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <ThemeToggle />
             <LanguageSelector />
-            <Button variant="outline" className="hidden text-sm sm:inline-flex">{t("buttons.becomePartner")}</Button>
+            <Button variant="outline" className="hidden text-sm sm:inline-flex" onClick={() => setShowPartner(true)}>{t("buttons.becomePartner")}</Button>
             <Button onClick={() => setShowLogin(true)} className="text-sm">{t("buttons.login")}</Button>
             <button
               type="button"
@@ -176,13 +178,14 @@ export default function Page() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.1)_0%,transparent_60%)]" />
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6">
           <h2 className="bg-gradient-to-r from-foreground via-muted-foreground to-muted bg-clip-text text-2xl font-bold tracking-tight text-transparent sm:text-3xl lg:text-4xl">{t("partner.title")}</h2>
-          <Button className="mt-8 rounded-full bg-blue-600 px-8 py-3 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/30 sm:px-10 sm:py-4 sm:text-lg">
+          <Button onClick={() => setShowPartner(true)} className="mt-8 rounded-full bg-blue-600 px-8 py-3 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/30 sm:px-10 sm:py-4 sm:text-lg">
             {t("partner.cta")}
           </Button>
         </div>
       </section>
 
       <LoginModal open={showLogin} onClose={() => setShowLogin(false)} />
+      <PartnerModal open={showPartner} onClose={() => setShowPartner(false)} />
     </div>
   );
 }
