@@ -137,7 +137,14 @@
     "closeAria": "إغلاق نافذة تسجيل الدخول",
     "resultsTitle": "نتائج البحث",
     "vehicle": "المركبة: {brand} {model} ({year}) — {engine}",
-    "noVehicle": "لم يتم العثور على مركبة."
+    "noVehicle": "لم يتم العثور على مركبة.",
+    "connectGoogle": "الاتصال عبر جوجل",
+    "noAccount": "إذا لم يكن لديك حساب بعد",
+    "joinUs": "انضم إلينا",
+    "signupTitle": "أنشئ حسابك",
+    "signupButton": "إنشاء حساب",
+    "haveAccount": "هل لديك حساب بالفعل؟",
+    "signInLink": "تسجيل الدخول"
   },
   "theme": {
     "light": "فاتح",

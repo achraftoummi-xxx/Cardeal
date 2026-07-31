@@ -137,7 +137,14 @@
     "closeAria": "Anmelde-Modal schließen",
     "resultsTitle": "Ihre Suchergebnisse",
     "vehicle": "Fahrzeug: {brand} {model} ({year}) – {engine}",
-    "noVehicle": "Kein Fahrzeug gefunden."
+    "noVehicle": "Kein Fahrzeug gefunden.",
+    "connectGoogle": "Mit Google verbinden",
+    "noAccount": "Falls du noch kein Konto hast",
+    "joinUs": "tritt uns bei",
+    "signupTitle": "Erstellen Sie Ihr Konto",
+    "signupButton": "Registrieren",
+    "haveAccount": "Sie haben bereits ein Konto?",
+    "signInLink": "Anmelden"
   },
   "theme": {
     "light": "Hell",

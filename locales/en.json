@@ -137,7 +137,14 @@
     "closeAria": "Close login modal",
     "resultsTitle": "Your Search Results",
     "vehicle": "Vehicle: {brand} {model} ({year}) - {engine}",
-    "noVehicle": "No vehicle found."
+    "noVehicle": "No vehicle found.",
+    "connectGoogle": "Connect with Google",
+    "noAccount": "If you still don't have an account yet",
+    "joinUs": "join us",
+    "signupTitle": "Create your account",
+    "signupButton": "Sign Up",
+    "haveAccount": "Already have an account?",
+    "signInLink": "Sign in"
   },
   "theme": {
     "light": "Light",

@@ -137,7 +137,14 @@
     "closeAria": "Fermer la fenêtre de connexion",
     "resultsTitle": "Vos résultats de recherche",
     "vehicle": "Véhicule : {brand} {model} ({year}) — {engine}",
-    "noVehicle": "Aucun véhicule trouvé."
+    "noVehicle": "Aucun véhicule trouvé.",
+    "connectGoogle": "Se connecter avec Google",
+    "noAccount": "Si vous n'avez pas encore de compte",
+    "joinUs": "rejoignez-nous",
+    "signupTitle": "Créez votre compte",
+    "signupButton": "S'inscrire",
+    "haveAccount": "Vous avez déjà un compte ?",
+    "signInLink": "Se connecter"
   },
   "theme": {
     "light": "Clair",
