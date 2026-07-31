@@ -1,21 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import * as maplibregl from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
-import { layers, LIGHT, BLACK } from "@protomaps/basemaps";
+import { useEffect, useMemo, useRef, useState } from "react";
+import L, { divIcon } from "leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import { cn } from "@/lib/utils";
-import { useTheme } from "./ThemeProvider";
-
-const API_KEY = process.env.NEXT_PUBLIC_PROTOMAPS_API_KEY || "";
-if (typeof window !== "undefined" && !API_KEY) {
-  console.warn("NEXT_PUBLIC_PROTOMAPS_API_KEY is not set. Map tiles will not render.");
-}
-const TILES_URL = `https://api.protomaps.com/tiles/v4/{z}/{x}/{y}.mvt?key=${API_KEY}`;
-const GLYPHS_URL = "https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf";
-const SPRITES_BASE = "https://protomaps.github.io/basemaps-assets/sprites/v4";
-const ATTRIBUTION =
-  '&copy; <a href="https://protomaps.com">Protomaps</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>';
 
 type Workshop = {
   name: string;
@@ -37,148 +26,123 @@ type Props = {
   className?: string;
 };
 
-const DEFAULT_CENTER: [number, number] = [10.1861, 36.8838];
-const DEFAULT_ZOOM = 12;
+/* Fallback center (Tunis, Tunisia) — used on load and when the user
+   denies geolocation access. */
+const TUNIS_CENTER: [number, number] = [36.8065, 10.1815];
+const DEFAULT_ZOOM = 14;
+const USER_ZOOM = 14;
 
-function buildStyle(flavor: typeof LIGHT): maplibregl.StyleSpecification {
-  const sourceId = "protomaps";
-  const flavorName = flavor === LIGHT ? "light" : "dark";
-  return {
-    version: 8,
-    name: `Protomaps ${flavorName}`,
-    sources: {
-      [sourceId]: {
-        type: "vector",
-        tiles: [TILES_URL],
-        maxzoom: 15,
-        attribution: ATTRIBUTION,
-      },
-    },
-    glyphs: GLYPHS_URL,
-    sprite: `${SPRITES_BASE}/${flavorName}`,
-    layers: layers(sourceId, flavor, { lang: "en" }),
-  };
+const OSM_TILES = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+const OSM_ATTRIBUTION =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+/* ------------------------------------------------------------------ */
+/*  Fly to a target whenever the location/user position changes        */
+/* ------------------------------------------------------------------ */
+function MapController({ target }: { target: [number, number] | null }) {
+  const map = useMap();
+
+  useEffect(() => {
+    const t = setTimeout(() => map.invalidateSize(), 60);
+    return () => clearTimeout(t);
+  }, [map]);
+
+  useEffect(() => {
+    if (!target) return;
+    map.flyTo(target, Math.max(map.getZoom(), USER_ZOOM), { duration: 1 });
+  }, [map, target]);
+
+  return null;
 }
 
+/* ------------------------------------------------------------------ */
+/*  Browser Geolocation: center on the user, fall back to Tunis        */
+/* ------------------------------------------------------------------ */
+function AutoLocate({
+  enabled,
+  onLocated,
+}: {
+  enabled: boolean;
+  onLocated: (coords: [number, number]) => void;
+}) {
+  const map = useMap();
+  const ran = useRef(false);
+
+  useEffect(() => {
+    if (!enabled || ran.current) return;
+    ran.current = true;
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const coords: [number, number] = [
+          pos.coords.latitude,
+          pos.coords.longitude,
+        ];
+        onLocated(coords);
+        map.flyTo(coords, USER_ZOOM, { duration: 1.2 });
+      },
+      () => {
+        /* Denied or unavailable — keep the Tunis fallback center. */
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+  }, [enabled, map, onLocated]);
+
+  return null;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Map component                                                      */
+/* ------------------------------------------------------------------ */
 export default function NearbyMap({ location, workshops, className = "" }: Props) {
-  const mapElement = useRef<HTMLDivElement>(null);
-  const mapInstance = useRef<maplibregl.Map | null>(null);
-  const markersRef = useRef<maplibregl.Marker[]>([]);
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [userCoords, setUserCoords] = useState<[number, number] | null>(null);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  /* Explicit search location wins; otherwise the auto-located position;
+     otherwise the Tunis fallback. */
+  const target: [number, number] | null = location
+    ? [location.lat, location.lng]
+    : userCoords;
 
-  useEffect(() => {
-    if (!mapElement.current || !mounted) return;
-    const el = mapElement.current;
-    const observer = new ResizeObserver(() => {
-      mapInstance.current?.resize();
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [mounted]);
+  const initialCenter: [number, number] = location
+    ? [location.lat, location.lng]
+    : TUNIS_CENTER;
 
-  useEffect(() => {
-    if (!mapElement.current || mapInstance.current) return;
+  const withCoords = useMemo(
+    () => workshops.filter((w) => w.lat != null && w.lng != null),
+    [workshops]
+  );
 
-    try {
-      const center = location ? [location.lng, location.lat] : DEFAULT_CENTER;
-      const zoom = location ? 14 : DEFAULT_ZOOM;
-      const flavor = resolvedTheme === "dark" ? BLACK : LIGHT;
-
-      mapInstance.current = new maplibregl.Map({
-        container: mapElement.current,
-        center: center as [number, number],
-        zoom,
-        style: buildStyle(flavor),
-      });
-
-      mapInstance.current.addControl(new maplibregl.NavigationControl(), "top-left");
-
-      mapInstance.current.on("load", () => {
-        mapInstance.current?.resize();
-      });
-
-      mapInstance.current.on("error", (e) => {
-        if (e.error?.status === 404) return;
-        if (e.error?.status === 403) {
-          console.warn("Protomaps tile 403 — verify API key and CORS whitelist");
-          return;
-        }
-        console.error("Map error:", e.error);
-      });
-    } catch (err) {
-      console.error("Error initializing map:", err);
+  const workshopIcons = useMemo(() => {
+    const icons = new Map<string, L.DivIcon>();
+    for (const w of withCoords) {
+      icons.set(
+        w.name,
+        divIcon({
+          className: "",
+          html: `<div class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-lg shadow-blue-500/30 ring-2 ring-white cursor-pointer transition-transform hover:scale-110">${w.name
+            .charAt(0)
+            .toUpperCase()}</div>`,
+          iconSize: [32, 32],
+          iconAnchor: [16, 16],
+          popupAnchor: [0, -18],
+        })
+      );
     }
+    return icons;
+  }, [withCoords]);
 
-    return () => {
-      markersRef.current.forEach((m) => m.remove());
-      markersRef.current = [];
-      if (mapInstance.current) {
-        mapInstance.current.remove();
-        mapInstance.current = null;
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!mapInstance.current) return;
-    const flavor = resolvedTheme === "dark" ? BLACK : LIGHT;
-    mapInstance.current.setStyle(buildStyle(flavor));
-  }, [resolvedTheme]);
-
-  useEffect(() => {
-    if (!mapInstance.current || !location) return;
-    try {
-      mapInstance.current.flyTo({
-        center: [location.lng, location.lat],
-        zoom: 14,
-        essential: true,
-      });
-    } catch (err) {
-      console.warn("Failed to flyTo location:", err);
-    }
-  }, [location]);
-
-  useEffect(() => {
-    if (!mapInstance.current) return;
-
-    markersRef.current.forEach((m) => m.remove());
-    markersRef.current = [];
-
-    const withCoords = workshops.filter((w) => w.lat != null && w.lng != null);
-
-    withCoords.forEach((w) => {
-      if (!w.lng || !w.lat) return;
-
-      const markerElement = document.createElement("div");
-      markerElement.className =
-        "flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-lg shadow-blue-500/30 ring-2 ring-white cursor-pointer transition-transform hover:scale-110";
-      markerElement.textContent = w.name.charAt(0).toUpperCase();
-
-      const popup = new maplibregl.Popup({ offset: 25 }).setHTML(`
-        <div class="${resolvedTheme === "dark" ? "bg-zinc-900 text-zinc-100" : "bg-white text-zinc-900"} p-3 rounded-xl min-w-[180px] shadow-lg">
-          <p class="font-semibold text-sm">${w.name}</p>
-          <p class="text-xs ${resolvedTheme === "dark" ? "text-zinc-400" : "text-zinc-500"} mt-1">${w.services.slice(0, 3).join(" · ")}</p>
-          <div class="flex items-center gap-2 mt-2 text-xs ${resolvedTheme === "dark" ? "text-zinc-500" : "text-zinc-400"}">
-            <span>${w.brand} ${w.model}</span>
-            <span>·</span>
-            <span>${w.distance}</span>
-          </div>
-        </div>
-      `);
-
-      const newMarker = new maplibregl.Marker({ element: markerElement })
-        .setLngLat([w.lng, w.lat])
-        .setPopup(popup)
-        .addTo(mapInstance.current!);
-
-      markersRef.current.push(newMarker);
-    });
-  }, [workshops, resolvedTheme]);
+  const userIcon = useMemo(
+    () =>
+      divIcon({
+        className: "",
+        html: `<svg width="32" height="32" viewBox="0 0 24 24" fill="#3b82f6" stroke="white" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3" fill="white" stroke="none"/></svg>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -30],
+      }),
+    []
+  );
 
   return (
     <div className={className}>
@@ -188,28 +152,97 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
           "border-border bg-background shadow-black/10 dark:shadow-black/40"
         )}
       >
-        <div ref={mapElement} className="absolute inset-0 h-full w-full" />
+        <MapContainer
+          center={initialCenter}
+          zoom={DEFAULT_ZOOM}
+          scrollWheelZoom
+          className="absolute inset-0 z-0 h-full w-full"
+        >
+          <TileLayer url={OSM_TILES} attribution={OSM_ATTRIBUTION} maxZoom={19} />
+
+          <MapController target={target} />
+          <AutoLocate enabled={!location} onLocated={setUserCoords} />
+
+          {/* User location marker */}
+          {target && <Marker position={target} icon={userIcon} />}
+
+          {/* Workshop markers */}
+          {withCoords.map((w) =>
+            w.lat != null && w.lng != null ? (
+              <Marker
+                key={w.name}
+                position={[w.lat, w.lng]}
+                icon={workshopIcons.get(w.name)}
+              >
+                <Popup>
+                  <div className="p-1">
+                    <p className="text-sm font-semibold">{w.name}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {w.services.slice(0, 3).join(" · ")}
+                    </p>
+                    <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+                      <span>
+                        {w.brand} {w.model}
+                      </span>
+                      <span>·</span>
+                      <span>{w.distance}</span>
+                    </div>
+                  </div>
+                </Popup>
+              </Marker>
+            ) : null
+          )}
+        </MapContainer>
       </div>
+
       <style jsx global>{`
-        .maplibregl-ctrl-bottom-right,
-        .maplibregl-ctrl-top-left {
-          opacity: 0.3;
-          transition: opacity 0.25s ease-in-out;
+        .leaflet-container {
+          background: hsl(var(--background));
+          font-family: inherit;
+          border-radius: inherit;
         }
-        .maplibregl-map:hover .maplibregl-ctrl-bottom-right,
-        .maplibregl-map:hover .maplibregl-ctrl-top-left {
-          opacity: 1;
+        .leaflet-tile-pane {
+          filter: none;
         }
-        .maplibregl-ctrl-attrib {
-          background: transparent !important;
-          box-shadow: none !important;
+        html.dark .leaflet-tile-pane {
+          filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9);
+        }
+        .leaflet-popup-content-wrapper {
+          border-radius: 12px;
+          padding: 0;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+            0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        .leaflet-popup-content {
+          margin: 0;
+        }
+        .leaflet-popup-close-button {
+          padding: 6px 8px 0 0 !important;
+          color: hsl(var(--muted-foreground)) !important;
+        }
+        .leaflet-popup-tip {
+          box-shadow: none;
+        }
+        .leaflet-bar a {
+          background: hsl(var(--card));
+          color: hsl(var(--foreground));
+          border-bottom-color: hsl(var(--border));
+        }
+        .leaflet-bar a:hover {
+          background: hsl(var(--accent));
+          color: hsl(var(--accent-foreground));
+        }
+        html.dark .leaflet-popup-content-wrapper {
+          background: hsl(var(--card));
+          color: hsl(var(--foreground));
+        }
+        .leaflet-control-attribution {
+          background: rgba(0, 0, 0, 0.6) !important;
+          color: rgba(255, 255, 255, 0.8) !important;
           font-size: 10px;
         }
-        .maplibregl-ctrl-attrib-button {
-          display: none !important;
-        }
-        .maplibregl-ctrl-attrib-inner {
-          font-size: 10px;
+        .leaflet-control-attribution a {
+          color: rgba(255, 255, 255, 0.9) !important;
         }
       `}</style>
     </div>
