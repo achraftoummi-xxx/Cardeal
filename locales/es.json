@@ -1,13 +1,67 @@
 {
-  "site": { "name": "CarDeal" },
-  "nav": { "findService": "Buscar un servicio", "requestQuote": "Solicitar presupuesto", "searchParts": "Buscar repuestos" },
-  "buttons": { "becomePartner": "Hazte socio", "login": "Iniciar sesión", "joinNetwork": "Únete a nuestra red" },
-  "hero": { "title": "Encuentra el taller adecuado. {highlight} Mantén tu coche en marcha.", "highlight": "Compara ofertas de reparación.", "subtitle": "Envía una solicitud de reparación y recibe ofertas de talleres de confianza cerca de ti." },
-  "vehicleFinder": { "title": "Encuentra tu vehículo", "stepInfo": "Paso {current} de {total}: Selecciona tu {label}" },
-  "how": { "title": "Cómo funciona CarDeal", "steps": [ { "title": "Describe tu problema", "desc": "Comparte detalles sobre tu vehículo y los problemas que tienes." }, { "title": "Recibe ofertas", "desc": "Obtén presupuestos transparentes de varios talleres de confianza." }, { "title": "Elige el mejor", "desc": "Compara y reserva el mejor servicio directamente en nuestra plataforma." } ] },
-  "services": { "title": "Servicios populares", "items": ["Cambio de aceite", "Reparación de frenos", "Diagnóstico", "Reparación de motor", "Sistema de refrigeración", "Repuestos"] },
-  "why": { "title": "Por qué elegir CarDeal", "reasons": ["Precios transparentes", "Talleres verificados", "Reseñas de clientes", "Citas fáciles"] },
-  "partner": { "title": "Haz crecer tu taller con CarDeal", "cta": "Únete a nuestra red" },
+  "site": {
+    "name": "CarDeal"
+  },
+  "nav": {
+    "findService": "Buscar un servicio",
+    "requestQuote": "Solicitar presupuesto",
+    "searchParts": "Buscar repuestos"
+  },
+  "buttons": {
+    "becomePartner": "Hazte socio",
+    "login": "Iniciar sesión",
+    "joinNetwork": "Únete a nuestra red"
+  },
+  "hero": {
+    "title": "Encuentra el taller adecuado. {highlight} Mantén tu coche en marcha.",
+    "highlight": "Compara ofertas de reparación.",
+    "subtitle": "Envía una solicitud de reparación y recibe ofertas de talleres de confianza cerca de ti."
+  },
+  "vehicleFinder": {
+    "title": "Encuentra tu vehículo",
+    "stepInfo": "Paso {current} de {total}: Selecciona tu {label}"
+  },
+  "how": {
+    "title": "Cómo funciona CarDeal",
+    "steps": [
+      {
+        "title": "Describe tu problema",
+        "desc": "Comparte detalles sobre tu vehículo y los problemas que tienes."
+      },
+      {
+        "title": "Recibe ofertas",
+        "desc": "Obtén presupuestos transparentes de varios talleres de confianza."
+      },
+      {
+        "title": "Elige el mejor",
+        "desc": "Compara y reserva el mejor servicio directamente en nuestra plataforma."
+      }
+    ]
+  },
+  "services": {
+    "title": "Servicios populares",
+    "items": [
+      "Cambio de aceite",
+      "Reparación de frenos",
+      "Diagnóstico",
+      "Reparación de motor",
+      "Sistema de refrigeración",
+      "Repuestos"
+    ]
+  },
+  "why": {
+    "title": "Por qué elegir CarDeal",
+    "reasons": [
+      "Precios transparentes",
+      "Talleres verificados",
+      "Reseñas de clientes",
+      "Citas fáciles"
+    ]
+  },
+  "partner": {
+    "title": "Haz crecer tu taller con CarDeal",
+    "cta": "Únete a nuestra red"
+  },
   "filters": {
     "brand": "Marca",
     "model": "Modelo",
@@ -52,7 +106,11 @@
     "noShops": "No se encontraron talleres",
     "noShopsHint": "Prueba a ajustar tu ubicación, categoría o palabras clave",
     "idle": "Configura tus filtros y haz clic en {search} para encontrar talleres reales cercanos",
-    "help": "Los filtros + la ubicación ayudan a encontrar talleres relevantes"
+    "help": "Los filtros + la ubicación ayudan a encontrar talleres relevantes",
+    "underOneKm": "Menos de 1 km",
+    "km": "{count} km",
+    "open": "Abierto",
+    "closed": "Cerrado"
   },
   "location": {
     "detecting": "Detectando ubicación…",
@@ -164,6 +222,9 @@
     "suspension-steering": "Suspensión y dirección",
     "battery-electrical": "Batería y electricidad",
     "air-conditioning-cooling": "Aire acondicionado y refrigeración",
-    "general-repair-maintenance": "Reparación y mantenimiento general"
+    "general-repair-maintenance": "Reparación y mantenimiento general",
+    "brake-repair": "Reparación de frenos",
+    "cooling-system": "Sistema de refrigeración",
+    "diagnostics": "Diagnóstico"
   }
 }

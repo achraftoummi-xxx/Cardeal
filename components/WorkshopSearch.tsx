@@ -242,7 +242,9 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
             >
               <div>
                 <p className="whitespace-nowrap text-sm font-medium text-foreground">{w.name}</p>
-                <p className="text-xs text-muted-foreground">{w.services.slice(0, 2).join(", ")}</p>
+                <p className="text-xs text-muted-foreground">
+                  {w.services.map((s) => localized(t, "serviceCat", s)).slice(0, 2).join(", ")}
+                </p>
               </div>
               <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-500 ring-1 ring-blue-500/20">
                 {w.distance}

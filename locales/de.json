@@ -1,13 +1,67 @@
 {
-  "site": { "name": "CarDeal" },
-  "nav": { "findService": "Service finden", "requestQuote": "Angebot anfordern", "searchParts": "Ersatzteile suchen" },
-  "buttons": { "becomePartner": "Partner werden", "login": "Anmelden", "joinNetwork": "Unserem Netzwerk beitreten" },
-  "hero": { "title": "Finden Sie die richtige Werkstatt. {highlight} Halten Sie Ihr Auto am Laufen.", "highlight": "Vergleichen Sie Reparaturofferten.", "subtitle": "Senden Sie eine Reparaturanfrage und erhalten Sie Angebote von vertrauenswürdigen Werkstätten in Ihrer Nähe." },
-  "vehicleFinder": { "title": "Finden Sie Ihr Fahrzeug", "stepInfo": "Schritt {current} von {total}: Wählen Sie Ihren {label}" },
-  "how": { "title": "So funktioniert CarDeal", "steps": [ { "title": "Beschreiben Sie Ihr Problem", "desc": "Teilen Sie Details zu Ihrem Fahrzeug und den aufgetretenen Problemen mit." }, { "title": "Angebote erhalten", "desc": "Erhalten Sie transparente Reparaturangebote von mehreren vertrauenswürdigen Werkstätten." }, { "title": "Das Beste wählen", "desc": "Vergleichen und buchen Sie den besten Service direkt über unsere Plattform." } ] },
-  "services": { "title": "Beliebte Services", "items": ["Ölwechsel", "Bremsenreparatur", "Diagnose", "Motorreparatur", "Kühlsystem", "Autoteile"] },
-  "why": { "title": "Warum CarDeal wählen", "reasons": ["Transparente Preise", "Verifizierte Werkstätten", "Kundenbewertungen", "Einfache Termine"] },
-  "partner": { "title": "Lassen Sie Ihre Werkstatt mit CarDeal wachsen", "cta": "Unserem Netzwerk beitreten" },
+  "site": {
+    "name": "CarDeal"
+  },
+  "nav": {
+    "findService": "Service finden",
+    "requestQuote": "Angebot anfordern",
+    "searchParts": "Ersatzteile suchen"
+  },
+  "buttons": {
+    "becomePartner": "Partner werden",
+    "login": "Anmelden",
+    "joinNetwork": "Unserem Netzwerk beitreten"
+  },
+  "hero": {
+    "title": "Finden Sie die richtige Werkstatt. {highlight} Halten Sie Ihr Auto am Laufen.",
+    "highlight": "Vergleichen Sie Reparaturofferten.",
+    "subtitle": "Senden Sie eine Reparaturanfrage und erhalten Sie Angebote von vertrauenswürdigen Werkstätten in Ihrer Nähe."
+  },
+  "vehicleFinder": {
+    "title": "Finden Sie Ihr Fahrzeug",
+    "stepInfo": "Schritt {current} von {total}: Wählen Sie Ihren {label}"
+  },
+  "how": {
+    "title": "So funktioniert CarDeal",
+    "steps": [
+      {
+        "title": "Beschreiben Sie Ihr Problem",
+        "desc": "Teilen Sie Details zu Ihrem Fahrzeug und den aufgetretenen Problemen mit."
+      },
+      {
+        "title": "Angebote erhalten",
+        "desc": "Erhalten Sie transparente Reparaturangebote von mehreren vertrauenswürdigen Werkstätten."
+      },
+      {
+        "title": "Das Beste wählen",
+        "desc": "Vergleichen und buchen Sie den besten Service direkt über unsere Plattform."
+      }
+    ]
+  },
+  "services": {
+    "title": "Beliebte Services",
+    "items": [
+      "Ölwechsel",
+      "Bremsenreparatur",
+      "Diagnose",
+      "Motorreparatur",
+      "Kühlsystem",
+      "Autoteile"
+    ]
+  },
+  "why": {
+    "title": "Warum CarDeal wählen",
+    "reasons": [
+      "Transparente Preise",
+      "Verifizierte Werkstätten",
+      "Kundenbewertungen",
+      "Einfache Termine"
+    ]
+  },
+  "partner": {
+    "title": "Lassen Sie Ihre Werkstatt mit CarDeal wachsen",
+    "cta": "Unserem Netzwerk beitreten"
+  },
   "filters": {
     "brand": "Marke",
     "model": "Modell",
@@ -52,7 +106,11 @@
     "noShops": "Keine Werkstätten gefunden",
     "noShopsHint": "Passen Sie Standort, Kategorie oder Schlüsselwörter an",
     "idle": "Stellen Sie Ihre Filter ein und klicken Sie auf {search}, um echte Werkstätten in der Nähe zu finden",
-    "help": "Filter + Standort helfen, relevante Werkstätten zu finden"
+    "help": "Filter + Standort helfen, relevante Werkstätten zu finden",
+    "underOneKm": "Unter 1 km",
+    "km": "{count} km",
+    "open": "Geöffnet",
+    "closed": "Geschlossen"
   },
   "location": {
     "detecting": "Standort wird ermittelt…",
@@ -164,6 +222,9 @@
     "suspension-steering": "Fahrwerk & Lenkung",
     "battery-electrical": "Batterie & Elektrik",
     "air-conditioning-cooling": "Klimaanlage & Kühlung",
-    "general-repair-maintenance": "Reparatur & Wartung"
+    "general-repair-maintenance": "Reparatur & Wartung",
+    "brake-repair": "Bremsenreparatur",
+    "cooling-system": "Kühlsystem",
+    "diagnostics": "Diagnose"
   }
 }

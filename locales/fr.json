@@ -1,28 +1,67 @@
 {
-  "site": { "name": "CarDeal" },
+  "site": {
+    "name": "CarDeal"
+  },
   "nav": {
     "findService": "Trouver un service",
     "requestQuote": "Demander un devis",
     "searchParts": "Rechercher des pièces"
   },
-  "buttons": { "becomePartner": "Devenir partenaire", "login": "Connexion", "joinNetwork": "Rejoindre notre réseau" },
+  "buttons": {
+    "becomePartner": "Devenir partenaire",
+    "login": "Connexion",
+    "joinNetwork": "Rejoindre notre réseau"
+  },
   "hero": {
     "title": "Trouvez le bon garage. {highlight} Gardez votre voiture en marche.",
     "highlight": "Comparez les offres de réparation.",
     "subtitle": "Soumettez une demande de réparation et recevez des offres de garages de confiance près de chez vous."
   },
-  "vehicleFinder": { "title": "Trouvez votre véhicule", "stepInfo": "Étape {current} sur {total} : Sélectionnez votre {label}" },
+  "vehicleFinder": {
+    "title": "Trouvez votre véhicule",
+    "stepInfo": "Étape {current} sur {total} : Sélectionnez votre {label}"
+  },
   "how": {
     "title": "Comment fonctionne CarDeal",
     "steps": [
-      { "title": "Décrivez votre problème", "desc": "Partagez des détails sur votre véhicule et les problèmes rencontrés." },
-      { "title": "Recevez des offres", "desc": "Obtenez des devis transparents de plusieurs garages de confiance." },
-      { "title": "Choisissez le meilleur", "desc": "Comparez et réservez le meilleur service directement via notre plateforme." }
+      {
+        "title": "Décrivez votre problème",
+        "desc": "Partagez des détails sur votre véhicule et les problèmes rencontrés."
+      },
+      {
+        "title": "Recevez des offres",
+        "desc": "Obtenez des devis transparents de plusieurs garages de confiance."
+      },
+      {
+        "title": "Choisissez le meilleur",
+        "desc": "Comparez et réservez le meilleur service directement via notre plateforme."
+      }
     ]
   },
-  "services": { "title": "Services populaires", "items": ["Vidange", "Réparation des freins", "Diagnostic", "Réparation moteur", "Système de refroidissement", "Pièces auto"] },
-  "why": { "title": "Pourquoi choisir CarDeal", "reasons": ["Prix transparents", "Garages vérifiés", "Avis clients", "Rendez-vous faciles"] },
-  "partner": { "title": "Développez votre garage avec CarDeal", "cta": "Rejoindre notre réseau" },
+  "services": {
+    "title": "Services populaires",
+    "items": [
+      "Vidange",
+      "Réparation des freins",
+      "Diagnostic",
+      "Réparation moteur",
+      "Système de refroidissement",
+      "Pièces auto"
+    ]
+  },
+  "why": {
+    "title": "Pourquoi choisir CarDeal",
+    "reasons": [
+      "Prix transparents",
+      "Garages vérifiés",
+      "Avis clients",
+      "Rendez-vous faciles"
+    ]
+  },
+  "partner": {
+    "title": "Développez votre garage avec CarDeal",
+    "cta": "Rejoindre notre réseau"
+  },
   "filters": {
     "brand": "Marque",
     "model": "Modèle",
@@ -67,7 +106,11 @@
     "noShops": "Aucun garage trouvé",
     "noShopsHint": "Essayez d'ajuster votre localisation, votre catégorie ou vos mots-clés",
     "idle": "Définissez vos filtres et cliquez sur {search} pour trouver de vrais garages à proximité",
-    "help": "Les filtres + la localisation aident à trouver des ateliers pertinents"
+    "help": "Les filtres + la localisation aident à trouver des ateliers pertinents",
+    "underOneKm": "Moins de 1 km",
+    "km": "{count} km",
+    "open": "Ouvert",
+    "closed": "Fermé"
   },
   "location": {
     "detecting": "Détection de la position…",
@@ -179,6 +222,9 @@
     "suspension-steering": "Suspension et direction",
     "battery-electrical": "Batterie et électricité",
     "air-conditioning-cooling": "Climatisation et refroidissement",
-    "general-repair-maintenance": "Réparation et entretien généraux"
+    "general-repair-maintenance": "Réparation et entretien généraux",
+    "brake-repair": "Réparation de freins",
+    "cooling-system": "Système de refroidissement",
+    "diagnostics": "Diagnostic"
   }
 }

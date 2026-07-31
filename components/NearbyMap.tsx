@@ -5,6 +5,8 @@ import L, { divIcon } from "leaflet";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "./TranslationProvider";
+import { localized } from "@/lib/i18n";
 
 type Workshop = {
   name: string;
@@ -96,6 +98,7 @@ function AutoLocate({
 /*  Map component                                                      */
 /* ------------------------------------------------------------------ */
 export default function NearbyMap({ location, workshops, className = "" }: Props) {
+  const { t } = useTranslation();
   const [userCoords, setUserCoords] = useState<[number, number] | null>(null);
 
   /* Explicit search location wins; otherwise the auto-located position;
@@ -178,7 +181,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
                   <div className="p-1">
                     <p className="text-sm font-semibold">{w.name}</p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      {w.services.slice(0, 3).join(" · ")}
+                      {w.services.map((s) => localized(t, "serviceCat", s)).slice(0, 3).join(" · ")}
                     </p>
                     <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                       <span>

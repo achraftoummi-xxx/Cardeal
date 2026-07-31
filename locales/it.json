@@ -1,13 +1,67 @@
 {
-  "site": { "name": "CarDeal" },
-  "nav": { "findService": "Trova un servizio", "requestQuote": "Richiedi un preventivo", "searchParts": "Cerca ricambi" },
-  "buttons": { "becomePartner": "Diventa partner", "login": "Accedi", "joinNetwork": "Unisciti alla nostra rete" },
-  "hero": { "title": "Trova l'officina giusta. {highlight} Mantieni la tua auto in funzione.", "highlight": "Confronta le offerte di riparazione.", "subtitle": "Invia una richiesta di riparazione e ricevi offerte da officine di fiducia vicino a te." },
-  "vehicleFinder": { "title": "Trova il tuo veicolo", "stepInfo": "Passaggio {current} di {total}: Seleziona il tuo {label}" },
-  "how": { "title": "Come funziona CarDeal", "steps": [ { "title": "Descrivi il problema", "desc": "Condividi i dettagli del tuo veicolo e i problemi che hai riscontrato." }, { "title": "Ricevi offerte", "desc": "Ottieni preventivi trasparenti da più officine di fiducia." }, { "title": "Scegli la migliore", "desc": "Confronta e prenota il miglior servizio direttamente sulla nostra piattaforma." } ] },
-  "services": { "title": "Servizi popolari", "items": ["Cambio olio", "Riparazione freni", "Diagnosi", "Riparazione motore", "Impianto di raffreddamento", "Ricambi auto"] },
-  "why": { "title": "Perché scegliere CarDeal", "reasons": ["Prezzi trasparenti", "Officine verificate", "Recensioni dei clienti", "Appuntamenti facili"] },
-  "partner": { "title": "Fai crescere la tua officina con CarDeal", "cta": "Unisciti alla nostra rete" },
+  "site": {
+    "name": "CarDeal"
+  },
+  "nav": {
+    "findService": "Trova un servizio",
+    "requestQuote": "Richiedi un preventivo",
+    "searchParts": "Cerca ricambi"
+  },
+  "buttons": {
+    "becomePartner": "Diventa partner",
+    "login": "Accedi",
+    "joinNetwork": "Unisciti alla nostra rete"
+  },
+  "hero": {
+    "title": "Trova l'officina giusta. {highlight} Mantieni la tua auto in funzione.",
+    "highlight": "Confronta le offerte di riparazione.",
+    "subtitle": "Invia una richiesta di riparazione e ricevi offerte da officine di fiducia vicino a te."
+  },
+  "vehicleFinder": {
+    "title": "Trova il tuo veicolo",
+    "stepInfo": "Passaggio {current} di {total}: Seleziona il tuo {label}"
+  },
+  "how": {
+    "title": "Come funziona CarDeal",
+    "steps": [
+      {
+        "title": "Descrivi il problema",
+        "desc": "Condividi i dettagli del tuo veicolo e i problemi che hai riscontrato."
+      },
+      {
+        "title": "Ricevi offerte",
+        "desc": "Ottieni preventivi trasparenti da più officine di fiducia."
+      },
+      {
+        "title": "Scegli la migliore",
+        "desc": "Confronta e prenota il miglior servizio direttamente sulla nostra piattaforma."
+      }
+    ]
+  },
+  "services": {
+    "title": "Servizi popolari",
+    "items": [
+      "Cambio olio",
+      "Riparazione freni",
+      "Diagnosi",
+      "Riparazione motore",
+      "Impianto di raffreddamento",
+      "Ricambi auto"
+    ]
+  },
+  "why": {
+    "title": "Perché scegliere CarDeal",
+    "reasons": [
+      "Prezzi trasparenti",
+      "Officine verificate",
+      "Recensioni dei clienti",
+      "Appuntamenti facili"
+    ]
+  },
+  "partner": {
+    "title": "Fai crescere la tua officina con CarDeal",
+    "cta": "Unisciti alla nostra rete"
+  },
   "filters": {
     "brand": "Marca",
     "model": "Modello",
@@ -52,7 +106,11 @@
     "noShops": "Nessun negozio trovato",
     "noShopsHint": "Prova a modificare posizione, categoria o parole chiave",
     "idle": "Imposta i filtri e clicca su {search} per trovare officine reali nelle vicinanze",
-    "help": "Filtri + posizione aiutano a trovare officine pertinenti"
+    "help": "Filtri + posizione aiutano a trovare officine pertinenti",
+    "underOneKm": "Meno di 1 km",
+    "km": "{count} km",
+    "open": "Aperto",
+    "closed": "Chiuso"
   },
   "location": {
     "detecting": "Rilevamento posizione…",
@@ -164,6 +222,9 @@
     "suspension-steering": "Sospensioni e sterzo",
     "battery-electrical": "Batteria ed elettricità",
     "air-conditioning-cooling": "Aria condizionata e raffreddamento",
-    "general-repair-maintenance": "Riparazione e manutenzione generale"
+    "general-repair-maintenance": "Riparazione e manutenzione generale",
+    "brake-repair": "Riparazione freni",
+    "cooling-system": "Sistema di raffreddamento",
+    "diagnostics": "Diagnostica"
   }
 }

@@ -439,7 +439,9 @@ export default function SearchModule({
                     )}
                     {shop.distanceKm != null && (
                       <span className="rounded-full bg-blue-500/10 px-2 py-0.5 font-medium text-blue-500 ring-1 ring-blue-500/20">
-                        {shop.distanceKm < 1 ? "<1" : Math.round(shop.distanceKm)} km
+                        {shop.distanceKm < 1
+                          ? t("results.underOneKm")
+                          : t("results.km", { count: Math.round(shop.distanceKm) })}
                       </span>
                     )}
                     {shop.openState && (
@@ -450,7 +452,11 @@ export default function SearchModule({
                             : "text-muted-foreground"
                         }
                       >
-                        {shop.openState}
+                        {shop.openState.toLowerCase().includes("open")
+                          ? t("results.open")
+                          : shop.openState.toLowerCase().includes("clos")
+                          ? t("results.closed")
+                          : shop.openState}
                       </span>
                     )}
                   </div>
@@ -487,7 +493,9 @@ export default function SearchModule({
               >
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium text-foreground">{w.name}</p>
-                  <p className="text-xs text-muted-foreground">{w.services.slice(0, 2).join(", ")}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {w.services.map((s) => localized(t, "serviceCat", s)).slice(0, 2).join(", ")}
+                  </p>
                 </div>
                 <span className="shrink-0 rounded-full bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-500 ring-1 ring-blue-500/20">
                   {w.distance}

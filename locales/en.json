@@ -24,18 +24,39 @@
   "how": {
     "title": "How CarDeal works",
     "steps": [
-      { "title": "Describe your problem", "desc": "Share details about your vehicle and the issues you're facing." },
-      { "title": "Receive offers", "desc": "Get transparent repair quotes from multiple trusted garages." },
-      { "title": "Choose the best", "desc": "Compare and book the best service directly through our platform." }
+      {
+        "title": "Describe your problem",
+        "desc": "Share details about your vehicle and the issues you're facing."
+      },
+      {
+        "title": "Receive offers",
+        "desc": "Get transparent repair quotes from multiple trusted garages."
+      },
+      {
+        "title": "Choose the best",
+        "desc": "Compare and book the best service directly through our platform."
+      }
     ]
   },
   "services": {
     "title": "Popular services",
-    "items": ["Oil change", "Brake repair", "Diagnostics", "Engine repair", "Cooling system", "Car parts"]
+    "items": [
+      "Oil change",
+      "Brake repair",
+      "Diagnostics",
+      "Engine repair",
+      "Cooling system",
+      "Car parts"
+    ]
   },
   "why": {
     "title": "Why choose CarDeal",
-    "reasons": ["Transparent prices", "Verified garages", "Customer reviews", "Easy appointments"]
+    "reasons": [
+      "Transparent prices",
+      "Verified garages",
+      "Customer reviews",
+      "Easy appointments"
+    ]
   },
   "partner": {
     "title": "Grow your garage with CarDeal",
@@ -85,7 +106,11 @@
     "noShops": "No shops found",
     "noShopsHint": "Try adjusting your location, category, or keywords",
     "idle": "Set your filters and click {search} to find real nearby repair shops",
-    "help": "Filters + location help find relevant workshops"
+    "help": "Filters + location help find relevant workshops",
+    "underOneKm": "Less than 1 km",
+    "km": "{count} km",
+    "open": "Open",
+    "closed": "Closed"
   },
   "location": {
     "detecting": "Detecting location...",
@@ -197,6 +222,9 @@
     "suspension-steering": "Suspension & Steering",
     "battery-electrical": "Battery & Electrical",
     "air-conditioning-cooling": "Air Conditioning & Cooling",
-    "general-repair-maintenance": "General Repair & Maintenance"
+    "general-repair-maintenance": "General Repair & Maintenance",
+    "brake-repair": "Brake repair",
+    "cooling-system": "Cooling system",
+    "diagnostics": "Diagnostics"
   }
 }
