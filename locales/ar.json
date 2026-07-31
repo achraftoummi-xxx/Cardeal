@@ -144,7 +144,17 @@
     "signupTitle": "أنشئ حسابك",
     "signupButton": "إنشاء حساب",
     "haveAccount": "هل لديك حساب بالفعل؟",
-    "signInLink": "تسجيل الدخول"
+    "signInLink": "تسجيل الدخول",
+    "fullName": "الاسم الكامل",
+    "phoneNumber": "رقم الهاتف",
+    "address": "العنوان",
+    "vehicleModel": "موديل المركبة",
+    "productionYear": "سنة الإنتاج",
+    "engineCapacity": "سعة المحرك",
+    "engineCylinders": "عدد أسطوانات المحرك",
+    "retypePassword": "إعادة إدخال كلمة المرور",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين",
+    "pleaseSelect": "اختر"
   },
   "theme": {
     "light": "فاتح",

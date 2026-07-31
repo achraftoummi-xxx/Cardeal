@@ -144,7 +144,17 @@
     "signupTitle": "Créez votre compte",
     "signupButton": "S'inscrire",
     "haveAccount": "Vous avez déjà un compte ?",
-    "signInLink": "Se connecter"
+    "signInLink": "Se connecter",
+    "fullName": "Nom complet",
+    "phoneNumber": "Numéro de téléphone",
+    "address": "Adresse",
+    "vehicleModel": "Modèle de véhicule",
+    "productionYear": "Année de production",
+    "engineCapacity": "Cylindrée du moteur",
+    "engineCylinders": "Nombre de cylindres",
+    "retypePassword": "Confirmer le mot de passe",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "pleaseSelect": "Sélectionner"
   },
   "theme": {
     "light": "Clair",

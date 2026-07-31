@@ -144,7 +144,17 @@
     "signupTitle": "Erstellen Sie Ihr Konto",
     "signupButton": "Registrieren",
     "haveAccount": "Sie haben bereits ein Konto?",
-    "signInLink": "Anmelden"
+    "signInLink": "Anmelden",
+    "fullName": "Vollständiger Name",
+    "phoneNumber": "Telefonnummer",
+    "address": "Adresse",
+    "vehicleModel": "Fahrzeugmodell",
+    "productionYear": "Baujahr",
+    "engineCapacity": "Motorhubraum",
+    "engineCylinders": "Anzahl der Zylinder",
+    "retypePassword": "Passwort wiederholen",
+    "passwordMismatch": "Die Passwörter stimmen nicht überein",
+    "pleaseSelect": "Auswählen"
   },
   "theme": {
     "light": "Hell",
