@@ -239,12 +239,34 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
           background: hsl(var(--card));
           color: hsl(var(--foreground));
         }
+        /* Zoom control – subtle by default, full visibility on hover */
+        .leaflet-control-zoom {
+          opacity: 0.55;
+          transition: opacity 0.2s ease;
+        }
+        .leaflet-control-zoom:hover {
+          opacity: 1;
+        }
+        .leaflet-control-zoom a {
+          transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        /* Attribution – muted, semi-transparent, readable on hover */
         .leaflet-control-attribution {
-          background: rgba(0, 0, 0, 0.6) !important;
-          color: rgba(255, 255, 255, 0.8) !important;
+          background: rgba(0, 0, 0, 0.35) !important;
+          color: rgba(255, 255, 255, 0.45) !important;
           font-size: 10px;
+          padding: 0 4px;
+          transition: background 0.2s ease, color 0.2s ease;
+        }
+        .leaflet-control-attribution:hover {
+          background: rgba(0, 0, 0, 0.7) !important;
+          color: rgba(255, 255, 255, 0.85) !important;
         }
         .leaflet-control-attribution a {
+          color: rgba(255, 255, 255, 0.55) !important;
+          transition: color 0.2s ease;
+        }
+        .leaflet-control-attribution:hover a {
           color: rgba(255, 255, 255, 0.9) !important;
         }
       `}</style>
