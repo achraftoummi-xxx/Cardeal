@@ -17,14 +17,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20.11.0
           cache: npm
 
-      - name: Install dependencies
+      - name: Install dependencies (clean install)
         run: npm ci --legacy-peer-deps
+
+      - name: Build with OpenNext
+        run: npx @opennextjs/cloudflare build
 
       - name: Deploy to Cloudflare Workers
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npm run deploy
+        run: npx @opennextjs/cloudflare deploy
