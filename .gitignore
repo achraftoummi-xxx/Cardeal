@@ -11,3 +11,5 @@ coverage/
 worker-configuration.d.ts
 .turbo/
 *.tsbuildinfo
+
+.wrangler/
