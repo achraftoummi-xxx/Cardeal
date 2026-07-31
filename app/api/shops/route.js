@@ -1,6 +1,28 @@
 const SERPAPI_BASE = "https://serpapi.com/search.json";
-const MAX_RESULTS = 20;
+/* Ask SerpApi for the maximum number of places it supports per query.
+   There is intentionally NO client-side cap: every place returned is
+   passed back to the frontend. */
+const SERPAPI_NUM = 50;
 const REQUEST_TIMEOUT_MS = 15000;
+
+/* Overpass (OpenStreetMap) fallback — free, keyless, radius-controlled */
+/* The public Overpass servers are load-balanced: each one is tried in
+   order until one responds. */
+const OVERPASS_ENDPOINTS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass.private.coffee/api/interpreter",
+  "https://overpass.osm.jp/api/interpreter",
+];
+/* Search radius in meters (25 km — generous, per requirements) */
+const OVERPASS_RADIUS_M = 25000;
+/* Every relevant repair-shop tag is queried (nodes AND ways) */
+const OVERPASS_TAGS = [
+  "shop=car_repair",
+  "shop=mechanic",
+  "amenity=car_repair",
+  "craft=car_repair",
+];
 
 /* ------------------------------------------------------------------ */
 /*  GET /api/shops                                                     */
@@ -11,6 +33,14 @@ const REQUEST_TIMEOUT_MS = 15000;
 /*    brand     – selected vehicle brand (e.g. "Toyota")               */
 /*    category  – selected service category (e.g. "Brake Repair")      */
 /*    q         – free keyword search (e.g. "brake pads")              */
+/*                                                                     */
+/*  Sources (in order):                                                */
+/*    1. SerpApi Google Maps (needs SERPAPI_KEY)                       */
+/*    2. Overpass OpenStreetMap fallback (25 km radius, 4 tags) —      */
+/*       used automatically when SerpApi fails or returns nothing.     */
+/*                                                                     */
+/*  Response: { results, total, query, source }                        */
+/*  Every fetched shop is returned — no slicing, no result caps.       */
 /* ------------------------------------------------------------------ */
 export async function GET(request) {
   try {
@@ -23,24 +53,24 @@ export async function GET(request) {
     const lat = searchParams.get("lat");
     const lng = searchParams.get("lng");
 
-/* ---- Build the SerpApi query string ------------------------------
-   Combine brand + service category + free keywords into one search,
-   then anchor it to the user's location. */
-const parts = [];
-if (brand) parts.push(brand);
-if (category) parts.push(category);
-if (q) parts.push(q);
-if (parts.length === 0) parts.push("car repair");
+    /* ---- Build the query text ----------------------------------------
+       Combine brand + service category + free keywords into one search,
+       then anchor it to the user's location. */
+    const parts = [];
+    if (brand) parts.push(brand);
+    if (category) parts.push(category);
+    if (q) parts.push(q);
+    if (parts.length === 0) parts.push("car repair");
 
-let query = parts.join(" ");
-/* Geolocation labels are pure coordinates ("36.8065, 10.1815") —
-   don't inject those into the text query; the ll param pins them. */
-const looksLikeCoords = city
-  ? /^-?\d{1,3}(\.\d+)?\s*,\s*-?\d{1,3}(\.\d+)?$/.test(city)
-  : false;
-if (city && !looksLikeCoords && !query.toLowerCase().includes(city.toLowerCase())) {
-  query = `${query} in ${city}`;
-}
+    let query = parts.join(" ");
+    /* Geolocation labels are pure coordinates ("36.8065, 10.1815") —
+       don't inject those into the text query; the ll param pins them. */
+    const looksLikeCoords = city
+      ? /^-?\d{1,3}(\.\d+)?\s*,\s*-?\d{1,3}(\.\d+)?$/.test(city)
+      : false;
+    if (city && !looksLikeCoords && !query.toLowerCase().includes(city.toLowerCase())) {
+      query = `${query} in ${city}`;
+    }
 
     if (!query.trim()) {
       return Response.json(
@@ -49,82 +79,29 @@ if (city && !looksLikeCoords && !query.toLowerCase().includes(city.toLowerCase()
       );
     }
 
-    const apiKey = process.env.SERPAPI_KEY;
-    if (!apiKey) {
-      return Response.json(
-        { error: "SERPAPI_KEY environment variable is not set" },
-        { status: 500 }
-      );
+    let results = [];
+    let source = null;
+
+    /* ---- 1) SerpApi (Google Maps) — primary source ------------------ */
+    if (process.env.SERPAPI_KEY) {
+      try {
+        results = await searchSerpApi(query, lat, lng);
+        source = "serpapi";
+      } catch (err) {
+        console.error("SerpApi fetch error:", err);
+      }
     }
 
-    const url = new URL(SERPAPI_BASE);
-    url.searchParams.set("engine", "google_maps");
-    url.searchParams.set("type", "search");
-    url.searchParams.set("q", query);
-    if (lat && lng) {
-      /* SerpApi's google_maps engine expects the "@lat,lng,zoomz" format */
-      url.searchParams.set("ll", `@${lat},${lng},14z`);
-    }
-    url.searchParams.set("hl", "en");
-    url.searchParams.set("num", String(MAX_RESULTS));
-    url.searchParams.set("api_key", apiKey);
-
-    const res = await fetch(url.toString(), {
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-    });
-
-    if (!res.ok) {
-      const body = await res.text();
-      console.error("SerpApi error:", res.status, body);
-      return Response.json(
-        { error: `SerpApi returned ${res.status}` },
-        { status: 502 }
-      );
-    }
-
-    const data = await res.json();
-
-    if (data.error) {
-      return Response.json({ error: data.error }, { status: 502 });
-    }
-
-    /* ---- Map + dedupe raw Google Maps places into shop results ------ */
-    const seen = new Set();
-    const results = [];
-
-    for (const p of data.local_results ?? []) {
-      if (!p?.title) continue;
-      const key = p.place_id ?? `${p.gps_coordinates?.latitude ?? 0},${p.gps_coordinates?.longitude ?? 0},${p.title}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-
-      /* google_maps engine nests coordinates under gps_coordinates */
-      const placeLat = p.gps_coordinates?.latitude ?? p.latitude ?? 0;
-      const placeLng = p.gps_coordinates?.longitude ?? p.longitude ?? 0;
-
-      results.push({
-        placeId: p.place_id,
-        title: p.title,
-        address: p.address ?? "",
-        latitude: placeLat,
-        longitude: placeLng,
-        rating: p.rating,
-        reviews: p.reviews,
-        phone: p.phone,
-        website: p.website,
-        type: p.type,
-        category: p.category,
-        openState: p.open_state,
-        operationalStatus: p.operational_status,
-        hours: p.hours,
-        description: p.description,
-        serviceOptions: p.service_options,
-        thumbnail: p.thumbnail,
-        distanceKm:
-          lat && lng ? haversineKm(Number(lat), Number(lng), placeLat, placeLng) : null,
-      });
-
-      if (results.length >= MAX_RESULTS) break;
+    /* ---- 2) Overpass (OpenStreetMap) — fallback ---------------------
+       Only used when SerpApi is unavailable or empty. Covers a 25 km
+       radius around the user's coordinates across all relevant tags. */
+    if (results.length === 0 && lat && lng) {
+      try {
+        results = await searchOverpass(Number(lat), Number(lng));
+        source = "overpass";
+      } catch (err) {
+        console.error("Overpass fetch error:", err);
+      }
     }
 
     const headers = new Headers({
@@ -132,14 +109,180 @@ if (city && !looksLikeCoords && !query.toLowerCase().includes(city.toLowerCase()
       "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
     });
 
-    return Response.json({ results, total: results.length, query }, { headers });
+    return Response.json(
+      { results, total: results.length, query, source },
+      { headers }
+    );
   } catch (err) {
-    console.error("SerpApi fetch error:", err);
+    console.error("GET /api/shops error:", err);
     return Response.json(
       { error: err instanceof Error ? err.message : "Internal server error" },
       { status: 500 }
     );
   }
+}
+
+/* ------------------------------------------------------------------ */
+/*  SerpApi Google Maps search — all returned places kept, no caps     */
+/* ------------------------------------------------------------------ */
+async function searchSerpApi(query, lat, lng) {
+  const url = new URL(SERPAPI_BASE);
+  url.searchParams.set("engine", "google_maps");
+  url.searchParams.set("type", "search");
+  url.searchParams.set("q", query);
+  if (lat && lng) {
+    /* SerpApi's google_maps engine expects the "@lat,lng,zoomz" format */
+    url.searchParams.set("ll", `@${lat},${lng},14z`);
+  }
+  url.searchParams.set("hl", "en");
+  url.searchParams.set("num", String(SERPAPI_NUM));
+  url.searchParams.set("api_key", process.env.SERPAPI_KEY);
+
+  const res = await fetch(url.toString(), {
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    console.error("SerpApi error:", res.status, body);
+    throw new Error(`SerpApi returned ${res.status}`);
+  }
+
+  const data = await res.json();
+  if (data.error) throw new Error(data.error);
+
+  /* ---- Map + dedupe raw Google Maps places into shop results ------ */
+  const seen = new Set();
+  const results = [];
+
+  for (const p of data.local_results ?? []) {
+    if (!p?.title) continue;
+    const key =
+      p.place_id ??
+      `${p.gps_coordinates?.latitude ?? 0},${p.gps_coordinates?.longitude ?? 0},${p.title}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    /* google_maps engine nests coordinates under gps_coordinates */
+    const placeLat = p.gps_coordinates?.latitude ?? p.latitude ?? 0;
+    const placeLng = p.gps_coordinates?.longitude ?? p.longitude ?? 0;
+
+    results.push({
+      placeId: p.place_id,
+      title: p.title,
+      address: p.address ?? "",
+      latitude: placeLat,
+      longitude: placeLng,
+      rating: p.rating,
+      reviews: p.reviews,
+      phone: p.phone,
+      website: p.website,
+      type: p.type,
+      category: p.category,
+      openState: p.open_state,
+      operationalStatus: p.operational_status,
+      hours: p.hours,
+      description: p.description,
+      serviceOptions: p.service_options,
+      thumbnail: p.thumbnail,
+      distanceKm:
+        lat && lng ? haversineKm(Number(lat), Number(lng), placeLat, placeLng) : null,
+    });
+  }
+
+  return results;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Overpass (OpenStreetMap) — 25 km radius, all repair tags,          */
+/*  every matching shop returned.                                      */
+/* ------------------------------------------------------------------ */
+async function searchOverpass(lat, lng) {
+  const clauses = [];
+  for (const tag of OVERPASS_TAGS) {
+    const [key, value] = tag.split("=");
+    for (const element of ["node", "way"]) {
+      clauses.push(
+        `${element}["${key}"="${value}"](around:${OVERPASS_RADIUS_M},${lat},${lng});`
+      );
+    }
+  }
+
+  const query = `[out:json][timeout:25];(\n${clauses.join("\n")}\n);out center tags;`;
+  const body = new URLSearchParams({ data: query }).toString();
+
+  let lastError = null;
+  for (const endpoint of OVERPASS_ENDPOINTS) {
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
+        signal: AbortSignal.timeout(30000),
+      });
+
+      if (!res.ok) {
+        lastError = new Error(`Overpass ${endpoint} returned ${res.status}`);
+        continue;
+      }
+
+      const data = await res.json();
+
+      const seen = new Set();
+      const results = [];
+
+      for (const el of data.elements ?? []) {
+        const name = el.tags?.name;
+        if (!name) continue;
+
+        /* ways carry their centroid under el.center */
+        const elLat = el.lat ?? el.center?.lat;
+        const elLng = el.lon ?? el.center?.lon;
+        if (elLat == null || elLng == null) continue;
+
+        const key = `${elLat},${elLng},${name}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+
+        const t = el.tags ?? {};
+        const address = [
+          t["addr:housenumber"],
+          t["addr:street"],
+          t["addr:postcode"],
+          t["addr:city"],
+        ]
+          .filter(Boolean)
+          .join(", ");
+
+        results.push({
+          placeId: `osm-${el.id}`,
+          title: name,
+          address,
+          latitude: elLat,
+          longitude: elLng,
+          rating: null,
+          reviews: null,
+          phone: t["contact:phone"] ?? t.phone ?? null,
+          website: t["contact:website"] ?? t.website ?? null,
+          type: null,
+          category: t.shop ?? t.amenity ?? t.craft ?? null,
+          openState: null,
+          operationalStatus: null,
+          hours: t.opening_hours ? [t.opening_hours] : null,
+          description: null,
+          serviceOptions: null,
+          thumbnail: null,
+          distanceKm: haversineKm(lat, lng, elLat, elLng),
+        });
+      }
+
+      return results;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError ?? new Error("Overpass fetch failed");
 }
 
 /* ------------------------------------------------------------------ */
