@@ -23,19 +23,24 @@ export async function GET(request) {
     const lat = searchParams.get("lat");
     const lng = searchParams.get("lng");
 
-    /* ---- Build the SerpApi query string ------------------------------
-       Combine brand + service category + free keywords into one search,
-       then anchor it to the user's location. */
-    const parts = [];
-    if (brand) parts.push(brand);
-    if (category) parts.push(category);
-    if (q) parts.push(q);
-    if (parts.length === 0) parts.push("car repair");
+/* ---- Build the SerpApi query string ------------------------------
+   Combine brand + service category + free keywords into one search,
+   then anchor it to the user's location. */
+const parts = [];
+if (brand) parts.push(brand);
+if (category) parts.push(category);
+if (q) parts.push(q);
+if (parts.length === 0) parts.push("car repair");
 
-    let query = parts.join(" ");
-    if (city && !query.toLowerCase().includes(city.toLowerCase())) {
-      query = `${query} in ${city}`;
-    }
+let query = parts.join(" ");
+/* Geolocation labels are pure coordinates ("36.8065, 10.1815") —
+   don't inject those into the text query; the ll param pins them. */
+const looksLikeCoords = city
+  ? /^-?\d{1,3}(\.\d+)?\s*,\s*-?\d{1,3}(\.\d+)?$/.test(city)
+  : false;
+if (city && !looksLikeCoords && !query.toLowerCase().includes(city.toLowerCase())) {
+  query = `${query} in ${city}`;
+}
 
     if (!query.trim()) {
       return Response.json(
