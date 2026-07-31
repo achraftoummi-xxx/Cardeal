@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Search, X, MapPin } from "lucide-react";
+import { Search, X, MapPin, ChevronDown, SlidersHorizontal } from "lucide-react";
 import LocationBar from "@/components/LocationBar";
 import { useTranslation } from "@/components/TranslationProvider";
 import { localized } from "@/lib/i18n";
@@ -109,6 +109,10 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
   const [query, setQuery] = useState("");
   const [serviceCategory, setServiceCategory] = useState("");
 
+  /* ---- advanced filters accordion (mobile only) ---- */
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const activeFilterCount = [brand, model, year, engine, capacity, cylinders, serviceCategory].filter(Boolean).length;
+
   const models = useMemo(() => {
     if (!brand) return [];
     return [...(brandModels[brand] ?? [])].sort();
@@ -163,43 +167,70 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
   }, [results, onResultsFiltered]);
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6 shadow-2xl shadow-black/10 dark:shadow-black/40 backdrop-blur-xl sm:p-8">
-      <LocationBar onLocationChange={onLocationChange} className="mb-6" />
+    <div className="rounded-2xl border border-border bg-card p-4 shadow-2xl shadow-black/10 dark:shadow-black/40 backdrop-blur-xl sm:p-8">
+      <LocationBar onLocationChange={onLocationChange} className="mb-4 sm:mb-6" />
 
-      {/* Filter grid */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <Select
-          label={t("filters.brand")}
-          value={brand}
-          onChange={(v) => { setBrand(v); setModel(""); }}
-          options={["", ...Object.keys(brandModels).sort()]}
-          anyLabel={t("filters.any")}
-        />
-        <Select label={t("filters.model")} value={model} onChange={setModel} options={["", ...models]} anyLabel={t("filters.any")} />
-        <Select
-          label={t("filters.year")}
-          value={year}
-          onChange={setYear}
-          options={["", ...Array.from({ length: 2026 - 1960 + 1 }, (_, i) => String(2026 - i))]}
-          anyLabel={t("filters.any")}
-        />
-        <Select
-          label={t("filters.engine")}
-          value={engine}
-          onChange={setEngine}
-          options={engineOptions}
-        />
-        <Select label={t("filters.capacity")} value={capacity} onChange={setCapacity} options={capacities} anyLabel={t("filters.any")} />
-        <Select label={t("filters.cylinders")} value={cylinders} onChange={setCylinders} options={cylindersOptions} />
+      {/* Advanced filters toggle (mobile only — always expanded on sm+) */}
+      <div className="mb-4 sm:hidden">
+        <button
+          type="button"
+          onClick={() => setShowAdvanced((s) => !s)}
+          aria-expanded={showAdvanced}
+          className="flex w-full items-center justify-between rounded-xl border border-border bg-muted/50 px-4 py-3 text-sm font-medium text-foreground shadow-inner shadow-black/5 dark:shadow-black/10 transition-colors hover:bg-muted"
+        >
+          <span className="flex items-center gap-2">
+            <SlidersHorizontal size={16} className="text-blue-500" />
+            {t("filters.advanced")}
+            {activeFilterCount > 0 && (
+              <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white">
+                {activeFilterCount}
+              </span>
+            )}
+          </span>
+          <ChevronDown
+            size={16}
+            className={`text-zinc-500 transition-transform duration-200 ${showAdvanced ? "rotate-180" : ""}`}
+          />
+        </button>
       </div>
 
-      {/* Service category combobox (searchable, custom values allowed) */}
-      <div className="mt-6">
-        <ServiceCategorySelect value={serviceCategory} onChange={setServiceCategory} />
+      {/* Vehicle filters + service category (collapsible on mobile, always visible on sm+) */}
+      <div className={showAdvanced ? "block" : "hidden sm:block"}>
+        {/* Filter grid */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Select
+            label={t("filters.brand")}
+            value={brand}
+            onChange={(v) => { setBrand(v); setModel(""); }}
+            options={["", ...Object.keys(brandModels).sort()]}
+            anyLabel={t("filters.any")}
+          />
+          <Select label={t("filters.model")} value={model} onChange={setModel} options={["", ...models]} anyLabel={t("filters.any")} />
+          <Select
+            label={t("filters.year")}
+            value={year}
+            onChange={setYear}
+            options={["", ...Array.from({ length: 2026 - 1960 + 1 }, (_, i) => String(2026 - i))]}
+            anyLabel={t("filters.any")}
+          />
+          <Select
+            label={t("filters.engine")}
+            value={engine}
+            onChange={setEngine}
+            options={engineOptions}
+          />
+          <Select label={t("filters.capacity")} value={capacity} onChange={setCapacity} options={capacities} anyLabel={t("filters.any")} />
+          <Select label={t("filters.cylinders")} value={cylinders} onChange={setCylinders} options={cylindersOptions} />
+        </div>
+
+        {/* Service category combobox (searchable, custom values allowed) */}
+        <div className="mt-4 sm:mt-6">
+          <ServiceCategorySelect value={serviceCategory} onChange={setServiceCategory} />
+        </div>
       </div>
 
       {/* Search input */}
-      <div className="mt-6">
+      <div className="mt-4">
         <label htmlFor="service-search-input" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500">
           {t("search.services")}
         </label>
@@ -225,7 +256,7 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
       </div>
 
       {/* Workshop results */}
-      <div className="mt-6 border-t border-zinc-800/60 pt-5">
+      <div className="mt-4 border-t border-zinc-800/60 pt-4 sm:mt-6 sm:pt-5">
         <p className="mb-4 text-sm text-muted-foreground">
           {results.length
             ? results.length === 1
@@ -238,15 +269,15 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
           {results.map((w) => (
             <div
               key={w.name}
-              className="flex shrink-0 items-center gap-3 rounded-xl border border-border bg-card/50 px-4 py-3 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/30 hover:bg-accent hover:shadow-md"
+              className="flex shrink-0 items-center gap-2.5 rounded-xl border border-border bg-card/50 px-3 py-2.5 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/30 hover:bg-accent hover:shadow-md sm:gap-3 sm:px-4 sm:py-3"
             >
-              <div>
-                <p className="whitespace-nowrap text-sm font-medium text-foreground">{w.name}</p>
-                <p className="text-xs text-muted-foreground">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-foreground">{w.name}</p>
+                <p className="truncate text-xs text-muted-foreground">
                   {w.services.map((s) => localized(t, "serviceCat", s)).slice(0, 2).join(", ")}
                 </p>
               </div>
-              <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-500 ring-1 ring-blue-500/20">
+              <span className="shrink-0 rounded-full bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-500 ring-1 ring-blue-500/20">
                 {w.distance}
               </span>
             </div>
