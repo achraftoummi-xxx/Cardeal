@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Search, X, Loader2, AlertCircle, MapPin, Star, Phone } from "lucide-react";
+import { Search, X, Loader2, AlertCircle, MapPin, Star, Phone, ChevronDown, SlidersHorizontal } from "lucide-react";
 import LocationBar from "@/components/LocationBar";
 
 /**
@@ -102,6 +102,10 @@ export default function SearchModule({
   /* ---- service + keyword state ---- */
   const [category, setCategory] = useState("");
   const [keyword, setKeyword] = useState("");
+
+  /* ---- advanced filters accordion (mobile only) ---- */
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const activeFilterCount = [brand, model, year, engine, capacity, cylinders, category].filter(Boolean).length;
 
   /* ---- location state (driven by the shared LocationBar) ---- */
   const [location, setLocation] = useState(null);
@@ -226,36 +230,63 @@ export default function SearchModule({
   const showEmpty = hasSearched && !shopsLoading && !shopsError && shops.length === 0;
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6 shadow-2xl shadow-black/10 dark:shadow-black/40 backdrop-blur-xl sm:p-8">
+    <div className="rounded-2xl border border-border bg-card p-4 shadow-2xl shadow-black/10 dark:shadow-black/40 backdrop-blur-xl sm:p-8">
       {/* Location (reuses the existing LocationBar) */}
-      <LocationBar onLocationChange={handleLocationChange} className="mb-6" />
+      <LocationBar onLocationChange={handleLocationChange} className="mb-4 sm:mb-6" />
 
-      {/* Vehicle filter grid */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <Select
-          label="Brand"
-          value={brand}
-          onChange={(v) => {
-            setBrand(v);
-            setModel("");
-          }}
-          options={["", ...Object.keys(brandModels).sort()]}
-        />
-        <Select label="Model" value={model} onChange={setModel} options={["", ...models]} />
-        <Select label="Year" value={year} onChange={setYear} options={["", ...YEAR_OPTIONS]} />
-        <Select label="Engine" value={engine} onChange={setEngine} options={["", ...ENGINE_OPTIONS]} />
-        <Select label="Capacity" value={capacity} onChange={setCapacity} options={capacities} />
-        <Select label="Cylinders" value={cylinders} onChange={setCylinders} options={CYLINDERS_OPTIONS} />
+      {/* Advanced filters toggle (mobile only — always expanded on sm+) */}
+      <div className="mb-4 sm:hidden">
+        <button
+          type="button"
+          onClick={() => setShowAdvanced((s) => !s)}
+          aria-expanded={showAdvanced}
+          className="flex w-full items-center justify-between rounded-xl border border-border bg-muted/50 px-4 py-3 text-sm font-medium text-foreground shadow-inner shadow-black/5 dark:shadow-black/10 transition-colors hover:bg-muted"
+        >
+          <span className="flex items-center gap-2">
+            <SlidersHorizontal size={16} className="text-blue-500" />
+            Advanced Filters
+            {activeFilterCount > 0 && (
+              <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white">
+                {activeFilterCount}
+              </span>
+            )}
+          </span>
+          <ChevronDown
+            size={16}
+            className={`text-zinc-500 transition-transform duration-200 ${showAdvanced ? "rotate-180" : ""}`}
+          />
+        </button>
       </div>
 
-      {/* Service category dropdown */}
-      <div className="mt-6">
-        <Select
-          label="Search Services Category"
-          value={category}
-          onChange={setCategory}
-          options={["", ...SERVICE_CATEGORIES]}
-        />
+      {/* Vehicle filters + service category (collapsible on mobile, always visible on sm+) */}
+      <div className={showAdvanced ? "block" : "hidden sm:block"}>
+        {/* Vehicle filter grid */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Select
+            label="Brand"
+            value={brand}
+            onChange={(v) => {
+              setBrand(v);
+              setModel("");
+            }}
+            options={["", ...Object.keys(brandModels).sort()]}
+          />
+          <Select label="Model" value={model} onChange={setModel} options={["", ...models]} />
+          <Select label="Year" value={year} onChange={setYear} options={["", ...YEAR_OPTIONS]} />
+          <Select label="Engine" value={engine} onChange={setEngine} options={["", ...ENGINE_OPTIONS]} />
+          <Select label="Capacity" value={capacity} onChange={setCapacity} options={capacities} />
+          <Select label="Cylinders" value={cylinders} onChange={setCylinders} options={CYLINDERS_OPTIONS} />
+        </div>
+
+        {/* Service category dropdown */}
+        <div className="mt-4 sm:mt-6">
+          <Select
+            label="Search Services Category"
+            value={category}
+            onChange={setCategory}
+            options={["", ...SERVICE_CATEGORIES]}
+          />
+        </div>
       </div>
 
       {/* Keyword search + Search button */}
@@ -342,7 +373,7 @@ export default function SearchModule({
               {shops.map((shop) => (
                 <div
                   key={shop.placeId ?? `${shop.latitude}-${shop.longitude}-${shop.title}`}
-                  className="rounded-xl border border-border bg-card/50 p-4 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/30 hover:shadow-md"
+                  className="rounded-xl border border-border bg-card/50 p-3 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/30 hover:shadow-md sm:p-4"
                 >
                   <div className="flex items-start gap-3">
                     {shop.thumbnail ? (
@@ -416,7 +447,7 @@ export default function SearchModule({
             {results.map((w) => (
               <div
                 key={w.name}
-                className="flex shrink-0 items-center gap-3 rounded-xl border border-border bg-card/50 px-4 py-3 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/30 hover:bg-accent hover:shadow-md"
+                className="flex shrink-0 items-center gap-3 rounded-xl border border-border bg-card/50 px-3 py-2.5 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/30 hover:bg-accent hover:shadow-md sm:px-4 sm:py-3"
               >
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium text-foreground">{w.name}</p>
