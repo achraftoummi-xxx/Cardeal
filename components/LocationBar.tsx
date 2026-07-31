@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { MapPin, Crosshair, Loader2, Search, X } from "lucide-react";
+import { useTranslation } from "./TranslationProvider";
 
 type LocationResult = {
   label: string;
@@ -22,6 +23,7 @@ type Props = {
  *   (geocoding is handled downstream by the SerpApi backend).
  */
 export default function LocationBar({ onLocationChange, className }: Props) {
+  const { t } = useTranslation();
   const [status, setStatus] = useState<"idle" | "loading" | "ready">("idle");
   const [location, setLocation] = useState<LocationResult | null>(null);
   const [error, setError] = useState("");
@@ -38,7 +40,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
   /* ---- Browser Geolocation (no external service) ---- */
   function handleGeolocation() {
     if (!navigator.geolocation) {
-      setError("Geolocation not supported");
+      setError(t("location.geoNotSupported"));
       return;
     }
     setStatus("loading");
@@ -53,7 +55,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
         setStatus("ready");
       },
       () => {
-        setError("Location access denied. Type a city or address instead.");
+        setError(t("location.accessDenied"));
         setStatus("idle");
       },
       { enableHighAccuracy: true, timeout: 10000 }
@@ -90,10 +92,10 @@ export default function LocationBar({ onLocationChange, className }: Props) {
           )}
           <span className="text-muted-foreground">
             {status === "loading"
-              ? "Detecting location..."
+              ? t("location.detecting")
               : location
               ? location.label
-              : "Location not activated"}
+              : t("location.notActivated")}
           </span>
         </div>
 
@@ -104,7 +106,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
             className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-muted/50 px-3 py-1.5 text-sm text-muted-foreground shadow-sm transition-all hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
           >
             <Crosshair size={14} />
-            Activate location
+            {t("location.activate")}
           </button>
         )}
       </div>
@@ -113,7 +115,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
 
       <div className="relative mt-3">
         <label htmlFor="location-search-input" className="sr-only">
-          Search city or address
+          {t("location.searchCityAria")}
         </label>
         <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-3 py-2 shadow-inner shadow-black/5 transition-all focus-within:border-blue-500/50 focus-within:ring-1 focus-within:ring-blue-500/20 sm:px-4">
           <Search size={16} className="shrink-0 text-muted-foreground" />
@@ -124,7 +126,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
             className="flex-1 bg-transparent py-1 text-sm text-foreground outline-none placeholder:text-muted-foreground"
             value={inputValue}
             onChange={(e) => handleInputChange(e.target.value)}
-            placeholder={location ? "Change location" : "Search city or address..."}
+            placeholder={location ? t("location.changePlaceholder") : t("location.placeholder")}
           />
           {inputValue && (
             <button
@@ -140,7 +142,7 @@ export default function LocationBar({ onLocationChange, className }: Props) {
               className="flex items-center gap-1 rounded-md bg-muted/50 px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               <MapPin size={12} />
-              Clear
+              {t("location.clear")}
             </button>
           )}
         </div>

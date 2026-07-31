@@ -10,14 +10,14 @@ export function VehicleFinder() {
   const [vehicle, setVehicle] = useState({ brand: '', model: '', year: '', engine: '' });
 
   const steps = [
-    { label: 'Brand', options: ['Toyota', 'Honda', 'Ford', 'BMW'] },
-    { label: 'Model', options: ['Camry', 'Civic', 'F-150', '3 Series'] },
-    { label: 'Year', options: ['2024', '2023', '2022', '2021'] },
-    { label: 'Engine', options: ['2.0L', '2.5L', '3.5L', 'Hybrid'] },
+    { key: 'brand', label: t('filters.brand'), options: ['Toyota', 'Honda', 'Ford', 'BMW'] },
+    { key: 'model', label: t('filters.model'), options: ['Camry', 'Civic', 'F-150', '3 Series'] },
+    { key: 'year', label: t('filters.year'), options: ['2024', '2023', '2022', '2021'] },
+    { key: 'engine', label: t('filters.engine'), options: ['2.0L', '2.5L', '3.5L', 'Hybrid'] },
   ];
 
   const handleSelect = (option: string) => {
-    const key = steps[step].label.toLowerCase();
+    const key = steps[step].key;
     setVehicle({ ...vehicle, [key]: option });
     if (step < steps.length - 1) {
       setStep(step + 1);

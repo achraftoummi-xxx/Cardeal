@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Search, X, MapPin } from "lucide-react";
 import LocationBar from "@/components/LocationBar";
+import { useTranslation } from "@/components/TranslationProvider";
+import { localized } from "@/lib/i18n";
 
 export type Workshop = {
   name: string;
@@ -86,6 +88,9 @@ export const SERVICE_CATEGORIES: string[] = [
   "Other",
 ];
 
+const ENGINE_OPTIONS = ["Petrol", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid", "LPG", "CNG"];
+const CYLINDER_COUNTS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16];
+
 type Props = {
   brandModels: Record<string, string[]>;
   workshops: Workshop[];
@@ -94,6 +99,7 @@ type Props = {
 };
 
 export default function WorkshopSearch({ brandModels, workshops, onLocationChange, onResultsFiltered }: Props) {
+  const { t } = useTranslation();
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
@@ -109,9 +115,22 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
   }, [brand, brandModels]);
 
   const capacities = useMemo(() => ["", ...Array.from({ length: 81 }, (_, i) => ((5 + i) / 10).toFixed(1) + "L")], []);
+  const engineOptions = useMemo(
+    () => [
+      { value: "", label: t("filters.any") },
+      ...ENGINE_OPTIONS.map((v) => ({ value: v, label: localized(t, "engines", v) })),
+    ],
+    [t]
+  );
   const cylindersOptions = useMemo(
-    () => ["", "1 Cylinder", "2 Cylinders", "3 Cylinders", "4 Cylinders", "5 Cylinders", "6 Cylinders", "8 Cylinders", "10 Cylinders", "12 Cylinders", "16 Cylinders"],
-    []
+    () => [
+      { value: "", label: t("filters.any") },
+      ...CYLINDER_COUNTS.map((c) => ({
+        value: `${c} Cylinder${c > 1 ? "s" : ""}`,
+        label: t(c === 1 ? "filters.cylinderOne" : "filters.cylindersMany", { count: c }),
+      })),
+    ],
+    [t]
   );
 
   const results = useMemo(() => {
@@ -150,26 +169,28 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
       {/* Filter grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Select
-          label="Brand"
+          label={t("filters.brand")}
           value={brand}
           onChange={(v) => { setBrand(v); setModel(""); }}
           options={["", ...Object.keys(brandModels).sort()]}
+          anyLabel={t("filters.any")}
         />
-        <Select label="Model" value={model} onChange={setModel} options={["", ...models]} />
+        <Select label={t("filters.model")} value={model} onChange={setModel} options={["", ...models]} anyLabel={t("filters.any")} />
         <Select
-          label="Year"
+          label={t("filters.year")}
           value={year}
           onChange={setYear}
           options={["", ...Array.from({ length: 2026 - 1960 + 1 }, (_, i) => String(2026 - i))]}
+          anyLabel={t("filters.any")}
         />
         <Select
-          label="Engine"
+          label={t("filters.engine")}
           value={engine}
           onChange={setEngine}
-          options={["", "Petrol", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid", "LPG", "CNG"]}
+          options={engineOptions}
         />
-        <Select label="Capacity" value={capacity} onChange={setCapacity} options={capacities} />
-        <Select label="Cylinders" value={cylinders} onChange={setCylinders} options={cylindersOptions} />
+        <Select label={t("filters.capacity")} value={capacity} onChange={setCapacity} options={capacities} anyLabel={t("filters.any")} />
+        <Select label={t("filters.cylinders")} value={cylinders} onChange={setCylinders} options={cylindersOptions} />
       </div>
 
       {/* Service category combobox (searchable, custom values allowed) */}
@@ -180,7 +201,7 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
       {/* Search input */}
       <div className="mt-6">
         <label htmlFor="service-search-input" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500">
-          Search Services
+          {t("search.services")}
         </label>
         <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/50 px-4 py-2 shadow-inner shadow-black/5 dark:shadow-black/10 sm:px-5">
           <input
@@ -189,16 +210,16 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
             className="flex-1 bg-transparent py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Service keyword (e.g. brake, oil, battery)"
+            placeholder={t("search.keywordPlaceholder")}
           />
           {query && (
-            <button onClick={() => setQuery("")} className="text-zinc-500 transition-colors hover:text-zinc-300">
+            <button onClick={() => setQuery("")} className="text-zinc-500 transition-colors hover:text-zinc-300" aria-label={t("location.clear")}>
               <X size={18} />
             </button>
           )}
           <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/25 active:scale-95">
             <Search size={16} />
-            <span className="hidden sm:inline">Search</span>
+            <span className="hidden sm:inline">{t("search.search")}</span>
           </button>
         </div>
       </div>
@@ -207,8 +228,10 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
       <div className="mt-6 border-t border-zinc-800/60 pt-5">
         <p className="mb-4 text-sm text-muted-foreground">
           {results.length
-            ? `${results.length} workshop${results.length > 1 ? "s" : ""} nearby`
-            : "No workshops found"}
+            ? results.length === 1
+              ? t("results.workshopNearby", { count: results.length })
+              : t("results.workshopsNearby", { count: results.length })
+            : t("results.noWorkshops")}
         </p>
 
         <div className="flex flex-nowrap gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -230,14 +253,26 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
 
         <div className="mt-4 flex items-center gap-2 border-t border-border pt-4 text-xs text-muted-foreground">
           <MapPin size={14} />
-          Filters + location help find relevant workshops
+          {t("results.help")}
         </div>
       </div>
     </div>
   );
 }
 
-function Select({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (v: string) => void }) {
+function Select({
+  label,
+  value,
+  options,
+  onChange,
+  anyLabel = "Any",
+}: {
+  label: string;
+  value: string;
+  options: string[] | { value: string; label: string }[];
+  onChange: (v: string) => void;
+  anyLabel?: string;
+}) {
   const fieldId = `select-${label.toLowerCase()}`;
   return (
     <div>
@@ -252,9 +287,15 @@ function Select({ label, value, options, onChange }: { label: string; value: str
           onChange={(e) => onChange(e.target.value)}
           className="w-full appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm text-foreground shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
         >
-          {options.map((o) => (
-            <option key={o} value={o} className="bg-card text-foreground">{o || "Any"}</option>
-          ))}
+          {options.map((o) => {
+            const v = typeof o === "string" ? o : o.value;
+            const display = typeof o === "string" ? o || anyLabel : v ? o.label : anyLabel;
+            return (
+              <option key={v} value={v} className="bg-card text-foreground">
+                {display}
+              </option>
+            );
+          })}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -267,6 +308,7 @@ function Select({ label, value, options, onChange }: { label: string; value: str
 }
 
 function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -300,7 +342,7 @@ function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (
   return (
     <div>
       <label htmlFor="service-category-select" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500">
-        Service Category
+        {t("search.serviceCategory")}
       </label>
       <div className="relative">
         <input
@@ -315,14 +357,14 @@ function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (
           onChange={(e) => handleChange(e.target.value)}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          placeholder="Select or type a service (e.g. Oil Change)"
+          placeholder={t("search.servicePlaceholder")}
         />
         {open && query ? (
           <button
             type="button"
             onClick={() => setQuery("")}
             className="absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-500 transition-colors hover:text-zinc-300"
-            aria-label="Clear service category"
+            aria-label={t("search.clearServiceCategory")}
           >
             <X size={18} />
           </button>
@@ -348,12 +390,12 @@ function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (
                 onClick={() => handleSelect(option)}
                 className="cursor-pointer px-4 py-2 text-sm text-foreground transition-colors hover:bg-accent hover:text-blue-500"
               >
-                {option}
+                {localized(t, "serviceCat", option)}
               </li>
             ))}
             {filtered.length === 0 && (
               <li className="px-4 py-2 text-sm text-muted-foreground">
-                No matches — keep typing to add a custom service
+                {t("search.noServiceMatches")}
               </li>
             )}
           </ul>

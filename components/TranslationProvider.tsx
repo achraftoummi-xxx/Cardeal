@@ -4,10 +4,13 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from "
 import en from "../locales/en.json";
 import fr from "../locales/fr.json";
 import ar from "../locales/ar.json";
+import es from "../locales/es.json";
+import it from "../locales/it.json";
+import de from "../locales/de.json";
 
 type Translations = { [k: string]: string | Record<string, any> };
 
-const resources: Record<string, Translations> = { en, fr, ar };
+const resources: Record<string, Translations> = { en, fr, ar, es, it, de };
 
 type I18nContextValue = {
   locale: string;
@@ -18,21 +21,16 @@ type I18nContextValue = {
 const I18nContext = createContext<I18nContextValue | undefined>(undefined);
 
 export default function TranslationProvider({ children }: { children: React.ReactNode }) {
-  // Use a stable server/client initial locale to avoid hydration mismatches.
-  const [locale, setLocale] = useState<string>("en");
+  // Default application language is French (fr).
+  const [locale, setLocale] = useState<string>("fr");
 
-  // After mount, detect saved locale or navigator preference and apply it.
+  // After mount, restore the previously saved locale if it is still supported.
   useEffect(() => {
-    let detected = "en";
     try {
       const stored = localStorage.getItem("locale");
-      if (stored && resources[stored]) detected = stored;
-      else if (typeof navigator !== "undefined") {
-        const nav = navigator.language.split("-")[0];
-        if (resources[nav]) detected = nav;
-      }
+      if (stored && resources[stored] && stored !== locale) setLocale(stored);
     } catch (e) {}
-    if (detected !== locale) setLocale(detected);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Persist locale changes to localStorage
@@ -40,6 +38,12 @@ export default function TranslationProvider({ children }: { children: React.Reac
     try {
       localStorage.setItem("locale", locale);
     } catch (e) {}
+  }, [locale]);
+
+  // Keep <html lang> and text direction in sync with the active locale.
+  useEffect(() => {
+    document.documentElement.lang = locale;
+    document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
   }, [locale]);
 
   const t = (key: string, vars?: Record<string, string | number>) => {

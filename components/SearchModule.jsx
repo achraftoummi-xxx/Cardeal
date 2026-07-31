@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Search, X, Loader2, AlertCircle, MapPin, Star, Phone, ChevronDown, SlidersHorizontal } from "lucide-react";
 import LocationBar from "@/components/LocationBar";
+import { useTranslation } from "./TranslationProvider";
+import { localized } from "@/lib/i18n";
 
 /**
  * Workshop – local seed data entry (same shape as data/workshops.ts).
@@ -71,11 +73,7 @@ export const SERVICE_CATEGORIES = [
 ];
 
 const ENGINE_OPTIONS = ["Petrol", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid", "LPG", "CNG"];
-const CYLINDERS_OPTIONS = [
-  "",
-  "1 Cylinder", "2 Cylinders", "3 Cylinders", "4 Cylinders", "5 Cylinders",
-  "6 Cylinders", "8 Cylinders", "10 Cylinders", "12 Cylinders", "16 Cylinders",
-];
+const CYLINDER_COUNTS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16];
 
 const CURRENT_YEAR = new Date().getFullYear();
 const YEAR_OPTIONS = Array.from({ length: CURRENT_YEAR - 1960 + 1 }, (_, i) => String(CURRENT_YEAR - i));
@@ -91,6 +89,7 @@ export default function SearchModule({
   onResultsFiltered,
   onShopsLoaded,
 }: Props) {
+  const { t } = useTranslation();
   /* ---- vehicle filter state ---- */
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -127,6 +126,33 @@ export default function SearchModule({
   const capacities = useMemo(
     () => ["", ...Array.from({ length: 81 }, (_, i) => ((5 + i) / 10).toFixed(1) + "L")],
     []
+  );
+
+  const engineOptions = useMemo(
+    () => [
+      { value: "", label: t("filters.any") },
+      ...ENGINE_OPTIONS.map((v) => ({ value: v, label: localized(t, "engines", v) })),
+    ],
+    [t]
+  );
+
+  const cylindersOptions = useMemo(
+    () => [
+      { value: "", label: t("filters.any") },
+      ...CYLINDER_COUNTS.map((c) => ({
+        value: `${c} Cylinder${c > 1 ? "s" : ""}`,
+        label: t(c === 1 ? "filters.cylinderOne" : "filters.cylindersMany", { count: c }),
+      })),
+    ],
+    [t]
+  );
+
+  const categoryOptions = useMemo(
+    () => [
+      { value: "", label: t("filters.any") },
+      ...SERVICE_CATEGORIES.map((c) => ({ value: c, label: localized(t, "serviceCat", c) })),
+    ],
+    [t]
   );
 
   /* category → keyword terms for local matching ("Oil Change & Filters" → ["oil change", "filters"]) */
@@ -200,7 +226,7 @@ export default function SearchModule({
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error || `Server error: ${res.status}`);
+        throw new Error(body.error || t("errors.serverError", { status: res.status }));
       }
       const data = await res.json();
       if (!controller.signal.aborted) {
@@ -210,12 +236,12 @@ export default function SearchModule({
       }
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") return;
-      setShopsError(err instanceof Error ? err.message : "Failed to load nearby shops");
+      setShopsError(err instanceof Error ? err.message : t("errors.loadShops"));
       setShops([]);
     } finally {
       if (!controller.signal.aborted) setShopsLoading(false);
     }
-  }, [location, brand, category, keyword, onShopsLoaded]);
+  }, [location, brand, category, keyword, onShopsLoaded, t]);
 
   /* abort in-flight request on unmount */
   useEffect(() => () => abortRef.current?.abort(), []);
@@ -244,7 +270,7 @@ export default function SearchModule({
         >
           <span className="flex items-center gap-2">
             <SlidersHorizontal size={16} className="text-blue-500" />
-            Advanced Filters
+            {t("filters.advanced")}
             {activeFilterCount > 0 && (
               <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white">
                 {activeFilterCount}
@@ -263,7 +289,7 @@ export default function SearchModule({
         {/* Vehicle filter grid */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Select
-            label="Brand"
+            label={t("filters.brand")}
             value={brand}
             onChange={(v) => {
               setBrand(v);
@@ -271,20 +297,20 @@ export default function SearchModule({
             }}
             options={["", ...Object.keys(brandModels).sort()]}
           />
-          <Select label="Model" value={model} onChange={setModel} options={["", ...models]} />
-          <Select label="Year" value={year} onChange={setYear} options={["", ...YEAR_OPTIONS]} />
-          <Select label="Engine" value={engine} onChange={setEngine} options={["", ...ENGINE_OPTIONS]} />
-          <Select label="Capacity" value={capacity} onChange={setCapacity} options={capacities} />
-          <Select label="Cylinders" value={cylinders} onChange={setCylinders} options={CYLINDERS_OPTIONS} />
+          <Select label={t("filters.model")} value={model} onChange={setModel} options={["", ...models]} />
+          <Select label={t("filters.year")} value={year} onChange={setYear} options={["", ...YEAR_OPTIONS]} />
+          <Select label={t("filters.engine")} value={engine} onChange={setEngine} options={engineOptions} />
+          <Select label={t("filters.capacity")} value={capacity} onChange={setCapacity} options={capacities} />
+          <Select label={t("filters.cylinders")} value={cylinders} onChange={setCylinders} options={cylindersOptions} />
         </div>
 
         {/* Service category dropdown */}
         <div className="mt-4 sm:mt-6">
           <Select
-            label="Search Services Category"
+            label={t("search.serviceCategory")}
             value={category}
             onChange={setCategory}
-            options={["", ...SERVICE_CATEGORIES]}
+            options={categoryOptions}
           />
         </div>
       </div>
@@ -295,7 +321,7 @@ export default function SearchModule({
           htmlFor="search-module-keyword"
           className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500"
         >
-          Keywords
+          {t("search.keywords")}
         </label>
         <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/50 px-4 py-2 shadow-inner shadow-black/5 dark:shadow-black/10 sm:px-5">
           <input
@@ -305,7 +331,7 @@ export default function SearchModule({
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             onKeyDown={handleKeywordKeyDown}
-            placeholder="e.g. brake pads, oil change, battery…"
+            placeholder={t("search.keywordPlaceholder")}
           />
           {keyword && (
             <button
@@ -321,7 +347,7 @@ export default function SearchModule({
             className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/25 active:scale-95 disabled:opacity-60 disabled:pointer-events-none"
           >
             {shopsLoading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
-            <span className="hidden sm:inline">{shopsLoading ? "Searching…" : "Search"}</span>
+            <span className="hidden sm:inline">{shopsLoading ? t("search.searching") : t("search.search")}</span>
           </button>
         </div>
       </div>
@@ -350,8 +376,14 @@ export default function SearchModule({
           <div className="py-6 text-center text-sm text-muted-foreground">
             <MapPin size={24} className="mx-auto mb-2 opacity-40" />
             <p>
-              Set your filters and click <span className="font-semibold text-foreground">Search</span>{" "}
-              to find real nearby repair shops
+              {t("results.idle", { search: "__SEARCH__" }).split("__SEARCH__").map((part, i, arr) => (
+                <span key={i}>
+                  {part}
+                  {i < arr.length - 1 && (
+                    <span className="font-semibold text-foreground">{t("search.search")}</span>
+                  )}
+                </span>
+              ))}
             </p>
           </div>
         )}
@@ -359,15 +391,17 @@ export default function SearchModule({
         {showEmpty && (
           <div className="py-6 text-center text-sm text-muted-foreground">
             <AlertCircle size={24} className="mx-auto mb-2 opacity-40" />
-            <p>No shops found</p>
-            <p className="mt-1 text-xs">Try adjusting your location, category, or keywords</p>
+            <p>{t("results.noShops")}</p>
+            <p className="mt-1 text-xs">{t("results.noShopsHint")}</p>
           </div>
         )}
 
         {!shopsLoading && shops.length > 0 && (
           <>
             <p className="mb-4 text-sm text-muted-foreground">
-              {shops.length} shop{shops.length > 1 ? "s" : ""} found nearby
+              {shops.length === 1
+                ? t("results.shopFound", { count: shops.length })
+                : t("results.shopsFound", { count: shops.length })}
             </p>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {shops.map((shop) => (
@@ -440,8 +474,10 @@ export default function SearchModule({
         <div className="mt-5 border-t border-border pt-4">
           <p className="mb-3 text-sm text-muted-foreground">
             {results.length
-              ? `${results.length} workshop${results.length > 1 ? "s" : ""} match your vehicle filters`
-              : "No workshops match your vehicle filters"}
+              ? results.length === 1
+                ? t("results.match", { count: results.length })
+                : t("results.matches", { count: results.length })
+              : t("results.noMatch")}
           </p>
           <div className="flex flex-nowrap gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
             {results.map((w) => (
@@ -469,6 +505,7 @@ export default function SearchModule({
 /*  Select sub-component (same visual language as the codebase)     */
 /* ================================================================ */
 function Select({ label, value, options, onChange }) {
+  const { t } = useTranslation();
   const fieldId = `select-${label.toLowerCase().replace(/\s+/g, "-")}`;
   return (
     <div>
@@ -486,11 +523,15 @@ function Select({ label, value, options, onChange }) {
           onChange={(e) => onChange(e.target.value)}
           className="w-full appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm text-foreground shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
         >
-          {options.map((o) => (
-            <option key={o} value={o} className="bg-card text-foreground">
-              {o || "Any"}
-            </option>
-          ))}
+          {options.map((o) => {
+            const v = typeof o === "string" ? o : o.value;
+            const display = typeof o === "string" ? o || t("filters.any") : v ? o.label : t("filters.any");
+            return (
+              <option key={v} value={v} className="bg-card text-foreground">
+                {display}
+              </option>
+            );
+          })}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">

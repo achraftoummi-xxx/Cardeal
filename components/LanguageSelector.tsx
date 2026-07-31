@@ -8,6 +8,9 @@ const locales: Record<string, { label: string; code: string }> = {
   en: { label: "En", code: "GB" },
   fr: { label: "Fr", code: "FR" },
   ar: { label: "Ar", code: "SA" },
+  es: { label: "Es", code: "ES" },
+  it: { label: "It", code: "IT" },
+  de: { label: "De", code: "DE" },
 };
 
 export default function LanguageSelector({ className = "" }: { className?: string }) {
