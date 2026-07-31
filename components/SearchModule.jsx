@@ -147,14 +147,6 @@ export default function SearchModule({
     [t]
   );
 
-  const categoryOptions = useMemo(
-    () => [
-      { value: "", label: t("filters.any") },
-      ...SERVICE_CATEGORIES.map((c) => ({ value: c, label: localized(t, "serviceCat", c) })),
-    ],
-    [t]
-  );
-
   /* category → keyword terms for local matching ("Oil Change & Filters" → ["oil change", "filters"]) */
   const categoryTerms = useMemo(() => {
     if (!category) return [];
@@ -304,14 +296,9 @@ export default function SearchModule({
           <Select label={t("filters.cylinders")} value={cylinders} onChange={setCylinders} options={cylindersOptions} />
         </div>
 
-        {/* Service category dropdown */}
+        {/* Service category searchable combobox */}
         <div className="mt-4 sm:mt-6">
-          <Select
-            label={t("search.serviceCategory")}
-            value={category}
-            onChange={setCategory}
-            options={categoryOptions}
-          />
+          <ServiceCategorySelect value={category} onChange={setCategory} />
         </div>
       </div>
 
@@ -546,6 +533,121 @@ function Select({ label, value, options, onChange }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================ */
+/*  ServiceCategorySelect – searchable combobox with instant clear  */
+/* ================================================================ */
+function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return SERVICE_CATEGORIES.filter((o) => !q || o.toLowerCase().includes(q));
+  }, [query]);
+
+  /* Focus: surface the current value in the input and open the list */
+  const handleFocus = () => {
+    setQuery(value);
+    setOpen(true);
+  };
+
+  const handleChange = (v: string) => {
+    setQuery(v);
+    setOpen(true);
+  };
+
+  /* Clear: instantly reset both the typed text and the committed
+     category, then keep the list open so a new category can be
+     picked with a single click. */
+  const handleClear = () => {
+    setQuery("");
+    onChange("");
+    setOpen(true);
+    inputRef.current?.focus();
+  };
+
+  /* Blur: commit a free-typed value (existing custom-value behavior),
+     but never re-commit after a clear (empty query). */
+  const handleBlur = () => {
+    const q = query.trim();
+    if (q && q !== value) onChange(q);
+    setOpen(false);
+  };
+
+  const handleSelect = (option: string) => {
+    onChange(option);
+    setQuery("");
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <label
+        htmlFor="search-module-category-select"
+        className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500"
+      >
+        {t("search.serviceCategory")}
+      </label>
+      <div className="relative">
+        <input
+          ref={inputRef}
+          id="search-module-category-select"
+          name="serviceCategory"
+          role="combobox"
+          aria-expanded={open}
+          aria-controls="search-module-category-options"
+          autoComplete="off"
+          className="w-full rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm text-foreground shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
+          value={open ? query : value}
+          onChange={(e) => handleChange(e.target.value)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          placeholder={t("search.servicePlaceholder")}
+        />
+        {query || value ? (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-500 transition-colors hover:text-zinc-300"
+            aria-label={t("search.clearServiceCategory")}
+          >
+            <X size={18} />
+          </button>
+        ) : (
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <ChevronDown size={18} className="text-zinc-500" />
+          </div>
+        )}
+        {open && (
+          <ul
+            id="search-module-category-options"
+            role="listbox"
+            className="absolute z-20 mt-1 max-h-60 w-full overflow-y-auto rounded-xl border border-border bg-card py-1 shadow-lg shadow-black/10 dark:shadow-black/40"
+          >
+            {filtered.map((option) => (
+              <li
+                key={option}
+                role="option"
+                aria-selected={option === value}
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => handleSelect(option)}
+                className="cursor-pointer px-4 py-2 text-sm text-foreground transition-colors hover:bg-accent hover:text-blue-500"
+              >
+                {localized(t, "serviceCat", option)}
+              </li>
+            ))}
+            {filtered.length === 0 && (
+              <li className="px-4 py-2 text-sm text-muted-foreground">{t("search.noServiceMatches")}</li>
+            )}
+          </ul>
+        )}
       </div>
     </div>
   );

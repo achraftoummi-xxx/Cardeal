@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, X, MapPin, ChevronDown, SlidersHorizontal } from "lucide-react";
 import LocationBar from "@/components/LocationBar";
 import { useTranslation } from "@/components/TranslationProvider";
@@ -344,12 +344,14 @@ function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return SERVICE_CATEGORIES.filter((o) => !q || o.toLowerCase().includes(q));
   }, [query]);
 
+  /* Focus: surface the current value in the input and open the list */
   const handleFocus = () => {
     setQuery(value);
     setOpen(true);
@@ -360,6 +362,18 @@ function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (
     setOpen(true);
   };
 
+  /* Clear: instantly reset both the typed text and the committed
+     category, then keep the list open so a new category can be
+     picked with a single click. */
+  const handleClear = () => {
+    setQuery("");
+    onChange("");
+    setOpen(true);
+    inputRef.current?.focus();
+  };
+
+  /* Blur: commit a free-typed value (existing custom-value behavior),
+     but never re-commit after a clear (empty query). */
   const handleBlur = () => {
     const q = query.trim();
     if (q && q !== value) onChange(q);
@@ -379,6 +393,7 @@ function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (
       </label>
       <div className="relative">
         <input
+          ref={inputRef}
           id="service-category-select"
           name="serviceCategory"
           role="combobox"
@@ -392,10 +407,10 @@ function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (
           onBlur={handleBlur}
           placeholder={t("search.servicePlaceholder")}
         />
-        {open && query ? (
+        {query || value ? (
           <button
             type="button"
-            onClick={() => setQuery("")}
+            onClick={handleClear}
             className="absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-500 transition-colors hover:text-zinc-300"
             aria-label={t("search.clearServiceCategory")}
           >
@@ -403,9 +418,7 @@ function ServiceCategorySelect({ value, onChange }: { value: string; onChange: (
           </button>
         ) : (
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+            <ChevronDown size={18} className="text-zinc-500" />
           </div>
         )}
         {open && (
