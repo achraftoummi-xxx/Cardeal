@@ -7,6 +7,11 @@ import "leaflet/dist/leaflet.css";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
 import { localized } from "@/lib/i18n";
+import carRepairIconAsset from "../assets/icons/car-repair.png";
+
+/* Imported assets resolve to a URL string at runtime (Next.js bundler) */
+const WORKSHOP_ICON_URL =
+  typeof carRepairIconAsset === "string" ? carRepairIconAsset : carRepairIconAsset.src;
 
 type Workshop = {
   name: string;
@@ -116,24 +121,18 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
     [workshops]
   );
 
-  const workshopIcons = useMemo(() => {
-    const icons = new Map<string, L.DivIcon>();
-    for (const w of withCoords) {
-      icons.set(
-        w.name,
-        divIcon({
-          className: "",
-          html: `<div class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-lg shadow-blue-500/30 ring-2 ring-white cursor-pointer transition-transform hover:scale-110">${w.name
-            .charAt(0)
-            .toUpperCase()}</div>`,
-          iconSize: [32, 32],
-          iconAnchor: [16, 16],
-          popupAnchor: [0, -18],
-        })
-      );
-    }
-    return icons;
-  }, [withCoords]);
+  /* Custom repair-shop marker: 40x40 pin whose bottom-center point
+     sits exactly on the geographic coordinate. */
+  const workshopIcon = useMemo(
+    () =>
+      L.icon({
+        iconUrl: WORKSHOP_ICON_URL,
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -40],
+      }),
+    []
+  );
 
   const userIcon = useMemo(
     () =>
@@ -172,11 +171,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
           {/* Workshop markers */}
           {withCoords.map((w) =>
             w.lat != null && w.lng != null ? (
-              <Marker
-                key={w.name}
-                position={[w.lat, w.lng]}
-                icon={workshopIcons.get(w.name)}
-              >
+              <Marker key={w.name} position={[w.lat, w.lng]} icon={workshopIcon}>
                 <Popup>
                   <div className="p-1">
                     <p className="text-sm font-semibold">{w.name}</p>
