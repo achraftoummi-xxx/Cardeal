@@ -98,16 +98,16 @@ export default function PartnerCard({ partner, origin, active = false, onSelect,
         )}
       </div>
 
-      <div className="mt-3 grid grid-cols-1 gap-2 border-t border-border pt-3 sm:grid-cols-2">
+      <div className="mt-3 flex flex-col gap-2 border-t border-border pt-3 sm:flex-row">
         <Button
           onClick={(e) => {
             e.stopPropagation();
             onBook?.();
           }}
-          className="w-full"
+          className="flex w-full min-w-0 items-center justify-center gap-2"
         >
-          <CalendarDays size={15} />
-          {t("partnerCard.takeAppointment")}
+          <CalendarDays size={15} className="shrink-0" />
+          <span className="min-w-0 truncate">{t("partnerCard.takeAppointment")}</span>
         </Button>
         <Button
           onClick={(e) => {
@@ -115,10 +115,10 @@ export default function PartnerCard({ partner, origin, active = false, onSelect,
             onQuote?.();
           }}
           variant="outline"
-          className="w-full"
+          className="flex w-full min-w-0 items-center justify-center gap-2"
         >
-          <FileText size={15} />
-          {t("partnerCard.requestNote")}
+          <FileText size={15} className="shrink-0" />
+          <span className="min-w-0 truncate">{t("partnerCard.requestNote")}</span>
         </Button>
       </div>
     </article>

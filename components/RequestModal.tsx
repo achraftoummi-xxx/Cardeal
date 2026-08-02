@@ -147,8 +147,8 @@ export default function RequestModal({ partner, mode, onClose }: Props) {
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative mx-4 flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
-        <div className="flex shrink-0 items-center justify-between border-b border-border bg-card/95 px-5 py-4 backdrop-blur-xl sm:px-6">
+      <div className="relative mx-4 flex min-w-0 max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
+        <div className="flex shrink-0 items-center justify-between border-b border-border bg-card/95 px-4 py-4 backdrop-blur-xl sm:px-6">
           <div className="min-w-0">
             <h2 className="text-base font-bold sm:text-lg">{title}</h2>
             <p className="mt-0.5 truncate text-xs text-muted-foreground">{subtitle}</p>
@@ -163,7 +163,7 @@ export default function RequestModal({ partner, mode, onClose }: Props) {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-5 py-5 sm:px-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5 sm:px-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {status === "success" ? (
             <div className="flex flex-col items-center py-8 text-center">
               <CheckCircle2 size={44} className="mb-3 text-green-500" />
@@ -212,7 +212,7 @@ export default function RequestModal({ partner, mode, onClose }: Props) {
               </div>
               {isAppointment && (
                 <>
-                  <div>
+                  <div className="min-w-0">
                     <label htmlFor="request-date" className={labelClasses}>
                       {t("appointment.date")}
                     </label>
@@ -226,7 +226,7 @@ export default function RequestModal({ partner, mode, onClose }: Props) {
                       className={inputClasses}
                     />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <label htmlFor="request-time" className={labelClasses}>
                       {t("appointment.time")}
                     </label>
@@ -276,7 +276,7 @@ export default function RequestModal({ partner, mode, onClose }: Props) {
           )}
         </div>
 
-        <div className="shrink-0 border-t border-border bg-card/95 px-5 py-4 backdrop-blur-xl sm:px-6">
+        <div className="shrink-0 border-t border-border bg-card/95 px-4 py-4 backdrop-blur-xl sm:px-6">
           {status === "success" ? (
             <Button onClick={onClose} className="w-full">
               {t("appointment.done")}
