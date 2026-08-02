@@ -3,28 +3,15 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import WorkshopSearch from "@/components/WorkshopSearch";
-import type { Workshop } from "@/components/WorkshopSearch";
-import dynamic from "next/dynamic";
+import SearchAndMapSection from "@/components/SearchAndMapSection";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
 import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
 import { useTranslation } from "@/components/TranslationProvider";
-import { brandModels } from "@/data/carBrands";
-import { workshops } from "@/data/workshops";
-
-const NearbyMap = dynamic(() => import("@/components/NearbyMap"), {
-  ssr: false,
-  loading: () => (
-    <div className="relative h-[420px] w-full animate-pulse rounded-2xl border border-border bg-card/50 shadow-2xl sm:h-[480px] lg:h-[520px]" />
-  ),
-});
 
 export default function Page() {
   const { t } = useTranslation();
-  const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number; label: string } | null>(null);
-  const [filteredWorkshops, setFilteredWorkshops] = useState<Workshop[]>(workshops);
   const [showLogin, setShowLogin] = useState(false);
   const [showPartner, setShowPartner] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -103,16 +90,7 @@ export default function Page() {
             </div>
 
             <div className="mt-8">
-              <WorkshopSearch
-                brandModels={brandModels}
-                workshops={workshops}
-                onLocationChange={setSelectedLocation}
-                onResultsFiltered={setFilteredWorkshops}
-              />
-            </div>
-
-            <div className="mt-6">
-              <NearbyMap location={selectedLocation} workshops={filteredWorkshops} />
+              <SearchAndMapSection />
             </div>
           </div>
         </div>

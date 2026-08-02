@@ -93,7 +93,9 @@
     "noServiceMatches": "No matches — keep typing to add a custom service",
     "keywordPlaceholder": "Service keyword (e.g. brake, oil, battery)",
     "search": "Search",
-    "searching": "Searching…"
+    "searching": "Searching…",
+    "title": "Find a repair shop near you",
+    "allServices": "All services"
   },
   "results": {
     "workshopNearby": "{count} workshop nearby",
@@ -111,7 +113,13 @@
     "underOneKm": "Less than 1 km",
     "km": "{count} km",
     "open": "Open",
-    "closed": "Closed"
+    "closed": "Closed",
+    "partnerFound": "{count} partner found",
+    "partnersFound": "{count} partners found",
+    "noPartners": "No partners found",
+    "noPartnersHint": "Try adjusting your keywords, service, or location",
+    "searchHint": "Search for repair shops, or browse all partners sorted by proximity",
+    "sortedByProximity": "Sorted by proximity"
   },
   "location": {
     "detecting": "Detecting location...",
@@ -166,7 +174,9 @@
   },
   "errors": {
     "loadShops": "Failed to load nearby shops",
-    "serverError": "Server error: {status}"
+    "serverError": "Server error: {status}",
+    "loadPartners": "Failed to load partners",
+    "retry": "Retry"
   },
   "serviceCat": {
     "oil-change": "Oil Change",
@@ -271,5 +281,35 @@
     "saturday": "Saturday",
     "sunday": "Sunday",
     "pricing": "Pricing"
+  },
+  "partnerCard": {
+    "website": "Website",
+    "takeAppointment": "Take Appointment",
+    "review": "{count} review",
+    "reviews": "{count} reviews"
+  },
+  "map": {
+    "list": "List",
+    "map": "Map"
+  },
+  "appointment": {
+    "title": "Book an Appointment",
+    "subtitle": "Request an appointment with {partner}",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "date": "Preferred Date",
+    "time": "Preferred Time",
+    "notes": "Additional Details (optional)",
+    "notesPlaceholder": "Describe the issue or your preferred time window...",
+    "submit": "Send Booking Request",
+    "sending": "Sending...",
+    "successTitle": "Request Sent!",
+    "successMessage": "Your booking request at {partner} has been sent. The garage will contact you to confirm.",
+    "errorMessage": "We couldn't send your booking request. Please try again.",
+    "notConfigured": "Booking is temporarily unavailable. Please contact the garage directly.",
+    "close": "Close",
+    "done": "Done",
+    "phonePlaceholder": "e.g. 24 505 823",
+    "selectTime": "Select a time"
   }
 }

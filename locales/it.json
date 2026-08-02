@@ -93,7 +93,9 @@
     "noServiceMatches": "Nessun risultato — continua a digitare per aggiungere un servizio personalizzato",
     "keywordPlaceholder": "Parola chiave del servizio (es. freni, olio, batteria)",
     "search": "Cerca",
-    "searching": "Ricerca…"
+    "searching": "Ricerca…",
+    "title": "Trova un'officina vicino a te",
+    "allServices": "Tutti i servizi"
   },
   "results": {
     "workshopNearby": "{count} officina nelle vicinanze",
@@ -111,7 +113,13 @@
     "underOneKm": "Meno di 1 km",
     "km": "{count} km",
     "open": "Aperto",
-    "closed": "Chiuso"
+    "closed": "Chiuso",
+    "partnerFound": "{count} partner trovato",
+    "partnersFound": "{count} partner trovati",
+    "noPartners": "Nessun partner trovato",
+    "noPartnersHint": "Prova a modificare parole chiave, servizio o posizione",
+    "searchHint": "Cerca officine o sfoglia tutti i partner ordinati per vicinanza",
+    "sortedByProximity": "Ordinati per vicinanza"
   },
   "location": {
     "detecting": "Rilevamento posizione…",
@@ -166,7 +174,9 @@
   },
   "errors": {
     "loadShops": "Impossibile caricare i negozi nelle vicinanze",
-    "serverError": "Errore del server: {status}"
+    "serverError": "Errore del server: {status}",
+    "loadPartners": "Impossibile caricare i partner",
+    "retry": "Riprova"
   },
   "serviceCat": {
     "oil-change": "Cambio olio",
@@ -271,5 +281,35 @@
     "saturday": "Sabato",
     "sunday": "Domenica",
     "pricing": "Prezzi"
+  },
+  "partnerCard": {
+    "website": "Sito web",
+    "takeAppointment": "Prenota un appuntamento",
+    "review": "{count} recensione",
+    "reviews": "{count} recensioni"
+  },
+  "map": {
+    "list": "Elenco",
+    "map": "Mappa"
+  },
+  "appointment": {
+    "title": "Prenota un appuntamento",
+    "subtitle": "Richiedi un appuntamento presso {partner}",
+    "fullName": "Nome completo",
+    "phone": "Numero di telefono",
+    "date": "Data preferita",
+    "time": "Orario preferito",
+    "notes": "Dettagli aggiuntivi (facoltativo)",
+    "notesPlaceholder": "Descrivi il problema o la fascia oraria preferita...",
+    "submit": "Invia richiesta di prenotazione",
+    "sending": "Invio...",
+    "successTitle": "Richiesta inviata!",
+    "successMessage": "La tua richiesta di appuntamento presso {partner} è stata inviata. L'officina ti contatterà per confermare.",
+    "errorMessage": "Impossibile inviare la richiesta. Riprova.",
+    "notConfigured": "La prenotazione non è al momento disponibile. Contatta direttamente l'officina.",
+    "close": "Chiudi",
+    "done": "Fine",
+    "phonePlaceholder": "es. 24505823",
+    "selectTime": "Seleziona un orario"
   }
 }

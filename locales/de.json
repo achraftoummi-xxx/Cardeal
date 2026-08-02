@@ -93,7 +93,9 @@
     "noServiceMatches": "Keine Treffer — tippen Sie weiter, um einen eigenen Service hinzuzufügen",
     "keywordPlaceholder": "Service-Schlüsselwort (z. B. Bremse, Öl, Batterie)",
     "search": "Suchen",
-    "searching": "Suche…"
+    "searching": "Suche…",
+    "title": "Finde eine Werkstatt in deiner Nähe",
+    "allServices": "Alle Dienste"
   },
   "results": {
     "workshopNearby": "{count} Werkstatt in der Nähe",
@@ -111,7 +113,13 @@
     "underOneKm": "Unter 1 km",
     "km": "{count} km",
     "open": "Geöffnet",
-    "closed": "Geschlossen"
+    "closed": "Geschlossen",
+    "partnerFound": "{count} Partner gefunden",
+    "partnersFound": "{count} Partner gefunden",
+    "noPartners": "Keine Partner gefunden",
+    "noPartnersHint": "Versuche, Schlüsselwörter, Dienst oder Standort anzupassen",
+    "searchHint": "Suche nach Werkstätten oder durchsuche alle Partner sortiert nach Entfernung",
+    "sortedByProximity": "Nach Entfernung sortiert"
   },
   "location": {
     "detecting": "Standort wird ermittelt…",
@@ -166,7 +174,9 @@
   },
   "errors": {
     "loadShops": "Werkstätten in der Nähe konnten nicht geladen werden",
-    "serverError": "Serverfehler: {status}"
+    "serverError": "Serverfehler: {status}",
+    "loadPartners": "Partner konnten nicht geladen werden",
+    "retry": "Erneut versuchen"
   },
   "serviceCat": {
     "oil-change": "Ölwechsel",
@@ -271,5 +281,35 @@
     "saturday": "Samstag",
     "sunday": "Sonntag",
     "pricing": "Preisgestaltung"
+  },
+  "partnerCard": {
+    "website": "Webseite",
+    "takeAppointment": "Termin vereinbaren",
+    "review": "{count} Bewertung",
+    "reviews": "{count} Bewertungen"
+  },
+  "map": {
+    "list": "Liste",
+    "map": "Karte"
+  },
+  "appointment": {
+    "title": "Termin vereinbaren",
+    "subtitle": "Termin bei {partner} anfragen",
+    "fullName": "Vollständiger Name",
+    "phone": "Telefonnummer",
+    "date": "Wunschdatum",
+    "time": "Wunschzeit",
+    "notes": "Weitere Details (optional)",
+    "notesPlaceholder": "Beschreibe das Problem oder deinen bevorzugten Zeitraum...",
+    "submit": "Buchungsanfrage senden",
+    "sending": "Senden...",
+    "successTitle": "Anfrage gesendet!",
+    "successMessage": "Deine Terminanfrage bei {partner} wurde gesendet. Die Werkstatt wird sich zur Bestätigung melden.",
+    "errorMessage": "Die Anfrage konnte nicht gesendet werden. Bitte versuche es erneut.",
+    "notConfigured": "Die Buchung ist vorübergehend nicht verfügbar. Bitte kontaktiere die Werkstatt direkt.",
+    "close": "Schließen",
+    "done": "Fertig",
+    "phonePlaceholder": "z. B. 24505823",
+    "selectTime": "Uhrzeit wählen"
   }
 }

@@ -93,7 +93,9 @@
     "noServiceMatches": "لا توجد نتائج — واصل الكتابة لإضافة خدمة مخصصة",
     "keywordPlaceholder": "كلمة مفتاحية للخدمة (مثال: فرامل، زيت، بطارية)",
     "search": "بحث",
-    "searching": "جارٍ البحث…"
+    "searching": "جارٍ البحث…",
+    "title": "ابحث عن ورشة إصلاح بالقرب منك",
+    "allServices": "جميع الخدمات"
   },
   "results": {
     "workshopNearby": "{count} ورشة قريبة",
@@ -111,7 +113,13 @@
     "underOneKm": "أقل من 1 كم",
     "km": "{count} كم",
     "open": "مفتوح",
-    "closed": "مغلق"
+    "closed": "مغلق",
+    "partnerFound": "تم العثور على {count} شريك",
+    "partnersFound": "تم العثور على {count} شركاء",
+    "noPartners": "لم يتم العثور على شركاء",
+    "noPartnersHint": "جرّب تعديل الكلمات المفتاحية أو الخدمة أو الموقع",
+    "searchHint": "ابحث عن ورش إصلاح أو تصفح جميع الشركاء مرتبين حسب القرب",
+    "sortedByProximity": "مرتبة حسب القرب"
   },
   "location": {
     "detecting": "جارٍ تحديد الموقع…",
@@ -166,7 +174,9 @@
   },
   "errors": {
     "loadShops": "فشل تحميل المتاجر القريبة",
-    "serverError": "خطأ في الخادم: {status}"
+    "serverError": "خطأ في الخادم: {status}",
+    "loadPartners": "تعذر تحميل الشركاء",
+    "retry": "إعادة المحاولة"
   },
   "serviceCat": {
     "oil-change": "تغيير الزيت",
@@ -271,5 +281,35 @@
     "saturday": "السبت",
     "sunday": "الأحد",
     "pricing": "التسعير"
+  },
+  "partnerCard": {
+    "website": "الموقع الإلكتروني",
+    "takeAppointment": "احجز موعداً",
+    "review": "{count} تقييم",
+    "reviews": "{count} تقييمات"
+  },
+  "map": {
+    "list": "القائمة",
+    "map": "الخريطة"
+  },
+  "appointment": {
+    "title": "حجز موعد",
+    "subtitle": "طلب موعد لدى {partner}",
+    "fullName": "الاسم الكامل",
+    "phone": "رقم الهاتف",
+    "date": "التاريخ المفضل",
+    "time": "الوقت المفضل",
+    "notes": "تفاصيل إضافية (اختياري)",
+    "notesPlaceholder": "صف المشكلة أو الوقت المفضل لديك...",
+    "submit": "إرسال طلب الحجز",
+    "sending": "جارٍ الإرسال...",
+    "successTitle": "تم إرسال الطلب!",
+    "successMessage": "تم إرسال طلب الحجز لدى {partner}. سيتواصل معك الورشة للتأكيد.",
+    "errorMessage": "تعذر إرسال طلب الحجز. يرجى المحاولة مرة أخرى.",
+    "notConfigured": "الحجز غير متاح حالياً. يرجى الاتصال بالورشة مباشرة.",
+    "close": "إغلاق",
+    "done": "تم",
+    "phonePlaceholder": "مثال: 24505823",
+    "selectTime": "اختر الوقت"
   }
 }

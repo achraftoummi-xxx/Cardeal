@@ -13,3 +13,4 @@ worker-configuration.d.ts
 *.tsbuildinfo
 
 .wrangler/
+supabase/.temp/

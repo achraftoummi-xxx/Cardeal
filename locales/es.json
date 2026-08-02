@@ -93,7 +93,9 @@
     "noServiceMatches": "Sin coincidencias — sigue escribiendo para añadir un servicio personalizado",
     "keywordPlaceholder": "Palabra clave del servicio (ej. frenos, aceite, batería)",
     "search": "Buscar",
-    "searching": "Buscando…"
+    "searching": "Buscando…",
+    "title": "Encuentra un taller cerca de ti",
+    "allServices": "Todos los servicios"
   },
   "results": {
     "workshopNearby": "{count} taller cercano",
@@ -111,7 +113,13 @@
     "underOneKm": "Menos de 1 km",
     "km": "{count} km",
     "open": "Abierto",
-    "closed": "Cerrado"
+    "closed": "Cerrado",
+    "partnerFound": "{count} socio encontrado",
+    "partnersFound": "{count} socios encontrados",
+    "noPartners": "No se encontraron socios",
+    "noPartnersHint": "Prueba a ajustar tus palabras clave, el servicio o la ubicación",
+    "searchHint": "Busca talleres o explora todos los socios ordenados por proximidad",
+    "sortedByProximity": "Ordenados por proximidad"
   },
   "location": {
     "detecting": "Detectando ubicación…",
@@ -166,7 +174,9 @@
   },
   "errors": {
     "loadShops": "No se pudieron cargar los talleres cercanos",
-    "serverError": "Error del servidor: {status}"
+    "serverError": "Error del servidor: {status}",
+    "loadPartners": "No se pudieron cargar los socios",
+    "retry": "Reintentar"
   },
   "serviceCat": {
     "oil-change": "Cambio de aceite",
@@ -271,5 +281,35 @@
     "saturday": "Sábado",
     "sunday": "Domingo",
     "pricing": "Precios"
+  },
+  "partnerCard": {
+    "website": "Sitio web",
+    "takeAppointment": "Pedir cita",
+    "review": "{count} reseña",
+    "reviews": "{count} reseñas"
+  },
+  "map": {
+    "list": "Lista",
+    "map": "Mapa"
+  },
+  "appointment": {
+    "title": "Pedir cita",
+    "subtitle": "Solicitar una cita con {partner}",
+    "fullName": "Nombre completo",
+    "phone": "Teléfono",
+    "date": "Fecha preferida",
+    "time": "Hora preferida",
+    "notes": "Detalles adicionales (opcional)",
+    "notesPlaceholder": "Describe el problema o tu franja horaria preferida...",
+    "submit": "Enviar solicitud de reserva",
+    "sending": "Enviando...",
+    "successTitle": "¡Solicitud enviada!",
+    "successMessage": "Tu solicitud de cita con {partner} se ha enviado. El taller se pondrá en contacto para confirmar.",
+    "errorMessage": "No pudimos enviar tu solicitud. Inténtalo de nuevo.",
+    "notConfigured": "La reserva no está disponible temporalmente. Contacta directamente con el taller.",
+    "close": "Cerrar",
+    "done": "Hecho",
+    "phonePlaceholder": "p. ej. 24505823",
+    "selectTime": "Selecciona una hora"
   }
 }
