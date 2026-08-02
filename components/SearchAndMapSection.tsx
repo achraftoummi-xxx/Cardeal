@@ -245,11 +245,6 @@ export default function SearchAndMapSection() {
           >
             {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
             <span>{loading ? t("search.searching") : t("search.search")}</span>
-            {activeFilterCount > 0 && (
-              <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs font-semibold">
-                {activeFilterCount}
-              </span>
-            )}
           </button>
         </div>
       </div>

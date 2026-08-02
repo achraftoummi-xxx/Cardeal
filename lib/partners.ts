@@ -133,15 +133,40 @@ export function sortPartners(partners: Partner[], search: PartnerSearch): Partne
     .map((x) => x.p);
 }
 
+/**
+ * Split a search query into individual matching terms:
+ *  - raw tokens (accent-safe, e.g. "réparation" stays intact)
+ *  - FR/EN synonyms from CATEGORY_SYNONYMS (e.g. "Oil" -> "vidange")
+ * Deduped and escaped for ilike use inside a PostgREST or() filter.
+ */
+function expandSearchTerms(keyword: string): string[] {
+  const terms = new Set<string>();
+  for (const token of keyword.match(/[\p{L}\p{N}]+/gu) ?? []) {
+    if (token.length > 1) terms.add(token.toLowerCase());
+  }
+  for (const token of normalize(keyword).split(/[^a-z0-9]+/).filter((t) => t.length > 1)) {
+    const synonyms = CATEGORY_SYNONYMS[token];
+    if (synonyms) synonyms.forEach((s) => terms.add(s));
+  }
+  return [...terms].map((t) => t.replace(/[%_\\]/g, (m) => `\\${m}`));
+}
+
 export async function fetchPartners(keyword?: string): Promise<Partner[]> {
   if (!supabase) return [];
   let query = supabase.from("partners").select("*");
   const kw = keyword?.trim();
   if (kw) {
-    const escaped = kw.replace(/[%_\\]/g, (m) => `\\${m}`);
-    query = query.or(
-      `name.ilike.%${escaped}%,services_offered.ilike.%${escaped}%,establishment_type.ilike.%${escaped}%,city.ilike.%${escaped}%`
-    );
+    const terms = expandSearchTerms(kw);
+    if (terms.length > 0) {
+      query = query.or(
+        terms
+          .map(
+            (term) =>
+              `name.ilike.%${term}%,services_offered.ilike.%${term}%,establishment_type.ilike.%${term}%,city.ilike.%${term}%`
+          )
+          .join(",")
+      );
+    }
   }
   const { data, error } = await query.limit(200);
   if (error) throw error;
