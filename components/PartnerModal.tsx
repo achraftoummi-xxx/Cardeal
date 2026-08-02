@@ -130,7 +130,7 @@ export default function PartnerModal({ open, onClose }: Props) {
         <form
           id="partner-form"
           onSubmit={handleSubmit}
-          className="flex-1 overflow-y-auto px-5 py-5 sm:px-6"
+          className="flex-1 overflow-y-auto px-5 py-5 sm:px-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {/* Personal Information */}
