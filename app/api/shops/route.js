@@ -109,15 +109,6 @@ export async function GET(request) {
       "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
     });
 
-    results.sort((a, b) => {
-      const da = a.distanceKm;
-      const db = b.distanceKm;
-      if (da != null && db != null) return da - db;
-      if (da != null) return -1;
-      if (db != null) return 1;
-      return 0;
-    });
-
     return Response.json(
       { results, total: results.length, query, source },
       { headers }

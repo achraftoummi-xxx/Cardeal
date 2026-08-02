@@ -118,9 +118,8 @@
     "partnersFound": "{count} partners found",
     "noPartners": "No partners found",
     "noPartnersHint": "Try adjusting your keywords, service, or location",
-    "sortedByProximity": "Sorted by proximity",
-    "initialTitle": "Search for repair shops",
-    "initialHint": "Results and map markers will appear here once you search."
+    "searchHint": "Search for repair shops, or browse all partners sorted by proximity",
+    "sortedByProximity": "Sorted by proximity"
   },
   "location": {
     "detecting": "Detecting location...",

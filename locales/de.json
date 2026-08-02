@@ -118,9 +118,8 @@
     "partnersFound": "{count} Partner gefunden",
     "noPartners": "Keine Partner gefunden",
     "noPartnersHint": "Versuche, Schlüsselwörter, Dienst oder Standort anzupassen",
-    "sortedByProximity": "Nach Entfernung sortiert",
-    "initialTitle": "Nach Werkstätten suchen",
-    "initialHint": "Ergebnisse und Kartenmarker erscheinen hier, sobald du suchst."
+    "searchHint": "Suche nach Werkstätten oder durchsuche alle Partner sortiert nach Entfernung",
+    "sortedByProximity": "Nach Entfernung sortiert"
   },
   "location": {
     "detecting": "Standort wird ermittelt…",

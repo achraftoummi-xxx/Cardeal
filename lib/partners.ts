@@ -124,10 +124,10 @@ export function sortPartners(partners: Partner[], search: PartnerSearch): Partne
     }))
     .filter((x) => !hasFilters || x.score > 0)
     .sort((a, b) => {
+      if (hasFilters && b.score !== a.score) return b.score - a.score;
       if (a.distance != null && b.distance != null) return a.distance - b.distance;
       if (a.distance != null) return -1;
       if (b.distance != null) return 1;
-      if (b.score !== a.score) return b.score - a.score;
       return (b.p.google_rating ?? 0) - (a.p.google_rating ?? 0);
     })
     .map((x) => x.p);

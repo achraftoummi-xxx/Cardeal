@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Search,
   X,
@@ -37,38 +37,34 @@ export default function SearchAndMapSection() {
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("");
   const [partners, setPartners] = useState<Partner[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
   const [activePartnerId, setActivePartnerId] = useState<string | null>(null);
   const [bookingPartner, setBookingPartner] = useState<Partner | null>(null);
   const [mobileTab, setMobileTab] = useState<"list" | "map">("list");
   const resultsRef = useRef<HTMLDivElement>(null);
-  const lastQueryRef = useRef("");
   const activeFilterCount = [keyword, category].filter(Boolean).length;
 
-  const runSearch = useCallback(
-    async (searchKeyword?: string) => {
-      const query = (searchKeyword ?? lastQueryRef.current).trim();
-      lastQueryRef.current = query;
-      setLoading(true);
-      setError("");
-      setActivePartnerId(null);
-      try {
-        const data = await fetchPartners(query || undefined);
-        setPartners(data);
-        setHasSearched(true);
-      } catch (err) {
-        console.error("Fetch partners error:", err);
-        setError(err instanceof Error ? err.message : t("errors.loadPartners"));
-        setPartners([]);
-        setHasSearched(true);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [t]
-  );
+  const loadPartners = useCallback(async (searchKeyword?: string) => {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await fetchPartners(searchKeyword);
+      setPartners(data);
+      setHasSearched(true);
+    } catch (err) {
+      console.error("Fetch partners error:", err);
+      setError(err instanceof Error ? err.message : t("errors.loadPartners"));
+      setPartners([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [t]);
+
+  useEffect(() => {
+    loadPartners();
+  }, [loadPartners]);
 
   const visible = useMemo(() => {
     const search = { keyword, category, origin: location ?? null };
@@ -76,10 +72,11 @@ export default function SearchAndMapSection() {
   }, [partners, keyword, category, location]);
 
   const handleSearchClick = useCallback(() => {
-    runSearch(keyword);
+    setActivePartnerId(null);
+    loadPartners(keyword.trim() || undefined);
     setMobileTab("list");
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [keyword, runSearch]);
+  }, [keyword, loadPartners]);
 
   const handleLocationChange = useCallback((loc: LocationResult) => {
     setLocation(loc);
@@ -98,8 +95,8 @@ export default function SearchAndMapSection() {
     setActivePartnerId(partner.id);
   };
 
-  const showInitial = !loading && !error && !hasSearched;
-  const showEmpty = !loading && !error && hasSearched && visible.length === 0;
+  const showEmpty = !loading && !error && visible.length === 0;
+  const showIdle = !loading && !error && !hasSearched;
 
   return (
     <section className="mx-auto max-w-6xl">
@@ -201,7 +198,7 @@ export default function SearchAndMapSection() {
             <AlertCircle size={16} className="shrink-0" />
             <span className="flex-1">{error}</span>
             <button
-              onClick={() => runSearch()}
+              onClick={() => loadPartners(keyword.trim() || undefined)}
               className="inline-flex items-center gap-1.5 rounded-lg border border-red-500/30 px-3 py-1.5 text-xs font-medium transition-colors hover:bg-red-500/10"
             >
               <RefreshCw size={12} />
@@ -218,35 +215,7 @@ export default function SearchAndMapSection() {
           </div>
         )}
 
-        {showInitial && (
-          <div className="flex flex-col items-center rounded-2xl border border-border bg-card/50 px-6 py-12 text-center backdrop-blur-sm sm:py-16">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-500/10 ring-1 ring-blue-500/20">
-              <MapPin size={26} className="text-blue-500" />
-            </div>
-            <h3 className="text-base font-semibold text-foreground sm:text-lg">
-              {t("results.initialTitle")}
-            </h3>
-            <p className="mt-2 max-w-md text-sm text-muted-foreground">
-              {t("results.initialHint")}
-            </p>
-          </div>
-        )}
-
-        {showEmpty && (
-          <div className="flex flex-col items-center rounded-2xl border border-border bg-card/50 px-6 py-12 text-center backdrop-blur-sm sm:py-16">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10 ring-1 ring-red-500/20">
-              <AlertCircle size={26} className="text-red-400" />
-            </div>
-            <h3 className="text-base font-semibold text-foreground sm:text-lg">
-              {t("results.noPartners")}
-            </h3>
-            <p className="mt-2 max-w-md text-sm text-muted-foreground">
-              {t("results.noPartnersHint")}
-            </p>
-          </div>
-        )}
-
-        {hasSearched && !loading && !error && visible.length > 0 && (
+        {!loading && !error && (
           <>
             <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-muted-foreground">
@@ -297,6 +266,21 @@ export default function SearchAndMapSection() {
               </button>
             </div>
 
+            {showIdle && (
+              <div className="rounded-xl border border-border bg-card/50 p-6 text-center text-sm text-muted-foreground">
+                <MapPin size={24} className="mx-auto mb-2 opacity-40" />
+                <p>{t("results.searchHint")}</p>
+              </div>
+            )}
+
+            {showEmpty && (
+              <div className="rounded-xl border border-border bg-card/50 p-6 text-center text-sm text-muted-foreground">
+                <AlertCircle size={24} className="mx-auto mb-2 opacity-40" />
+                <p>{t("results.noPartners")}</p>
+                <p className="mt-1 text-xs">{t("results.noPartnersHint")}</p>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div
                 className={cn(
@@ -330,7 +314,10 @@ export default function SearchAndMapSection() {
         )}
       </div>
 
-      <AppointmentModal partner={bookingPartner} onClose={() => setBookingPartner(null)} />
+      <AppointmentModal
+        partner={bookingPartner}
+        onClose={() => setBookingPartner(null)}
+      />
     </section>
   );
 }

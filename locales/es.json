@@ -118,9 +118,8 @@
     "partnersFound": "{count} socios encontrados",
     "noPartners": "No se encontraron socios",
     "noPartnersHint": "Prueba a ajustar tus palabras clave, el servicio o la ubicación",
-    "sortedByProximity": "Ordenados por proximidad",
-    "initialTitle": "Busca talleres de reparación",
-    "initialHint": "Los resultados y los marcadores del mapa aparecerán aquí cuando busques."
+    "searchHint": "Busca talleres o explora todos los socios ordenados por proximidad",
+    "sortedByProximity": "Ordenados por proximidad"
   },
   "location": {
     "detecting": "Detectando ubicación…",

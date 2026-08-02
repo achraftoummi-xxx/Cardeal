@@ -118,9 +118,8 @@
     "partnersFound": "{count} partner trovati",
     "noPartners": "Nessun partner trovato",
     "noPartnersHint": "Prova a modificare parole chiave, servizio o posizione",
-    "sortedByProximity": "Ordinati per vicinanza",
-    "initialTitle": "Cerca officine di riparazione",
-    "initialHint": "I risultati e i marker sulla mappa appariranno qui dopo la ricerca."
+    "searchHint": "Cerca officine o sfoglia tutti i partner ordinati per vicinanza",
+    "sortedByProximity": "Ordinati per vicinanza"
   },
   "location": {
     "detecting": "Rilevamento posizione…",
