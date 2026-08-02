@@ -286,7 +286,8 @@
     "website": "Sitio web",
     "takeAppointment": "Pedir cita",
     "review": "{count} reseña",
-    "reviews": "{count} reseñas"
+    "reviews": "{count} reseñas",
+    "requestNote": "Solicitar presupuesto"
   },
   "map": {
     "list": "Lista",
@@ -311,5 +312,23 @@
     "done": "Hecho",
     "phonePlaceholder": "p. ej. 24505823",
     "selectTime": "Selecciona una hora"
+  },
+  "requestModal": {
+    "quoteTitle": "Solicitar presupuesto",
+    "quoteSubtitle": "Solicitar presupuesto en {partner}",
+    "send": "Send",
+    "sending": "Enviando...",
+    "quoteSuccessTitle": "¡Solicitud de presupuesto enviada!",
+    "quoteSuccessMessage": "Tu solicitud de presupuesto en {partner} ha sido enviada. El taller te contactará."
+  },
+  "signup": {
+    "title": "Crea tu cuenta",
+    "subtitle": "Únete a CarDeal para enviar tus solicitudes de reparación",
+    "successTitle": "¡Cuenta creada!",
+    "successMessage": "Tu solicitud fue enviada correctamente.",
+    "pendingTitle": "¡Solicitud enviada!",
+    "pendingMessage": "Tu {type} en {partner} fue registrado. El taller te contactará pronto.",
+    "pendingAppointment": "cita",
+    "pendingQuote": "solicitud de presupuesto"
   }
 }

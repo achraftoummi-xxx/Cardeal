@@ -286,7 +286,8 @@
     "website": "Sito web",
     "takeAppointment": "Prenota un appuntamento",
     "review": "{count} recensione",
-    "reviews": "{count} recensioni"
+    "reviews": "{count} recensioni",
+    "requestNote": "Richiedi un preventivo"
   },
   "map": {
     "list": "Elenco",
@@ -311,5 +312,23 @@
     "done": "Fine",
     "phonePlaceholder": "es. 24505823",
     "selectTime": "Seleziona un orario"
+  },
+  "requestModal": {
+    "quoteTitle": "Richiedi un preventivo",
+    "quoteSubtitle": "Richiedi un preventivo presso {partner}",
+    "send": "Send",
+    "sending": "Invio...",
+    "quoteSuccessTitle": "Richiesta di preventivo inviata!",
+    "quoteSuccessMessage": "La tua richiesta di preventivo presso {partner} è stata inviata. L'officina ti contatterà."
+  },
+  "signup": {
+    "title": "Crea il tuo account",
+    "subtitle": "Unisciti a CarDeal per inviare le tue richieste di riparazione",
+    "successTitle": "Account creato!",
+    "successMessage": "La tua richiesta è stata inviata con successo.",
+    "pendingTitle": "Richiesta inviata!",
+    "pendingMessage": "Il tuo {type} presso {partner} è stato registrato. L'officina ti contatterà presto.",
+    "pendingAppointment": "appuntamento",
+    "pendingQuote": "richiesta di preventivo"
   }
 }

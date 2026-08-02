@@ -1,6 +1,6 @@
 "use client";
 
-import { Star, Phone, Globe, MapPin, CalendarDays } from "lucide-react";
+import { Star, Phone, Globe, MapPin, CalendarDays, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
@@ -12,9 +12,10 @@ type Props = {
   active?: boolean;
   onSelect?: () => void;
   onBook?: () => void;
+  onQuote?: () => void;
 };
 
-export default function PartnerCard({ partner, origin, active = false, onSelect, onBook }: Props) {
+export default function PartnerCard({ partner, origin, active = false, onSelect, onBook, onQuote }: Props) {
   const { t } = useTranslation();
   const distanceKm = partnerDistanceKm(partner, origin ?? null);
   const reviewCount = partner.review_count ?? 0;
@@ -97,7 +98,7 @@ export default function PartnerCard({ partner, origin, active = false, onSelect,
         )}
       </div>
 
-      <div className="mt-3 border-t border-border pt-3">
+      <div className="mt-3 grid grid-cols-1 gap-2 border-t border-border pt-3 sm:grid-cols-2">
         <Button
           onClick={(e) => {
             e.stopPropagation();
@@ -107,6 +108,17 @@ export default function PartnerCard({ partner, origin, active = false, onSelect,
         >
           <CalendarDays size={15} />
           {t("partnerCard.takeAppointment")}
+        </Button>
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            onQuote?.();
+          }}
+          variant="outline"
+          className="w-full"
+        >
+          <FileText size={15} />
+          {t("partnerCard.requestNote")}
         </Button>
       </div>
     </article>

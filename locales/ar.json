@@ -286,7 +286,8 @@
     "website": "الموقع الإلكتروني",
     "takeAppointment": "احجز موعداً",
     "review": "{count} تقييم",
-    "reviews": "{count} تقييمات"
+    "reviews": "{count} تقييمات",
+    "requestNote": "طلب عرض سعر"
   },
   "map": {
     "list": "القائمة",
@@ -311,5 +312,23 @@
     "done": "تم",
     "phonePlaceholder": "مثال: 24505823",
     "selectTime": "اختر الوقت"
+  },
+  "requestModal": {
+    "quoteTitle": "طلب عرض سعر",
+    "quoteSubtitle": "طلب عرض سعر لدى {partner}",
+    "send": "Send",
+    "sending": "جارٍ الإرسال...",
+    "quoteSuccessTitle": "تم إرسال طلب عرض السعر!",
+    "quoteSuccessMessage": "تم إرسال طلب عرض السعر الخاص بك لدى {partner}. سيتواصل معك الورشة."
+  },
+  "signup": {
+    "title": "أنشئ حسابك",
+    "subtitle": "انضم إلى CarDeal لإرسال طلبات الإصلاح الخاصة بك",
+    "successTitle": "تم إنشاء الحساب!",
+    "successMessage": "تم إرسال طلبك بنجاح.",
+    "pendingTitle": "تم إرسال الطلب!",
+    "pendingMessage": "تم تسجيل {type} الخاص بك لدى {partner}. سيتواصل معك الورشة قريبًا.",
+    "pendingAppointment": "الموعد",
+    "pendingQuote": "طلب عرض السعر"
   }
 }

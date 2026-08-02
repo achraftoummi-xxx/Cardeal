@@ -286,7 +286,8 @@
     "website": "Site web",
     "takeAppointment": "Prendre rendez-vous",
     "review": "{count} avis",
-    "reviews": "{count} avis"
+    "reviews": "{count} avis",
+    "requestNote": "Demander un devis"
   },
   "map": {
     "list": "Liste",
@@ -311,5 +312,23 @@
     "done": "Terminé",
     "phonePlaceholder": "ex : 24 505 823",
     "selectTime": "Choisir une heure"
+  },
+  "requestModal": {
+    "quoteTitle": "Demander un devis",
+    "quoteSubtitle": "Demander un devis chez {partner}",
+    "send": "Send",
+    "sending": "Envoi...",
+    "quoteSuccessTitle": "Demande de devis envoyée !",
+    "quoteSuccessMessage": "Votre demande de devis chez {partner} a été envoyée. Le garage vous contactera."
+  },
+  "signup": {
+    "title": "Créez votre compte",
+    "subtitle": "Rejoignez CarDeal pour envoyer vos demandes de réparation",
+    "successTitle": "Compte créé !",
+    "successMessage": "Votre demande a bien été envoyée.",
+    "pendingTitle": "Demande envoyée !",
+    "pendingMessage": "Votre {type} chez {partner} a bien été enregistré. Le garage vous contactera rapidement.",
+    "pendingAppointment": "rendez-vous",
+    "pendingQuote": "demande de devis"
   }
 }

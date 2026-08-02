@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import LocationBar from "@/components/LocationBar";
 import PartnerCard from "@/components/PartnerCard";
-import AppointmentModal from "@/components/AppointmentModal";
+import RequestModal, { type RequestMode } from "@/components/RequestModal";
 import { useTranslation } from "@/components/TranslationProvider";
 import { localized } from "@/lib/i18n";
 import { SERVICE_CATEGORIES } from "@/components/WorkshopSearch";
@@ -48,7 +48,7 @@ export default function SearchAndMapSection() {
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
   const [activePartnerId, setActivePartnerId] = useState<string | null>(null);
-  const [bookingPartner, setBookingPartner] = useState<Partner | null>(null);
+  const [request, setRequest] = useState<{ partner: Partner; mode: RequestMode } | null>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
   const activeFilterCount = [brand, model, year, engine, capacity, cylinders, category].filter(Boolean).length;
@@ -131,8 +131,8 @@ export default function SearchAndMapSection() {
       ?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, []);
 
-  const bookingPartnerFor = (partner: Partner) => {
-    setBookingPartner(partner);
+  const openRequest = (partner: Partner, mode: RequestMode) => {
+    setRequest({ partner, mode });
     setActivePartnerId(partner.id);
   };
 
@@ -319,7 +319,8 @@ export default function SearchAndMapSection() {
                     origin={location}
                     active={p.id === activePartnerId}
                     onSelect={() => selectPartner(p.id)}
-                    onBook={() => bookingPartnerFor(p)}
+                    onBook={() => openRequest(p, "appointment")}
+                    onQuote={() => openRequest(p, "quote")}
                   />
                 ))}
               </div>
@@ -339,7 +340,11 @@ export default function SearchAndMapSection() {
         </div>
       </div>
 
-      <AppointmentModal partner={bookingPartner} onClose={() => setBookingPartner(null)} />
+      <RequestModal
+        partner={request?.partner ?? null}
+        mode={request?.mode ?? "appointment"}
+        onClose={() => setRequest(null)}
+      />
     </section>
   );
 }

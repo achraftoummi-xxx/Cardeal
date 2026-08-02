@@ -286,7 +286,8 @@
     "website": "Webseite",
     "takeAppointment": "Termin vereinbaren",
     "review": "{count} Bewertung",
-    "reviews": "{count} Bewertungen"
+    "reviews": "{count} Bewertungen",
+    "requestNote": "Angebot anfordern"
   },
   "map": {
     "list": "Liste",
@@ -311,5 +312,23 @@
     "done": "Fertig",
     "phonePlaceholder": "z. B. 24505823",
     "selectTime": "Uhrzeit wählen"
+  },
+  "requestModal": {
+    "quoteTitle": "Angebot anfordern",
+    "quoteSubtitle": "Angebot anfordern bei {partner}",
+    "send": "Send",
+    "sending": "Senden...",
+    "quoteSuccessTitle": "Angebotsanfrage gesendet!",
+    "quoteSuccessMessage": "Ihre Angebotsanfrage bei {partner} wurde gesendet. Die Werkstatt wird Sie kontaktieren."
+  },
+  "signup": {
+    "title": "Konto erstellen",
+    "subtitle": "Treten Sie CarDeal bei, um Ihre Reparaturanfragen zu senden",
+    "successTitle": "Konto erstellt!",
+    "successMessage": "Ihre Anfrage wurde erfolgreich gesendet.",
+    "pendingTitle": "Anfrage gesendet!",
+    "pendingMessage": "Ihr {type} bei {partner} wurde erfasst. Die Werkstatt wird sich bald bei Ihnen melden.",
+    "pendingAppointment": "Termin",
+    "pendingQuote": "Angebotsanfrage"
   }
 }

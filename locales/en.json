@@ -286,7 +286,8 @@
     "website": "Website",
     "takeAppointment": "Take Appointment",
     "review": "{count} review",
-    "reviews": "{count} reviews"
+    "reviews": "{count} reviews",
+    "requestNote": "Request a quote"
   },
   "map": {
     "list": "List",
@@ -311,5 +312,23 @@
     "done": "Done",
     "phonePlaceholder": "e.g. 24 505 823",
     "selectTime": "Select a time"
+  },
+  "requestModal": {
+    "quoteTitle": "Request a quote",
+    "quoteSubtitle": "Request a quote at {partner}",
+    "send": "Send",
+    "sending": "Sending...",
+    "quoteSuccessTitle": "Quote request sent!",
+    "quoteSuccessMessage": "Your quote request at {partner} has been sent. The garage will contact you."
+  },
+  "signup": {
+    "title": "Create your account",
+    "subtitle": "Join CarDeal to send your repair requests",
+    "successTitle": "Account created!",
+    "successMessage": "Your request was sent successfully.",
+    "pendingTitle": "Request sent!",
+    "pendingMessage": "Your {type} at {partner} was recorded. The garage will contact you shortly.",
+    "pendingAppointment": "appointment",
+    "pendingQuote": "quote request"
   }
 }
