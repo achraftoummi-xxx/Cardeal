@@ -377,12 +377,12 @@ export default function PartnerModal({ open, onClose }: Props) {
             </div>
 
             {/* Pricing */}
-            <div className="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="sm:col-span-2 grid grid-cols-2 gap-4">
               <div className="col-span-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 <Banknote size={16} />
                 {t("partnerForm.pricing")}
               </div>
-              <div>
+              <div className="min-w-0">
                 <label htmlFor="partner-price-low" className={labelClasses}>
                   {t("partnerForm.pricingLow")}
                 </label>
@@ -394,11 +394,11 @@ export default function PartnerModal({ open, onClose }: Props) {
                   required
                   value={form.priceLow}
                   onChange={update("priceLow")}
-                  className={inputClasses}
+                  className="w-full bg-[#1a2234] border border-gray-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none"
                   placeholder="50"
                 />
               </div>
-              <div>
+              <div className="min-w-0">
                 <label htmlFor="partner-price-high" className={labelClasses}>
                   {t("partnerForm.pricingHigh")}
                 </label>
@@ -410,7 +410,10 @@ export default function PartnerModal({ open, onClose }: Props) {
                   required
                   value={form.priceHigh}
                   onChange={update("priceHigh")}
-                  className={cn(inputClasses, errors.pricing && "border-red-500/60 focus:border-red-500/60 focus:ring-red-500/20")}
+                  className={cn(
+                    "w-full bg-[#1a2234] border border-gray-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none",
+                    errors.pricing && "border-red-500/60 focus:border-red-500/60 focus:ring-red-500/20"
+                  )}
                   placeholder="200"
                   aria-invalid={!!errors.pricing}
                   aria-describedby={errors.pricing ? "partner-price-error" : undefined}
