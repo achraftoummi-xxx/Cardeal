@@ -5,6 +5,12 @@ const SERPAPI_BASE = "https://serpapi.com/search.json";
 const SERPAPI_NUM = 50;
 const REQUEST_TIMEOUT_MS = 15000;
 
+/* Supabase client (anon key, RLS) used to call get_nearby_partners */
+import { supabase } from "@/lib/supabase";
+/* Default search radius in km when calling get_nearby_partners */
+const PARTNERS_RADIUS_KM = 50;
+const PARTNERS_MAX_COUNT = 100;
+
 /* Overpass (OpenStreetMap) fallback — free, keyless, radius-controlled */
 /* The public Overpass servers are load-balanced: each one is tried in
    order until one responds. */
@@ -32,15 +38,20 @@ const OVERPASS_TAGS = [
 /*    lat, lng  – optional coordinates for precise ll pinning          */
 /*    brand     – selected vehicle brand (e.g. "Toyota")               */
 /*    category  – selected service category (e.g. "Brake Repair")      */
+/*    service   – service keyword for the partners DB filter           */
 /*    q         – free keyword search (e.g. "brake pads")              */
 /*                                                                     */
 /*  Sources (in order):                                                */
 /*    1. SerpApi Google Maps (needs SERPAPI_KEY)                       */
-/*    2. Overpass OpenStreetMap fallback (25 km radius, 4 tags) —      */
-/*       used automatically when SerpApi fails or returns nothing.     */
+/*    2. get_nearby_partners RPC over the partners table (needs        */
+/*       lat/lng) — used automatically when SerpApi is unavailable or  */
+/*       returns nothing.                                              */
+/*    3. Overpass OpenStreetMap fallback (25 km radius, 4 tags) —      */
+/*       used automatically when both previous sources fail.          */
 /*                                                                     */
-/*  Response: { results, total, query, source }                        */
-/*  Every fetched shop is returned — no slicing, no result caps.       */
+/*  Response: { results, shops, total, query, source }                 */
+/*  `results` (legacy alias) and `shops` point to the same array —     */
+/*  every fetched shop is returned — no slicing, no result caps.       */
 /* ------------------------------------------------------------------ */
 export async function GET(request) {
   try {
@@ -49,6 +60,7 @@ export async function GET(request) {
     const city = searchParams.get("city")?.trim();
     const brand = searchParams.get("brand")?.trim();
     const category = searchParams.get("category")?.trim();
+    const service = searchParams.get("service")?.trim();
     const q = searchParams.get("q")?.trim();
     const lat = searchParams.get("lat");
     const lng = searchParams.get("lng");
@@ -92,9 +104,23 @@ export async function GET(request) {
       }
     }
 
-    /* ---- 2) Overpass (OpenStreetMap) — fallback ---------------------
-       Only used when SerpApi is unavailable or empty. Covers a 25 km
-       radius around the user's coordinates across all relevant tags. */
+    /* ---- 2) partners DB (get_nearby_partners RPC) — fallback ---------
+       Used when SerpApi is unavailable or empty. Calls the geospatial
+       RPC with the user's coordinates; results arrive strictly sorted
+       by distance (km) and pre-filtered on the service keyword. */
+    if (results.length === 0 && lat && lng) {
+      try {
+        results = await searchPartnersDb(Number(lat), Number(lng), service);
+        source = "partners";
+      } catch (err) {
+        console.error("Partners DB fetch error:", err);
+      }
+    }
+
+    /* ---- 3) Overpass (OpenStreetMap) — final fallback -----------------
+       Only used when SerpApi and the partners DB are both empty or
+       unavailable. Covers a 25 km radius around the user's coordinates
+       across all relevant tags. */
     if (results.length === 0 && lat && lng) {
       try {
         results = await searchOverpass(Number(lat), Number(lng));
@@ -110,7 +136,7 @@ export async function GET(request) {
     });
 
     return Response.json(
-      { results, total: results.length, query, source },
+      { results, shops: results, total: results.length, query, source },
       { headers }
     );
   } catch (err) {
@@ -120,6 +146,47 @@ export async function GET(request) {
       { status: 500 }
     );
   }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Partners DB search — get_nearby_partners RPC over the partners     */
+/*  table. Rows are mapped to the same ShopResult contract as the      */
+/*  live sources so the frontend map + cards render identically.       */
+/* ------------------------------------------------------------------ */
+async function searchPartnersDb(lat, lng, service) {
+  if (!supabase) return [];
+
+  const { data, error } = await supabase.rpc("get_nearby_partners", {
+    lat,
+    lng,
+    search_term: service?.trim() || null,
+    max_distance_km: PARTNERS_RADIUS_KM,
+    max_count: PARTNERS_MAX_COUNT,
+  });
+
+  if (error) throw error;
+
+  return (data ?? []).map((p) => ({
+    placeId: p.id,
+    title: p.name,
+    address: p.address ?? "",
+    latitude: Number(p.latitude),
+    longitude: Number(p.longitude),
+    rating: p.google_rating != null ? Number(p.google_rating) : null,
+    reviews: p.review_count != null ? Number(p.review_count) : null,
+    phone: p.phone,
+    website: p.website,
+    type: null,
+    category: p.establishment_type,
+    services: p.services_offered,
+    openState: null,
+    operationalStatus: null,
+    hours: null,
+    description: p.services_offered,
+    serviceOptions: null,
+    thumbnail: null,
+    distanceKm: p.distance_km != null ? Number(p.distance_km) : null,
+  }));
 }
 
 /* ------------------------------------------------------------------ */
