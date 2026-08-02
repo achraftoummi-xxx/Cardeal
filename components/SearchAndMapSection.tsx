@@ -8,8 +8,6 @@ import {
   Loader2,
   AlertCircle,
   MapPin,
-  List,
-  Map as MapIcon,
   RefreshCw,
   SlidersHorizontal,
   ChevronDown,
@@ -53,7 +51,6 @@ export default function SearchAndMapSection() {
   const [hasSearched, setHasSearched] = useState(false);
   const [activePartnerId, setActivePartnerId] = useState<string | null>(null);
   const [bookingPartner, setBookingPartner] = useState<Partner | null>(null);
-  const [mobileTab, setMobileTab] = useState<"list" | "map">("list");
   const [showAdvanced, setShowAdvanced] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
   const lastQueryRef = useRef("");
@@ -123,7 +120,6 @@ export default function SearchAndMapSection() {
 
   const handleSearchClick = useCallback(() => {
     runSearch();
-    setMobileTab("list");
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [runSearch]);
 
@@ -289,110 +285,69 @@ export default function SearchAndMapSection() {
         </div>
       </div>
 
-      <div ref={resultsRef} className="mt-6 scroll-mt-24">
-        {error && (
-          <div className="flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/5 p-4 text-sm text-red-400">
-            <AlertCircle size={16} className="shrink-0" />
-            <span className="flex-1">{error}</span>
-            <button
-              onClick={() => runSearch()}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-red-500/30 px-3 py-1.5 text-xs font-medium transition-colors hover:bg-red-500/10"
-            >
-              <RefreshCw size={12} />
-              {t("errors.retry")}
-            </button>
-          </div>
-        )}
-
-        {loading && (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {[0, 1, 2].map((i) => (
-              <div key={i} className="h-36 animate-pulse rounded-xl border border-border bg-card/50" />
-            ))}
-          </div>
-        )}
-
-        {showInitial && (
-          <div className="flex flex-col items-center rounded-2xl border border-border bg-card/50 px-6 py-12 text-center backdrop-blur-sm sm:py-16">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-500/10 ring-1 ring-blue-500/20">
-              <MapPin size={26} className="text-blue-500" />
-            </div>
-            <p className="max-w-md text-sm text-muted-foreground">{t("results.searchHint")}</p>
-          </div>
-        )}
-
-        {showEmpty && (
-          <div className="flex flex-col items-center rounded-2xl border border-border bg-card/50 px-6 py-12 text-center backdrop-blur-sm sm:py-16">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10 ring-1 ring-red-500/20">
-              <AlertCircle size={26} className="text-red-400" />
-            </div>
-            <h3 className="text-base font-semibold text-foreground sm:text-lg">
-              {t("results.noPartners")}
-            </h3>
-            <p className="mt-2 max-w-md text-sm text-muted-foreground">
-              {t("results.noPartnersHint")}
-            </p>
-          </div>
-        )}
-
-        {hasSearched && !loading && !error && visible.length > 0 && (
-          <>
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm text-muted-foreground">
-                {visible.length === 1
-                  ? t("results.partnerFound", { count: visible.length })
-                  : t("results.partnersFound", { count: visible.length })}
-              </p>
-              <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                <MapPin size={13} />
-                {t("results.sortedByProximity")}
-              </p>
-            </div>
-
-            <div className="mb-4 flex items-center gap-2 rounded-xl border border-border bg-card/50 p-1 lg:hidden">
+      <div ref={resultsRef} className="mt-6 grid grid-cols-1 gap-4 scroll-mt-24 lg:grid-cols-2">
+        {/* Partner list column — hidden until the user submits a search */}
+        <div className="order-2 min-w-0 lg:order-1">
+          {error && (
+            <div className="flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/5 p-4 text-sm text-red-400">
+              <AlertCircle size={16} className="shrink-0" />
+              <span className="flex-1">{error}</span>
               <button
-                type="button"
-                onClick={() => setMobileTab("list")}
-                className={cn(
-                  "flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors",
-                  mobileTab === "list"
-                    ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
-                    : "text-muted-foreground hover:bg-accent"
-                )}
+                onClick={() => runSearch()}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-red-500/30 px-3 py-1.5 text-xs font-medium transition-colors hover:bg-red-500/10"
               >
-                <List size={16} />
-                {t("map.list")}
-                <span
-                  className={cn(
-                    "rounded-full px-1.5 py-0.5 text-xs font-semibold",
-                    mobileTab === "list" ? "bg-white/20 text-white" : "bg-blue-500/10 text-blue-500"
-                  )}
-                >
-                  {visible.length}
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setMobileTab("map")}
-                className={cn(
-                  "flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors",
-                  mobileTab === "map"
-                    ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
-                    : "text-muted-foreground hover:bg-accent"
-                )}
-              >
-                <MapIcon size={16} />
-                {t("map.map")}
+                <RefreshCw size={12} />
+                {t("errors.retry")}
               </button>
             </div>
+          )}
 
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-              <div
-                className={cn(
-                  "grid content-start gap-3 sm:grid-cols-2 lg:block lg:max-h-[560px] lg:gap-4 lg:overflow-y-auto lg:pr-1",
-                  mobileTab === "map" && "hidden lg:block"
-                )}
-              >
+          {loading && (
+            <div className="grid gap-3 sm:grid-cols-2 lg:block">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="h-36 animate-pulse rounded-xl border border-border bg-card/50" />
+              ))}
+            </div>
+          )}
+
+          {showInitial && (
+            <div className="flex flex-col items-center rounded-2xl border border-border bg-card/50 px-6 py-12 text-center backdrop-blur-sm sm:py-16">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-500/10 ring-1 ring-blue-500/20">
+                <MapPin size={26} className="text-blue-500" />
+              </div>
+              <p className="max-w-md text-sm text-muted-foreground">{t("results.searchHint")}</p>
+            </div>
+          )}
+
+          {showEmpty && (
+            <div className="flex flex-col items-center rounded-2xl border border-border bg-card/50 px-6 py-12 text-center backdrop-blur-sm sm:py-16">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10 ring-1 ring-red-500/20">
+                <AlertCircle size={26} className="text-red-400" />
+              </div>
+              <h3 className="text-base font-semibold text-foreground sm:text-lg">
+                {t("results.noPartners")}
+              </h3>
+              <p className="mt-2 max-w-md text-sm text-muted-foreground">
+                {t("results.noPartnersHint")}
+              </p>
+            </div>
+          )}
+
+          {hasSearched && !loading && !error && visible.length > 0 && (
+            <>
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-muted-foreground">
+                  {visible.length === 1
+                    ? t("results.partnerFound", { count: visible.length })
+                    : t("results.partnersFound", { count: visible.length })}
+                </p>
+                <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <MapPin size={13} />
+                  {t("results.sortedByProximity")}
+                </p>
+              </div>
+
+              <div className="grid content-start gap-3 sm:grid-cols-2 lg:block lg:max-h-[560px] lg:gap-4 lg:overflow-y-auto lg:pr-1">
                 {visible.map((p) => (
                   <PartnerCard
                     key={p.id}
@@ -404,19 +359,20 @@ export default function SearchAndMapSection() {
                   />
                 ))}
               </div>
+            </>
+          )}
+        </div>
 
-              <div className={cn(mobileTab === "list" && "hidden lg:block")}>
-                <PartnerMap
-                  location={location}
-                  partners={visible}
-                  activePartnerId={activePartnerId}
-                  onPartnerSelect={selectPartner}
-                  revalidateKey={mobileTab}
-                />
-              </div>
-            </div>
-          </>
-        )}
+        {/* Map column — always visible (Tunis context or user location before any search) */}
+        <div className="order-1 lg:order-2">
+          <PartnerMap
+            location={location}
+            partners={visible}
+            activePartnerId={activePartnerId}
+            onPartnerSelect={selectPartner}
+            revalidateKey={visible.length}
+          />
+        </div>
       </div>
 
       <AppointmentModal partner={bookingPartner} onClose={() => setBookingPartner(null)} />
