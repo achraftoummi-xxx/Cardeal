@@ -118,8 +118,9 @@
     "partnersFound": "{count} partenaires trouvés",
     "noPartners": "Aucun partenaire trouvé",
     "noPartnersHint": "Essayez d'ajuster vos mots-clés, le service ou la localisation",
-    "searchHint": "Recherchez un garage ou parcourez tous les partenaires triés par proximité",
-    "sortedByProximity": "Triés par proximité"
+    "sortedByProximity": "Triés par proximité",
+    "initialTitle": "Recherchez un garage",
+    "initialHint": "Les résultats et les marqueurs de la carte apparaîtront ici après votre recherche."
   },
   "location": {
     "detecting": "Détection de la position…",
