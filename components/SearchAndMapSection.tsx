@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
   Search,
-  X,
   Loader2,
   AlertCircle,
   MapPin,
@@ -37,7 +36,6 @@ const CYLINDER_COUNTS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16];
 export default function SearchAndMapSection() {
   const { t } = useTranslation();
   const [location, setLocation] = useState<LocationResult>(null);
-  const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -53,7 +51,7 @@ export default function SearchAndMapSection() {
   const [bookingPartner, setBookingPartner] = useState<Partner | null>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const activeFilterCount = [brand, model, year, engine, capacity, cylinders, category, keyword].filter(Boolean).length;
+  const activeFilterCount = [brand, model, year, engine, capacity, cylinders, category].filter(Boolean).length;
 
   const models = useMemo(() => {
     if (!brand) return [];
@@ -90,7 +88,7 @@ export default function SearchAndMapSection() {
   );
 
   const runSearch = useCallback(async () => {
-    const query = [keyword, category, brand, model, year, capacity, cylinders]
+    const query = [category, brand, model, year, capacity, cylinders]
       .map((v) => v.trim())
       .filter(Boolean)
       .join(" ");
@@ -109,12 +107,12 @@ export default function SearchAndMapSection() {
     } finally {
       setLoading(false);
     }
-  }, [keyword, category, brand, model, year, capacity, cylinders, t]);
+  }, [category, brand, model, year, capacity, cylinders, t]);
 
   const visible = useMemo(() => {
-    const search = { keyword, category, origin: location ?? null };
+    const search = { category, origin: location ?? null };
     return sortPartners(partners, search);
-  }, [partners, keyword, category, location]);
+  }, [partners, category, location]);
 
   const handleSearchClick = useCallback(() => {
     runSearch();
@@ -172,7 +170,7 @@ export default function SearchAndMapSection() {
           </button>
         </div>
 
-        {/* Vehicle filters + service category (collapsible on mobile, always visible on sm+) */}
+        {/* Vehicle filters (collapsible on mobile, always visible on sm+) */}
         <div className={cn("mt-4 sm:mt-6", showAdvanced ? "block" : "hidden sm:block")}>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <Select
@@ -201,85 +199,58 @@ export default function SearchAndMapSection() {
             <Select label={t("filters.capacity")} value={capacity} onChange={setCapacity} options={capacities} />
             <Select label={t("filters.cylinders")} value={cylinders} onChange={setCylinders} options={cylindersOptions} />
           </div>
+        </div>
 
-          <div className="mt-4 sm:mt-6">
-            <label
-              htmlFor="partner-category-select"
-              className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500"
+        {/* Service category — always visible */}
+        <div className="mt-4 sm:mt-6">
+          <label
+            htmlFor="partner-category-select"
+            className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500"
+          >
+            {t("search.serviceCategory")}
+          </label>
+          <div className="relative">
+            <select
+              id="partner-category-select"
+              name="partnerCategory"
+              value={category}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                setActivePartnerId(null);
+              }}
+              className={cn(
+                "w-full max-sm:min-h-12 appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20",
+                !category && "text-muted-foreground/70"
+              )}
             >
-              {t("search.serviceCategory")}
-            </label>
-            <div className="relative">
-              <select
-                id="partner-category-select"
-                name="partnerCategory"
-                value={category}
-                onChange={(e) => {
-                  setCategory(e.target.value);
-                  setActivePartnerId(null);
-                }}
-                className={cn(
-                  "w-full max-sm:min-h-12 appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20",
-                  !category && "text-muted-foreground/70"
-                )}
-              >
-                <option value="">{t("search.allServices")}</option>
-                {SERVICE_CATEGORIES.map((s) => (
-                  <option key={s} value={s} className="text-foreground">
-                    {localized(t, "serviceCat", s)}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                <SlidersHorizontal size={16} className="text-zinc-500" />
-              </div>
+              <option value="">{t("search.allServices")}</option>
+              {SERVICE_CATEGORIES.map((s) => (
+                <option key={s} value={s} className="text-foreground">
+                  {localized(t, "serviceCat", s)}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <SlidersHorizontal size={16} className="text-zinc-500" />
             </div>
           </div>
         </div>
 
-        {/* Service keyword + Search button */}
+        {/* Search button */}
         <div className="mt-4 sm:mt-6">
-          <label
-            htmlFor="partner-keyword-input"
-            className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500"
+          <button
+            onClick={handleSearchClick}
+            disabled={loading}
+            className="flex w-full max-sm:min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/25 active:scale-95 disabled:opacity-60 disabled:pointer-events-none"
           >
-            {t("search.keywords")}
-          </label>
-          <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/50 px-4 py-2 shadow-inner shadow-black/5 dark:shadow-black/10 sm:px-5">
-            <input
-              id="partner-keyword-input"
-              name="partnerKeyword"
-              className="flex-1 bg-transparent py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground"
-              value={keyword}
-              onChange={(e) => {
-                setKeyword(e.target.value);
-                setActivePartnerId(null);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") handleSearchClick();
-              }}
-              placeholder={t("search.keywordPlaceholder")}
-            />
-            {keyword && (
-              <button
-                onClick={() => setKeyword("")}
-                className="text-zinc-500 transition-colors hover:text-zinc-300"
-                aria-label={t("location.clear")}
-              >
-                <X size={18} />
-              </button>
-            )}
-            <button
-              onClick={handleSearchClick}
-              disabled={loading}
-              className="flex max-sm:min-h-12 items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/25 active:scale-95 disabled:opacity-60 disabled:pointer-events-none"
-            >
-              {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
-              <span className="hidden sm:inline">
-                {loading ? t("search.searching") : t("search.search")}
+            {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
+            <span>{loading ? t("search.searching") : t("search.search")}</span>
+            {activeFilterCount > 0 && (
+              <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs font-semibold">
+                {activeFilterCount}
               </span>
-            </button>
-          </div>
+            )}
+          </button>
         </div>
       </div>
 
