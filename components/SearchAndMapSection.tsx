@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 const PartnerMap = dynamic(() => import("@/components/PartnerMap"), {
   ssr: false,
   loading: () => (
-    <div className="h-[420px] w-full animate-pulse rounded-2xl border border-border bg-card/50 sm:h-[480px] lg:h-[560px]" />
+    <div className="h-[300px] w-full animate-pulse rounded-2xl border border-border bg-card/50 sm:h-[420px] lg:h-[560px]" />
   ),
 });
 
@@ -53,7 +53,6 @@ export default function SearchAndMapSection() {
   const [bookingPartner, setBookingPartner] = useState<Partner | null>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const lastQueryRef = useRef("");
   const activeFilterCount = [brand, model, year, engine, capacity, cylinders, category, keyword].filter(Boolean).length;
 
   const models = useMemo(() => {
@@ -95,7 +94,6 @@ export default function SearchAndMapSection() {
       .map((v) => v.trim())
       .filter(Boolean)
       .join(" ");
-    lastQueryRef.current = query;
     setLoading(true);
     setError("");
     setActivePartnerId(null);

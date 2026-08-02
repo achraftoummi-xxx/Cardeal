@@ -178,7 +178,7 @@ export default function PartnerMap({
     <div className={className}>
       <div
         className={cn(
-          "relative h-[420px] w-full overflow-hidden rounded-2xl border shadow-2xl sm:h-[480px] lg:h-[560px]",
+          "relative h-[300px] w-full overflow-hidden rounded-2xl border shadow-2xl sm:h-[420px] lg:h-[560px]",
           "border-border bg-background shadow-black/10 dark:shadow-black/40",
           !HAS_MAPTILER && "osm-fallback"
         )}
