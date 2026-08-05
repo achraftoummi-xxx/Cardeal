@@ -37,7 +37,7 @@ export default function Page() {
               src={cardealLogo.src}
               alt={t("site.name")}
               draggable={false}
-              className="h-8 w-auto dark:brightness-150 sm:h-9"
+              className="h-10 w-auto dark:brightness-150 sm:h-12"
             />
           </div>
           <div className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">

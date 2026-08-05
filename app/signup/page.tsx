@@ -124,7 +124,7 @@ export default function SignupPage() {
                 src={cardealLogo.src}
                 alt={t("site.name")}
                 draggable={false}
-                className="mx-auto h-10 w-auto dark:brightness-150"
+                className="mx-auto h-12 w-auto dark:brightness-150"
               />
               <h1 className="mt-2 text-lg font-bold text-foreground">{t("signup.title")}</h1>
               <p className="mt-1 text-sm text-muted-foreground">{t("signup.subtitle")}</p>
