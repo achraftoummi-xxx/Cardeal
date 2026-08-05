@@ -2,10 +2,15 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import TranslationProvider from "@/components/TranslationProvider";
 import ThemeProvider from "@/components/ThemeProvider";
+import cardealLogo from "@/assets/images/cardeal_logo.png";
 
 export const metadata: Metadata = {
   title: "CarDeal",
   description: "Find the right repair shop for your vehicle, near you.",
+  icons: {
+    icon: [{ url: cardealLogo.src }],
+    apple: [{ url: cardealLogo.src }],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",

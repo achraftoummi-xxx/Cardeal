@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 export const Button = ({ className, variant = "primary", ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | "secondary" | "outline" }) => {
   const variants = {
     primary:
-      "bg-blue-600 text-white shadow-lg shadow-blue-500/25 hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/30 active:scale-95",
+      "bg-[var(--cardeal-primary)] text-white shadow-lg shadow-[#BA2529]/25 hover:bg-[#9E1F23] hover:shadow-xl hover:shadow-[#BA2529]/30 active:scale-95",
     secondary:
       "bg-zinc-800/50 text-zinc-100 border border-zinc-700/50 shadow-sm hover:bg-zinc-700/50 hover:text-zinc-100 active:scale-95",
     outline:

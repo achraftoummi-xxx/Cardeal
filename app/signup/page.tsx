@@ -5,6 +5,7 @@ import { CheckCircle2, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/components/TranslationProvider";
 import { supabase } from "@/lib/supabase";
+import cardealLogo from "@/assets/images/cardeal_logo.png";
 import {
   setAuthenticated,
   readPendingRequest,
@@ -119,9 +120,12 @@ export default function SignupPage() {
             </button>
 
             <div className="mb-6 text-center">
-              <div className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent">
-                {t("site.name")}
-              </div>
+              <img
+                src={cardealLogo.src}
+                alt={t("site.name")}
+                draggable={false}
+                className="mx-auto h-10 w-auto dark:brightness-150"
+              />
               <h1 className="mt-2 text-lg font-bold text-foreground">{t("signup.title")}</h1>
               <p className="mt-1 text-sm text-muted-foreground">{t("signup.subtitle")}</p>
             </div>

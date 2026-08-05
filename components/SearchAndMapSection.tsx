@@ -158,7 +158,7 @@ export default function SearchAndMapSection() {
               <SlidersHorizontal size={16} className="text-blue-500" />
               {t("filters.advanced")}
               {activeFilterCount > 0 && (
-                <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white">
+                <span className="rounded-full bg-[var(--cardeal-primary)] px-2 py-0.5 text-xs font-semibold text-white">
                   {activeFilterCount}
                 </span>
               )}
@@ -220,7 +220,7 @@ export default function SearchAndMapSection() {
           <button
             onClick={handleSearchClick}
             disabled={loading}
-            className="flex w-full max-sm:min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/25 active:scale-95 disabled:opacity-60 disabled:pointer-events-none"
+            className="flex w-full max-sm:min-h-12 items-center justify-center gap-2 rounded-xl bg-[var(--cardeal-primary)] px-5 py-3 text-sm font-medium text-white shadow-lg shadow-[#BA2529]/20 transition-all hover:bg-[#9E1F23] hover:shadow-xl hover:shadow-[#BA2529]/25 active:scale-95 disabled:opacity-60 disabled:pointer-events-none"
           >
             {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
             <span>{loading ? t("search.searching") : t("search.search")}</span>

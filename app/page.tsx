@@ -10,6 +10,7 @@ import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
 import { useTranslation } from "@/components/TranslationProvider";
 import heroShopImage from "@/assets/images/cardeal-shop.png";
+import cardealLogo from "@/assets/images/cardeal_logo.png";
 
 export default function Page() {
   const { t } = useTranslation();
@@ -31,8 +32,13 @@ export default function Page() {
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
         <nav className="mx-auto flex max-w-7xl items-center justify-between gap-2 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6 sm:pt-3 lg:px-8">
-          <div className="shrink-0 bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent sm:text-3xl">
-            {t("site.name")}
+          <div className="shrink-0">
+            <img
+              src={cardealLogo.src}
+              alt={t("site.name")}
+              draggable={false}
+              className="h-8 w-auto dark:brightness-150 sm:h-9"
+            />
           </div>
           <div className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
             {navLinks.map((link) => (
@@ -75,7 +81,7 @@ export default function Page() {
       </header>
 
       {/* Hero banner */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-950">
+      <section className="relative overflow-hidden bg-gradient-to-br from-[var(--cardeal-primary)] via-[#932024] to-[#4A0A0C]">
         {/* Background photo — right side on desktop, soft scrim behind copy on mobile */}
         <div className="absolute inset-0 lg:left-auto lg:w-[55%]" aria-hidden>
           <img
@@ -85,11 +91,11 @@ export default function Page() {
             className="h-full w-full object-cover object-center"
           />
           {/* Diagonal theme overlay blending the photo into the banner */}
-          <div className="absolute inset-y-0 left-1/3 hidden w-40 -skew-x-[18deg] bg-gradient-to-l from-blue-700/95 via-blue-700/60 to-transparent lg:block" />
-          <div className="absolute inset-0 bg-blue-800/50 lg:hidden" />
+          <div className="absolute inset-y-0 left-1/3 hidden w-40 -skew-x-[18deg] bg-gradient-to-l from-[#BA2529]/95 via-[#BA2529]/60 to-transparent lg:block" />
+          <div className="absolute inset-0 bg-[#4A0A0C]/50 lg:hidden" />
         </div>
         {/* Left-to-right tint so the white copy stays high-contrast */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-blue-700/80 to-blue-800/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#BA2529] via-[#BA2529]/80 to-[#7A1418]/20" />
 
         <div className="relative mx-auto max-w-7xl px-4 pb-28 pt-14 sm:px-6 sm:pb-32 sm:pt-20 lg:px-8 lg:pb-36 lg:pt-24">
           <div className="max-w-2xl">
@@ -190,7 +196,7 @@ export default function Page() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.1)_0%,transparent_60%)]" />
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6">
           <h2 className="bg-gradient-to-r from-foreground via-muted-foreground to-muted bg-clip-text text-2xl font-bold tracking-tight text-transparent sm:text-3xl lg:text-4xl">{t("partner.title")}</h2>
-          <Button onClick={() => setShowPartner(true)} className="mt-8 rounded-full bg-blue-600 px-8 py-3 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/30 sm:px-10 sm:py-4 sm:text-lg">
+          <Button onClick={() => setShowPartner(true)} className="mt-8 rounded-full bg-[var(--cardeal-primary)] px-8 py-3 text-base font-bold text-white shadow-lg shadow-[#BA2529]/25 transition-all hover:bg-[#9E1F23] hover:shadow-xl hover:shadow-[#BA2529]/30 sm:px-10 sm:py-4 sm:text-lg">
             {t("partner.cta")}
           </Button>
         </div>
