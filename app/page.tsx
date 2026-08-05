@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, Award } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SearchAndMapSection from "@/components/SearchAndMapSection";
 import LanguageSelector from "@/components/LanguageSelector";
@@ -107,23 +107,6 @@ export default function Page() {
               Soumettez une demande de réparation et recevez des offres de garages de confiance
               près de chez vous.
             </p>
-          </div>
-        </div>
-
-        {/* Award badge — top-right, above the photo */}
-        <div className="absolute right-4 top-4 z-10 sm:right-6 sm:top-6 lg:right-10 lg:top-8">
-          <div className="flex items-center gap-3 rounded-2xl border border-white/25 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/15">
-              <Award size={20} className="text-amber-300" />
-            </span>
-            <span>
-              <span className="block text-[10px] font-semibold uppercase tracking-widest text-blue-100/80">
-                Capital
-              </span>
-              <span className="block text-sm font-bold text-white">
-                Meilleures Plateformes en Ligne
-              </span>
-            </span>
           </div>
         </div>
       </section>
