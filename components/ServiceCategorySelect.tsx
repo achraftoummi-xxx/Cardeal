@@ -228,20 +228,15 @@ export default function ServiceCategorySelect({
                     aria-expanded={isExpanded(group)}
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={() => toggleGroup(group.category)}
-                    className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-1.5 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 transition-colors hover:text-foreground"
+                    className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold uppercase tracking-wider text-muted-foreground/70 transition-colors hover:bg-blue-600 hover:text-white"
                   >
                     <span className="min-w-0 flex-1 truncate">
                       {localized(t, "serviceCat", group.category)}
                     </span>
-                    <span className="flex shrink-0 items-center gap-1.5">
-                      <span className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] font-medium tabular-nums text-muted-foreground">
-                        {group.subCategories.length}
-                      </span>
-                      <ChevronDown
-                        size={13}
-                        className={`text-muted-foreground/60 transition-transform duration-200 ${isExpanded(group) ? "rotate-180" : ""}`}
-                      />
-                    </span>
+                    <ChevronDown
+                      size={15}
+                      className={`shrink-0 transition-transform duration-200 ${isExpanded(group) ? "rotate-180" : ""}`}
+                    />
                   </button>
                   {isExpanded(group) && (
                     <ul role="group" aria-label={localized(t, "serviceCat", group.category)}>
@@ -252,10 +247,10 @@ export default function ServiceCategorySelect({
                           aria-selected={option === value}
                           onMouseDown={(e) => e.preventDefault()}
                           onClick={() => handleSelect(option)}
-                          className="flex cursor-pointer items-center justify-between gap-2 rounded-lg py-2 pl-5 pr-3 text-sm text-foreground transition-colors hover:bg-accent hover:text-blue-500"
+                          className="flex cursor-pointer items-center justify-between gap-2 rounded-lg px-3 py-2.5 pl-5 pr-3 text-[15px] text-foreground transition-colors hover:bg-blue-600 hover:text-white"
                         >
                           <span className="min-w-0 flex-1">{localized(t, "serviceCat", option)}</span>
-                          {option === value && <Check size={15} className="shrink-0 text-blue-500" />}
+                          {option === value && <Check size={16} className="shrink-0 text-blue-600" />}
                         </li>
                       ))}
                     </ul>
