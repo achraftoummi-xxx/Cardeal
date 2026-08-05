@@ -5,6 +5,7 @@ import { Check, ChevronDown, X } from "lucide-react";
 import { useTranslation } from "@/components/TranslationProvider";
 import { localized } from "@/lib/i18n";
 import {
+  SERVICE_CATEGORY_GROUPS,
   searchServiceCategories,
   type ServiceCategoryGroup,
 } from "@/data/serviceCategories";
@@ -23,9 +24,10 @@ type Props = {
 
 /**
  * Searchable two-level category picker.
- * Renders the category hierarchy (category header + sub-categories) and
- * filters both levels as the user types. The committed value is always a
- * sub-category (canonical string), unless `allowCustom` is enabled.
+ * Renders the category hierarchy as collapsible groups (category header with
+ * sub-category count + nested sub-categories) and filters both levels as the
+ * user types. The committed value is always a sub-category (canonical string),
+ * unless `allowCustom` is enabled.
  */
 export default function ServiceCategorySelect({
   id,
@@ -40,6 +42,7 @@ export default function ServiceCategorySelect({
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
   const inputRef = useRef<HTMLInputElement>(null);
 
   const groups: ServiceCategoryGroup[] = useMemo(
@@ -52,10 +55,21 @@ export default function ServiceCategorySelect({
     [groups]
   );
 
-  /* Focus: surface the current value in the input and open the list */
+  /* Focus: surface the current value in the input, open the list and
+     make sure the group of the selected value is expanded. */
   const handleFocus = () => {
     setQuery(value);
     setOpen(true);
+    setCollapsed((prev) => {
+      if (!value) return prev;
+      const group = SERVICE_CATEGORY_GROUPS.find((g) =>
+        g.subCategories.includes(value)
+      );
+      if (!group || !prev.has(group.category)) return prev;
+      const next = new Set(prev);
+      next.delete(group.category);
+      return next;
+    });
   };
 
   const handleChange = (v: string) => {
@@ -90,6 +104,22 @@ export default function ServiceCategorySelect({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") setOpen(false);
   };
+
+  const toggleGroup = (category: string) => {
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      if (next.has(category)) next.delete(category);
+      else next.add(category);
+      return next;
+    });
+  };
+
+  /* While searching, matched groups are always shown expanded so
+     results stay visible; the manual collapse state only applies
+     to the unfiltered browse mode. */
+  const searching = query.trim().length > 0;
+  const isExpanded = (group: ServiceCategoryGroup) =>
+    searching || !collapsed.has(group.category);
 
   return (
     <div>
@@ -144,27 +174,43 @@ export default function ServiceCategorySelect({
           >
             {groups.map((group) => (
               <li key={group.category} role="presentation" className="px-1">
-                <p
-                  role="presentation"
-                  className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70"
+                <button
+                  type="button"
+                  aria-expanded={isExpanded(group)}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => toggleGroup(group.category)}
+                  className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-1.5 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 transition-colors hover:text-foreground"
                 >
-                  {localized(t, "serviceCat", group.category)}
-                </p>
-                <ul role="group" aria-label={localized(t, "serviceCat", group.category)}>
-                  {group.subCategories.map((option) => (
-                    <li
-                      key={option}
-                      role="option"
-                      aria-selected={option === value}
-                      onMouseDown={(e) => e.preventDefault()}
-                      onClick={() => handleSelect(option)}
-                      className="flex cursor-pointer items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm text-foreground transition-colors hover:bg-accent hover:text-blue-500"
-                    >
-                      <span className="min-w-0 flex-1">{localized(t, "serviceCat", option)}</span>
-                      {option === value && <Check size={15} className="shrink-0 text-blue-500" />}
-                    </li>
-                  ))}
-                </ul>
+                  <span className="min-w-0 flex-1 truncate">
+                    {localized(t, "serviceCat", group.category)}
+                  </span>
+                  <span className="flex shrink-0 items-center gap-1.5">
+                    <span className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] font-medium tabular-nums text-muted-foreground">
+                      {group.subCategories.length}
+                    </span>
+                    <ChevronDown
+                      size={13}
+                      className={`text-muted-foreground/60 transition-transform duration-200 ${isExpanded(group) ? "rotate-180" : ""}`}
+                    />
+                  </span>
+                </button>
+                {isExpanded(group) && (
+                  <ul role="group" aria-label={localized(t, "serviceCat", group.category)}>
+                    {group.subCategories.map((option) => (
+                      <li
+                        key={option}
+                        role="option"
+                        aria-selected={option === value}
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => handleSelect(option)}
+                        className="flex cursor-pointer items-center justify-between gap-2 rounded-lg py-2 pl-5 pr-3 text-sm text-foreground transition-colors hover:bg-accent hover:text-blue-500"
+                      >
+                        <span className="min-w-0 flex-1">{localized(t, "serviceCat", option)}</span>
+                        {option === value && <Check size={15} className="shrink-0 text-blue-500" />}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
             {totalMatches === 0 && (
