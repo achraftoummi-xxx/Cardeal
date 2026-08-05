@@ -185,6 +185,43 @@ export default function Page() {
         </div>
       </section>
 
+      {/* Footer banner — mirrors the hero banner theme with the brand video */}
+      <section className="relative mt-8 overflow-hidden bg-gradient-to-br from-[var(--cardeal-primary)] via-[#932024] to-[#4A0A0C]">
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:flex-row lg:justify-between lg:gap-12 lg:px-8 lg:py-24">
+          <div className="max-w-xl text-center lg:text-left">
+            <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
+              Votre voiture mérite un garage de confiance.
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-blue-50/90 sm:text-lg">
+              Comparez les offres de réparation, suivez vos demandes et partez l'esprit
+              tranquille — partout en Tunisie.
+            </p>
+            <Button
+              onClick={() =>
+                document
+                  .getElementById("find-service")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" })
+              }
+              className="mt-8 rounded-full bg-white px-8 py-3 text-base font-bold text-[var(--cardeal-primary)] shadow-lg shadow-black/20 transition-all hover:bg-blue-50 hover:shadow-xl active:scale-95 sm:px-10 sm:py-4 sm:text-lg"
+            >
+              Trouver un garage
+            </Button>
+          </div>
+
+          {/* Brand video — right side, mirroring the hero photo */}
+          <div className="w-full max-w-md lg:w-[46%]">
+            <video
+              src="/assets/images/cardeal_video.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="aspect-video w-full rounded-2xl border border-white/20 object-cover shadow-2xl shadow-black/40"
+            />
+          </div>
+        </div>
+      </section>
+
       <LoginModal open={showLogin} onClose={() => setShowLogin(false)} />
       <PartnerModal open={showPartner} onClose={() => setShowPartner(false)} />
     </div>
