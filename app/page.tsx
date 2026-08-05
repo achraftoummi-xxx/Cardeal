@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SearchAndMapSection from "@/components/SearchAndMapSection";
 import LanguageSelector from "@/components/LanguageSelector";
@@ -9,6 +9,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
 import { useTranslation } from "@/components/TranslationProvider";
+import heroShopImage from "@/assets/images/cardeal-shop.png";
 
 export default function Page() {
   const { t } = useTranslation();
@@ -73,28 +74,61 @@ export default function Page() {
         )}
       </header>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.15)_0%,transparent_60%)] dark:opacity-100 opacity-60" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(99,102,241,0.1)_0%,transparent_50%)] dark:opacity-100 opacity-60" />
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] dark:opacity-30 opacity-10" />
-        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:py-36">
-          <div className="mx-auto max-w-4xl">
-            <div className="text-center">
-              <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
-                {t("hero.title", { highlight: t("hero.highlight") })}
-              </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
-                {t("hero.subtitle")}
-              </p>
-            </div>
+      {/* Hero banner */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-950">
+        {/* Background photo — right side on desktop, soft scrim behind copy on mobile */}
+        <div className="absolute inset-0 lg:left-auto lg:w-[55%]" aria-hidden>
+          <img
+            src={heroShopImage.src}
+            alt=""
+            draggable={false}
+            className="h-full w-full object-cover object-center"
+          />
+          {/* Diagonal theme overlay blending the photo into the banner */}
+          <div className="absolute inset-y-0 left-1/3 hidden w-40 -skew-x-[18deg] bg-gradient-to-l from-blue-700/95 via-blue-700/60 to-transparent lg:block" />
+          <div className="absolute inset-0 bg-blue-800/50 lg:hidden" />
+        </div>
+        {/* Left-to-right tint so the white copy stays high-contrast */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-blue-700/80 to-blue-800/20" />
 
-            <div className="mt-8">
-              <SearchAndMapSection />
-            </div>
+        <div className="relative mx-auto max-w-7xl px-4 pb-28 pt-14 sm:px-6 sm:pb-32 sm:pt-20 lg:px-8 lg:pb-36 lg:pt-24">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
+              Trouvez le bon garage. Comparez les offres de réparation. Gardez votre voiture en
+              marche.
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-blue-50/90 sm:text-lg">
+              Soumettez une demande de réparation et recevez des offres de garages de confiance
+              près de chez vous.
+            </p>
+          </div>
+        </div>
+
+        {/* Award badge — top-right, above the photo */}
+        <div className="absolute right-4 top-4 z-10 sm:right-6 sm:top-6 lg:right-10 lg:top-8">
+          <div className="flex items-center gap-3 rounded-2xl border border-white/25 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/15">
+              <Award size={20} className="text-amber-300" />
+            </span>
+            <span>
+              <span className="block text-[10px] font-semibold uppercase tracking-widest text-blue-100/80">
+                Capital
+              </span>
+              <span className="block text-sm font-bold text-white">
+                Meilleures Plateformes en Ligne
+              </span>
+            </span>
           </div>
         </div>
       </section>
+
+      {/* Search module — overlaps the bottom edge of the hero banner */}
+      <div
+        id="find-service"
+        className="relative z-10 mx-auto -mt-16 max-w-6xl scroll-mt-24 px-4 sm:-mt-20 sm:px-6 lg:px-8"
+      >
+        <SearchAndMapSection />
+      </div>
 
       {/* How it works */}
       <section className="border-t border-border py-16 sm:py-20 lg:py-24">
