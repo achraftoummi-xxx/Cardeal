@@ -5,8 +5,7 @@ import { X, User, Briefcase, Clock, Banknote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
-import { localized } from "@/lib/i18n";
-import { SERVICE_CATEGORIES } from "./WorkshopSearch";
+import ServiceCategorySelect from "./ServiceCategorySelect";
 
 type Props = {
   open: boolean;
@@ -203,25 +202,14 @@ export default function PartnerModal({ open, onClose }: Props) {
               {t("partnerForm.businessSection")}
             </h3>
             <div className="sm:col-span-2">
-              <label htmlFor="partner-category" className={labelClasses}>
-                {t("partnerForm.serviceCategory")}
-              </label>
-              <select
+              <ServiceCategorySelect
                 id="partner-category"
-                required
+                name="partnerCategory"
+                label={t("partnerForm.serviceCategory")}
                 value={form.serviceCategory}
-                onChange={update("serviceCategory")}
-                className={cn(inputClasses, !form.serviceCategory && "text-muted-foreground/50")}
-              >
-                <option value="" disabled>
-                  {t("auth.pleaseSelect")}
-                </option>
-                {SERVICE_CATEGORIES.map((s) => (
-                  <option key={s} value={s} className="text-foreground">
-                    {localized(t, "serviceCat", s)}
-                  </option>
-                ))}
-              </select>
+                onChange={(v) => setForm((f) => ({ ...f, serviceCategory: v }))}
+                required
+              />
             </div>
             <div>
               <label htmlFor="partner-brand" className={labelClasses}>

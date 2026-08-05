@@ -1,7 +1,11 @@
 export const workshops = [
   {
     name: "QuickFix Auto",
-    services: ["Oil change", "Brake repair", "Diagnostics"],
+    services: [
+      "Révisions et Vidange",
+      "Plaquettes de freins Avant (Remplacement)",
+      "Diagnostic Électronique",
+    ],
     distance: "1.2km",
     brand: "Toyota",
     model: "Camry",
@@ -13,7 +17,11 @@ export const workshops = [
   },
   {
     name: "Metro Garage",
-    services: ["Engine repair", "Cooling system", "Diagnostics"],
+    services: [
+      "Embrayage - Kit complet (Remplacement)",
+      "Liquide de Refroidissement (Remplacement)",
+      "Diagnostic Électronique",
+    ],
     distance: "3.8km",
     brand: "Honda",
     model: "Civic",
@@ -25,7 +33,11 @@ export const workshops = [
   },
   {
     name: "Elite Motors",
-    services: ["Brake repair", "Diagnostics"],
+    services: [
+      "Batterie (Remplacement)",
+      "Plaquettes de freins Arrière (Remplacement)",
+      "Diagnostic Électronique",
+    ],
     distance: "5.1km",
     brand: "BMW",
     model: "3 Series",

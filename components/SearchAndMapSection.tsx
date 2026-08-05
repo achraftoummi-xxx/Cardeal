@@ -14,9 +14,9 @@ import {
 import LocationBar from "@/components/LocationBar";
 import PartnerCard from "@/components/PartnerCard";
 import RequestModal, { type RequestMode } from "@/components/RequestModal";
+import ServiceCategorySelect from "@/components/ServiceCategorySelect";
 import { useTranslation } from "@/components/TranslationProvider";
 import { localized } from "@/lib/i18n";
-import { SERVICE_CATEGORIES } from "@/components/WorkshopSearch";
 import { brandModels } from "@/data/carBrands";
 import { fetchPartners, sortPartners, type Partner } from "@/lib/partners";
 import { cn } from "@/lib/utils";
@@ -203,37 +203,16 @@ export default function SearchAndMapSection() {
 
         {/* Service category — always visible */}
         <div className="mt-4 sm:mt-6">
-          <label
-            htmlFor="partner-category-select"
-            className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500"
-          >
-            {t("search.serviceCategory")}
-          </label>
-          <div className="relative">
-            <select
-              id="partner-category-select"
-              name="partnerCategory"
-              value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
-                setActivePartnerId(null);
-              }}
-              className={cn(
-                "w-full max-sm:min-h-12 appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20",
-                !category && "text-muted-foreground/70"
-              )}
-            >
-              <option value="">{t("search.allServices")}</option>
-              {SERVICE_CATEGORIES.map((s) => (
-                <option key={s} value={s} className="text-foreground">
-                  {localized(t, "serviceCat", s)}
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-              <SlidersHorizontal size={16} className="text-zinc-500" />
-            </div>
-          </div>
+          <ServiceCategorySelect
+            id="partner-category-select"
+            name="partnerCategory"
+            label={t("search.serviceCategory")}
+            value={category}
+            onChange={(v) => {
+              setCategory(v);
+              setActivePartnerId(null);
+            }}
+          />
         </div>
 
         {/* Search button */}
