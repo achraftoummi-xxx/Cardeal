@@ -29,13 +29,13 @@ export default function SiteHeader({
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-2 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6 sm:pt-3 lg:px-8">
+      <nav className="flex items-center justify-between gap-2 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6 sm:pt-3 lg:px-8">
         <a href="/" className="shrink-0" aria-label={t("site.name")}>
           <img
             src={cardealLogo.src}
             alt={t("site.name")}
             draggable={false}
-            className="h-10 w-auto dark:brightness-150 sm:h-12"
+            className="h-12 w-auto dark:brightness-150 sm:h-14"
           />
         </a>
         <div className="hidden items-center gap-6 text-sm font-medium text-muted-foreground lg:flex xl:gap-8">
