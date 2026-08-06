@@ -2,15 +2,14 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "./TranslationProvider";
-import Flag from "react-world-flags";
 
-const locales: Record<string, { label: string; code: string }> = {
-  en: { label: "En", code: "GB" },
-  fr: { label: "Fr", code: "FR" },
-  ar: { label: "Ar", code: "SA" },
-  es: { label: "Es", code: "ES" },
-  it: { label: "It", code: "IT" },
-  de: { label: "De", code: "DE" },
+const locales: Record<string, { label: string; flag: string }> = {
+  en: { label: "En", flag: "/assets/flags/gb.svg" },
+  fr: { label: "Fr", flag: "/assets/flags/fr.svg" },
+  ar: { label: "Ar", flag: "/assets/flags/sa.svg" },
+  es: { label: "Es", flag: "/assets/flags/es.svg" },
+  it: { label: "It", flag: "/assets/flags/it.svg" },
+  de: { label: "De", flag: "/assets/flags/de.svg" },
 };
 
 export default function LanguageSelector({ className = "" }: { className?: string }) {
@@ -37,7 +36,7 @@ export default function LanguageSelector({ className = "" }: { className?: strin
         className="flex items-center gap-2 rounded-lg border border-zinc-700/50 bg-white px-2.5 py-1.5 text-sm text-zinc-700 shadow-sm transition-all hover:border-zinc-600/50 hover:bg-zinc-700/30 dark:bg-zinc-800/30 dark:text-zinc-300 dark:hover:border-zinc-600/50 dark:hover:bg-zinc-700/30"
       >
         <div className="h-4 w-5 overflow-hidden rounded-sm">
-          <Flag code={current.code} style={{ width: 20, height: 14 }} />
+          <img src={current.flag} alt={current.label} draggable={false} className="h-full w-full object-cover" />
         </div>
         <span>{current.label}</span>
         <svg
@@ -68,7 +67,7 @@ export default function LanguageSelector({ className = "" }: { className?: strin
                 }`}
               >
                 <div className="h-3.5 w-5 overflow-hidden rounded-sm">
-                  <Flag code={locales[l].code} style={{ width: 20, height: 14 }} />
+                  <img src={locales[l].flag} alt={locales[l].label} draggable={false} className="h-full w-full object-cover" />
                 </div>
                 <span>{locales[l].label}</span>
               </button>
