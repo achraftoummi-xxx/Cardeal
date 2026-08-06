@@ -10,6 +10,7 @@ import {
   searchServiceCategories,
   type ServiceCategoryGroup,
 } from "@/data/serviceCategories";
+import { getServiceCategoryIcon } from "@/data/serviceCategoryIcons";
 
 /** Browse mode starts with every main category collapsed: clicking a
  *  category header expands its sub-categories (accordion behavior). */
@@ -230,8 +231,17 @@ export default function ServiceCategorySelect({
                     onClick={() => toggleGroup(group.category)}
                     className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold uppercase tracking-wider text-muted-foreground/70 transition-colors hover:bg-[var(--cardeal-primary)] hover:text-white"
                   >
-                    <span className="min-w-0 flex-1 truncate">
-                      {localized(t, "serviceCat", group.category)}
+                    <span className="flex min-w-0 flex-1 items-center gap-2.5">
+                      <img
+                        src={getServiceCategoryIcon(group.category)}
+                        alt=""
+                        aria-hidden="true"
+                        draggable={false}
+                        className="h-5 w-5 shrink-0 object-contain"
+                      />
+                      <span className="min-w-0 flex-1 truncate">
+                        {localized(t, "serviceCat", group.category)}
+                      </span>
                     </span>
                     <ChevronDown
                       size={15}
@@ -249,7 +259,16 @@ export default function ServiceCategorySelect({
                           onClick={() => handleSelect(option)}
                           className="flex cursor-pointer items-center justify-between gap-2 rounded-lg px-3 py-2.5 pl-5 pr-3 text-[15px] text-foreground transition-colors hover:bg-[var(--cardeal-primary)] hover:text-white"
                         >
-                          <span className="min-w-0 flex-1">{localized(t, "serviceCat", option)}</span>
+                          <span className="flex min-w-0 flex-1 items-center gap-2">
+                            <img
+                              src={getServiceCategoryIcon(option)}
+                              alt=""
+                              aria-hidden="true"
+                              draggable={false}
+                              className="h-5 w-5 shrink-0 object-contain"
+                            />
+                            <span className="min-w-0 flex-1">{localized(t, "serviceCat", option)}</span>
+                          </span>
                           {option === value && <Check size={16} className="shrink-0 text-[var(--cardeal-primary)]" />}
                         </li>
                       ))}
