@@ -365,6 +365,24 @@
       { "brand": "Hankook", "model": "Kinergy Eco2", "size": "205/55 R16", "season": "Été", "price": "189 DT", "dealer": "Garage Auto Plus" }
     ]
   },
+  "parts": {
+    "title": "Trouvez la bonne piece detachee au meilleur prix",
+    "subtitle": "Comparez les offres de pieces des garages partenaires et faites-les monter pres de chez vous.",
+    "cta": "Demander un devis",
+    "category": "Categorie",
+    "brand": "Marque",
+    "price": "Prix",
+    "dealer": "Garage",
+    "all": "Toutes",
+    "items": [
+      { "brand": "Michelin", "model": "Brake pads, front axle", "category": "Freins", "price": "185 DT", "dealer": "Garage Auto Plus" },
+      { "brand": "Bridgestone", "model": "Shock absorbers (pair)", "category": "Suspension", "price": "320 DT", "dealer": "Pneus Pro Sousse" },
+      { "brand": "Continental", "model": "Engine oil filter", "category": "Filtres", "price": "28 DT", "dealer": "Garage Tunis Auto" },
+      { "brand": "Pirelli", "model": "Timing belt kit", "category": "Moteur", "price": "245 DT", "dealer": "Auto Service Nabeul" },
+      { "brand": "Goodyear", "model": "Wiper blades (set)", "category": "Carrosserie", "price": "55 DT", "dealer": "Pneus Express Bizerte" },
+      { "brand": "Hankook", "model": "Battery 12V 70Ah", "category": "Electrique", "price": "290 DT", "dealer": "Garage Auto Plus" }
+    ]
+  },
   "advice": {
     "title": "Conseils auto",
     "subtitle": "Guides et astuces pour entretenir votre véhicule et faire les bons choix.",

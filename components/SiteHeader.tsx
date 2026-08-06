@@ -21,7 +21,7 @@ export default function SiteHeader({
   const navLinks = [
     { href: "#find-service", label: t("nav.findService") },
     { href: "#request-quote", label: t("nav.requestQuote") },
-    { href: "#search-parts", label: t("nav.searchParts") },
+    { href: "/rechercher-des-pieces", label: t("nav.searchParts") },
     { href: "/pneus", label: t("nav.tires") },
     { href: "/conseil-auto", label: t("nav.advice") },
     { href: "/bons-plans", label: t("nav.deals") },

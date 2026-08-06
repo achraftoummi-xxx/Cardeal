@@ -6,6 +6,7 @@ import SiteHeader from "@/components/SiteHeader";
 import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
 import { useTranslation } from "@/components/TranslationProvider";
+import heroAdviceImage from "@/assets/images/car_advice.png";
 
 type Article = {
   category: string;
@@ -27,6 +28,17 @@ export default function ConseilAutoPage() {
 
       {/* Hero banner */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[var(--cardeal-primary)] via-[#932024] to-[#4A0A0C]">
+        {/* Background photo — right side on desktop, soft scrim behind copy on mobile */}
+        <div className="absolute inset-0 lg:left-auto lg:w-[55%]" aria-hidden>
+          <img
+            src={heroAdviceImage.src}
+            alt=""
+            draggable={false}
+            className="h-full w-full object-cover object-center"
+          />
+          <div className="absolute inset-y-0 left-1/3 hidden w-40 -skew-x-[18deg] bg-gradient-to-l from-[#BA2529]/95 via-[#BA2529]/60 to-transparent lg:block" />
+          <div className="absolute inset-0 bg-[#4A0A0C]/50 lg:hidden" />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-r from-[#BA2529] via-[#BA2529]/80 to-[#7A1418]/20" />
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
           <div className="max-w-2xl">
