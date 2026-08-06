@@ -2,13 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import L from "leaflet";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import { maptilerLayer, MapStyle } from "@maptiler/leaflet-maptilersdk";
+import { MapContainer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
 import { localized } from "@/lib/i18n";
-import { useTheme } from "./ThemeProvider";
+import StadiaBasemap from "./StadiaBasemap";
 
 type Workshop = {
   name: string;
@@ -35,49 +34,6 @@ type Props = {
 const TUNIS_CENTER: [number, number] = [36.8065, 10.1815];
 const DEFAULT_ZOOM = 14;
 const USER_ZOOM = 14;
-
-const OSM_TILES = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-const OSM_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-
-/* MapTiler basemap — enabled only when a public API key is provided.
-   Falls back to OpenStreetMap tiles otherwise, preserving the exact
-   previous behavior. */
-const MAPTILER_API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY ?? "";
-const HAS_MAPTILER = MAPTILER_API_KEY.length > 0;
-
-/* ------------------------------------------------------------------ */
-/*  MapTiler basemap layer with light/dark style switching             */
-/* ------------------------------------------------------------------ */
-function MaptilerBasemap({ theme }: { theme: "light" | "dark" }) {
-  const map = useMap();
-  const layerRef = useRef<ReturnType<typeof maptilerLayer> | null>(null);
-
-  useEffect(() => {
-    if (!HAS_MAPTILER) return;
-    if (!layerRef.current) {
-      layerRef.current = maptilerLayer({
-        apiKey: MAPTILER_API_KEY,
-        style: theme === "dark" ? MapStyle.STREETS.DARK : MapStyle.STREETS.LIGHT,
-      });
-      layerRef.current.addTo(map);
-    } else {
-      layerRef.current.setStyle(theme === "dark" ? MapStyle.STREETS.DARK : MapStyle.STREETS.LIGHT);
-    }
-  }, [map, theme]);
-
-  /* Cleanup on unmount */
-  useEffect(() => {
-    return () => {
-      if (layerRef.current) {
-        map.removeLayer(layerRef.current);
-        layerRef.current = null;
-      }
-    };
-  }, [map]);
-
-  return null;
-}
 
 /* ------------------------------------------------------------------ */
 /*  Fly to a target whenever the location/user position changes        */
@@ -140,7 +96,6 @@ function AutoLocate({
 /* ------------------------------------------------------------------ */
 export default function NearbyMap({ location, workshops, className = "" }: Props) {
   const { t } = useTranslation();
-  const { resolvedTheme } = useTheme();
   const [userCoords, setUserCoords] = useState<[number, number] | null>(null);
 
   /* Explicit search location wins; otherwise the auto-located position;
@@ -190,8 +145,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
       <div
         className={cn(
           "relative h-[420px] w-full overflow-hidden rounded-2xl border shadow-2xl sm:h-[480px] lg:h-[520px]",
-          "border-border bg-background shadow-black/10 dark:shadow-black/40",
-          !HAS_MAPTILER && "osm-fallback"
+          "border-border bg-background shadow-black/10 dark:shadow-black/40"
         )}
       >
         <MapContainer
@@ -200,11 +154,7 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
           scrollWheelZoom
           className="absolute inset-0 z-0 h-full w-full"
         >
-          {HAS_MAPTILER ? (
-            <MaptilerBasemap theme={resolvedTheme} />
-          ) : (
-            <TileLayer url={OSM_TILES} attribution={OSM_ATTRIBUTION} maxZoom={19} />
-          )}
+          <StadiaBasemap />
 
           <MapController target={target} />
           <AutoLocate enabled={!location} onLocated={setUserCoords} />
@@ -242,12 +192,6 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
           background: hsl(var(--background));
           font-family: inherit;
           border-radius: inherit;
-        }
-        .leaflet-tile-pane {
-          filter: none;
-        }
-        html.dark .osm-fallback .leaflet-tile-pane {
-          filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9);
         }
         .leaflet-popup-content-wrapper {
           border-radius: 12px;

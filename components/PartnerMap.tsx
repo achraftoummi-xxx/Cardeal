@@ -2,13 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import L from "leaflet";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import { maptilerLayer, MapStyle } from "@maptiler/leaflet-maptilersdk";
+import { MapContainer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
-import { useTheme } from "./ThemeProvider";
 import { partnerDistanceKm, type Partner } from "@/lib/partners";
+import StadiaBasemap from "./StadiaBasemap";
 
 type Props = {
   location: { lat: number; lng: number; label: string } | null;
@@ -24,42 +23,9 @@ const DEFAULT_ZOOM = 13;
 const USER_ZOOM = 14;
 const PARTNER_ZOOM = 15;
 
-const OSM_TILES = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-const OSM_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-
-const MAPTILER_API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY ?? "";
-const HAS_MAPTILER = MAPTILER_API_KEY.length > 0;
-
-function MaptilerBasemap({ theme }: { theme: "light" | "dark" }) {
-  const map = useMap();
-  const layerRef = useRef<ReturnType<typeof maptilerLayer> | null>(null);
-
-  useEffect(() => {
-    if (!HAS_MAPTILER) return;
-    if (!layerRef.current) {
-      layerRef.current = maptilerLayer({
-        apiKey: MAPTILER_API_KEY,
-        style: theme === "dark" ? MapStyle.STREETS.DARK : MapStyle.STREETS.LIGHT,
-      });
-      layerRef.current.addTo(map);
-    } else {
-      layerRef.current.setStyle(theme === "dark" ? MapStyle.STREETS.DARK : MapStyle.STREETS.LIGHT);
-    }
-  }, [map, theme]);
-
-  useEffect(() => {
-    return () => {
-      if (layerRef.current) {
-        map.removeLayer(layerRef.current);
-        layerRef.current = null;
-      }
-    };
-  }, [map]);
-
-  return null;
-}
-
+/* ------------------------------------------------------------------ */
+/*  Map controller: fly to the target when location/user changes       */
+/* ------------------------------------------------------------------ */
 function MapController({
   target,
   revalidateKey,
@@ -140,7 +106,6 @@ export default function PartnerMap({
   className = "",
 }: Props) {
   const { t } = useTranslation();
-  const { resolvedTheme } = useTheme();
   const [userCoords, setUserCoords] = useState<[number, number] | null>(null);
   const markerRefs = useRef<Record<string, L.Marker | null>>({});
 
@@ -179,8 +144,7 @@ export default function PartnerMap({
       <div
         className={cn(
           "relative h-[300px] w-full overflow-hidden rounded-2xl border shadow-2xl sm:h-[420px] lg:h-[560px]",
-          "border-border bg-background shadow-black/10 dark:shadow-black/40",
-          !HAS_MAPTILER && "osm-fallback"
+          "border-border bg-background shadow-black/10 dark:shadow-black/40"
         )}
       >
         <MapContainer
@@ -189,11 +153,7 @@ export default function PartnerMap({
           scrollWheelZoom
           className="absolute inset-0 z-0 h-full w-full"
         >
-          {HAS_MAPTILER ? (
-            <MaptilerBasemap theme={resolvedTheme} />
-          ) : (
-            <TileLayer url={OSM_TILES} attribution={OSM_ATTRIBUTION} maxZoom={19} />
-          )}
+          <StadiaBasemap />
 
           <MapController target={target} revalidateKey={revalidateKey} />
           <AutoLocate enabled={!location} onLocated={setUserCoords} />
@@ -262,12 +222,6 @@ export default function PartnerMap({
           background: hsl(var(--background));
           font-family: inherit;
           border-radius: inherit;
-        }
-        .leaflet-tile-pane {
-          filter: none;
-        }
-        html.dark .osm-fallback .leaflet-tile-pane {
-          filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9);
         }
         .leaflet-popup-content-wrapper {
           border-radius: 12px;
