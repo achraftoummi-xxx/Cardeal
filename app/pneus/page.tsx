@@ -72,13 +72,13 @@ export default function PneusPage() {
                       /* Fixed-height bounding box so every brand logo
                          renders at the same scale regardless of its
                          intrinsic aspect ratio (square vs. wide logos). */
-                      <div className="flex h-10 items-center">
+                      <div className="flex h-11 items-center">
                         <img
                           src={logo.src}
                           alt={tire.brand}
                           title={tire.brand}
                           draggable={false}
-                          className="h-8 w-auto max-w-[180px] object-contain transition-transform duration-300 group-hover:scale-105"
+                          className="h-9 w-auto max-w-[300px] object-contain transition-transform duration-300 group-hover:scale-105"
                         />
                       </div>
                     ) : (
