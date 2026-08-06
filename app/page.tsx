@@ -1,84 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SearchAndMapSection from "@/components/SearchAndMapSection";
-import LanguageSelector from "@/components/LanguageSelector";
-import ThemeToggle from "@/components/ThemeToggle";
+import SiteHeader from "@/components/SiteHeader";
 import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
 import { useTranslation } from "@/components/TranslationProvider";
 import heroShopImage from "@/assets/images/cardeal-shop.png";
-import cardealLogo from "@/assets/images/cardeal_logo.png";
 
 export default function Page() {
   const { t } = useTranslation();
   const [showLogin, setShowLogin] = useState(false);
   const [showPartner, setShowPartner] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const howSteps = t("how.steps") as unknown as Array<{ title: string; desc: string }>;
   const services = t("services.items") as unknown as string[];
   const reasons = t("why.reasons") as unknown as string[];
-  const navLinks = [
-    { href: "#find-service", label: t("nav.findService") },
-    { href: "#request-quote", label: t("nav.requestQuote") },
-    { href: "#search-parts", label: t("nav.searchParts") },
-  ];
 
   return (
     <div className="min-h-screen bg-background pb-[env(safe-area-inset-bottom)] text-foreground antialiased">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-2 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6 sm:pt-3 lg:px-8">
-          <div className="shrink-0">
-            <img
-              src={cardealLogo.src}
-              alt={t("site.name")}
-              draggable={false}
-              className="h-10 w-auto dark:brightness-150 sm:h-12"
-            />
-          </div>
-          <div className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
-            {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="transition-colors hover:text-foreground">
-                {link.label}
-              </a>
-            ))}
-          </div>
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <ThemeToggle />
-            <LanguageSelector />
-            <Button variant="outline" className="hidden text-sm sm:inline-flex" onClick={() => setShowPartner(true)}>{t("buttons.becomePartner")}</Button>
-            <Button onClick={() => setShowLogin(true)} className="text-sm">{t("buttons.login")}</Button>
-            <button
-              type="button"
-              onClick={() => setMenuOpen((o) => !o)}
-              aria-expanded={menuOpen}
-              aria-label={t("nav.menu")}
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-zinc-700/50 bg-white text-zinc-700 shadow-sm transition-all hover:border-zinc-600/50 hover:bg-zinc-700/30 md:hidden dark:bg-zinc-800/30 dark:text-zinc-300 dark:hover:border-zinc-600/50 dark:hover:bg-zinc-700/30"
-            >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
-        </nav>
-        {/* Mobile nav panel */}
-        {menuOpen && (
-          <div className="border-t border-border bg-background/95 px-[max(1rem,env(safe-area-inset-left))] py-2 pr-[max(1rem,env(safe-area-inset-right))] backdrop-blur-xl md:hidden">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="flex min-h-11 items-center rounded-lg px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-        )}
-      </header>
+      <SiteHeader onLogin={() => setShowLogin(true)} onPartner={() => setShowPartner(true)} />
 
       {/* Hero banner */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[var(--cardeal-primary)] via-[#932024] to-[#4A0A0C]">

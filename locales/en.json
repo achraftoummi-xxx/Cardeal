@@ -6,6 +6,9 @@
     "findService": "Find a Service",
     "requestQuote": "Request a Quote",
     "searchParts": "Search Parts",
+    "tires": "Tires",
+    "advice": "Car Advice",
+    "deals": "Deals",
     "menu": "Menu"
   },
   "buttons": {
@@ -344,5 +347,49 @@
     "pendingMessage": "Your {type} at {partner} was recorded. The garage will contact you shortly.",
     "pendingAppointment": "appointment",
     "pendingQuote": "quote request"
+  },
+  "pneus": {
+    "title": "Buy your tires at the best price",
+    "subtitle": "Compare tire deals from partner garages and get them fitted near you.",
+    "cta": "Request a quote",
+    "size": "Size",
+    "season": "Season",
+    "price": "Price",
+    "dealer": "Garage",
+    "tires": [
+      { "brand": "Michelin", "model": "Primacy 4+", "size": "205/55 R16", "season": "Summer", "price": "235 DT", "dealer": "Garage Auto Plus" },
+      { "brand": "Bridgestone", "model": "Turanza T005", "size": "215/60 R16", "season": "All-season", "price": "265 DT", "dealer": "Pneus Pro Sousse" },
+      { "brand": "Continental", "model": "EcoContact 6", "size": "195/65 R15", "season": "Summer", "price": "199 DT", "dealer": "Garage Tunis Auto" },
+      { "brand": "Pirelli", "model": "Cinturato P7", "size": "225/45 R17", "season": "All-season", "price": "310 DT", "dealer": "Auto Service Nabeul" },
+      { "brand": "Goodyear", "model": "EfficientGrip Performance", "size": "185/60 R15", "season": "Winter", "price": "175 DT", "dealer": "Pneus Express Bizerte" },
+      { "brand": "Hankook", "model": "Kinergy Eco2", "size": "205/55 R16", "season": "Summer", "price": "189 DT", "dealer": "Garage Auto Plus" }
+    ]
+  },
+  "advice": {
+    "title": "Car advice",
+    "subtitle": "Guides and tips to maintain your vehicle and make the right choices.",
+    "cta": "Read article",
+    "articles": [
+      { "category": "Maintenance", "title": "When should you change your tires?", "excerpt": "Tread wear, age, season: how to tell if your tires are still good.", "readTime": "5 min" },
+      { "category": "Savings", "title": "5 habits to reduce your fuel consumption", "excerpt": "Simple habits that really make a difference to your fuel budget.", "readTime": "4 min" },
+      { "category": "Diagnostics", "title": "Dashboard warning lights explained", "excerpt": "What each warning light means and when you should worry.", "readTime": "8 min" },
+      { "category": "Maintenance", "title": "Oil change: which oil should you choose?", "excerpt": "The criteria for picking the right oil and keeping your engine safe.", "readTime": "6 min" },
+      { "category": "Safety", "title": "Brakes: wear signs you should not ignore", "excerpt": "Noises, vibrations, braking distance: how to spot a problem.", "readTime": "5 min" },
+      { "category": "Buying", "title": "Used car: the checklist before you buy", "excerpt": "The essential points to check to avoid bad surprises.", "readTime": "10 min" }
+    ]
+  },
+  "deals": {
+    "title": "Deals",
+    "subtitle": "Exclusive offers and promotions from CarDeal partner garages.",
+    "cta": "Take advantage",
+    "until": "Until {date}",
+    "deals": [
+      { "badge": "-20%", "title": "Full oil change at a reduced price", "desc": "Oil, filter and labor included. Offer valid in store.", "date": "Aug 31, 2026" },
+      { "badge": "-15%", "title": "Brake pad replacement", "desc": "Front pad kit with free fitting at participating garages.", "date": "Sep 30, 2026" },
+      { "badge": "-30%", "title": "Tires + fitting package", "desc": "Up to 30% off on a pair of tires purchased, fitting included.", "date": "Aug 31, 2026" },
+      { "badge": "-10%", "title": "Full electronic diagnostics", "desc": "Fault reading and detailed report offered with any service.", "date": "Dec 31, 2026" },
+      { "badge": "-25%", "title": "AC recharging", "desc": "Gas recharge with leak test at an exceptional price.", "date": "Sep 30, 2026" },
+      { "badge": "-50%", "title": "First technical inspection", "desc": "Pre-inspection package with correction of major defects.", "date": "Aug 31, 2026" }
+    ]
   }
 }

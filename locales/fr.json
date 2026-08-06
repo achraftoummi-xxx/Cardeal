@@ -6,6 +6,9 @@
     "findService": "Trouver un service",
     "requestQuote": "Demander un devis",
     "searchParts": "Rechercher des pièces",
+    "tires": "Pneus",
+    "advice": "Conseil Auto",
+    "deals": "Bons plans",
     "menu": "Menu"
   },
   "buttons": {
@@ -344,5 +347,49 @@
     "pendingMessage": "Votre {type} chez {partner} a bien été enregistré. Le garage vous contactera rapidement.",
     "pendingAppointment": "rendez-vous",
     "pendingQuote": "demande de devis"
+  },
+  "pneus": {
+    "title": "Achetez vos pneus au meilleur prix",
+    "subtitle": "Comparez les offres de pneus des garages partenaires et faites-les poser près de chez vous.",
+    "cta": "Demander un devis",
+    "size": "Dimension",
+    "season": "Saison",
+    "price": "Prix",
+    "dealer": "Garage",
+    "tires": [
+      { "brand": "Michelin", "model": "Primacy 4+", "size": "205/55 R16", "season": "Été", "price": "235 DT", "dealer": "Garage Auto Plus" },
+      { "brand": "Bridgestone", "model": "Turanza T005", "size": "215/60 R16", "season": "Toutes saisons", "price": "265 DT", "dealer": "Pneus Pro Sousse" },
+      { "brand": "Continental", "model": "EcoContact 6", "size": "195/65 R15", "season": "Été", "price": "199 DT", "dealer": "Garage Tunis Auto" },
+      { "brand": "Pirelli", "model": "Cinturato P7", "size": "225/45 R17", "season": "Toutes saisons", "price": "310 DT", "dealer": "Auto Service Nabeul" },
+      { "brand": "Goodyear", "model": "EfficientGrip Performance", "size": "185/60 R15", "season": "Hiver", "price": "175 DT", "dealer": "Pneus Express Bizerte" },
+      { "brand": "Hankook", "model": "Kinergy Eco2", "size": "205/55 R16", "season": "Été", "price": "189 DT", "dealer": "Garage Auto Plus" }
+    ]
+  },
+  "advice": {
+    "title": "Conseils auto",
+    "subtitle": "Guides et astuces pour entretenir votre véhicule et faire les bons choix.",
+    "cta": "Lire l'article",
+    "articles": [
+      { "category": "Entretien", "title": "Quand faut-il changer ses pneus ?", "excerpt": "Usure, date, saison : les repères pour savoir si vos pneus sont encore bons.", "readTime": "5 min" },
+      { "category": "Économies", "title": "5 réflexes pour réduire sa consommation de carburant", "excerpt": "Des gestes simples qui font vraiment la différence sur votre budget essence.", "readTime": "4 min" },
+      { "category": "Diagnostic", "title": "Les voyants du tableau de bord expliqués", "excerpt": "Que signifie chaque voyant et quand devez-vous vous inquiéter ?", "readTime": "8 min" },
+      { "category": "Entretien", "title": "Vidange : quelle huile choisir pour mon moteur ?", "excerpt": "Les critères pour choisir la bonne huile et ne pas abîmer votre moteur.", "readTime": "6 min" },
+      { "category": "Sécurité", "title": "Freins : les signes d'usure à ne pas ignorer", "excerpt": "Bruits, vibrations, distances de freinage : comment détecter un problème.", "readTime": "5 min" },
+      { "category": "Achat", "title": "Voiture d'occasion : la checklist avant d'acheter", "excerpt": "Les points essentiels à vérifier pour éviter les mauvaises surprises.", "readTime": "10 min" }
+    ]
+  },
+  "deals": {
+    "title": "Bons plans",
+    "subtitle": "Les offres et promotions exclusives des garages partenaires CarDeal.",
+    "cta": "En profiter",
+    "until": "Jusqu'au {date}",
+    "deals": [
+      { "badge": "-20%", "title": "Vidange complète à prix réduit", "desc": "Huile, filtre et main-d'œuvre inclus. Offre valable en magasin.", "date": "31 août 2026" },
+      { "badge": "-15%", "title": "Remplacement de plaquettes de frein", "desc": "Kit plaquettes avant avec pose offerte dans les garages participants.", "date": "30 septembre 2026" },
+      { "badge": "-30%", "title": "Forfait pneus + montage", "desc": "Jusqu'à 30% de remise sur la paire de pneus achetée, montage inclus.", "date": "31 août 2026" },
+      { "badge": "-10%", "title": "Diagnostic électronique complet", "desc": "Lecture des défauts et rapport détaillé offert à toute intervention.", "date": "31 décembre 2026" },
+      { "badge": "-25%", "title": "Recharge de climatisation", "desc": "Recharge gaz avec contrôle d'étanchéité à prix exceptionnel.", "date": "30 septembre 2026" },
+      { "badge": "-50%", "title": "Premier contrôle technique", "desc": "Pack pré-contrôle technique avec correction des défauts majeurs.", "date": "31 août 2026" }
+    ]
   }
 }

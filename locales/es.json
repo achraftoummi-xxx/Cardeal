@@ -6,6 +6,9 @@
     "findService": "Buscar un servicio",
     "requestQuote": "Solicitar presupuesto",
     "searchParts": "Buscar repuestos",
+    "tires": "Neumáticos",
+    "advice": "Consejos de coche",
+    "deals": "Ofertas",
     "menu": "Menú"
   },
   "buttons": {
@@ -344,5 +347,49 @@
     "pendingMessage": "Tu {type} en {partner} fue registrado. El taller te contactará pronto.",
     "pendingAppointment": "cita",
     "pendingQuote": "solicitud de presupuesto"
+  },
+  "pneus": {
+    "title": "Compra tus neumáticos al mejor precio",
+    "subtitle": "Compara ofertas de neumáticos de los talleres asociados y hazlos instalar cerca de ti.",
+    "cta": "Solicitar presupuesto",
+    "size": "Medida",
+    "season": "Temporada",
+    "price": "Precio",
+    "dealer": "Taller",
+    "tires": [
+      { "brand": "Michelin", "model": "Primacy 4+", "size": "205/55 R16", "season": "Verano", "price": "235 DT", "dealer": "Garage Auto Plus" },
+      { "brand": "Bridgestone", "model": "Turanza T005", "size": "215/60 R16", "season": "Todas las estaciones", "price": "265 DT", "dealer": "Pneus Pro Sousse" },
+      { "brand": "Continental", "model": "EcoContact 6", "size": "195/65 R15", "season": "Verano", "price": "199 DT", "dealer": "Garage Tunis Auto" },
+      { "brand": "Pirelli", "model": "Cinturato P7", "size": "225/45 R17", "season": "Todas las estaciones", "price": "310 DT", "dealer": "Auto Service Nabeul" },
+      { "brand": "Goodyear", "model": "EfficientGrip Performance", "size": "185/60 R15", "season": "Invierno", "price": "175 DT", "dealer": "Pneus Express Bizerte" },
+      { "brand": "Hankook", "model": "Kinergy Eco2", "size": "205/55 R16", "season": "Verano", "price": "189 DT", "dealer": "Garage Auto Plus" }
+    ]
+  },
+  "advice": {
+    "title": "Consejos de coche",
+    "subtitle": "Guías y consejos para mantener tu vehículo y tomar las mejores decisiones.",
+    "cta": "Leer artículo",
+    "articles": [
+      { "category": "Mantenimiento", "title": "¿Cuándo hay que cambiar los neumáticos?", "excerpt": "Desgaste, fecha, temporada: cómo saber si tus neumáticos siguen en buen estado.", "readTime": "5 min" },
+      { "category": "Ahorro", "title": "5 hábitos para reducir el consumo de combustible", "excerpt": "Gestos sencillos que marcan la diferencia en tu presupuesto.", "readTime": "4 min" },
+      { "category": "Diagnóstico", "title": "Testigos del cuadro de mandos explicados", "excerpt": "Qué significa cada testigo y cuándo debes preocuparte.", "readTime": "8 min" },
+      { "category": "Mantenimiento", "title": "Cambio de aceite: ¿qué aceite elegir?", "excerpt": "Los criterios para elegir el aceite adecuado y proteger tu motor.", "readTime": "6 min" },
+      { "category": "Seguridad", "title": "Frenos: signos de desgaste que no debes ignorar", "excerpt": "Ruidos, vibraciones, distancia de frenado: cómo detectar un problema.", "readTime": "5 min" },
+      { "category": "Compra", "title": "Coche de segunda mano: la checklist antes de comprar", "excerpt": "Los puntos esenciales para evitar sorpresas desagradables.", "readTime": "10 min" }
+    ]
+  },
+  "deals": {
+    "title": "Ofertas",
+    "subtitle": "Ofertas y promociones exclusivas de los talleres asociados a CarDeal.",
+    "cta": "Aprovechar",
+    "until": "Hasta el {date}",
+    "deals": [
+      { "badge": "-20%", "title": "Cambio de aceite completo a precio reducido", "desc": "Aceite, filtro y mano de obra incluidos. Oferta válida en el taller.", "date": "31 ago 2026" },
+      { "badge": "-15%", "title": "Cambio de pastillas de freno", "desc": "Kit de pastillas delanteras con montaje gratis en los talleres participantes.", "date": "30 sep 2026" },
+      { "badge": "-30%", "title": "Paquete neumáticos + montaje", "desc": "Hasta 30% de descuento en el par de neumáticos comprado, montaje incluido.", "date": "31 ago 2026" },
+      { "badge": "-10%", "title": "Diagnóstico electrónico completo", "desc": "Lectura de averías e informe detallado con cualquier intervención.", "date": "31 dic 2026" },
+      { "badge": "-25%", "title": "Recarga de aire acondicionado", "desc": "Recarga de gas con control de estanqueidad a precio excepcional.", "date": "30 sep 2026" },
+      { "badge": "-50%", "title": "Primera ITV", "desc": "Paquete de pre-ITV con corrección de defectos importantes.", "date": "31 ago 2026" }
+    ]
   }
 }

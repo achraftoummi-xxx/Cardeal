@@ -6,6 +6,9 @@
     "findService": "Trova un servizio",
     "requestQuote": "Richiedi un preventivo",
     "searchParts": "Cerca ricambi",
+    "tires": "Pneumatici",
+    "advice": "Consigli auto",
+    "deals": "Offerte",
     "menu": "Menu"
   },
   "buttons": {
@@ -344,5 +347,49 @@
     "pendingMessage": "Il tuo {type} presso {partner} è stato registrato. L'officina ti contatterà presto.",
     "pendingAppointment": "appuntamento",
     "pendingQuote": "richiesta di preventivo"
+  },
+  "pneus": {
+    "title": "Compra i tuoi pneumatici al miglior prezzo",
+    "subtitle": "Confronta le offerte di pneumatici delle officine partner e falli montare vicino a te.",
+    "cta": "Richiedi un preventivo",
+    "size": "Misure",
+    "season": "Stagione",
+    "price": "Prezzo",
+    "dealer": "Officina",
+    "tires": [
+      { "brand": "Michelin", "model": "Primacy 4+", "size": "205/55 R16", "season": "Estivi", "price": "235 DT", "dealer": "Garage Auto Plus" },
+      { "brand": "Bridgestone", "model": "Turanza T005", "size": "215/60 R16", "season": "Quattro stagioni", "price": "265 DT", "dealer": "Pneus Pro Sousse" },
+      { "brand": "Continental", "model": "EcoContact 6", "size": "195/65 R15", "season": "Estivi", "price": "199 DT", "dealer": "Garage Tunis Auto" },
+      { "brand": "Pirelli", "model": "Cinturato P7", "size": "225/45 R17", "season": "Quattro stagioni", "price": "310 DT", "dealer": "Auto Service Nabeul" },
+      { "brand": "Goodyear", "model": "EfficientGrip Performance", "size": "185/60 R15", "season": "Invernali", "price": "175 DT", "dealer": "Pneus Express Bizerte" },
+      { "brand": "Hankook", "model": "Kinergy Eco2", "size": "205/55 R16", "season": "Estivi", "price": "189 DT", "dealer": "Garage Auto Plus" }
+    ]
+  },
+  "advice": {
+    "title": "Consigli auto",
+    "subtitle": "Guide e consigli per mantenere il tuo veicolo e fare le scelte giuste.",
+    "cta": "Leggi l'articolo",
+    "articles": [
+      { "category": "Manutenzione", "title": "Quando cambiare gli pneumatici?", "excerpt": "Usura, data, stagione: come capire se i tuoi pneumatici sono ancora buoni.", "readTime": "5 min" },
+      { "category": "Risparmio", "title": "5 abitudini per ridurre il consumo di carburante", "excerpt": "Semplici gesti che fanno davvero la differenza sul budget.", "readTime": "4 min" },
+      { "category": "Diagnostica", "title": "Le spie del cruscotto spiegate", "excerpt": "Cosa significa ogni spia e quando devi preoccuparti.", "readTime": "8 min" },
+      { "category": "Manutenzione", "title": "Cambio olio: quale olio scegliere?", "excerpt": "I criteri per scegliere l'olio giusto e proteggere il motore.", "readTime": "6 min" },
+      { "category": "Sicurezza", "title": "Freni: i segni di usura da non ignorare", "excerpt": "Rumori, vibrazioni, distanza di frenata: come individuare un problema.", "readTime": "5 min" },
+      { "category": "Acquisto", "title": "Auto usata: la checklist prima di comprare", "excerpt": "I punti essenziali da verificare per evitare brutte sorprese.", "readTime": "10 min" }
+    ]
+  },
+  "deals": {
+    "title": "Offerte",
+    "subtitle": "Offerte e promozioni esclusive delle officine partner di CarDeal.",
+    "cta": "Approfittane",
+    "until": "Fino al {date}",
+    "deals": [
+      { "badge": "-20%", "title": "Cambio olio completo a prezzo ridotto", "desc": "Olio, filtro e manodopera inclusi. Offerta valida in officina.", "date": "31 ago 2026" },
+      { "badge": "-15%", "title": "Sostituzione pastiglie freno", "desc": "Kit pastiglie anteriori con montaggio gratuito nelle officine partecipanti.", "date": "30 set 2026" },
+      { "badge": "-30%", "title": "Pacchetto pneumatici + montaggio", "desc": "Fino al 30% di sconto sul paio di pneumatici acquistato, montaggio incluso.", "date": "31 ago 2026" },
+      { "badge": "-10%", "title": "Diagnosi elettronica completa", "desc": "Lettura anomalie e rapporto dettagliato con qualsiasi intervento.", "date": "31 dic 2026" },
+      { "badge": "-25%", "title": "Ricarica climatizzatore", "desc": "Ricarica gas con controllo tenuta a prezzo eccezionale.", "date": "30 set 2026" },
+      { "badge": "-50%", "title": "Prima revisione", "desc": "Pacchetto pre-revisione con correzione dei difetti principali.", "date": "31 ago 2026" }
+    ]
   }
 }

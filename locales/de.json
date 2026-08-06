@@ -6,6 +6,9 @@
     "findService": "Service finden",
     "requestQuote": "Angebot anfordern",
     "searchParts": "Ersatzteile suchen",
+    "tires": "Reifen",
+    "advice": "Auto-Tipps",
+    "deals": "Schnäppchen",
     "menu": "Menü"
   },
   "buttons": {
@@ -344,5 +347,49 @@
     "pendingMessage": "Ihr {type} bei {partner} wurde erfasst. Die Werkstatt wird sich bald bei Ihnen melden.",
     "pendingAppointment": "Termin",
     "pendingQuote": "Angebotsanfrage"
+  },
+  "pneus": {
+    "title": "Kaufen Sie Ihre Reifen zum besten Preis",
+    "subtitle": "Vergleichen Sie Reifenangebote der Partnerwerkstätten und lassen Sie sie in Ihrer Nähe montieren.",
+    "cta": "Angebot anfordern",
+    "size": "Größe",
+    "season": "Saison",
+    "price": "Preis",
+    "dealer": "Werkstatt",
+    "tires": [
+      { "brand": "Michelin", "model": "Primacy 4+", "size": "205/55 R16", "season": "Sommer", "price": "235 DT", "dealer": "Garage Auto Plus" },
+      { "brand": "Bridgestone", "model": "Turanza T005", "size": "215/60 R16", "season": "Ganzjahres", "price": "265 DT", "dealer": "Pneus Pro Sousse" },
+      { "brand": "Continental", "model": "EcoContact 6", "size": "195/65 R15", "season": "Sommer", "price": "199 DT", "dealer": "Garage Tunis Auto" },
+      { "brand": "Pirelli", "model": "Cinturato P7", "size": "225/45 R17", "season": "Ganzjahres", "price": "310 DT", "dealer": "Auto Service Nabeul" },
+      { "brand": "Goodyear", "model": "EfficientGrip Performance", "size": "185/60 R15", "season": "Winter", "price": "175 DT", "dealer": "Pneus Express Bizerte" },
+      { "brand": "Hankook", "model": "Kinergy Eco2", "size": "205/55 R16", "season": "Sommer", "price": "189 DT", "dealer": "Garage Auto Plus" }
+    ]
+  },
+  "advice": {
+    "title": "Auto-Tipps",
+    "subtitle": "Ratgeber und Tipps für die Pflege Ihres Fahrzeugs und die richtigen Entscheidungen.",
+    "cta": "Artikel lesen",
+    "articles": [
+      { "category": "Wartung", "title": "Wann sollten Sie die Reifen wechseln?", "excerpt": "Abnutzung, Alter, Saison: So erkennen Sie, ob Ihre Reifen noch gut sind.", "readTime": "5 Min." },
+      { "category": "Sparen", "title": "5 Gewohnheiten zur Reduzierung des Kraftstoffverbrauchs", "excerpt": "Einfache Schritte, die bei Ihrem Spritbudget wirklich etwas ausmachen.", "readTime": "4 Min." },
+      { "category": "Diagnose", "title": "Die Kontrollleuchten im Cockpit erklärt", "excerpt": "Was jede Leuchte bedeutet und wann Sie sich Sorgen machen sollten.", "readTime": "8 Min." },
+      { "category": "Wartung", "title": "Ölwechsel: Welches Öl für meinen Motor?", "excerpt": "Die Kriterien für das richtige Öl – zum Schutz Ihres Motors.", "readTime": "6 Min." },
+      { "category": "Sicherheit", "title": "Bremsen: Verschleißzeichen, die Sie nicht ignorieren sollten", "excerpt": "Geräusche, Vibrationen, Bremsweg: So erkennen Sie ein Problem.", "readTime": "5 Min." },
+      { "category": "Kauf", "title": "Gebrauchtwagen: Die Checkliste vor dem Kauf", "excerpt": "Die wichtigsten Punkte, um böse Überraschungen zu vermeiden.", "readTime": "10 Min." }
+    ]
+  },
+  "deals": {
+    "title": "Schnäppchen",
+    "subtitle": "Exklusive Angebote und Aktionen der CarDeal-Partnerwerkstätten.",
+    "cta": "Nutzen",
+    "until": "Bis zum {date}",
+    "deals": [
+      { "badge": "-20%", "title": "Kompletter Ölwechsel zum Sonderpreis", "desc": "Öl, Filter und Arbeitszeit inklusive. Angebot gültig in der Werkstatt.", "date": "31. August 2026" },
+      { "badge": "-15%", "title": "Bremsbelagwechsel", "desc": "Belagset vorne inklusive kostenloser Montage in teilnehmenden Werkstätten.", "date": "30. September 2026" },
+      { "badge": "-30%", "title": "Paket Reifen + Montage", "desc": "Bis zu 30% Rabatt auf das gekaufte Reifenpaar, Montage inklusive.", "date": "31. August 2026" },
+      { "badge": "-10%", "title": "Komplette elektronische Diagnose", "desc": "Fehlerauslesung und ausführlicher Bericht bei jedem Service.", "date": "31. Dezember 2026" },
+      { "badge": "-25%", "title": "Klimaanlagen-Erneuerung", "desc": "Gasbefüllung mit Dichtheitsprüfung zum Sonderpreis.", "date": "30. September 2026" },
+      { "badge": "-50%", "title": "Erste technische Prüfung", "desc": "Vorab-Prüfungs-Paket mit Korrektur der wichtigsten Mängel.", "date": "31. August 2026" }
+    ]
   }
 }
