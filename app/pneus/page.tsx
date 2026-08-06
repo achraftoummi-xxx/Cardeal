@@ -5,6 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
 import { useTranslation } from "@/components/TranslationProvider";
+import { getTireBrandLogo } from "@/data/tireBrandLogos";
 import heroTiresImage from "@/assets/images/cardeal-tires.png";
 
 type TireOffer = {
@@ -65,7 +66,20 @@ export default function PneusPage() {
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-foreground sm:text-xl">{tire.brand}</h2>
+                  {(() => {
+                    const logo = getTireBrandLogo(tire.brand);
+                    return logo ? (
+                      <img
+                        src={logo.src}
+                        alt={tire.brand}
+                        title={tire.brand}
+                        draggable={false}
+                        className="h-9 w-auto max-w-[150px] object-contain transition-transform duration-300 group-hover:scale-105"
+                      />
+                    ) : (
+                      <h2 className="text-lg font-semibold text-foreground sm:text-xl">{tire.brand}</h2>
+                    );
+                  })()}
                   <p className="mt-1 text-sm text-muted-foreground">{tire.model}</p>
                 </div>
                 <span className="shrink-0 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-400 ring-1 ring-blue-500/20">
