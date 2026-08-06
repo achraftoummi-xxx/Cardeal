@@ -69,13 +69,18 @@ export default function PneusPage() {
                   {(() => {
                     const logo = getTireBrandLogo(tire.brand);
                     return logo ? (
-                      <img
-                        src={logo.src}
-                        alt={tire.brand}
-                        title={tire.brand}
-                        draggable={false}
-                        className="h-9 w-auto max-w-[150px] object-contain transition-transform duration-300 group-hover:scale-105"
-                      />
+                      /* Fixed-height bounding box so every brand logo
+                         renders at the same scale regardless of its
+                         intrinsic aspect ratio (square vs. wide logos). */
+                      <div className="flex h-10 items-center">
+                        <img
+                          src={logo.src}
+                          alt={tire.brand}
+                          title={tire.brand}
+                          draggable={false}
+                          className="h-8 w-auto max-w-[180px] object-contain transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
                     ) : (
                       <h2 className="text-lg font-semibold text-foreground sm:text-xl">{tire.brand}</h2>
                     );
