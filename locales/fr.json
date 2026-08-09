@@ -9,6 +9,7 @@
     "tires": "Pneus",
     "advice": "Conseil Auto",
     "deals": "Bons plans",
+    "dealers": "Distributeurs pièces",
     "menu": "Menu"
   },
   "buttons": {
@@ -409,5 +410,14 @@
       { "badge": "-25%", "title": "Recharge de climatisation", "desc": "Recharge gaz avec contrôle d'étanchéité à prix exceptionnel.", "date": "30 septembre 2026" },
       { "badge": "-50%", "title": "Premier contrôle technique", "desc": "Pack pré-contrôle technique avec correction des défauts majeurs.", "date": "31 août 2026" }
     ]
+  },
+  "dealers": {
+    "title": "Distributeurs de pièces auto",
+    "subtitle": "Répertoire des distributeurs de pièces détachées en Tunisie, avec avis Google.",
+    "loading": "Chargement des distributeurs...",
+    "error": "Impossible de charger les distributeurs. Réessayez plus tard.",
+    "empty": "Aucun distributeur disponible pour le moment.",
+    "website": "Site web",
+    "facebook": "Facebook"
   }
 }

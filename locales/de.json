@@ -9,6 +9,7 @@
     "tires": "Reifen",
     "advice": "Auto-Tipps",
     "deals": "Schnäppchen",
+    "dealers": "Teilehändler",
     "menu": "Menü"
   },
   "buttons": {
@@ -409,5 +410,14 @@
       { "badge": "-25%", "title": "Klimaanlagen-Erneuerung", "desc": "Gasbefüllung mit Dichtheitsprüfung zum Sonderpreis.", "date": "30. September 2026" },
       { "badge": "-50%", "title": "Erste technische Prüfung", "desc": "Vorab-Prüfungs-Paket mit Korrektur der wichtigsten Mängel.", "date": "31. August 2026" }
     ]
+  },
+  "dealers": {
+    "title": "Autoteile-Händler",
+    "subtitle": "Verzeichnis der Autoteile-Händler in Tunesien mit Google-Bewertungen.",
+    "loading": "Händler werden geladen...",
+    "error": "Händler konnten nicht geladen werden. Bitte später erneut versuchen.",
+    "empty": "Derzeit sind keine Händler verfügbar.",
+    "website": "Website",
+    "facebook": "Facebook"
   }
 }

@@ -9,6 +9,7 @@
     "tires": "Pneumatici",
     "advice": "Consigli auto",
     "deals": "Offerte",
+    "dealers": "Rivenditori ricambi",
     "menu": "Menu"
   },
   "buttons": {
@@ -409,5 +410,14 @@
       { "badge": "-25%", "title": "Ricarica climatizzatore", "desc": "Ricarica gas con controllo tenuta a prezzo eccezionale.", "date": "30 set 2026" },
       { "badge": "-50%", "title": "Prima revisione", "desc": "Pacchetto pre-revisione con correzione dei difetti principali.", "date": "31 ago 2026" }
     ]
+  },
+  "dealers": {
+    "title": "Rivenditori di ricambi auto",
+    "subtitle": "Elenco dei rivenditori di ricambi auto in Tunisia, con recensioni Google.",
+    "loading": "Caricamento rivenditori...",
+    "error": "Impossibile caricare i rivenditori. Riprova più tardi.",
+    "empty": "Nessun rivenditore disponibile al momento.",
+    "website": "Sito web",
+    "facebook": "Facebook"
   }
 }

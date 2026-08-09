@@ -9,6 +9,7 @@
     "tires": "Tires",
     "advice": "Car Advice",
     "deals": "Deals",
+    "dealers": "Parts Dealers",
     "menu": "Menu"
   },
   "buttons": {
@@ -409,5 +410,14 @@
       { "badge": "-25%", "title": "AC recharging", "desc": "Gas recharge with leak test at an exceptional price.", "date": "Sep 30, 2026" },
       { "badge": "-50%", "title": "First technical inspection", "desc": "Pre-inspection package with correction of major defects.", "date": "Aug 31, 2026" }
     ]
+  },
+  "dealers": {
+    "title": "Auto Parts Dealers",
+    "subtitle": "Directory of auto parts dealers in Tunisia, with Google reviews.",
+    "loading": "Loading dealers...",
+    "error": "Unable to load dealers. Please try again later.",
+    "empty": "No dealers available at the moment.",
+    "website": "Website",
+    "facebook": "Facebook"
   }
 }

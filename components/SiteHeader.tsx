@@ -25,6 +25,7 @@ export default function SiteHeader({
     { href: "/pneus", label: t("nav.tires") },
     { href: "/conseil-auto", label: t("nav.advice") },
     { href: "/bons-plans", label: t("nav.deals") },
+    { href: "/dealers", label: t("nav.dealers") },
   ];
 
   return (

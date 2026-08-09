@@ -9,6 +9,7 @@
     "tires": "Neumáticos",
     "advice": "Consejos de coche",
     "deals": "Ofertas",
+    "dealers": "Proveedores de piezas",
     "menu": "Menú"
   },
   "buttons": {
@@ -409,5 +410,14 @@
       { "badge": "-25%", "title": "Recarga de aire acondicionado", "desc": "Recarga de gas con control de estanqueidad a precio excepcional.", "date": "30 sep 2026" },
       { "badge": "-50%", "title": "Primera ITV", "desc": "Paquete de pre-ITV con corrección de defectos importantes.", "date": "31 ago 2026" }
     ]
+  },
+  "dealers": {
+    "title": "Proveedores de piezas de automóvil",
+    "subtitle": "Directorio de proveedores de piezas de automóvil en Túnez, con reseñas de Google.",
+    "loading": "Cargando proveedores...",
+    "error": "No se pudieron cargar los proveedores. Inténtelo más tarde.",
+    "empty": "No hay proveedores disponibles por ahora.",
+    "website": "Sitio web",
+    "facebook": "Facebook"
   }
 }
