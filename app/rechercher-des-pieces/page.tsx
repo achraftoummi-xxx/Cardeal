@@ -8,6 +8,7 @@ import DealerCard from "@/components/DealerCard";
 import { useTranslation } from "@/components/TranslationProvider";
 import { getDealerLogo } from "@/data/dealerLogos";
 import { getManufacturerLogo } from "@/data/manufacturerLogos";
+import { MANUFACTURER_CATALOG } from "@/data/manufacturerCatalog";
 import { fetchDealers, type Dealer } from "@/lib/dealers";
 import { cn } from "@/lib/utils";
 import heroPartsImage from "@/assets/images/quto_pqrts.png";
@@ -19,12 +20,6 @@ type PartItem = {
   price: string;
   dealer: string;
 };
-
-const PART_BRAND_GROUPS = [
-  { region: "european", brands: ["Valeo", "Bosch", "Continental", "Purflux", "Brembo"] },
-  { region: "asian", brands: ["Denso", "Aisin", "KYB"] },
-  { region: "american", brands: ["ACDelco", "Moog"] },
-] as const;
 
 export default function PartsSearchPage() {
   const { t } = useTranslation();
@@ -58,10 +53,13 @@ export default function PartsSearchPage() {
   const categories = useMemo(() => [...new Set(parts.map((p) => p.category))], [parts]);
   const brandGroups = useMemo(
     () =>
-      PART_BRAND_GROUPS.map((group) => ({
-        label: t(`parts.regions.${group.region}`),
-        options: [...group.brands],
-      })),
+      MANUFACTURER_CATALOG.filter((region) => region.countries.some((c) => c.brands.length > 0))
+        .map((region) => ({
+          label: t(`parts.regions.${region.id}`),
+          countries: region.countries
+            .filter((c) => c.brands.length > 0)
+            .map((c) => ({ name: c.name, flag: c.flag, brands: [...c.brands] })),
+        })),
     [t]
   );
 
@@ -243,7 +241,7 @@ function BrandSelect({
 }: {
   label: string;
   value: string;
-  groups: { label: string; options: string[] }[];
+  groups: { label: string; countries: { name: string; flag: string; brands: string[] }[] }[];
   onChange: (v: string) => void;
   placeholder?: string;
 }) {
@@ -266,7 +264,7 @@ function BrandSelect({
   }, [open]);
 
   const fieldId = `select-${label.toLowerCase().replace(/\s+/g, "-")}`;
-  const selected = groups.flatMap((g) => g.options).find((o) => o === value);
+  const selected = groups.flatMap((g) => g.countries).flatMap((c) => c.brands).find((o) => o === value);
 
   return (
     <div>
@@ -309,37 +307,50 @@ function BrandSelect({
         </button>
 
         {open && (
-          <div className="absolute z-30 mt-2 max-h-72 w-full min-w-56 overflow-y-auto rounded-xl border border-border bg-background p-1 shadow-xl">
+          <div className="absolute z-30 mt-2 max-h-80 w-full min-w-64 overflow-y-auto rounded-xl border border-border bg-background p-1 shadow-xl">
             {groups.map((group) => (
               <div key={group.label}>
-                <p className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <p className="px-3 pb-1 pt-3 text-[11px] font-bold uppercase tracking-wider text-[var(--cardeal-primary)]">
                   {group.label}
                 </p>
-                {group.options.map((option) => (
-                  <button
-                    key={option}
-                    type="button"
-                    role="option"
-                    aria-selected={option === value}
-                    onClick={() => {
-                      onChange(option);
-                      setOpen(false);
-                    }}
-                    className={cn(
-                      "flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-accent",
-                      option === value && "bg-accent font-semibold"
-                    )}
-                  >
-                    <span className="flex h-6 w-16 shrink-0 items-center justify-center">
+                {group.countries.map((country) => (
+                  <div key={country.name}>
+                    <p className="flex items-center gap-2 px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                       <img
-                        src={getManufacturerLogo(option).src}
-                        alt={option}
+                        src={country.flag}
+                        alt=""
                         draggable={false}
-                        className="h-5 w-auto max-w-[60px] object-contain"
+                        className="h-3.5 w-5 shrink-0 rounded-[2px] object-cover"
                       />
-                    </span>
-                    <span className="truncate">{option}</span>
-                  </button>
+                      {country.name}
+                    </p>
+                    {country.brands.map((option) => (
+                      <button
+                        key={option}
+                        type="button"
+                        role="option"
+                        aria-selected={option === value}
+                        onClick={() => {
+                          onChange(option);
+                          setOpen(false);
+                        }}
+                        className={cn(
+                          "flex w-full items-center gap-2 rounded-lg px-3 py-2 pl-6 text-left text-sm text-foreground transition-colors hover:bg-accent",
+                          option === value && "bg-accent font-semibold"
+                        )}
+                      >
+                        <span className="flex h-6 w-16 shrink-0 items-center justify-center">
+                          <img
+                            src={getManufacturerLogo(option).src}
+                            alt={option}
+                            draggable={false}
+                            className="h-5 w-auto max-w-[60px] object-contain"
+                          />
+                        </span>
+                        <span className="truncate">{option}</span>
+                      </button>
+                    ))}
+                  </div>
                 ))}
               </div>
             ))}
