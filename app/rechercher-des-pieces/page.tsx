@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
+import DealerCard from "@/components/DealerCard";
 import { useTranslation } from "@/components/TranslationProvider";
 import { getTireBrandLogo } from "@/data/tireBrandLogos";
+import { fetchDealers, type Dealer } from "@/lib/dealers";
 import { cn } from "@/lib/utils";
 import heroPartsImage from "@/assets/images/quto_pqrts.png";
 
@@ -23,6 +25,26 @@ export default function PartsSearchPage() {
   const [showPartner, setShowPartner] = useState(false);
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
+  const [dealers, setDealers] = useState<Dealer[]>([]);
+  const [loadingDealers, setLoadingDealers] = useState(true);
+  const [dealersError, setDealersError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchDealers()
+      .then((rows) => {
+        if (!cancelled) setDealers(rows);
+      })
+      .catch(() => {
+        if (!cancelled) setDealersError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingDealers(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const parts = t("parts.items") as unknown as PartItem[];
 
@@ -147,6 +169,45 @@ export default function PartsSearchPage() {
         {filtered.length === 0 && (
           <div className="flex flex-col items-center rounded-2xl border border-border bg-card/50 px-6 py-14 text-center backdrop-blur-sm">
             <p className="max-w-md text-sm text-muted-foreground">{t("results.noPartnersHint")}</p>
+          </div>
+        )}
+      </section>
+
+      {/* Dealer directory window */}
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
+            {t("dealers.title")}
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            {t("dealers.subtitle")}
+          </p>
+        </div>
+
+        {loadingDealers && (
+          <div className="flex items-center justify-center gap-3 py-16 text-muted-foreground">
+            <span className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--cardeal-primary)] border-t-transparent" />
+            <span className="text-sm">{t("dealers.loading")}</span>
+          </div>
+        )}
+
+        {!loadingDealers && dealersError && (
+          <div className="flex flex-col items-center rounded-2xl border border-border bg-card/50 px-6 py-14 text-center backdrop-blur-sm">
+            <p className="max-w-md text-sm text-muted-foreground">{t("dealers.error")}</p>
+          </div>
+        )}
+
+        {!loadingDealers && !dealersError && dealers.length === 0 && (
+          <div className="flex flex-col items-center rounded-2xl border border-border bg-card/50 px-6 py-14 text-center backdrop-blur-sm">
+            <p className="max-w-md text-sm text-muted-foreground">{t("dealers.empty")}</p>
+          </div>
+        )}
+
+        {!loadingDealers && !dealersError && dealers.length > 0 && (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {dealers.map((dealer) => (
+              <DealerCard key={dealer.id} dealer={dealer} />
+            ))}
           </div>
         )}
       </section>

@@ -418,6 +418,7 @@
     "error": "Impossible de charger les distributeurs. Réessayez plus tard.",
     "empty": "Aucun distributeur disponible pour le moment.",
     "website": "Site web",
-    "facebook": "Facebook"
+    "facebook": "Facebook",
+    "whatsapp": "WhatsApp"
   }
 }

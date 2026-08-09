@@ -418,6 +418,7 @@
     "error": "Unable to load dealers. Please try again later.",
     "empty": "No dealers available at the moment.",
     "website": "Website",
-    "facebook": "Facebook"
+    "facebook": "Facebook",
+    "whatsapp": "WhatsApp"
   }
 }

@@ -418,6 +418,7 @@
     "error": "No se pudieron cargar los proveedores. Inténtelo más tarde.",
     "empty": "No hay proveedores disponibles por ahora.",
     "website": "Sitio web",
-    "facebook": "Facebook"
+    "facebook": "Facebook",
+    "whatsapp": "WhatsApp"
   }
 }
