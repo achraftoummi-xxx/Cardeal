@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
 import DealerCard from "@/components/DealerCard";
 import { useTranslation } from "@/components/TranslationProvider";
 import { getDealerLogo } from "@/data/dealerLogos";
+import { getManufacturerLogo } from "@/data/manufacturerLogos";
 import { fetchDealers, type Dealer } from "@/lib/dealers";
 import { cn } from "@/lib/utils";
 import heroPartsImage from "@/assets/images/quto_pqrts.png";
@@ -114,7 +115,7 @@ export default function PartsSearchPage() {
             options={["", ...categories]}
             placeholder={t("parts.all")}
           />
-          <Select
+          <BrandSelect
             label={t("parts.brand")}
             value={brand}
             onChange={setBrand}
@@ -134,7 +135,15 @@ export default function PartsSearchPage() {
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-foreground sm:text-xl">{part.brand}</h2>
+                  <div className="flex h-11 items-center">
+                    <img
+                      src={getManufacturerLogo(part.brand).src}
+                      alt={part.brand}
+                      title={part.brand}
+                      draggable={false}
+                      className="h-9 w-auto max-w-[300px] object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
                   <p className="mt-1 text-sm text-muted-foreground">{part.model}</p>
                 </div>
                 <span className="shrink-0 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-400 ring-1 ring-blue-500/20">
@@ -225,18 +234,132 @@ export default function PartsSearchPage() {
   );
 }
 
-function Select({
+function BrandSelect({
   label,
   value,
-  options,
   groups,
   onChange,
   placeholder,
 }: {
   label: string;
   value: string;
-  options?: string[];
-  groups?: { label: string; options: string[] }[];
+  groups: { label: string; options: string[] }[];
+  onChange: (v: string) => void;
+  placeholder?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: MouseEvent | TouchEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("touchstart", onPointerDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("touchstart", onPointerDown);
+    };
+  }, [open]);
+
+  const fieldId = `select-${label.toLowerCase().replace(/\s+/g, "-")}`;
+  const selected = groups.flatMap((g) => g.options).find((o) => o === value);
+
+  return (
+    <div>
+      <label
+        htmlFor={fieldId}
+        className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500"
+      >
+        {label}
+      </label>
+      <div ref={containerRef} className="relative">
+        <button
+          type="button"
+          id={fieldId}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          onClick={() => setOpen((o) => !o)}
+          className={cn(
+            "flex w-full max-sm:min-h-12 items-center justify-between gap-2 rounded-xl border border-border bg-background px-4 py-3 text-left text-sm shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20",
+            !value && "text-muted-foreground/70"
+          )}
+        >
+          {selected ? (
+            <span className="flex min-w-0 items-center gap-2">
+              <span className="flex h-6 w-16 shrink-0 items-center justify-center">
+                <img
+                  src={getManufacturerLogo(selected).src}
+                  alt={selected}
+                  draggable={false}
+                  className="h-5 w-auto max-w-[60px] object-contain"
+                />
+              </span>
+              <span className="truncate font-medium text-foreground">{selected}</span>
+            </span>
+          ) : (
+            <span>{placeholder ?? ""}</span>
+          )}
+          <svg className="h-4 w-4 shrink-0 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        {open && (
+          <div className="absolute z-30 mt-2 max-h-72 w-full min-w-56 overflow-y-auto rounded-xl border border-border bg-background p-1 shadow-xl">
+            {groups.map((group) => (
+              <div key={group.label}>
+                <p className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {group.label}
+                </p>
+                {group.options.map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    role="option"
+                    aria-selected={option === value}
+                    onClick={() => {
+                      onChange(option);
+                      setOpen(false);
+                    }}
+                    className={cn(
+                      "flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-accent",
+                      option === value && "bg-accent font-semibold"
+                    )}
+                  >
+                    <span className="flex h-6 w-16 shrink-0 items-center justify-center">
+                      <img
+                        src={getManufacturerLogo(option).src}
+                        alt={option}
+                        draggable={false}
+                        className="h-5 w-auto max-w-[60px] object-contain"
+                      />
+                    </span>
+                    <span className="truncate">{option}</span>
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Select({
+  label,
+  value,
+  options,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  options: string[];
   onChange: (v: string) => void;
   placeholder?: string;
 }) {
@@ -263,21 +386,11 @@ function Select({
           <option value="" className="bg-card text-foreground">
             {placeholder ?? ""}
           </option>
-          {groups
-            ? groups.map((group) => (
-                <optgroup key={group.label} label={group.label} className="bg-card">
-                  {group.options.map((o) => (
-                    <option key={o} value={o} className="bg-card text-foreground">
-                      {o}
-                    </option>
-                  ))}
-                </optgroup>
-              ))
-            : options?.map((o) => (
-                <option key={o} value={o} className="bg-card text-foreground">
-                  {o}
-                </option>
-              ))}
+          {options.map((o) => (
+            <option key={o} value={o} className="bg-card text-foreground">
+              {o}
+            </option>
+          ))}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
