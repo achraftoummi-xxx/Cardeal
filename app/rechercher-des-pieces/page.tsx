@@ -6,7 +6,6 @@ import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
 import DealerCard from "@/components/DealerCard";
 import { useTranslation } from "@/components/TranslationProvider";
-import { getTireBrandLogo } from "@/data/tireBrandLogos";
 import { getDealerLogo } from "@/data/dealerLogos";
 import { fetchDealers, type Dealer } from "@/lib/dealers";
 import { cn } from "@/lib/utils";
@@ -19,6 +18,12 @@ type PartItem = {
   price: string;
   dealer: string;
 };
+
+const PART_BRAND_GROUPS = [
+  { region: "european", brands: ["Valeo", "Bosch", "Continental", "Purflux", "Brembo"] },
+  { region: "asian", brands: ["Denso", "Aisin", "KYB"] },
+  { region: "american", brands: ["ACDelco", "Moog"] },
+] as const;
 
 export default function PartsSearchPage() {
   const { t } = useTranslation();
@@ -50,7 +55,14 @@ export default function PartsSearchPage() {
   const parts = t("parts.items") as unknown as PartItem[];
 
   const categories = useMemo(() => [...new Set(parts.map((p) => p.category))], [parts]);
-  const brands = useMemo(() => [...new Set(parts.map((p) => p.brand))].sort(), [parts]);
+  const brandGroups = useMemo(
+    () =>
+      PART_BRAND_GROUPS.map((group) => ({
+        label: t(`parts.regions.${group.region}`),
+        options: [...group.brands],
+      })),
+    [t]
+  );
 
   const filtered = useMemo(
     () =>
@@ -106,7 +118,7 @@ export default function PartsSearchPage() {
             label={t("parts.brand")}
             value={brand}
             onChange={setBrand}
-            options={["", ...brands]}
+            groups={brandGroups}
             placeholder={t("parts.all")}
           />
         </div>
@@ -122,22 +134,7 @@ export default function PartsSearchPage() {
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  {(() => {
-                    const logo = getTireBrandLogo(part.brand);
-                    return logo ? (
-                      <div className="flex h-11 items-center">
-                        <img
-                          src={logo.src}
-                          alt={part.brand}
-                          title={part.brand}
-                          draggable={false}
-                          className="h-9 w-auto max-w-[300px] object-contain transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </div>
-                    ) : (
-                      <h2 className="text-lg font-semibold text-foreground sm:text-xl">{part.brand}</h2>
-                    );
-                  })()}
+                  <h2 className="text-lg font-semibold text-foreground sm:text-xl">{part.brand}</h2>
                   <p className="mt-1 text-sm text-muted-foreground">{part.model}</p>
                 </div>
                 <span className="shrink-0 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-400 ring-1 ring-blue-500/20">
@@ -232,12 +229,14 @@ function Select({
   label,
   value,
   options,
+  groups,
   onChange,
   placeholder,
 }: {
   label: string;
   value: string;
-  options: string[];
+  options?: string[];
+  groups?: { label: string; options: string[] }[];
   onChange: (v: string) => void;
   placeholder?: string;
 }) {
@@ -264,11 +263,21 @@ function Select({
           <option value="" className="bg-card text-foreground">
             {placeholder ?? ""}
           </option>
-          {options.map((o) => (
-            <option key={o} value={o} className="bg-card text-foreground">
-              {o}
-            </option>
-          ))}
+          {groups
+            ? groups.map((group) => (
+                <optgroup key={group.label} label={group.label} className="bg-card">
+                  {group.options.map((o) => (
+                    <option key={o} value={o} className="bg-card text-foreground">
+                      {o}
+                    </option>
+                  ))}
+                </optgroup>
+              ))
+            : options?.map((o) => (
+                <option key={o} value={o} className="bg-card text-foreground">
+                  {o}
+                </option>
+              ))}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,6 +1,6 @@
 "use client";
 
-import { Star, Phone, Globe, MapPin, CalendarDays, FileText } from "lucide-react";
+import { Star, Globe, MapPin, CalendarDays, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
@@ -74,16 +74,6 @@ export default function PartnerCard({ partner, origin, active = false, onSelect,
       )}
 
       <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs">
-        {partner.phone && (
-          <a
-            href={`tel:${partner.phone.replace(/\D/g, "")}`}
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-1.5 font-medium text-blue-500 hover:underline"
-          >
-            <Phone size={12} />
-            {partner.phone}
-          </a>
-        )}
         {partner.website && (
           <a
             href={partner.website}

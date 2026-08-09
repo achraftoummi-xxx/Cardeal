@@ -6,6 +6,7 @@ import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
 import { useTranslation } from "@/components/TranslationProvider";
 import { getTireBrandLogo } from "@/data/tireBrandLogos";
+import { cn } from "@/lib/utils";
 import heroTiresImage from "@/assets/images/cardeal-tires.png";
 
 type TireOffer = {
@@ -17,12 +18,16 @@ type TireOffer = {
   dealer: string;
 };
 
+const TIRE_BRANDS = ["Bridgestone", "Continental", "Goodyear", "Hankook", "Michelin", "Pirelli"];
+
 export default function PneusPage() {
   const { t } = useTranslation();
   const [showLogin, setShowLogin] = useState(false);
   const [showPartner, setShowPartner] = useState(false);
+  const [brand, setBrand] = useState("");
 
   const tires = t("pneus.tires") as unknown as TireOffer[];
+  const filtered = brand ? tires.filter((tire) => tire.brand === brand) : tires;
 
   return (
     <div className="min-h-screen bg-background pb-[env(safe-area-inset-bottom)] text-foreground antialiased">
@@ -56,10 +61,23 @@ export default function PneusPage() {
         </div>
       </section>
 
+      {/* Brand filter */}
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
+        <div className="grid gap-4 sm:grid-cols-2 lg:max-w-2xl">
+          <Select
+            label={t("pneus.brand")}
+            value={brand}
+            onChange={setBrand}
+            options={["", ...TIRE_BRANDS]}
+            placeholder={t("pneus.all")}
+          />
+        </div>
+      </section>
+
       {/* Tire offers */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {tires.map((tire, i) => (
+          {filtered.map((tire, i) => (
             <div
               key={`${tire.brand}-${tire.model}-${i}`}
               className="group flex flex-col rounded-2xl border border-border bg-card/50 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-muted-foreground/30 hover:shadow-xl"
@@ -113,10 +131,68 @@ export default function PneusPage() {
             </div>
           ))}
         </div>
+
+        {filtered.length === 0 && (
+          <div className="flex flex-col items-center rounded-2xl border border-border bg-card/50 px-6 py-14 text-center backdrop-blur-sm">
+            <p className="max-w-md text-sm text-muted-foreground">{t("results.noPartnersHint")}</p>
+          </div>
+        )}
       </section>
 
       <LoginModal open={showLogin} onClose={() => setShowLogin(false)} />
       <PartnerModal open={showPartner} onClose={() => setShowPartner(false)} />
+    </div>
+  );
+}
+
+function Select({
+  label,
+  value,
+  options,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  options: string[];
+  onChange: (v: string) => void;
+  placeholder?: string;
+}) {
+  const fieldId = `select-${label.toLowerCase().replace(/\s+/g, "-")}`;
+  return (
+    <div>
+      <label
+        htmlFor={fieldId}
+        className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-zinc-500"
+      >
+        {label}
+      </label>
+      <div className="relative">
+        <select
+          id={fieldId}
+          name={label.toLowerCase().replace(/\s+/g, "-")}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={cn(
+            "w-full max-sm:min-h-12 appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20",
+            !value && "text-muted-foreground/70"
+          )}
+        >
+          <option value="" className="bg-card text-foreground">
+            {placeholder ?? ""}
+          </option>
+          {options.map((o) => (
+            <option key={o} value={o} className="bg-card text-foreground">
+              {o}
+            </option>
+          ))}
+        </select>
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+          <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
     </div>
   );
 }

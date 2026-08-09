@@ -356,6 +356,8 @@
     "season": "الموسم",
     "price": "السعر",
     "dealer": "الورشة",
+    "brand": "الماركة",
+    "all": "الكل",
     "tires": [
       { "brand": "Michelin", "model": "Primacy 4+", "size": "205/55 R16", "season": "صيفي", "price": "235 DT", "dealer": "Garage Auto Plus" },
       { "brand": "Bridgestone", "model": "Turanza T005", "size": "215/60 R16", "season": "لجميع الفصول", "price": "265 DT", "dealer": "Pneus Pro Sousse" },
@@ -374,13 +376,18 @@
     "price": "السعر",
     "dealer": "الورشة",
     "all": "الكل",
+    "regions": { "european": "أوروبية", "asian": "آسيوية", "american": "أمريكية" },
     "items": [
-      { "brand": "Michelin", "model": "Brake pads, front axle", "category": "الفرامل", "price": "185 DT", "dealer": "AD Tunisie" },
-      { "brand": "Bridgestone", "model": "Shock absorbers (pair)", "category": "التعليق", "price": "320 DT", "dealer": "BM Auto Parts" },
-      { "brand": "Continental", "model": "Engine oil filter", "category": "الفلاتر", "price": "28 DT", "dealer": "Société Ben Hriz Auto" },
-      { "brand": "Pirelli", "model": "Timing belt kit", "category": "المحرك", "price": "245 DT", "dealer": "STE Global Pièces Auto" },
-      { "brand": "Goodyear", "model": "Wiper blades (set)", "category": "الهيكل", "price": "55 DT", "dealer": "EL HOG AUTO PARTS - HAP" },
-      { "brand": "Hankook", "model": "Battery 12V 70Ah", "category": "الكهرباء", "price": "290 DT", "dealer": "Ulysse Spare Parts - USP" }
+      { "brand": "Valeo", "model": "Clutch kit", "category": "القابض", "price": "350 DT", "dealer": "AD Tunisie" },
+      { "brand": "Bosch", "model": "Spark plugs", "category": "الكهرباء", "price": "95 DT", "dealer": "BM Auto Parts" },
+      { "brand": "Continental", "model": "Timing belt kit", "category": "المحرك", "price": "245 DT", "dealer": "Société Ben Hriz Auto" },
+      { "brand": "Purflux", "model": "Engine oil filter", "category": "الفلاتر", "price": "28 DT", "dealer": "STE Global Pièces Auto" },
+      { "brand": "Brembo", "model": "Brake discs", "category": "الفرامل", "price": "210 DT", "dealer": "EL HOG AUTO PARTS - HAP" },
+      { "brand": "Denso", "model": "Spark plugs (set)", "category": "الكهرباء", "price": "120 DT", "dealer": "Ulysse Spare Parts - USP" },
+      { "brand": "Aisin", "model": "Water pump", "category": "المحرك", "price": "180 DT", "dealer": "Electro Diesel Tunisie - EDT" },
+      { "brand": "KYB", "model": "Shock absorbers (pair)", "category": "التعليق", "price": "320 DT", "dealer": "GDIS - Générale Distribution Industrielle et Services" },
+      { "brand": "ACDelco", "model": "Battery 12V 70Ah", "category": "الكهرباء", "price": "290 DT", "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles" },
+      { "brand": "Moog", "model": "Suspension arms", "category": "التعليق", "price": "260 DT", "dealer": "Société Jaouani Spare Parts - JSP" }
     ]
   },
   "advice": {
@@ -417,7 +424,6 @@
     "error": "تعذر تحميل الموزعين. حاول مرة أخرى لاحقًا.",
     "empty": "لا يتوفر موزعون حاليًا.",
     "website": "الموقع الإلكتروني",
-    "facebook": "فيسبوك",
-    "whatsapp": "واتساب"
+    "facebook": "فيسبوك"
   }
 }

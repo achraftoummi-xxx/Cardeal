@@ -1,13 +1,12 @@
 "use client";
 
-import { Star, MapPin, Phone, Globe, ExternalLink, MessageCircle } from "lucide-react";
+import { Star, MapPin, Globe, ExternalLink } from "lucide-react";
 import { useTranslation } from "./TranslationProvider";
 import { getDealerLogo } from "@/data/dealerLogos";
 import type { Dealer } from "@/lib/dealers";
 
 export default function DealerCard({ dealer }: { dealer: Dealer }) {
   const { t } = useTranslation();
-  const phoneDigits = dealer.phone?.replace(/\D/g, "") ?? null;
 
   return (
     <article className="group flex flex-col rounded-2xl border border-border bg-card/50 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-muted-foreground/30 hover:shadow-xl">
@@ -47,26 +46,6 @@ export default function DealerCard({ dealer }: { dealer: Dealer }) {
       )}
 
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs">
-        {phoneDigits && (
-          <a
-            href={`tel:${phoneDigits}`}
-            className="inline-flex items-center gap-1.5 font-medium text-blue-500 hover:underline"
-          >
-            <Phone size={12} />
-            {dealer.phone}
-          </a>
-        )}
-        {phoneDigits && (
-          <a
-            href={`https://wa.me/${phoneDigits}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 font-medium text-green-500 hover:underline"
-          >
-            <MessageCircle size={12} />
-            {t("dealers.whatsapp")}
-          </a>
-        )}
         {dealer.website && (
           <a
             href={dealer.website}

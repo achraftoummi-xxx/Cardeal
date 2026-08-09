@@ -356,6 +356,8 @@
     "season": "Saison",
     "price": "Preis",
     "dealer": "Werkstatt",
+    "brand": "Marke",
+    "all": "Alle",
     "tires": [
       { "brand": "Michelin", "model": "Primacy 4+", "size": "205/55 R16", "season": "Sommer", "price": "235 DT", "dealer": "Garage Auto Plus" },
       { "brand": "Bridgestone", "model": "Turanza T005", "size": "215/60 R16", "season": "Ganzjahres", "price": "265 DT", "dealer": "Pneus Pro Sousse" },
@@ -374,13 +376,18 @@
     "price": "Preis",
     "dealer": "Werkstatt",
     "all": "Alle",
+    "regions": { "european": "Europäisch", "asian": "Asiatisch", "american": "Amerikanisch" },
     "items": [
-      { "brand": "Michelin", "model": "Brake pads, front axle", "category": "Bremsen", "price": "185 DT", "dealer": "AD Tunisie" },
-      { "brand": "Bridgestone", "model": "Shock absorbers (pair)", "category": "Fahrwerk", "price": "320 DT", "dealer": "BM Auto Parts" },
-      { "brand": "Continental", "model": "Engine oil filter", "category": "Filter", "price": "28 DT", "dealer": "Société Ben Hriz Auto" },
-      { "brand": "Pirelli", "model": "Timing belt kit", "category": "Motor", "price": "245 DT", "dealer": "STE Global Pièces Auto" },
-      { "brand": "Goodyear", "model": "Wiper blades (set)", "category": "Karosserie", "price": "55 DT", "dealer": "EL HOG AUTO PARTS - HAP" },
-      { "brand": "Hankook", "model": "Battery 12V 70Ah", "category": "Elektrik", "price": "290 DT", "dealer": "Ulysse Spare Parts - USP" }
+      { "brand": "Valeo", "model": "Clutch kit", "category": "Kupplung", "price": "350 DT", "dealer": "AD Tunisie" },
+      { "brand": "Bosch", "model": "Spark plugs", "category": "Elektrik", "price": "95 DT", "dealer": "BM Auto Parts" },
+      { "brand": "Continental", "model": "Timing belt kit", "category": "Motor", "price": "245 DT", "dealer": "Société Ben Hriz Auto" },
+      { "brand": "Purflux", "model": "Engine oil filter", "category": "Filter", "price": "28 DT", "dealer": "STE Global Pièces Auto" },
+      { "brand": "Brembo", "model": "Brake discs", "category": "Bremsen", "price": "210 DT", "dealer": "EL HOG AUTO PARTS - HAP" },
+      { "brand": "Denso", "model": "Spark plugs (set)", "category": "Elektrik", "price": "120 DT", "dealer": "Ulysse Spare Parts - USP" },
+      { "brand": "Aisin", "model": "Water pump", "category": "Motor", "price": "180 DT", "dealer": "Electro Diesel Tunisie - EDT" },
+      { "brand": "KYB", "model": "Shock absorbers (pair)", "category": "Fahrwerk", "price": "320 DT", "dealer": "GDIS - Générale Distribution Industrielle et Services" },
+      { "brand": "ACDelco", "model": "Battery 12V 70Ah", "category": "Elektrik", "price": "290 DT", "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles" },
+      { "brand": "Moog", "model": "Suspension arms", "category": "Fahrwerk", "price": "260 DT", "dealer": "Société Jaouani Spare Parts - JSP" }
     ]
   },
   "advice": {
@@ -417,7 +424,6 @@
     "error": "Händler konnten nicht geladen werden. Bitte später erneut versuchen.",
     "empty": "Derzeit sind keine Händler verfügbar.",
     "website": "Website",
-    "facebook": "Facebook",
-    "whatsapp": "WhatsApp"
+    "facebook": "Facebook"
   }
 }
