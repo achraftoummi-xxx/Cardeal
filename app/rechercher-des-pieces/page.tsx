@@ -7,6 +7,7 @@ import PartnerModal from "@/components/PartnerModal";
 import DealerCard from "@/components/DealerCard";
 import { useTranslation } from "@/components/TranslationProvider";
 import { getTireBrandLogo } from "@/data/tireBrandLogos";
+import { getDealerLogo } from "@/data/dealerLogos";
 import { fetchDealers, type Dealer } from "@/lib/dealers";
 import { cn } from "@/lib/utils";
 import heroPartsImage from "@/assets/images/quto_pqrts.png";
@@ -150,7 +151,16 @@ export default function PartsSearchPage() {
                 </div>
                 <div className="flex justify-between gap-4">
                   <dt className="text-muted-foreground">{t("parts.dealer")}</dt>
-                  <dd className="text-right font-semibold text-foreground">{part.dealer}</dd>
+                  <dd className="flex items-center justify-end gap-2 text-right font-semibold text-foreground">
+                    <img
+                      src={getDealerLogo(part.dealer).src}
+                      alt={part.dealer}
+                      title={part.dealer}
+                      draggable={false}
+                      className="h-6 w-auto max-w-[90px] object-contain"
+                    />
+                    <span className="truncate">{part.dealer}</span>
+                  </dd>
                 </div>
               </dl>
               <div className="mt-6 flex items-center justify-between gap-4 border-t border-border pt-6">

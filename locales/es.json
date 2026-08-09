@@ -9,7 +9,6 @@
     "tires": "Neumáticos",
     "advice": "Consejos de coche",
     "deals": "Ofertas",
-    "dealers": "Proveedores de piezas",
     "menu": "Menú"
   },
   "buttons": {
@@ -376,12 +375,12 @@
     "dealer": "Taller",
     "all": "Todas",
     "items": [
-      { "brand": "Michelin", "model": "Brake pads, front axle", "category": "Frenos", "price": "185 DT", "dealer": "Garage Auto Plus" },
-      { "brand": "Bridgestone", "model": "Shock absorbers (pair)", "category": "Suspension", "price": "320 DT", "dealer": "Pneus Pro Sousse" },
-      { "brand": "Continental", "model": "Engine oil filter", "category": "Filtros", "price": "28 DT", "dealer": "Garage Tunis Auto" },
-      { "brand": "Pirelli", "model": "Timing belt kit", "category": "Motor", "price": "245 DT", "dealer": "Auto Service Nabeul" },
-      { "brand": "Goodyear", "model": "Wiper blades (set)", "category": "Carroceria", "price": "55 DT", "dealer": "Pneus Express Bizerte" },
-      { "brand": "Hankook", "model": "Battery 12V 70Ah", "category": "Electrico", "price": "290 DT", "dealer": "Garage Auto Plus" }
+      { "brand": "Michelin", "model": "Brake pads, front axle", "category": "Frenos", "price": "185 DT", "dealer": "AD Tunisie" },
+      { "brand": "Bridgestone", "model": "Shock absorbers (pair)", "category": "Suspension", "price": "320 DT", "dealer": "BM Auto Parts" },
+      { "brand": "Continental", "model": "Engine oil filter", "category": "Filtros", "price": "28 DT", "dealer": "Société Ben Hriz Auto" },
+      { "brand": "Pirelli", "model": "Timing belt kit", "category": "Motor", "price": "245 DT", "dealer": "STE Global Pièces Auto" },
+      { "brand": "Goodyear", "model": "Wiper blades (set)", "category": "Carroceria", "price": "55 DT", "dealer": "EL HOG AUTO PARTS - HAP" },
+      { "brand": "Hankook", "model": "Battery 12V 70Ah", "category": "Electrico", "price": "290 DT", "dealer": "Ulysse Spare Parts - USP" }
     ]
   },
   "advice": {
