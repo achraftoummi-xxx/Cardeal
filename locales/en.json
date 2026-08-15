@@ -167,6 +167,8 @@
     "engineCylinders": "Engine Cylinder Number",
     "retypePassword": "Retype Password",
     "passwordMismatch": "Passwords do not match",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
     "pleaseSelect": "Select"
   },
   "theme": {

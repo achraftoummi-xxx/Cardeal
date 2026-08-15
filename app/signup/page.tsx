@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Loader2, X } from "lucide-react";
+import { CheckCircle2, Eye, EyeOff, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/components/TranslationProvider";
 import { supabase } from "@/lib/supabase";
@@ -22,6 +22,48 @@ const labelClasses =
 type Status = "idle" | "submitting" | "confirmed" | "done";
 
 const EMPTY = { fullName: "", email: "", phone: "", password: "" };
+
+function PasswordInput({
+  id,
+  value,
+  onChange,
+  placeholder,
+  autoComplete,
+}: {
+  id: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  autoComplete?: string;
+}) {
+  const { t } = useTranslation();
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div className="relative">
+      <input
+        id={id}
+        type={visible ? "text" : "password"}
+        required
+        minLength={6}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        autoComplete={autoComplete}
+        className={`${inputClasses} pe-11`}
+      />
+      <button
+        type="button"
+        onClick={() => setVisible((v) => !v)}
+        aria-label={visible ? t("auth.hidePassword") : t("auth.showPassword")}
+        aria-pressed={visible}
+        className="absolute end-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground"
+      >
+        {visible ? <EyeOff size={18} /> : <Eye size={18} />}
+      </button>
+    </div>
+  );
+}
 
 export default function SignupPage() {
   const { t } = useTranslation();
@@ -178,14 +220,10 @@ export default function SignupPage() {
                 <label htmlFor="signup-page-password" className={labelClasses}>
                   {t("auth.password")}
                 </label>
-                <input
+                <PasswordInput
                   id="signup-page-password"
-                  type="password"
-                  required
-                  minLength={6}
                   value={form.password}
                   onChange={update("password")}
-                  className={inputClasses}
                   placeholder="••••••••"
                   autoComplete="new-password"
                 />

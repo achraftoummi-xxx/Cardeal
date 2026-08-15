@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { X } from "lucide-react";
+import { Eye, EyeOff, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
@@ -58,6 +58,58 @@ const EMPTY_SIGNUP = {
 
 const CYLINDER_OPTIONS = [2, 3, 4, 5, 6, 8, 12];
 const MIN_YEAR = 1960;
+
+function PasswordInput({
+  id,
+  value,
+  onChange,
+  placeholder,
+  autoComplete,
+  inputRef,
+  ariaInvalid,
+  ariaDescribedby,
+  className,
+}: {
+  id: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  autoComplete?: string;
+  inputRef?: React.Ref<HTMLInputElement>;
+  ariaInvalid?: boolean;
+  ariaDescribedby?: string;
+  className?: string;
+}) {
+  const { t } = useTranslation();
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div className="relative">
+      <input
+        ref={inputRef}
+        id={id}
+        type={visible ? "text" : "password"}
+        required
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        autoComplete={autoComplete}
+        aria-invalid={ariaInvalid}
+        aria-describedby={ariaDescribedby}
+        className={cn(className ?? inputClasses, "pe-11")}
+      />
+      <button
+        type="button"
+        onClick={() => setVisible((v) => !v)}
+        aria-label={visible ? t("auth.hidePassword") : t("auth.showPassword")}
+        aria-pressed={visible}
+        className="absolute end-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground"
+      >
+        {visible ? <EyeOff size={18} /> : <Eye size={18} />}
+      </button>
+    </div>
+  );
+}
 
 export default function LoginModal({ open, onClose }: Props) {
   const { t } = useTranslation();
@@ -201,13 +253,10 @@ export default function LoginModal({ open, onClose }: Props) {
               >
                 {t("auth.password")}
               </label>
-              <input
+              <PasswordInput
                 id="login-password"
-                type="password"
-                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={inputClasses}
                 placeholder="••••••••"
                 autoComplete="current-password"
               />
@@ -280,13 +329,10 @@ export default function LoginModal({ open, onClose }: Props) {
                 <label htmlFor="signup-password" className={labelClasses}>
                   {t("auth.password")}
                 </label>
-                <input
+                <PasswordInput
                   id="signup-password"
-                  type="password"
-                  required
                   value={signup.password}
                   onChange={updateSignup("password")}
-                  className={inputClasses}
                   placeholder="••••••••"
                   autoComplete="new-password"
                 />
@@ -295,17 +341,15 @@ export default function LoginModal({ open, onClose }: Props) {
                 <label htmlFor="signup-retype" className={labelClasses}>
                   {t("auth.retypePassword")}
                 </label>
-                <input
+                <PasswordInput
                   id="signup-retype"
-                  type="password"
-                  required
                   value={signup.retypePassword}
                   onChange={updateSignup("retypePassword")}
-                  className={cn(inputClasses, errors.retypePassword && "border-red-500/60 focus:border-red-500/60 focus:ring-red-500/20")}
                   placeholder="••••••••"
                   autoComplete="new-password"
-                  aria-invalid={!!errors.retypePassword}
-                  aria-describedby={errors.retypePassword ? "signup-retype-error" : undefined}
+                  ariaInvalid={!!errors.retypePassword}
+                  ariaDescribedby={errors.retypePassword ? "signup-retype-error" : undefined}
+                  className={cn(inputClasses, errors.retypePassword && "border-red-500/60 focus:border-red-500/60 focus:ring-red-500/20")}
                 />
                 {errors.retypePassword && (
                   <p id="signup-retype-error" role="alert" className="mt-1.5 text-xs font-medium text-red-500">

@@ -167,6 +167,8 @@
     "engineCylinders": "عدد أسطوانات المحرك",
     "retypePassword": "إعادة إدخال كلمة المرور",
     "passwordMismatch": "كلمتا المرور غير متطابقتين",
+    "showPassword": "إظهار كلمة المرور",
+    "hidePassword": "إخفاء كلمة المرور",
     "pleaseSelect": "اختر"
   },
   "theme": {

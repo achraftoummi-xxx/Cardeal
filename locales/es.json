@@ -167,6 +167,8 @@
     "engineCylinders": "Número de cilindros",
     "retypePassword": "Repetir contraseña",
     "passwordMismatch": "Las contraseñas no coinciden",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña",
     "pleaseSelect": "Seleccionar"
   },
   "theme": {
