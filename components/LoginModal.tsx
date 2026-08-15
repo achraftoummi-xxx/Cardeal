@@ -140,6 +140,23 @@ export default function LoginModal({ open, onClose }: Props) {
     return () => document.removeEventListener("keydown", handler);
   }, [open, onClose]);
 
+  const brandGroups = useMemo(
+    () =>
+      CAR_BRAND_REGIONS.filter((region) => region.countries.some((c) => c.brands.length > 0))
+        .map((region) => ({
+          label: t(`parts.regions.${region.id}`),
+          countries: region.countries
+            .filter((c) => c.brands.length > 0)
+            .map((c) => ({ name: c.name, flag: c.flag, brands: [...c.brands] })),
+        })),
+    [t]
+  );
+
+  const models = useMemo(() => {
+    if (!signup.vehicleBrand) return [];
+    return [...(brandModels[signup.vehicleBrand] ?? [])].sort();
+  }, [signup.vehicleBrand]);
+
   if (!open) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -172,23 +189,6 @@ export default function LoginModal({ open, onClose }: Props) {
         setErrors((prev) => ({ ...prev, retypePassword: undefined }));
       }
     };
-
-  const brandGroups = useMemo(
-    () =>
-      CAR_BRAND_REGIONS.filter((region) => region.countries.some((c) => c.brands.length > 0))
-        .map((region) => ({
-          label: t(`parts.regions.${region.id}`),
-          countries: region.countries
-            .filter((c) => c.brands.length > 0)
-            .map((c) => ({ name: c.name, flag: c.flag, brands: [...c.brands] })),
-        })),
-    [t]
-  );
-
-  const models = useMemo(() => {
-    if (!signup.vehicleBrand) return [];
-    return [...(brandModels[signup.vehicleBrand] ?? [])].sort();
-  }, [signup.vehicleBrand]);
 
   const maxYear = new Date().getFullYear();
   const years = Array.from({ length: maxYear - MIN_YEAR + 1 }, (_, i) => maxYear - i);
