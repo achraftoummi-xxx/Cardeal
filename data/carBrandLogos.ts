@@ -3,6 +3,7 @@ import abarthLogo from "@/assets/car-brands/abarth.png";
 import acuraLogo from "@/assets/car-brands/ACURA.png";
 import alfaRomeoLogo from "@/assets/car-brands/Alpha-romeo.png";
 import astonMartinLogo from "@/assets/car-brands/ASTON-MARTIN.png";
+import audiLogo from "@/assets/car-brands/audi.png";
 import bmwLogo from "@/assets/car-brands/bmw.png";
 import buickLogo from "@/assets/car-brands/BUICK.png";
 import bydLogo from "@/assets/car-brands/BYD.png";
@@ -10,22 +11,29 @@ import cadillacLogo from "@/assets/car-brands/CADILLAC.png";
 import cheryLogo from "@/assets/car-brands/Chery.png";
 import chevroletLogo from "@/assets/car-brands/Chevrolet.png";
 import chryslerLogo from "@/assets/car-brands/chrysler.png";
-import citroenLogo from "@/assets/car-brands/citroein.png";
+import citroenLogo from "@/assets/car-brands/citroen.png";
+import cupraLogo from "@/assets/car-brands/cupra.png";
 import dfskLogo from "@/assets/car-brands/DFSK.png";
 import dsLogo from "@/assets/car-brands/DS.png";
 import ferrariLogo from "@/assets/car-brands/Ferrari.png";
+import fiatLogo from "@/assets/car-brands/fiat.png";
+import fordLogo from "@/assets/car-brands/ford.png";
 import geelyLogo from "@/assets/car-brands/Geely.png";
 import gmcLogo from "@/assets/car-brands/GMC.png";
 import greatWallLogo from "@/assets/car-brands/Greatwall.png";
+import hondaLogo from "@/assets/car-brands/honda.png";
 import hyundaiLogo from "@/assets/car-brands/hyundai.png";
 import infinitiLogo from "@/assets/car-brands/INFINITY.png";
 import isuzuLogo from "@/assets/car-brands/isuzu.png";
 import jacLogo from "@/assets/car-brands/JAC.png";
+import kiaLogo from "@/assets/car-brands/kia.png";
 import lanciaLogo from "@/assets/car-brands/Lancia.png";
 import landRoverLogo from "@/assets/car-brands/landroover.png";
 import lexusLogo from "@/assets/car-brands/Lexus.png";
+import mahindraLogo from "@/assets/car-brands/mahindra.png";
 import manLogo from "@/assets/car-brands/MAN.png";
 import mazdaLogo from "@/assets/car-brands/mazda.png";
+import mercedesLogo from "@/assets/car-brands/mercedes.png";
 import mgLogo from "@/assets/car-brands/MG.png";
 import miniLogo from "@/assets/car-brands/mini-cooper.png";
 import mitsubishiLogo from "@/assets/car-brands/Mitsubitchi.png";
@@ -48,12 +56,13 @@ import defaultCarBrandLogo from "@/assets/dealers_logos/default.png";
    actually present in assets/car-brands (lowercase, alphanumeric only).
    Because keys are derived from the exact on-disk filenames, lookups are
    case- and separator-insensitive regardless of how the files are named
-   (citroein.png, Alpha-romeo.png, tESLA.png, VW.png, mini-cooper.png…). */
+   (Alpha-romeo.png, tESLA.png, VW.png, mini-cooper.png…). */
 const CAR_BRAND_FILE_REGISTRY: Record<string, { src: string }> = {
   abarth: { src: abarthLogo.src },
   acura: { src: acuraLogo.src },
   alpharomeo: { src: alfaRomeoLogo.src },
   astonmartin: { src: astonMartinLogo.src },
+  audi: { src: audiLogo.src },
   bmw: { src: bmwLogo.src },
   buick: { src: buickLogo.src },
   byd: { src: bydLogo.src },
@@ -61,22 +70,29 @@ const CAR_BRAND_FILE_REGISTRY: Record<string, { src: string }> = {
   chery: { src: cheryLogo.src },
   chevrolet: { src: chevroletLogo.src },
   chrysler: { src: chryslerLogo.src },
-  citroein: { src: citroenLogo.src },
+  citroen: { src: citroenLogo.src },
+  cupra: { src: cupraLogo.src },
   dfsk: { src: dfskLogo.src },
   ds: { src: dsLogo.src },
   ferrari: { src: ferrariLogo.src },
+  fiat: { src: fiatLogo.src },
+  ford: { src: fordLogo.src },
   geely: { src: geelyLogo.src },
   gmc: { src: gmcLogo.src },
   greatwall: { src: greatWallLogo.src },
+  honda: { src: hondaLogo.src },
   hyundai: { src: hyundaiLogo.src },
   infinity: { src: infinitiLogo.src },
   isuzu: { src: isuzuLogo.src },
   jac: { src: jacLogo.src },
+  kia: { src: kiaLogo.src },
   lancia: { src: lanciaLogo.src },
   landroover: { src: landRoverLogo.src },
   lexus: { src: lexusLogo.src },
+  mahindra: { src: mahindraLogo.src },
   man: { src: manLogo.src },
   mazda: { src: mazdaLogo.src },
+  mercedes: { src: mercedesLogo.src },
   mg: { src: mgLogo.src },
   minicooper: { src: miniLogo.src },
   mitsubitchi: { src: mitsubishiLogo.src },
@@ -101,7 +117,6 @@ const CAR_BRAND_FILE_REGISTRY: Record<string, { src: string }> = {
    diacritics like Citroën). */
 const BRAND_TO_FILE: Record<string, string> = {
   alfaromeo: "alpharomeo",
-  citroen: "citroein",
   dsautomobiles: "ds",
   greatwallmotors: "greatwall",
   infiniti: "infinity",
