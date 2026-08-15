@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
+import cardealLogo from "@/assets/images/cardeal_logo.png";
 
 type Props = {
   open: boolean;
@@ -145,9 +146,12 @@ export default function LoginModal({ open, onClose }: Props) {
         </button>
 
         <div className="mb-6 text-center max-sm:mb-4">
-          <div className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent max-sm:text-2xl">
-            {t("site.name")}
-          </div>
+          <img
+            src={cardealLogo.src}
+            alt={t("site.name")}
+            draggable={false}
+            className="mx-auto h-12 w-auto dark:brightness-150 sm:h-14"
+          />
           <p className="mt-2 text-sm text-muted-foreground">
             {mode === "login" ? t("auth.signInTitle") : t("auth.signupTitle")}
           </p>
