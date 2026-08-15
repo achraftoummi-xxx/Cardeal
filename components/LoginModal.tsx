@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Eye, EyeOff, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
 import cardealLogo from "@/assets/images/cardeal_logo.png";
+import BrandSelect from "@/components/BrandSelect";
+import { brandModels } from "@/data/carBrands";
+import { CAR_BRAND_REGIONS } from "@/data/carBrandRegions";
 
 type Props = {
   open: boolean;
@@ -50,6 +53,7 @@ const EMPTY_SIGNUP = {
   password: "",
   retypePassword: "",
   address: "",
+  vehicleBrand: "",
   vehicleModel: "",
   productionYear: "",
   engineCapacity: "",
@@ -168,6 +172,23 @@ export default function LoginModal({ open, onClose }: Props) {
         setErrors((prev) => ({ ...prev, retypePassword: undefined }));
       }
     };
+
+  const brandGroups = useMemo(
+    () =>
+      CAR_BRAND_REGIONS.filter((region) => region.countries.some((c) => c.brands.length > 0))
+        .map((region) => ({
+          label: t(`parts.regions.${region.id}`),
+          countries: region.countries
+            .filter((c) => c.brands.length > 0)
+            .map((c) => ({ name: c.name, flag: c.flag, brands: [...c.brands] })),
+        })),
+    [t]
+  );
+
+  const models = useMemo(() => {
+    if (!signup.vehicleBrand) return [];
+    return [...(brandModels[signup.vehicleBrand] ?? [])].sort();
+  }, [signup.vehicleBrand]);
 
   const maxYear = new Date().getFullYear();
   const years = Array.from({ length: maxYear - MIN_YEAR + 1 }, (_, i) => maxYear - i);
@@ -312,18 +333,52 @@ export default function LoginModal({ open, onClose }: Props) {
                   autoComplete="tel"
                 />
               </div>
-              <div>
+              <div className="sm:col-span-2">
+                <BrandSelect
+                  label={t("auth.vehicleBrand")}
+                  value={signup.vehicleBrand}
+                  groups={brandGroups}
+                  onChange={(brand) =>
+                    setSignup((s) => ({ ...s, vehicleBrand: brand, vehicleModel: "" }))
+                  }
+                  placeholder={t("auth.pleaseSelect")}
+                />
+              </div>
+              <div className="sm:col-span-2">
                 <label htmlFor="signup-vehicle" className={labelClasses}>
                   {t("auth.vehicleModel")}
                 </label>
-                <input
-                  id="signup-vehicle"
-                  type="text"
-                  required
-                  value={signup.vehicleModel}
-                  onChange={updateSignup("vehicleModel")}
-                  className={inputClasses}
-                />
+                <div className="relative">
+                  <select
+                    id="signup-vehicle"
+                    required
+                    value={signup.vehicleModel}
+                    onChange={updateSignup("vehicleModel")}
+                    disabled={!signup.vehicleBrand}
+                    className={cn(
+                      inputClasses,
+                      "appearance-none pe-10",
+                      !signup.vehicleModel && "text-muted-foreground/50",
+                      !signup.vehicleBrand && "cursor-not-allowed opacity-60"
+                    )}
+                  >
+                    <option value="" disabled>
+                      {signup.vehicleBrand
+                        ? t("auth.pleaseSelect")
+                        : t("auth.vehicleBrandFirst")}
+                    </option>
+                    {models.map((m) => (
+                      <option key={m} value={m} className="text-foreground">
+                        {m}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 end-3 flex items-center">
+                    <svg className="h-4 w-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
               </div>
               <div>
                 <label htmlFor="signup-password" className={labelClasses}>

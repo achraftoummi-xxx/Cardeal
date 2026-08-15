@@ -161,6 +161,8 @@
     "fullName": "الاسم الكامل",
     "phoneNumber": "رقم الهاتف",
     "address": "العنوان",
+    "vehicleBrand": "ماركة المركبة",
+    "vehicleBrandFirst": "اختر ماركة أولاً",
     "vehicleModel": "موديل المركبة",
     "productionYear": "سنة الإنتاج",
     "engineCapacity": "سعة المحرك",

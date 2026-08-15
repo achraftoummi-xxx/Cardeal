@@ -161,6 +161,8 @@
     "fullName": "Vollständiger Name",
     "phoneNumber": "Telefonnummer",
     "address": "Adresse",
+    "vehicleBrand": "Fahrzeugmarke",
+    "vehicleBrandFirst": "Wählen Sie zuerst eine Marke",
     "vehicleModel": "Fahrzeugmodell",
     "productionYear": "Baujahr",
     "engineCapacity": "Motorhubraum",
