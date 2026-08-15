@@ -3,8 +3,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Search, X, Loader2, AlertCircle, MapPin, Star, Phone, ChevronDown, SlidersHorizontal } from "lucide-react";
 import LocationBar from "@/components/LocationBar";
+import BrandSelect from "@/components/BrandSelect";
+import { carBrandOption } from "@/components/CarBrandLogo";
 import { useTranslation } from "./TranslationProvider";
 import { localized } from "@/lib/i18n";
+import { CAR_BRAND_REGIONS } from "@/data/carBrandRegions";
+import { buildCarBrandGroups } from "@/data/carBrandLogos";
 
 /**
  * Workshop – local seed data entry (same shape as data/workshops.ts).
@@ -122,6 +126,14 @@ export default function SearchModule({
     if (!brand) return [];
     return [...(brandModels[brand] ?? [])].sort();
   }, [brand, brandModels]);
+
+  const brandGroups = useMemo(
+    () =>
+      buildCarBrandGroups(CAR_BRAND_REGIONS, (regionId) =>
+        t(`parts.regions.${regionId}`)
+      ),
+    [t]
+  );
 
   const capacities = useMemo(
     () => ["", ...Array.from({ length: 81 }, (_, i) => ((5 + i) / 10).toFixed(1) + "L")],
@@ -280,14 +292,16 @@ export default function SearchModule({
       <div className={showAdvanced ? "block" : "hidden sm:block"}>
         {/* Vehicle filter grid */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <Select
+          <BrandSelect
             label={t("filters.brand")}
             value={brand}
+            groups={brandGroups}
             onChange={(v) => {
               setBrand(v);
               setModel("");
             }}
-            options={["", ...Object.keys(brandModels).sort()]}
+            placeholder={t("filters.any")}
+            renderBrand={carBrandOption}
           />
           <Select label={t("filters.model")} value={model} onChange={setModel} options={["", ...models]} />
           <Select label={t("filters.year")} value={year} onChange={setYear} options={["", ...YEAR_OPTIONS]} />

@@ -7,8 +7,10 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
 import cardealLogo from "@/assets/images/cardeal_logo.png";
 import BrandSelect from "@/components/BrandSelect";
+import { carBrandOption } from "@/components/CarBrandLogo";
 import { brandModels } from "@/data/carBrands";
 import { CAR_BRAND_REGIONS } from "@/data/carBrandRegions";
+import { buildCarBrandGroups } from "@/data/carBrandLogos";
 
 type Props = {
   open: boolean;
@@ -142,13 +144,9 @@ export default function LoginModal({ open, onClose }: Props) {
 
   const brandGroups = useMemo(
     () =>
-      CAR_BRAND_REGIONS.filter((region) => region.countries.some((c) => c.brands.length > 0))
-        .map((region) => ({
-          label: t(`parts.regions.${region.id}`),
-          countries: region.countries
-            .filter((c) => c.brands.length > 0)
-            .map((c) => ({ name: c.name, flag: c.flag, brands: [...c.brands] })),
-        })),
+      buildCarBrandGroups(CAR_BRAND_REGIONS, (regionId) =>
+        t(`parts.regions.${regionId}`)
+      ),
     [t]
   );
 
@@ -342,6 +340,7 @@ export default function LoginModal({ open, onClose }: Props) {
                     setSignup((s) => ({ ...s, vehicleBrand: brand, vehicleModel: "" }))
                   }
                   placeholder={t("auth.pleaseSelect")}
+                  renderBrand={carBrandOption}
                 />
               </div>
               <div className="sm:col-span-2">

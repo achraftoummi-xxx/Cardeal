@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from '@/components/TranslationProvider';
+import CarBrandLogo from '@/components/CarBrandLogo';
 
 export default function ResultsPage() {
   const { t } = useTranslation();
@@ -19,7 +20,12 @@ export default function ResultsPage() {
       <h1 className="text-2xl font-extrabold text-[var(--foreground)] mb-6 sm:text-4xl sm:mb-8">{t("auth.resultsTitle")}</h1>
       {vehicle ? (
         <div className="bg-[var(--background)] p-5 rounded-3xl shadow-sm border border-[var(--border)] sm:p-8">
-          <p className="text-base break-words sm:text-lg">{t("auth.vehicle", { brand: vehicle.brand, model: vehicle.model, year: vehicle.year, engine: vehicle.engine })}</p>
+          <div className="flex items-start gap-4">
+            <div className="flex h-16 w-24 shrink-0 items-center justify-center rounded-2xl border border-[var(--border)] bg-muted/40 p-2">
+              <CarBrandLogo name={vehicle.brand} className="max-h-full w-auto max-w-full" />
+            </div>
+            <p className="text-base break-words sm:text-lg">{t("auth.vehicle", { brand: vehicle.brand, model: vehicle.model, year: vehicle.year, engine: vehicle.engine })}</p>
+          </div>
         </div>
       ) : (
         <p className="text-sm text-[var(--muted-foreground)] sm:text-base">{t("auth.noVehicle")}</p>

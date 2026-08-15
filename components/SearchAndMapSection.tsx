@@ -15,9 +15,13 @@ import LocationBar from "@/components/LocationBar";
 import PartnerCard from "@/components/PartnerCard";
 import RequestModal, { type RequestMode } from "@/components/RequestModal";
 import ServiceCategorySelect from "@/components/ServiceCategorySelect";
+import BrandSelect from "@/components/BrandSelect";
+import { carBrandOption } from "@/components/CarBrandLogo";
 import { useTranslation } from "@/components/TranslationProvider";
 import { localized } from "@/lib/i18n";
 import { brandModels } from "@/data/carBrands";
+import { CAR_BRAND_REGIONS } from "@/data/carBrandRegions";
+import { buildCarBrandGroups } from "@/data/carBrandLogos";
 import { fetchPartners, sortPartners, type Partner } from "@/lib/partners";
 import { cn } from "@/lib/utils";
 
@@ -57,6 +61,14 @@ export default function SearchAndMapSection() {
     if (!brand) return [];
     return [...(brandModels[brand] ?? [])].sort();
   }, [brand]);
+
+  const brandGroups = useMemo(
+    () =>
+      buildCarBrandGroups(CAR_BRAND_REGIONS, (regionId) =>
+        t(`parts.regions.${regionId}`)
+      ),
+    [t]
+  );
 
   const yearOptions = useMemo(() => {
     const current = new Date().getFullYear();
@@ -173,15 +185,17 @@ export default function SearchAndMapSection() {
         {/* Vehicle filters (collapsible on mobile, always visible on sm+) */}
         <div className={cn("mt-4 sm:mt-6", showAdvanced ? "block" : "hidden sm:block")}>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Select
+            <BrandSelect
               label={t("filters.brand")}
               value={brand}
+              groups={brandGroups}
               onChange={(v) => {
                 setBrand(v);
                 setModel("");
                 setActivePartnerId(null);
               }}
-              options={["", ...Object.keys(brandModels).sort()]}
+              placeholder={t("filters.any")}
+              renderBrand={carBrandOption}
             />
             <Select
               label={t("filters.model")}

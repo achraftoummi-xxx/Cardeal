@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
 import { localized } from "@/lib/i18n";
 import StadiaBasemap from "./StadiaBasemap";
+import CarBrandLogo from "./CarBrandLogo";
 
 type Workshop = {
   name: string;
@@ -173,8 +174,13 @@ export default function NearbyMap({ location, workshops, className = "" }: Props
                       {w.services.map((s) => localized(t, "serviceCat", s)).slice(0, 3).join(" · ")}
                     </p>
                     <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
-                      <span>
-                        {w.brand} {w.model}
+                      <span className="flex items-center gap-1.5">
+                        <span className="flex h-5 w-9 shrink-0 items-center justify-center">
+                          <CarBrandLogo name={w.brand} className="h-4 w-auto max-w-[32px]" />
+                        </span>
+                        <span>
+                          {w.brand} {w.model}
+                        </span>
                       </span>
                       <span>·</span>
                       <span>{w.distance}</span>

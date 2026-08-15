@@ -4,8 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import { Search, X, MapPin, ChevronDown, SlidersHorizontal } from "lucide-react";
 import LocationBar from "@/components/LocationBar";
 import ServiceCategorySelect from "@/components/ServiceCategorySelect";
+import BrandSelect from "@/components/BrandSelect";
+import { carBrandOption } from "@/components/CarBrandLogo";
 import { useTranslation } from "@/components/TranslationProvider";
 import { localized } from "@/lib/i18n";
+import { CAR_BRAND_REGIONS } from "@/data/carBrandRegions";
+import { buildCarBrandGroups } from "@/data/carBrandLogos";
 import {
   getServiceCategoryName,
   normalizeServiceText,
@@ -56,6 +60,14 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
     if (!brand) return [];
     return [...(brandModels[brand] ?? [])].sort();
   }, [brand, brandModels]);
+
+  const brandGroups = useMemo(
+    () =>
+      buildCarBrandGroups(CAR_BRAND_REGIONS, (regionId) =>
+        t(`parts.regions.${regionId}`)
+      ),
+    [t]
+  );
 
   const capacities = useMemo(() => ["", ...Array.from({ length: 81 }, (_, i) => ((5 + i) / 10).toFixed(1) + "L")], []);
   const engineOptions = useMemo(
@@ -142,12 +154,13 @@ export default function WorkshopSearch({ brandModels, workshops, onLocationChang
       <div className={showAdvanced ? "block" : "hidden sm:block"}>
         {/* Filter grid */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <Select
+          <BrandSelect
             label={t("filters.brand")}
             value={brand}
+            groups={brandGroups}
             onChange={(v) => { setBrand(v); setModel(""); }}
-            options={["", ...Object.keys(brandModels).sort()]}
-            anyLabel={t("filters.any")}
+            placeholder={t("filters.any")}
+            renderBrand={carBrandOption}
           />
           <Select label={t("filters.model")} value={model} onChange={setModel} options={["", ...models]} anyLabel={t("filters.any")} />
           <Select
