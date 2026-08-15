@@ -44,14 +44,15 @@ import volvoLogo from "@/assets/car-brands/volvo.png";
 import volkswagenLogo from "@/assets/car-brands/VW.png";
 import defaultCarBrandLogo from "@/assets/dealers_logos/default.png";
 
-/* Car brand logos — keyed by a normalized brand name (lowercase,
-   alphanumeric only) so lookups are case/punctuation-insensitive.
-   All assets shipped in assets/car-brands are PNG; any brand without
-   an asset falls back to the default logo. */
-const CAR_BRAND_LOGOS: Record<string, { src: string }> = {
+/* File registry — keyed by the normalized filename stem of every asset
+   actually present in assets/car-brands (lowercase, alphanumeric only).
+   Because keys are derived from the exact on-disk filenames, lookups are
+   case- and separator-insensitive regardless of how the files are named
+   (citroein.png, Alpha-romeo.png, tESLA.png, VW.png, mini-cooper.png…). */
+const CAR_BRAND_FILE_REGISTRY: Record<string, { src: string }> = {
   abarth: { src: abarthLogo.src },
   acura: { src: acuraLogo.src },
-  alfaromeo: { src: alfaRomeoLogo.src },
+  alpharomeo: { src: alfaRomeoLogo.src },
   astonmartin: { src: astonMartinLogo.src },
   bmw: { src: bmwLogo.src },
   buick: { src: buickLogo.src },
@@ -60,42 +61,58 @@ const CAR_BRAND_LOGOS: Record<string, { src: string }> = {
   chery: { src: cheryLogo.src },
   chevrolet: { src: chevroletLogo.src },
   chrysler: { src: chryslerLogo.src },
-  citroen: { src: citroenLogo.src },
+  citroein: { src: citroenLogo.src },
   dfsk: { src: dfskLogo.src },
   ds: { src: dsLogo.src },
-  dsautomobiles: { src: dsLogo.src },
   ferrari: { src: ferrariLogo.src },
   geely: { src: geelyLogo.src },
   gmc: { src: gmcLogo.src },
-  greatwallmotors: { src: greatWallLogo.src },
+  greatwall: { src: greatWallLogo.src },
   hyundai: { src: hyundaiLogo.src },
-  infiniti: { src: infinitiLogo.src },
+  infinity: { src: infinitiLogo.src },
   isuzu: { src: isuzuLogo.src },
   jac: { src: jacLogo.src },
   lancia: { src: lanciaLogo.src },
-  landrover: { src: landRoverLogo.src },
+  landroover: { src: landRoverLogo.src },
   lexus: { src: lexusLogo.src },
   man: { src: manLogo.src },
   mazda: { src: mazdaLogo.src },
   mg: { src: mgLogo.src },
-  mini: { src: miniLogo.src },
   minicooper: { src: miniLogo.src },
-  mitsubishi: { src: mitsubishiLogo.src },
+  mitsubitchi: { src: mitsubishiLogo.src },
   nissan: { src: nissanLogo.src },
   opel: { src: opelLogo.src },
   peugeot: { src: peugeotLogo.src },
-  porsche: { src: porscheLogo.src },
+  porshe: { src: porscheLogo.src },
   renault: { src: renaultLogo.src },
-  rollsroyce: { src: rollsRoyceLogo.src },
-  subaru: { src: subaruLogo.src },
+  rollsroys: { src: rollsRoyceLogo.src },
+  subaro: { src: subaruLogo.src },
   suzuki: { src: suzukiLogo.src },
-  tatamotors: { src: tataLogo.src },
   tata: { src: tataLogo.src },
   tesla: { src: teslaLogo.src },
   toyota: { src: toyotaLogo.src },
-  volkswagen: { src: volkswagenLogo.src },
-  vw: { src: volkswagenLogo.src },
   volvo: { src: volvoLogo.src },
+  vw: { src: volkswagenLogo.src },
+};
+
+/* Brand → asset name mapping. Direct matches are resolved automatically by
+   normalized filename (any casing); this table only bridges brand names to
+   assets whose filename differs (typos, abbreviations, multi-word variants,
+   diacritics like Citroën). */
+const BRAND_TO_FILE: Record<string, string> = {
+  alfaromeo: "alpharomeo",
+  citroen: "citroein",
+  dsautomobiles: "ds",
+  greatwallmotors: "greatwall",
+  infiniti: "infinity",
+  landrover: "landroover",
+  mini: "minicooper",
+  mitsubishi: "mitsubitchi",
+  porsche: "porshe",
+  rollsroyce: "rollsroys",
+  subaru: "subaro",
+  tatamotors: "tata",
+  volkswagen: "vw",
 };
 
 export const DEFAULT_CAR_BRAND_LOGO: { src: string } = {
@@ -103,10 +120,24 @@ export const DEFAULT_CAR_BRAND_LOGO: { src: string } = {
 };
 
 export const normalizeCarBrand = (name: string) =>
-  name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]/g, "");
 
 export function getCarBrandLogo(name: string): { src: string } {
-  return CAR_BRAND_LOGOS[normalizeCarBrand(name)] ?? DEFAULT_CAR_BRAND_LOGO;
+  const key = normalizeCarBrand(name);
+  if (!key) return DEFAULT_CAR_BRAND_LOGO;
+  /* 1) Direct hit: a file whose normalized stem matches the brand name
+        (handles any filename casing, e.g. Audi.png, AUDI.png, audi.png). */
+  const direct = CAR_BRAND_FILE_REGISTRY[key];
+  if (direct) return direct;
+  /* 2) Bridged hit: brand name mapped to its on-disk asset name. */
+  const alias = BRAND_TO_FILE[key];
+  if (alias) return CAR_BRAND_FILE_REGISTRY[alias] ?? DEFAULT_CAR_BRAND_LOGO;
+  /* 3) No asset shipped for this brand yet — graceful fallback. */
+  return DEFAULT_CAR_BRAND_LOGO;
 }
 
 /* Build the region -> country -> brands grouping used by the shared
