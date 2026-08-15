@@ -237,7 +237,7 @@ export default function ServiceCategorySelect({
                         alt=""
                         aria-hidden="true"
                         draggable={false}
-                        className="h-5 w-5 shrink-0 object-contain"
+                        className="h-5 w-5 shrink-0 object-contain dark:brightness-0 dark:invert"
                       />
                       <span className="min-w-0 flex-1 truncate">
                         {localized(t, "serviceCat", group.category)}
@@ -265,7 +265,7 @@ export default function ServiceCategorySelect({
                               alt=""
                               aria-hidden="true"
                               draggable={false}
-                              className="h-5 w-5 shrink-0 object-contain"
+                              className="h-5 w-5 shrink-0 object-contain dark:brightness-0 dark:invert"
                             />
                             <span className="min-w-0 flex-1">{localized(t, "serviceCat", option)}</span>
                           </span>
