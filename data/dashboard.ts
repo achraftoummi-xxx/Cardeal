@@ -330,16 +330,17 @@ export function computeVehicleHealth(
 }
 
 /**
- * Derive the health score of a user-managed vehicle from the services
- * logged by the user and the current mileage versus standard service
- * intervals. Each category contributes weight × (1 - wear) where
- * wear = min(1, kmSinceLastService / interval). Categories without any
- * logged service carry no penalty.
+ * Health score of a user-managed vehicle, reward-based:
+ * every vehicle starts at a base of 50% and gains points by logging
+ * completed services. Each category contributes weight × (1 - wear)
+ * where wear = min(1, kmSinceLastService / interval), so recently
+ * performed services add the most and overdue ones add nothing.
+ * Categories without any logged service keep the base 50%.
  */
 export function computeVehicleHealthFromServices(vehicle: UserVehicle): number {
   const mileage = vehicle.mileageKm ?? 0;
   const services = vehicle.services ?? [];
-  let score = 100;
+  let score = 50;
 
   for (const cat of SERVICE_CATALOG) {
     const last = services
@@ -348,14 +349,14 @@ export function computeVehicleHealthFromServices(vehicle: UserVehicle): number {
     if (!last) continue;
     const since = Math.max(0, mileage - last.mileageKm);
     const wear = Math.min(1, since / cat.intervalKm);
-    score -= cat.weight * wear;
+    score += cat.weight * (1 - wear);
   }
 
   for (const s of services) {
     if (s.type !== CUSTOM_SERVICE_ID) continue;
     const since = Math.max(0, mileage - s.mileageKm);
     const wear = Math.min(1, since / CUSTOM_SERVICE_INTERVAL_KM);
-    score -= (s.weight || 0) * wear;
+    score += (s.weight || 0) * (1 - wear);
   }
 
   return Math.round(Math.max(10, Math.min(100, score)));
