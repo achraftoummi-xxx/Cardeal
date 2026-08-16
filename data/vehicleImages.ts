@@ -6,10 +6,19 @@ import audiA3White from "@/assets/cars/Audi-A3-white.png";
 import cheryQqWhite from "@/assets/cars/Chery-QQ-white.png";
 import c1White from "@/assets/cars/Citroen-c1-white-2009-2015.png";
 import c3Black from "@/assets/cars/Citroen-c3-black-2009-2015.png";
+import c3BlackLate from "@/assets/cars/Citroen-c3-black-2015-2022.png";
+import c3DarkGrayEarly from "@/assets/cars/Citroen-c3-dark-gray-2000-2009.png";
 import c3Gray from "@/assets/cars/Citroen-c3-gray2009-2015.png";
 import c3Red from "@/assets/cars/Citroen-c3-red-2009-2015.png";
 import c3White from "@/assets/cars/Citroen-c3-white-2009-2015.png";
 import c3WhiteLate from "@/assets/cars/Citroen-c3-white-2015-2022.png";
+import c15White from "@/assets/cars/Citroën C15-white.png";
+import c4White from "@/assets/cars/Citroen-c4-white-2009-2015.png";
+import cElyseeBlue from "@/assets/cars/Citroën Elysée-petrol-blue.png";
+import berlingoBlue from "@/assets/cars/Citroen-berlingo-petrol-blue.png";
+import ds3Black from "@/assets/cars/Citroen-DS-3-black.png";
+import ds3White from "@/assets/cars/Citroen-DS-3-White.png";
+import ds4Gray from "@/assets/cars/Citroen-DS-4-gray.png";
 import sparkPistache from "@/assets/cars/Chevrolet Spark-pistache.png";
 import fiat500DarkGray from "@/assets/cars/fiat-500-dark-gray.png";
 import fiat500White from "@/assets/cars/fiat-500-white.png";
@@ -41,6 +50,10 @@ import peugeot208Black from "@/assets/cars/Peugeot 208 Puretech-black.png";
 import peugeot208Champagne from "@/assets/cars/Peugeot 208 Puretech-Champagne.png";
 import peugeot208DarkGray from "@/assets/cars/Peugeot 208 Puretech-dark-gray.png";
 import peugeot208White from "@/assets/cars/Peugeot 208 Puretech-white.png";
+import peugeot206Silver from "@/assets/cars/Peugeot 206-silver.png";
+import peugeot207Silver from "@/assets/cars/Peugeot 207-silver.png";
+import peugeot301Silver from "@/assets/cars/Peugeot 301-Puretech-silver.png";
+import peugeot307DarkGray from "@/assets/cars/Peugeot 307-dark-gray.png";
 import polo7Gray from "@/assets/cars/POLO7-gray.png";
 import clio4White from "@/assets/cars/clio-4-white.png";
 import clio5Red from "@/assets/cars/clio-5-red.png";
@@ -102,11 +115,20 @@ export const VEHICLE_IMAGE_CATALOG: VehicleImageAsset[] = [
   { brand: "chery", model: "qq", color: "white", src: cheryQqWhite },
   { brand: "chevrolet", model: "spark", color: "pistache", yearStart: 2010, yearEnd: 2015, src: sparkPistache },
   { brand: "citroen", model: "c1", color: "white", yearStart: 2009, yearEnd: 2015, src: c1White },
+  { brand: "citroen", model: "c15", color: "white", yearStart: 1984, yearEnd: 2005, src: c15White },
+  { brand: "citroen", model: "berlingo", color: "blue", src: berlingoBlue },
+  { brand: "citroen", model: "celysee", color: "blue", yearStart: 2012, yearEnd: 2020, src: cElyseeBlue },
+  { brand: "citroen", model: "c3", color: "gray", yearStart: 2000, yearEnd: 2009, src: c3DarkGrayEarly },
   { brand: "citroen", model: "c3", color: "black", yearStart: 2009, yearEnd: 2015, src: c3Black },
+  { brand: "citroen", model: "c3", color: "black", yearStart: 2015, yearEnd: 2022, src: c3BlackLate },
   { brand: "citroen", model: "c3", color: "gray", yearStart: 2009, yearEnd: 2015, src: c3Gray },
   { brand: "citroen", model: "c3", color: "red", yearStart: 2009, yearEnd: 2015, src: c3Red },
   { brand: "citroen", model: "c3", color: "white", yearStart: 2009, yearEnd: 2015, src: c3White },
   { brand: "citroen", model: "c3", color: "white", yearStart: 2015, yearEnd: 2022, src: c3WhiteLate },
+  { brand: "citroen", model: "c4", color: "white", yearStart: 2009, yearEnd: 2015, src: c4White },
+  { brand: "citroen", model: "ds3", color: "black", yearStart: 2010, yearEnd: 2019, src: ds3Black },
+  { brand: "citroen", model: "ds3", color: "white", yearStart: 2010, yearEnd: 2019, src: ds3White },
+  { brand: "citroen", model: "ds4", color: "gray", yearStart: 2011, yearEnd: 2018, src: ds4Gray },
   { brand: "fiat", model: "panda", color: "black", yearStart: 2003, yearEnd: 2012, src: fiatPandaBlack },
   { brand: "fiat", model: "panda", color: "white", yearStart: 2003, yearEnd: 2012, src: fiatPandaWhite },
   { brand: "fiat", model: "punto", color: "white", yearStart: 2005, yearEnd: 2012, src: fiatPuntoWhite },
@@ -132,6 +154,10 @@ export const VEHICLE_IMAGE_CATALOG: VehicleImageAsset[] = [
   { brand: "nissan", model: "qashqai", color: "black", yearStart: 2007, yearEnd: 2013, src: qashqaiBlack },
   { brand: "nissan", model: "qashqai", color: "gray", yearStart: 2007, yearEnd: 2013, src: qashqaiGray },
   { brand: "opel", model: "corsa", color: "gray", src: corsaGray },
+  { brand: "peugeot", model: "206", color: "silver", yearStart: 1998, yearEnd: 2009, src: peugeot206Silver },
+  { brand: "peugeot", model: "207", color: "silver", yearStart: 2006, yearEnd: 2012, src: peugeot207Silver },
+  { brand: "peugeot", model: "301", color: "silver", yearStart: 2012, yearEnd: 2020, src: peugeot301Silver },
+  { brand: "peugeot", model: "307", color: "gray", yearStart: 2001, yearEnd: 2008, src: peugeot307DarkGray },
   { brand: "peugeot", model: "208", color: "white", yearStart: 2012, yearEnd: 2019, src: peugeot208White },
   { brand: "peugeot", model: "208", color: "black", yearStart: 2012, yearEnd: 2019, src: peugeot208Black },
   { brand: "peugeot", model: "208", color: "gray", yearStart: 2012, yearEnd: 2019, src: peugeot208DarkGray },
