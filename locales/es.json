@@ -1040,7 +1040,7 @@
     "vehicle": {
       "title": "Mi coche",
       
-    "vehiclePreviewHint": "La imagen se actualiza automáticamente según la marca, el modelo, el año y el color.","mileage": "Kilometraje",
+"mileage": "Kilometraje",
       "healthScore": "Puntuación de salud",
       "maintenanceStatus": "Estado del mantenimiento",
       "uptoDate": "Al día",

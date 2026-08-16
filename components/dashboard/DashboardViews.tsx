@@ -56,6 +56,7 @@ import {
   resolveVehicleImage,
   VEHICLE_COLORS,
 } from "@/data/vehicleImages";
+import { getCarBrandLogo } from "@/data/carBrandLogos";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { setAuthenticated, setUserName } from "@/lib/auth";
 import { cn } from "@/lib/utils";
@@ -1253,6 +1254,8 @@ export function SettingsView() {
 
   const previewImage =
     formOpen && draft.brand ? (resolveVehicleImage(draft.brand, draft.model, draft.year, draft.color)?.src ?? null) : null;
+  const previewEmptyLabel = t("dashboard.settings.vehiclePreviewEmpty");
+  const previewHintLabel = t("dashboard.settings.vehiclePreviewHint");
 
   return (
     <div className="space-y-4">
@@ -1438,18 +1441,33 @@ export function SettingsView() {
                   />
                 ) : (
                   <span className="px-1 text-center text-[10px] leading-tight text-muted-foreground">
-                    {t("dashboard.settings.vehiclePreviewEmpty")}
+                    {previewEmptyLabel === "dashboard.settings.vehiclePreviewEmpty"
+                      ? "No preview available"
+                      : previewEmptyLabel}
                   </span>
                 )}
               </span>
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-foreground">
-                  {[draft.brand, draft.model, draft.year, draft.color ? getVehicleColorLabel(draft.color) : ""]
-                    .filter(Boolean)
-                    .join(" · ") || "—"}
-                </p>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  {t("dashboard.settings.vehiclePreviewHint")}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2.5">
+                  {draft.brand && (
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border bg-background p-1">
+                      <img
+                        src={getCarBrandLogo(draft.brand).src}
+                        alt={`${draft.brand} logo`}
+                        className="max-h-full w-auto max-w-full object-contain"
+                      />
+                    </span>
+                  )}
+                  <p className="truncate text-sm font-semibold text-foreground">
+                    {[draft.brand, draft.model, draft.year, draft.color ? getVehicleColorLabel(draft.color) : ""]
+                      .filter(Boolean)
+                      .join(" · ") || "—"}
+                  </p>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {previewHintLabel === "dashboard.settings.vehiclePreviewHint"
+                    ? "The picture updates automatically with brand, model, year and color."
+                    : previewHintLabel}
                 </p>
               </div>
             </div>

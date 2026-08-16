@@ -539,7 +539,7 @@
     "vehicle": {
       "title": "My car",
       
-    "vehiclePreviewHint": "The picture updates automatically with brand, model, year and color.","mileage": "Mileage",
+"mileage": "Mileage",
       "healthScore": "Health score",
       "maintenanceStatus": "Maintenance status",
       "uptoDate": "Up to date",

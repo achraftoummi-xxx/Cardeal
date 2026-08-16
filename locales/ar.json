@@ -539,7 +539,7 @@
     "vehicle": {
       "title": "سيارتي",
       
-    "vehiclePreviewHint": "تتحدّث الصورة تلقائيًا حسب العلامة التجارية والطراز والسنة واللون.","mileage": "المسافة المقطوعة",
+"mileage": "المسافة المقطوعة",
       "healthScore": "درجة الصحة",
       "maintenanceStatus": "حالة الصيانة",
       "uptoDate": "محدثة",
