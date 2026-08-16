@@ -288,6 +288,7 @@
     "from": "Desde",
     "to": "Hasta",
     "staffMembers": "Miembros del personal",
+    "garageCapacity": "Capacidad del taller (coches)",
     "extraServices": "Servicios adicionales",
     "pricingLow": "Precio más bajo",
     "pricingHigh": "Precio más alto",
@@ -308,7 +309,11 @@
     "takeAppointment": "Pedir cita",
     "review": "{count} reseña",
     "reviews": "{count} reseñas",
-    "requestNote": "Solicitar presupuesto"
+    "requestNote": "Solicitar presupuesto",
+    "capacity": "Capacidad",
+    "availableOne": "{count} plaza disponible",
+    "availableMany": "{count} plazas disponibles",
+    "full": "Completo"
   },
   "map": {
     "list": "Lista",

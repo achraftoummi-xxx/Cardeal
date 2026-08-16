@@ -288,6 +288,7 @@
     "from": "Von",
     "to": "Bis",
     "staffMembers": "Mitarbeiter",
+    "garageCapacity": "Werkstattkapazität (Autos)",
     "extraServices": "Zusätzliche Dienstleistungen",
     "pricingLow": "Niedrigster Preis",
     "pricingHigh": "Höchster Preis",
@@ -308,7 +309,11 @@
     "takeAppointment": "Termin vereinbaren",
     "review": "{count} Bewertung",
     "reviews": "{count} Bewertungen",
-    "requestNote": "Angebot anfordern"
+    "requestNote": "Angebot anfordern",
+    "capacity": "Kapazität",
+    "availableOne": "{count} Platz verfügbar",
+    "availableMany": "{count} Plätze verfügbar",
+    "full": "Derzeit voll"
   },
   "map": {
     "list": "Liste",

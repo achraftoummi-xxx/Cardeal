@@ -25,6 +25,7 @@ returns table (
   services_offered   text,
   google_rating      numeric,
   review_count       integer,
+  garage_capacity    integer,
   latitude           numeric,
   longitude          numeric,
   distance_km        double precision
@@ -44,6 +45,7 @@ as $$
       p.services_offered,
       p.google_rating,
       p.review_count,
+      p.garage_capacity,
       p.latitude,
       p.longitude,
       (

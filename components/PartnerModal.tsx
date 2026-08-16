@@ -48,6 +48,7 @@ const EMPTY_FORM = {
   openTimeFrom: "",
   openTimeTo: "",
   staffMembers: "",
+  garageCapacity: "",
   extraServices: "",
   priceLow: "",
   priceHigh: "",
@@ -238,6 +239,22 @@ export default function PartnerModal({ open, onClose }: Props) {
                 onChange={update("staffMembers")}
                 className={inputClasses}
                 placeholder="5"
+              />
+            </div>
+            <div>
+              <label htmlFor="partner-capacity" className={labelClasses}>
+                {t("partnerForm.garageCapacity")}
+              </label>
+              <input
+                id="partner-capacity"
+                type="number"
+                min={1}
+                max={1000}
+                required
+                value={form.garageCapacity}
+                onChange={update("garageCapacity")}
+                className={inputClasses}
+                placeholder="4"
               />
             </div>
             <div className="sm:col-span-2">

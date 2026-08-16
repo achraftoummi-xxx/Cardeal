@@ -22,7 +22,7 @@ import { localized } from "@/lib/i18n";
 import { brandModels } from "@/data/carBrands";
 import { CAR_BRAND_REGIONS } from "@/data/carBrandRegions";
 import { buildCarBrandGroups } from "@/data/carBrandLogos";
-import { fetchPartners, sortPartners, type Partner } from "@/lib/partners";
+import { fetchActiveBookings, fetchPartners, sortPartners, type Partner } from "@/lib/partners";
 import { cn } from "@/lib/utils";
 
 const PartnerMap = dynamic(() => import("@/components/PartnerMap"), {
@@ -48,6 +48,7 @@ export default function SearchAndMapSection() {
   const [capacity, setCapacity] = useState("");
   const [cylinders, setCylinders] = useState("");
   const [partners, setPartners] = useState<Partner[]>([]);
+  const [activeBookings, setActiveBookings] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
@@ -110,6 +111,7 @@ export default function SearchAndMapSection() {
     try {
       const data = await fetchPartners(query || undefined);
       setPartners(data);
+      setActiveBookings(await fetchActiveBookings(data.map((p) => p.id)));
       setHasSearched(true);
     } catch (err) {
       console.error("Fetch partners error:", err);
@@ -311,6 +313,7 @@ export default function SearchAndMapSection() {
                     partner={p}
                     origin={location}
                     active={p.id === activePartnerId}
+                    activeBookings={activeBookings[p.id] ?? 0}
                     onSelect={() => selectPartner(p.id)}
                     onBook={() => openRequest(p, "appointment")}
                     onQuote={() => openRequest(p, "quote")}

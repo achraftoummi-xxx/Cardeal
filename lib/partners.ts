@@ -20,6 +20,7 @@ export type Partner = {
   opening_hours: string | null;
   services_offered: string | null;
   additional_info: string | null;
+  garage_capacity: number | null;
 };
 
 export type PartnerSearch = {
@@ -171,4 +172,48 @@ export async function fetchPartners(keyword?: string): Promise<Partner[]> {
   const { data, error } = await query.limit(200);
   if (error) throw error;
   return (data ?? []) as Partner[];
+}
+
+/* Statuses that still occupy a garage bay (everything except terminal ones). */
+const ACTIVE_BOOKING_STATUSES = ["pending", "confirmed", "scheduled", "in_progress"];
+
+/**
+ * Count active (non-terminal, not yet past) appointments per partner.
+ * Used to derive the number of currently available service spots.
+ * Returns a map of partnerId -> active booking count; {} when Supabase
+ * is not configured or the lookup fails.
+ */
+export async function fetchActiveBookings(partnerIds: string[]): Promise<Record<string, number>> {
+  if (!supabase || partnerIds.length === 0) return {};
+  const today = new Date().toISOString().split("T")[0];
+  const { data, error } = await supabase
+    .from("appointments")
+    .select("partner_id")
+    .in("partner_id", partnerIds)
+    .gte("appointment_date", today)
+    .in("status", ACTIVE_BOOKING_STATUSES);
+  if (error) {
+    console.error("Fetch active bookings error:", error);
+    return {};
+  }
+  const counts: Record<string, number> = {};
+  for (const row of data ?? []) {
+    counts[row.partner_id] = (counts[row.partner_id] ?? 0) + 1;
+  }
+  return counts;
+}
+
+/**
+ * Available service spots = garage capacity minus active bookings
+ * (clamped to 0). Returns null when the garage hasn't set a capacity yet,
+ * so callers can hide the badge gracefully.
+ */
+export function partnerAvailableSpots(
+  partner: Partner,
+  activeBookings = 0
+): { capacity: number; available: number } | null {
+  if (partner.garage_capacity == null) return null;
+  const capacity = partner.garage_capacity;
+  const active = Math.max(0, activeBookings);
+  return { capacity, available: Math.max(0, capacity - active) };
 }

@@ -288,6 +288,7 @@
     "from": "From",
     "to": "To",
     "staffMembers": "Staff Members",
+    "garageCapacity": "Garage Capacity (cars)",
     "extraServices": "Extra Services",
     "pricingLow": "Lowest Price",
     "pricingHigh": "Highest Price",
@@ -308,7 +309,11 @@
     "takeAppointment": "Take Appointment",
     "review": "{count} review",
     "reviews": "{count} reviews",
-    "requestNote": "Request a quote"
+    "requestNote": "Request a quote",
+    "capacity": "Capacity",
+    "availableOne": "{count} spot available",
+    "availableMany": "{count} spots available",
+    "full": "Currently full"
   },
   "map": {
     "list": "List",

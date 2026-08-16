@@ -288,6 +288,7 @@
     "from": "De",
     "to": "À",
     "staffMembers": "Membres du personnel",
+    "garageCapacity": "Capacité du garage (voitures)",
     "extraServices": "Services supplémentaires",
     "pricingLow": "Prix le plus bas",
     "pricingHigh": "Prix le plus élevé",
@@ -308,7 +309,11 @@
     "takeAppointment": "Prendre rendez-vous",
     "review": "{count} avis",
     "reviews": "{count} avis",
-    "requestNote": "Demander un devis"
+    "requestNote": "Demander un devis",
+    "capacity": "Capacité",
+    "availableOne": "{count} place disponible",
+    "availableMany": "{count} places disponibles",
+    "full": "Complet"
   },
   "map": {
     "list": "Liste",

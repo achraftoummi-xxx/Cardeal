@@ -1,24 +1,26 @@
 "use client";
 
-import { Star, Globe, MapPin, CalendarDays, FileText } from "lucide-react";
+import { Star, Globe, MapPin, CalendarDays, FileText, Warehouse, CircleDot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
-import { partnerDistanceKm, type Partner } from "@/lib/partners";
+import { partnerAvailableSpots, partnerDistanceKm, type Partner } from "@/lib/partners";
 
 type Props = {
   partner: Partner;
   origin?: { lat: number; lng: number } | null;
   active?: boolean;
+  activeBookings?: number;
   onSelect?: () => void;
   onBook?: () => void;
   onQuote?: () => void;
 };
 
-export default function PartnerCard({ partner, origin, active = false, onSelect, onBook, onQuote }: Props) {
+export default function PartnerCard({ partner, origin, active = false, activeBookings = 0, onSelect, onBook, onQuote }: Props) {
   const { t } = useTranslation();
   const distanceKm = partnerDistanceKm(partner, origin ?? null);
   const reviewCount = partner.review_count ?? 0;
+  const spots = partnerAvailableSpots(partner, activeBookings);
 
   return (
     <article
@@ -71,6 +73,35 @@ export default function PartnerCard({ partner, origin, active = false, onSelect,
           <MapPin size={13} className="mt-0.5 shrink-0" />
           <span className="line-clamp-2">{partner.address}</span>
         </p>
+      )}
+
+      {spots && (
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <span className="flex items-center gap-1.5 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground ring-1 ring-border">
+            <Warehouse size={11} className="shrink-0" />
+            {t("partnerCard.capacity")}: {spots.capacity}
+          </span>
+          <span
+            className={cn(
+              "flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ring-1",
+              spots.available === 0
+                ? "bg-red-500/10 text-red-500 ring-red-500/20"
+                : spots.available <= 2
+                  ? "bg-amber-500/10 text-amber-500 ring-amber-500/20"
+                  : "bg-green-500/10 text-green-500 ring-green-500/20"
+            )}
+          >
+            <CircleDot size={11} className="shrink-0" />
+            {spots.available === 0
+              ? t("partnerCard.full")
+              : t(
+                  spots.available === 1
+                    ? "partnerCard.availableOne"
+                    : "partnerCard.availableMany",
+                  { count: spots.available }
+                )}
+          </span>
+        </div>
       )}
 
       <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs">

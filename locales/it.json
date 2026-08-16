@@ -288,6 +288,7 @@
     "from": "Da",
     "to": "A",
     "staffMembers": "Membri del personale",
+    "garageCapacity": "Capacità dell'officina (auto)",
     "extraServices": "Servizi aggiuntivi",
     "pricingLow": "Prezzo più basso",
     "pricingHigh": "Prezzo più alto",
@@ -308,7 +309,11 @@
     "takeAppointment": "Prenota un appuntamento",
     "review": "{count} recensione",
     "reviews": "{count} recensioni",
-    "requestNote": "Richiedi un preventivo"
+    "requestNote": "Richiedi un preventivo",
+    "capacity": "Capacità",
+    "availableOne": "{count} posto disponibile",
+    "availableMany": "{count} posti disponibili",
+    "full": "Completo"
   },
   "map": {
     "list": "Elenco",

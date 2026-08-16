@@ -288,6 +288,7 @@
     "from": "من",
     "to": "إلى",
     "staffMembers": "عدد الموظفين",
+    "garageCapacity": "سعة المرآب (سيارات)",
     "extraServices": "خدمات إضافية",
     "pricingLow": "أقل سعر",
     "pricingHigh": "أعلى سعر",
@@ -308,7 +309,11 @@
     "takeAppointment": "احجز موعداً",
     "review": "{count} تقييم",
     "reviews": "{count} تقييمات",
-    "requestNote": "طلب عرض سعر"
+    "requestNote": "طلب عرض سعر",
+    "capacity": "السعة",
+    "availableOne": "{count} مكان متاح",
+    "availableMany": "{count} أماكن متاحة",
+    "full": "ممتلئ"
   },
   "map": {
     "list": "القائمة",
