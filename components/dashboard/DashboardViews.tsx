@@ -294,7 +294,7 @@ export function PartsView() {
 
 type TireOffer = { brand: string; model: string; size: string; season: string; price: string; dealer: string };
 
-const TIRE_BRANDS = ["Bridgestone", "Continental", "Goodyear", "Hankook", "Michelin", "Pirelli"];
+const TIRE_BRANDS = ["Amine", "Bridgestone", "Continental", "Goodyear", "Hankook", "Michelin", "Pirelli"];
 
 export function TiresView() {
   const { t } = useTranslation();

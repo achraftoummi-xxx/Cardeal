@@ -421,6 +421,14 @@
         "season": "Verano",
         "price": "189 DT",
         "dealer": "Garage Auto Plus"
+      },
+      {
+        "brand": "Amine",
+        "model": "EcoDrive 4S",
+        "size": "205/55 R16",
+        "season": "Todas las estaciones",
+        "price": "189 DT",
+        "dealer": "Amine Pneus Tunis"
       }
     ]
   },

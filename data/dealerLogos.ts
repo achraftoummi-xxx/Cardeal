@@ -3,6 +3,7 @@ import adTunisiaLogo from "@/assets/dealers_logos/logo_AD_tunisia.png";
 import benHrizLogo from "@/assets/dealers_logos/benhriz.png";
 import bmAutoPartsLogo from "@/assets/dealers_logos/BMautoparts-logo.png";
 import globalPiecesAutoLogo from "@/assets/dealers_logos/GPA.png";
+import amineLogo from "@/assets/dealers_logos/AMINE.png";
 import defaultDealerLogo from "@/assets/dealers_logos/default.png";
 
 /* Dealer logos — keyed by a normalized dealer name (lowercase, alphanumeric
@@ -19,6 +20,8 @@ const DEALER_LOGOS: Record<string, StaticImageData> = {
   gpa: globalPiecesAutoLogo,
   "globalpiecesauto": globalPiecesAutoLogo,
   "steglobalpiecesauto": globalPiecesAutoLogo,
+  amine: amineLogo,
+  "aminepneus": amineLogo,
 };
 
 export const DEFAULT_DEALER_LOGO: StaticImageData = defaultDealerLogo;

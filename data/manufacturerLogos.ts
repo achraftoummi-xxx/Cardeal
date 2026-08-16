@@ -50,6 +50,7 @@ import swagLogo from "@/assets/manufacturers/SWAG.png";
 import trwLogo from "@/assets/manufacturers/trw.png";
 import vanwezelLogo from "@/assets/manufacturers/vanwezl.png";
 import zfLogo from "@/assets/manufacturers/ZF.png";
+import amineLogo from "@/assets/dealers_logos/AMINE.png";
 import defaultManufacturerLogo from "@/assets/dealers_logos/default.png";
 
 /* Manufacturer logos — keyed by a normalized brand name (lowercase,
@@ -116,6 +117,7 @@ const MANUFACTURER_LOGOS: Record<string, { src: string }> = {
   vanwezel: { src: vanwezelLogo.src },
   vdo: { src: "/assets/manufacturers/vdo.svg" },
   zf: { src: zfLogo.src },
+  amine: { src: amineLogo.src },
 };
 
 export const DEFAULT_MANUFACTURER_LOGO: { src: string } = {

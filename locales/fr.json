@@ -379,7 +379,8 @@
       { "brand": "Continental", "model": "EcoContact 6", "size": "195/65 R15", "season": "Été", "price": "199 DT", "dealer": "Garage Tunis Auto" },
       { "brand": "Pirelli", "model": "Cinturato P7", "size": "225/45 R17", "season": "Toutes saisons", "price": "310 DT", "dealer": "Auto Service Nabeul" },
       { "brand": "Goodyear", "model": "EfficientGrip Performance", "size": "185/60 R15", "season": "Hiver", "price": "175 DT", "dealer": "Pneus Express Bizerte" },
-      { "brand": "Hankook", "model": "Kinergy Eco2", "size": "205/55 R16", "season": "Été", "price": "189 DT", "dealer": "Garage Auto Plus" }
+      { "brand": "Hankook", "model": "Kinergy Eco2", "size": "205/55 R16", "season": "Été", "price": "189 DT", "dealer": "Garage Auto Plus" },
+      { "brand": "Amine", "model": "EcoDrive 4S", "size": "205/55 R16", "season": "Toutes saisons", "price": "189 DT", "dealer": "Amine Pneus Tunis" }
     ]
   },
   "parts": {

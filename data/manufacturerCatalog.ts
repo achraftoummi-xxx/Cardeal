@@ -12,6 +12,7 @@ import southKoreaFlag from "@/assets/flags/south-korea.png";
 import usaFlag from "@/assets/flags/united-states.png";
 import turkeyFlag from "@/assets/flags/turkey.png";
 import chinaFlag from "@/assets/flags/china.png";
+import tunisiaFlag from "@/assets/flags/Tunisia.png";
 
 export type ManufacturerCountry = {
   id: string;
@@ -162,7 +163,14 @@ export const MANUFACTURER_CATALOG: ManufacturerRegion[] = [
   },
   {
     id: "tunisia",
-    countries: [],
+    countries: [
+      {
+        id: "tunisia",
+        name: "Tunisia",
+        flag: flagOf(tunisiaFlag),
+        brands: ["Amine"],
+      },
+    ],
   },
 ];
 

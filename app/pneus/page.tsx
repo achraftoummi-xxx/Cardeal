@@ -18,7 +18,7 @@ type TireOffer = {
   dealer: string;
 };
 
-const TIRE_BRANDS = ["Bridgestone", "Continental", "Goodyear", "Hankook", "Michelin", "Pirelli"];
+const TIRE_BRANDS = ["Amine", "Bridgestone", "Continental", "Goodyear", "Hankook", "Michelin", "Pirelli"];
 
 export default function PneusPage() {
   const { t } = useTranslation();

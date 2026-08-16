@@ -5,6 +5,7 @@ import continentalLogo from "@/assets/images/continental.png";
 import pirelliLogo from "@/assets/images/Pirelli.png";
 import goodyearLogo from "@/assets/images/goodyear.png";
 import hankookLogo from "@/assets/images/hankook.png";
+import amineLogo from "@/assets/dealers_logos/AMINE.png";
 
 /* Tire brand logos — keyed by a normalized brand name (lowercase,
    alphanumeric only) so lookups are case/punctuation-insensitive. */
@@ -15,6 +16,7 @@ const TIRE_BRAND_LOGOS: Record<string, StaticImageData> = {
   pirelli: pirelliLogo,
   goodyear: goodyearLogo,
   hankook: hankookLogo,
+  amine: amineLogo,
 };
 
 export const normalizeBrand = (brand: string) =>
