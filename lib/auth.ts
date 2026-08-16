@@ -33,6 +33,14 @@ export function setAuthenticated(value = true): void {
   }
 }
 
+export function setUserName(name: string): void {
+  try {
+    window.sessionStorage.setItem("cardeal_user_name", name || "Karim");
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
+
 export function savePendingRequest(payload: PendingRequest): void {
   try {
     window.sessionStorage.setItem(PENDING_REQUEST_KEY, JSON.stringify(payload));

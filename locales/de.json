@@ -171,7 +171,12 @@
     "passwordMismatch": "Die Passwörter stimmen nicht überein",
     "showPassword": "Passwort anzeigen",
     "hidePassword": "Passwort verbergen",
-    "pleaseSelect": "Auswählen"
+    "pleaseSelect": "Auswählen",
+    "oauthError": "Google-Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "loginError": "E-Mail oder Passwort ungültig.",
+    "signupError": "Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "verifyEmail": "Fast geschafft — prüfen Sie Ihren Posteingang, um Ihre E-Mail zu bestätigen.",
+    "redirecting": "Weiterleitung…"
   },
   "theme": {
     "light": "Hell",

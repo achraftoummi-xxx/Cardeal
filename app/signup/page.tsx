@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import cardealLogo from "@/assets/images/cardeal_logo.png";
 import {
   setAuthenticated,
+  setUserName,
   readPendingRequest,
   clearPendingRequest,
   type PendingRequest,
@@ -83,7 +84,7 @@ export default function SignupPage() {
 
     /* Mock sign-up: mark the user as authenticated in this session. */
     setAuthenticated(true);
-    window.sessionStorage.setItem("cardeal_user_name", form.fullName.trim());
+    setUserName(form.fullName);
 
     /* Replay any request stored before redirecting here. */
     const stored = readPendingRequest();

@@ -2,13 +2,22 @@
 
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/components/TranslationProvider";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { setAuthenticated } from "@/lib/auth";
 
 export default function AuthPage() {
   const { t } = useTranslation();
-  const handleAuth = () => {
-    // Mock authentication
-    alert(t("auth.successAlert"));
-    window.location.href = '/results';
+  const handleAuth = async () => {
+    /* No Supabase backend configured — fall back to the local mock session. */
+    if (!isSupabaseConfigured) {
+      setAuthenticated(true);
+      window.location.href = "/dashboard";
+      return;
+    }
+    await supabase!.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    });
   };
 
   return (

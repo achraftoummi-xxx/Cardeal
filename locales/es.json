@@ -171,7 +171,12 @@
     "passwordMismatch": "Las contraseñas no coinciden",
     "showPassword": "Mostrar contraseña",
     "hidePassword": "Ocultar contraseña",
-    "pleaseSelect": "Seleccionar"
+    "pleaseSelect": "Seleccionar",
+    "oauthError": "Error al iniciar sesión con Google. Inténtalo de nuevo.",
+    "loginError": "Correo electrónico o contraseña no válidos.",
+    "signupError": "Error al crear la cuenta. Inténtalo de nuevo.",
+    "verifyEmail": "Casi listo — revisa tu bandeja de entrada para confirmar tu correo.",
+    "redirecting": "Redirigiendo…"
   },
   "theme": {
     "light": "Claro",

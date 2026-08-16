@@ -171,7 +171,12 @@
     "passwordMismatch": "Passwords do not match",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
-    "pleaseSelect": "Select"
+    "pleaseSelect": "Select",
+    "oauthError": "Google sign-in failed. Please try again.",
+    "loginError": "Invalid email or password.",
+    "signupError": "Sign-up failed. Please try again.",
+    "verifyEmail": "Almost there — check your inbox to confirm your email.",
+    "redirecting": "Redirecting…"
   },
   "theme": {
     "light": "Light",

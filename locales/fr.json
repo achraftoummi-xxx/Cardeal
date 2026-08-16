@@ -171,7 +171,12 @@
     "passwordMismatch": "Les mots de passe ne correspondent pas",
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Masquer le mot de passe",
-    "pleaseSelect": "Sélectionner"
+    "pleaseSelect": "Sélectionner",
+    "oauthError": "Échec de la connexion avec Google. Veuillez réessayer.",
+    "loginError": "E-mail ou mot de passe invalide.",
+    "signupError": "L'inscription a échoué. Veuillez réessayer.",
+    "verifyEmail": "Encore une étape — consultez votre boîte mail pour confirmer votre adresse.",
+    "redirecting": "Redirection…"
   },
   "theme": {
     "light": "Clair",

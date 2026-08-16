@@ -171,7 +171,12 @@
     "passwordMismatch": "Le password non corrispondono",
     "showPassword": "Mostra password",
     "hidePassword": "Nascondi password",
-    "pleaseSelect": "Seleziona"
+    "pleaseSelect": "Seleziona",
+    "oauthError": "Accesso con Google non riuscito. Riprova.",
+    "loginError": "E-mail o password non validi.",
+    "signupError": "Registrazione non riuscita. Riprova.",
+    "verifyEmail": "Quasi fatto — controlla la tua casella di posta per confermare l'e-mail.",
+    "redirecting": "Reindirizzamento…"
   },
   "theme": {
     "light": "Chiaro",

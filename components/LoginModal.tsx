@@ -5,6 +5,8 @@ import { Eye, EyeOff, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { setAuthenticated, setUserName } from "@/lib/auth";
 import cardealLogo from "@/assets/images/cardeal_logo.png";
 import BrandSelect from "@/components/BrandSelect";
 import { carBrandOption } from "@/components/CarBrandLogo";
@@ -124,12 +126,16 @@ export default function LoginModal({ open, onClose }: Props) {
   const [password, setPassword] = useState("");
   const [signup, setSignup] = useState(EMPTY_SIGNUP);
   const [errors, setErrors] = useState<{ retypePassword?: string }>({});
+  const [busy, setBusy] = useState(false);
+  const [formMessage, setFormMessage] = useState<{ kind: "error" | "info"; text: string } | null>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (open) {
       setMode("login");
+      setBusy(false);
+      setFormMessage(null);
       emailRef.current?.focus();
     }
   }, [open]);
@@ -157,17 +163,75 @@ export default function LoginModal({ open, onClose }: Props) {
 
   if (!open) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormMessage(null);
     if (mode === "signup" && signup.password !== signup.retypePassword) {
       setErrors({ retypePassword: t("auth.passwordMismatch") });
       return;
     }
-    window.location.href = "/results";
+    setBusy(true);
+    try {
+      /* No Supabase backend configured — fall back to the local mock session. */
+      if (!isSupabaseConfigured) {
+        setAuthenticated(true);
+        setUserName(mode === "signup" ? signup.fullName : email.split("@")[0]);
+        window.location.href = "/dashboard";
+        return;
+      }
+
+      if (mode === "login") {
+        const { data, error } = await supabase!.auth.signInWithPassword({ email, password });
+        if (error || !data.session) {
+          setFormMessage({ kind: "error", text: t("auth.loginError") });
+          return;
+        }
+        setAuthenticated(true);
+        setUserName(data.user.email ?? "");
+        window.location.href = "/dashboard";
+        return;
+      }
+
+      const { data, error } = await supabase!.auth.signUp({
+        email: signup.email,
+        password: signup.password,
+        options: {
+          data: { full_name: signup.fullName, phone: signup.phone },
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (error) {
+        setFormMessage({ kind: "error", text: t("auth.signupError") });
+        return;
+      }
+      if (data.session) {
+        setAuthenticated(true);
+        setUserName((data.user?.user_metadata?.full_name as string | undefined) ?? signup.fullName);
+        window.location.href = "/dashboard";
+        return;
+      }
+      setFormMessage({ kind: "info", text: t("auth.verifyEmail") });
+    } finally {
+      setBusy(false);
+    }
   };
 
-  const handleGoogleConnect = () => {
-    window.location.href = "/results";
+  const handleGoogleConnect = async () => {
+    setFormMessage(null);
+    if (!isSupabaseConfigured) {
+      setAuthenticated(true);
+      window.location.href = "/dashboard";
+      return;
+    }
+    setBusy(true);
+    const { error } = await supabase!.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    });
+    setBusy(false);
+    if (error) {
+      setFormMessage({ kind: "error", text: t("auth.oauthError") });
+    }
   };
 
   const switchMode = (m: Mode) => {
@@ -231,12 +295,27 @@ export default function LoginModal({ open, onClose }: Props) {
         <button
           type="button"
           onClick={handleGoogleConnect}
+          disabled={busy}
           aria-label={t("auth.connectGoogle")}
-          className="flex w-full max-sm:min-h-12 items-center justify-center gap-2.5 rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium text-foreground shadow-sm transition-all hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          className="flex w-full max-sm:min-h-12 items-center justify-center gap-2.5 rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium text-foreground shadow-sm transition-all hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <GoogleIcon size={18} />
           {t("auth.connectGoogle")}
         </button>
+
+        {formMessage && (
+          <p
+            role="alert"
+            className={cn(
+              "mt-4 rounded-xl border px-4 py-3 text-sm font-medium",
+              formMessage.kind === "error"
+                ? "border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400"
+                : "border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-blue-400"
+            )}
+          >
+            {formMessage.text}
+          </p>
+        )}
 
         <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground max-sm:my-4">
           <span className="h-px flex-1 bg-border" />
@@ -280,7 +359,7 @@ export default function LoginModal({ open, onClose }: Props) {
                 autoComplete="current-password"
               />
             </div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" disabled={busy} className="w-full">
               {t("auth.signInButton")}
             </Button>
           </form>
@@ -479,7 +558,7 @@ export default function LoginModal({ open, onClose }: Props) {
                   ))}
                 </select>
               </div>
-              <Button type="submit" className="w-full sm:col-span-2">
+              <Button type="submit" disabled={busy} className="w-full sm:col-span-2">
                 {t("auth.signupButton")}
               </Button>
             </form>
