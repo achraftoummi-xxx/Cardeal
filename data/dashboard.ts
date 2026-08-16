@@ -149,6 +149,7 @@ export type UserVehicle = {
   capacity: string;
   cylinders: string;
   fuel: string;
+  color: string;
   mileageKm: number | null;
 };
 
@@ -185,6 +186,7 @@ export function emptyUserVehicle(): UserVehicle {
     capacity: "",
     cylinders: "",
     fuel: "",
+    color: "",
     mileageKm: null,
   };
 }
@@ -199,6 +201,7 @@ export function seedUserVehicle(v: DashboardVehicle): UserVehicle {
     capacity: capacityMatch ? `${capacityMatch[1]}L` : "",
     cylinders: "",
     fuel: /diesel/i.test(v.engine) ? "Diesel" : "Essence",
+    color: "",
     mileageKm: v.mileageKm ?? null,
   };
 }

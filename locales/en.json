@@ -617,6 +617,7 @@
       "fuel": "Fuel",
       "year": "Year",
       "mileage": "Mileage",
+      "color": "Color",
       "saveVehicle": "Add vehicle",
       "updateVehicle": "Update",
       "cancel": "Cancel",

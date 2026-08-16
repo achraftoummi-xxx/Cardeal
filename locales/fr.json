@@ -617,6 +617,7 @@
       "fuel": "Carburant",
       "year": "Année",
       "mileage": "Kilométrage",
+      "color": "Couleur",
       "saveVehicle": "Ajouter le véhicule",
       "updateVehicle": "Mettre à jour",
       "cancel": "Annuler",

@@ -46,6 +46,11 @@ import { getManufacturerLogo } from "@/data/manufacturerLogos";
 import { MANUFACTURER_CATALOG } from "@/data/manufacturerCatalog";
 import { getTireBrandLogo } from "@/data/tireBrandLogos";
 import { brandModels } from "@/data/carBrands";
+import {
+  getVehicleColorLabel,
+  getVehicleImage,
+  VEHICLE_COLORS,
+} from "@/data/vehicleImages";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { setAuthenticated, setUserName } from "@/lib/auth";
 import { cn } from "@/lib/utils";
@@ -448,52 +453,57 @@ export function AdviceView() {
 
 export function VehiclesView() {
   const { t } = useTranslation();
-  const [vehicle] = useState(getDashboardVehicle);
+  const [vehicles] = useState<UserVehicle[]>(() => {
+    const stored = loadUserVehicles();
+    if (stored && stored.length > 0) return stored;
+    return [seedUserVehicle(getDashboardVehicle())];
+  });
+
+  const specs = (v: UserVehicle) =>
+    [
+      { label: t("dashboard.settings.year"), value: v.year },
+      { label: t("dashboard.settings.fuel"), value: v.fuel },
+      { label: t("dashboard.settings.capacity"), value: v.capacity },
+      { label: t("dashboard.settings.cylinders"), value: v.cylinders },
+      {
+        label: t("dashboard.settings.mileage"),
+        value:
+          v.mileageKm != null ? `${Number(v.mileageKm).toLocaleString("fr-FR")} km` : "",
+      },
+      { label: t("dashboard.settings.color"), value: getVehicleColorLabel(v.color) },
+    ].filter((s) => s.value);
 
   return (
     <div className="space-y-4">
       <SectionHeader navKey="vehicles" />
-      <Card>
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-          <div className="flex h-20 w-32 shrink-0 items-center justify-center rounded-2xl border border-border bg-muted/40 p-3">
-            <CarBrandLogo name={vehicle.brand} className="max-h-full w-auto max-w-full" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-lg font-bold text-foreground">
-              {vehicle.brand} {vehicle.model}
-            </p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {vehicle.year} · {vehicle.engine}
-            </p>
-            <p className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-              <Gauge size={14} className="text-blue-500" />
-              {t("dashboard.vehicle.mileage")}: {vehicle.mileageKm.toLocaleString("fr-FR")} km
-            </p>
-            <span
-              className={cn(
-                "mt-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ring-1",
-                vehicle.maintenanceUptoDate
-                  ? "bg-green-500/10 text-green-500 ring-green-500/20"
-                  : "bg-amber-500/10 text-amber-500 ring-amber-500/20"
-              )}
-            >
-              <ShieldCheck size={12} />
-              {t(vehicle.maintenanceUptoDate ? "dashboard.vehicle.uptoDate" : "dashboard.vehicle.recommended")}
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
-            <div>
-              <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                {t("dashboard.vehicle.healthScore")}
-              </p>
-              <p className="mt-1 text-sm font-semibold text-foreground">
-                {t("dashboard.vehicle.title")}
-              </p>
+      {vehicles.map((v) => (
+        <Card key={v.id}>
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+            <div className="flex h-24 w-40 shrink-0 items-center justify-center rounded-2xl border border-border bg-muted/40 p-2">
+              <img
+                src={getVehicleImage(v.brand, v.model, v.year, v.color).src}
+                alt={`${v.brand} ${v.model}`}
+                className="max-h-full w-auto max-w-full object-contain"
+              />
             </div>
-            <HealthScoreRing score={vehicle.healthScore} />
+            <div className="min-w-0 flex-1">
+              <p className="text-lg font-bold text-foreground">
+                {v.brand || "—"} {v.model}
+              </p>
+              <div className="mt-3 grid grid-cols-2 gap-x-6 gap-y-2.5 sm:grid-cols-3">
+                {specs(v).map((s) => (
+                  <div key={s.label}>
+                    <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                      {s.label}
+                    </p>
+                    <p className="mt-0.5 text-sm font-semibold text-foreground">{s.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      ))}
     </div>
   );
 }
@@ -878,7 +888,7 @@ export function SettingsView() {
   };
 
   const openEditForm = (v: UserVehicle) => {
-    setDraft({ ...v });
+    setDraft({ ...v, color: v.color ?? "" });
     setEditingId(v.id);
     setFormOpen(true);
   };
@@ -999,10 +1009,14 @@ export function SettingsView() {
         {vehicles.map((v) => (
           <div
             key={v.id}
-            className="mt-3 flex items-center gap-3 rounded-xl border border-border bg-background/60 p-4"
+            className="mt-3 flex items-center gap-4 rounded-xl border border-border bg-background/60 p-4"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 ring-1 ring-blue-500/20">
-              <CarBrandLogo name={v.brand} className="h-5 w-auto max-w-[36px]" />
+            <span className="flex h-14 w-20 shrink-0 items-center justify-center rounded-xl border border-border bg-muted/40 p-1.5">
+              <img
+                src={getVehicleImage(v.brand, v.model, v.year, v.color).src}
+                alt={`${v.brand} ${v.model}`}
+                className="max-h-full w-auto max-w-full object-contain"
+              />
             </span>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold text-foreground">
@@ -1014,6 +1028,7 @@ export function SettingsView() {
                   v.capacity,
                   v.cylinders ? `${v.cylinders} cyl.` : "",
                   v.year,
+                  getVehicleColorLabel(v.color),
                   v.mileageKm != null ? `${Number(v.mileageKm).toLocaleString("fr-FR")} km` : "",
                 ]
                   .filter(Boolean)
@@ -1081,6 +1096,12 @@ export function SettingsView() {
                 options={yearOptions}
                 onChange={(year) => setDraft((d) => ({ ...d, year }))}
               />
+              <Select
+                label={t("dashboard.settings.color")}
+                value={draft.color}
+                options={VEHICLE_COLORS.map((c) => ({ value: c.id, label: c.label }))}
+                onChange={(color) => setDraft((d) => ({ ...d, color }))}
+              />
               <TextInput
                 label={t("dashboard.settings.mileage")}
                 type="number"
@@ -1141,7 +1162,7 @@ function Select({
 }: {
   label: string;
   value: string;
-  options: string[];
+  options: (string | { value: string; label: string })[];
   onChange: (v: string) => void;
   placeholder?: string;
   disabled?: boolean;
@@ -1166,13 +1187,15 @@ function Select({
           )}
         >
           <option value="">{placeholder ?? t("filters.any")}</option>
-          {options.map((o) =>
-            o ? (
-              <option key={o} value={o} className="bg-card text-foreground">
-                {o}
+          {options.map((o) => {
+            const optValue = typeof o === "string" ? o : o.value;
+            const optLabel = typeof o === "string" ? o : o.label;
+            return optValue ? (
+              <option key={optValue} value={optValue} className="bg-card text-foreground">
+                {optLabel}
               </option>
-            ) : null
-          )}
+            ) : null;
+          })}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <svg className="h-4 w-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
