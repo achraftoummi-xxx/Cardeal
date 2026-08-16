@@ -12,33 +12,79 @@ export default function AuthCallbackPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
-    const error = params.get("error");
+    const searchError = params.get("error");
+
+    const hashParams = window.location.hash
+      ? new URLSearchParams(window.location.hash.replace(/^#/, ""))
+      : null;
+    const hashError = hashParams?.get("error") ?? null;
+    const accessToken = hashParams?.get("access_token") ?? null;
 
     const finish = (href: string) => {
       window.location.replace(href);
     };
 
-    if (error || !code || !supabase) {
+    if (searchError || hashError || !supabase) {
+      finish("/");
+      return;
+    }
+
+    const completeSession = (name: string) => {
+      setAuthenticated(true);
+      setUserName(name);
+      finish("/dashboard");
+    };
+
+    /* Implicit flow: tokens delivered in the URL hash fragment. */
+    if (accessToken) {
+      const refreshToken = hashParams!.get("refresh_token") ?? "";
+      const expiresAt = hashParams!.get("expires_at");
+      window.history.replaceState(null, "", window.location.pathname);
+      supabase.auth
+        .setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+          ...(expiresAt && !Number.isNaN(Number(expiresAt))
+            ? { expires_at: Number(expiresAt) }
+            : {}),
+        })
+        .then(({ data, error }) => {
+          if (error || !data.session) {
+            finish("/");
+            return;
+          }
+          const meta = (data.user.user_metadata ?? {}) as Record<string, unknown>;
+          const name =
+            (typeof meta.full_name === "string" && meta.full_name) ||
+            (typeof meta.name === "string" && meta.name) ||
+            data.user.email ||
+            "";
+          completeSession(name);
+        })
+        .catch(() => finish("/"));
+      return;
+    }
+
+    /* PKCE flow: single-use authorization code in the query string. */
+    if (!code) {
       finish("/");
       return;
     }
 
     supabase.auth
       .exchangeCodeForSession(code)
-      .then(({ data, error: exchangeError }) => {
-        if (exchangeError || !data.session) {
+      .then(({ data, error }) => {
+        if (error || !data.session) {
           finish("/");
           return;
         }
-        setAuthenticated(true);
         const meta = (data.user.user_metadata ?? {}) as Record<string, unknown>;
         const name =
           (typeof meta.full_name === "string" && meta.full_name) ||
           (typeof meta.name === "string" && meta.name) ||
           data.user.email ||
           "";
-        setUserName(name);
-        finish("/dashboard");
+        completeSession(name);
       })
       .catch(() => finish("/"));
   }, []);

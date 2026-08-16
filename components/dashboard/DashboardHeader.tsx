@@ -17,6 +17,8 @@ import { useTranslation } from "@/components/TranslationProvider";
 import { cn } from "@/lib/utils";
 import { useDashboard } from "./DashboardContext";
 import { CITY_OPTIONS, DASHBOARD_MESSAGES, DASHBOARD_NOTIFICATIONS, getUserName } from "@/data/dashboard";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { setAuthenticated } from "@/lib/auth";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSelector from "@/components/LanguageSelector";
 
@@ -214,11 +216,8 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
                     type="button"
                     onClick={() => {
                       setProfileOpen(false);
-                      try {
-                        window.sessionStorage.removeItem("cardeal_auth");
-                      } catch {
-                        /* ignore */
-                      }
+                      setAuthenticated(false);
+                      if (isSupabaseConfigured) void supabase!.auth.signOut();
                       window.location.href = "/";
                     }}
                     className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-red-500 transition-colors hover:bg-red-500/10"

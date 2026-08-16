@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useTranslation } from "@/components/TranslationProvider";
-import { isAuthenticated } from "@/lib/auth";
+import { useAuth } from "@/components/AuthProvider";
 import cardealLogo from "@/assets/images/cardeal_logo.png";
 
 export default function SiteHeader({
@@ -17,12 +17,8 @@ export default function SiteHeader({
   onPartner: () => void;
 }) {
   const { t } = useTranslation();
+  const { authed } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [authed, setAuthed] = useState(false);
-
-  useEffect(() => {
-    setAuthed(isAuthenticated());
-  }, []);
 
   const navLinks = [
     { href: "#find-service", label: t("nav.findService") },

@@ -7,7 +7,7 @@
     "requestQuote": "Solicitar presupuesto",
     "searchParts": "Buscar repuestos",
     "tires": "Neumáticos",
-    "advice": "Consejos de coche",
+    "advice": "Consejos para tu coche",
     "deals": "Ofertas",
     "menu": "Menú"
   },
@@ -23,7 +23,7 @@
   },
   "vehicleFinder": {
     "title": "Encuentra tu vehículo",
-    "stepInfo": "Paso {current} de {total}: Selecciona tu {label}"
+    "stepInfo": "Paso {current} de {total}: Selecciona {label}"
   },
   "how": {
     "title": "Cómo funciona CarDeal",
@@ -91,15 +91,15 @@
     "services": "Buscar servicios",
     "keywords": "Palabras clave",
     "serviceCategory": "Categoría de servicio",
-    "servicePlaceholder": "Selecciona o escribe un servicio (ej. Pastillas de freno)",
-    "clearServiceCategory": "Limpiar categoría de servicio",
-    "noServiceMatches": "Sin coincidencias — sigue escribiendo para añadir un servicio personalizado",
-    "keywordPlaceholder": "Palabra clave del servicio (ej. frenos, aceite, batería)",
+    "servicePlaceholder": "Selecciona o escribe un servicio (p. ej., pastillas de freno)",
+    "clearServiceCategory": "Borrar categoría de servicio",
+    "noServiceMatches": "No hay coincidencias; sigue escribiendo para añadir un servicio personalizado",
+    "keywordPlaceholder": "Palabra clave del servicio (p. ej., frenos, aceite, batería)",
     "search": "Buscar",
     "searching": "Buscando…",
     "title": "Encuentra un taller cerca de ti",
     "allServices": "Todos los servicios",
-    "noMatches": "Sin resultados"
+    "noMatches": "No se encontraron resultados"
   },
   "results": {
     "workshopNearby": "{count} taller cercano",
@@ -130,11 +130,11 @@
     "notActivated": "Ubicación no activada",
     "activate": "Activar ubicación",
     "geoNotSupported": "Geolocalización no compatible",
-    "accessDenied": "Acceso a la ubicación denegado. Escribe una ciudad o dirección.",
+    "accessDenied": "Se ha denegado el acceso a la ubicación. Introduce una ciudad o dirección.",
     "searchCityAria": "Buscar ciudad o dirección",
-    "placeholder": "Buscar ciudad o dirección...",
+    "placeholder": "Buscar ciudad o dirección…",
     "changePlaceholder": "Cambiar ubicación",
-    "clear": "Limpiar"
+    "clear": "Borrar"
   },
   "auth": {
     "oneStepAway": "¡Estás a solo un paso!",
@@ -145,12 +145,12 @@
     "signInTitle": "Inicia sesión en tu cuenta",
     "email": "Correo electrónico",
     "password": "Contraseña",
-    "emailPlaceholder": "you@example.com",
+    "emailPlaceholder": "tu@ejemplo.com",
     "backHome": "Volver al inicio",
     "closeAria": "Cerrar ventana de inicio de sesión",
     "resultsTitle": "Tus resultados de búsqueda",
     "vehicle": "Vehículo: {brand} {model} ({year}) – {engine}",
-    "noVehicle": "No se encontró ningún vehículo.",
+    "noVehicle": "No se ha encontrado ningún vehículo.",
     "connectGoogle": "Conectar con Google",
     "noAccount": "Si todavía no tienes una cuenta",
     "joinUs": "únete a nosotros",
@@ -162,10 +162,10 @@
     "phoneNumber": "Número de teléfono",
     "address": "Dirección",
     "vehicleBrand": "Marca del vehículo",
-    "vehicleBrandFirst": "Seleccione una marca primero",
+    "vehicleBrandFirst": "Selecciona primero una marca",
     "vehicleModel": "Modelo del vehículo",
-    "productionYear": "Año de producción",
-    "engineCapacity": "Capacidad del motor",
+    "productionYear": "Año",
+    "engineCapacity": "Cilindrada",
     "engineCylinders": "Número de cilindros",
     "retypePassword": "Repetir contraseña",
     "passwordMismatch": "Las contraseñas no coinciden",
@@ -192,85 +192,85 @@
     "retry": "Reintentar"
   },
   "serviceCat": {
-    "revisions-et-vidange": "Revisiones y cambio de aceite",
+    "revisions-et-vidange": "Revisión y cambio de aceite",
     "freinage": "Frenos",
-    "plaquettes-de-freins-avant-remplacement": "Pastillas de freno delanteras (sustitución)",
-    "plaquettes-de-freins-arriere-remplacement": "Pastillas de freno traseras (sustitución)",
-    "plaquettes-de-freins-avant-arriere-remplacement": "Pastillas de freno del./tras. (sustitución)",
-    "disques-et-plaquettes-de-freins-avant-remplacement": "Discos y pastillas delanteros (sustitución)",
-    "disques-et-plaquettes-de-freins-arriere-remplacement": "Discos y pastillas traseros (sustitución)",
-    "disques-et-plaquettes-de-freins-avant-arriere-remplacement": "Discos y pastillas del./tras. (sustitución)",
-    "kit-de-frein-arriere-machoire-ou-tambour-remplacement": "Kit de freno trasero – zapatas o tambor (sustitución)",
-    "liquide-de-frein-remplacement": "Líquido de frenos (sustitución)",
+    "plaquettes-de-freins-avant-remplacement": "Sustitución de pastillas de freno delanteras",
+    "plaquettes-de-freins-arriere-remplacement": "Sustitución de pastillas de freno traseras",
+    "plaquettes-de-freins-avant-arriere-remplacement": "Sustitución de pastillas de freno delanteras y traseras",
+    "disques-et-plaquettes-de-freins-avant-remplacement": "Sustitución de discos y pastillas delanteros",
+    "disques-et-plaquettes-de-freins-arriere-remplacement": "Sustitución de discos y pastillas traseros",
+    "disques-et-plaquettes-de-freins-avant-arriere-remplacement": "Sustitución de discos y pastillas delanteros y traseros",
+    "kit-de-frein-arriere-machoire-ou-tambour-remplacement": "Sustitución del kit de freno trasero (zapatas o tambor)",
+    "liquide-de-frein-remplacement": "Sustitución del líquido de frenos",
     "distribution": "Distribución",
-    "courroie-de-distribution-kit-complet-remplacement": "Correa de distribución – kit completo (sustitución)",
-    "courroie-d-accessoires-remplacement": "Correa de accesorios (sustitución)",
-    "poulie-de-vilebrequin-remplacement": "Polea del cigüeñal (sustitución)",
+    "courroie-de-distribution-kit-complet-remplacement": "Sustitución del kit completo de distribución",
+    "courroie-d-accessoires-remplacement": "Sustitución de la correa de accesorios",
+    "poulie-de-vilebrequin-remplacement": "Sustitución de la polea del cigüeñal",
     "pieces-moteur": "Piezas de motor",
-    "injecteurs-remplacement-de-tous-les-injecteurs": "Inyectores – sustitución de todos los inyectores",
-    "liquide-de-refroidissement-remplacement": "Líquido refrigerante (sustitución)",
-    "thermostat-ou-calorstat-remplacement": "Termostato (sustitución)",
-    "injecteur-remplacement-d-un-injecteur": "Inyector – sustitución de un inyector",
+    "injecteurs-remplacement-de-tous-les-injecteurs": "Sustitución de todos los inyectores",
+    "liquide-de-refroidissement-remplacement": "Sustitución del líquido refrigerante",
+    "thermostat-ou-calorstat-remplacement": "Sustitución del termostato",
+    "injecteur-remplacement-d-un-injecteur": "Sustitución de un inyector",
     "embrayage": "Embrague",
-    "embrayage-kit-complet-remplacement": "Embrague – kit completo (sustitución)",
-    "embrayage-et-volant-moteur-kit-complet-remplacement": "Embrague y volante motor – kit completo (sustitución)",
+    "embrayage-kit-complet-remplacement": "Sustitución del kit completo de embrague",
+    "embrayage-et-volant-moteur-kit-complet-remplacement": "Sustitución del kit completo de embrague y volante motor",
     "suspension": "Suspensión",
-    "amortisseurs-avants-remplacement": "Amortiguadores delanteros (sustitución)",
-    "amortisseurs-arrieres-remplacement": "Amortiguadores traseros (sustitución)",
-    "amortisseurs-avants-arrieres-remplacement": "Amortiguadores del./tras. (sustitución)",
-    "triangle-de-suspensions-non-chiffrable": "Brazos de suspensión (sin presupuesto)",
+    "amortisseurs-avants-remplacement": "Sustitución de los amortiguadores delanteros",
+    "amortisseurs-arrieres-remplacement": "Sustitución de los amortiguadores traseros",
+    "amortisseurs-avants-arrieres-remplacement": "Sustitución de los amortiguadores delanteros y traseros",
+    "triangle-de-suspensions-non-chiffrable": "Brazos de suspensión (presupuesto no disponible)",
     "geometrie": "Geometría",
-    "parallelisme-train-avant-reglage": "Paralelismo eje delantero (reglaje)",
-    "parallelisme-train-avant-arriere-reglage": "Paralelismo eje del./tras. (reglaje)",
+    "parallelisme-train-avant-reglage": "Ajuste del paralelismo del eje delantero",
+    "parallelisme-train-avant-arriere-reglage": "Ajuste del paralelismo de los ejes delantero y trasero",
     "demarrage-et-charge": "Arranque y carga",
     "batterie-remplacement": "Batería (sustitución)",
-    "bougies-d-allumage-remplacement": "Bujías de encendido (sustitución)",
-    "bougies-de-prechauffage-remplacement": "Bujías de precalentamiento (sustitución)",
+    "bougies-d-allumage-remplacement": "Sustitución de las bujías de encendido",
+    "bougies-de-prechauffage-remplacement": "Sustitución de las bujías de precalentamiento",
     "demarreur-remplacement": "Motor de arranque (sustitución)",
     "alternateur-remplacement": "Alternador (sustitución)",
     "controle-circuit-de-charge": "Control del circuito de carga",
     "echappement": "Escape",
-    "echappement-silencieux-arriere-remplacement": "Escape – silenciador trasero (sustitución)",
-    "vanne-egr-remplacement": "Válvula EGR (sustitución)",
+    "echappement-silencieux-arriere-remplacement": "Sustitución del silenciador trasero",
+    "vanne-egr-remplacement": "Sustitución de la válvula EGR",
     "decalaminage": "Descarbonización",
     "regeneration-du-filtre-a-particule-fap": "Regeneración del filtro de partículas (FAP)",
     "climatisation": "Aire acondicionado",
     "recharge-climatisation": "Recarga del aire acondicionado",
     "revision-climatisation": "Revisión del aire acondicionado",
     "diagnostic-climatisation": "Diagnóstico del aire acondicionado",
-    "filtre-d-habitacle-remplacement": "Filtro de habitáculo (sustitución)",
+    "filtre-d-habitacle-remplacement": "Sustitución del filtro de habitáculo",
     "traitement-anti-bacterien-climatisation": "Tratamiento antibacteriano del aire acondicionado",
     "pneumatiques-hors-achat": "Neumáticos (sin compra)",
     "reparation-crevaison-pneu": "Reparación de pinchazo",
     "equilibrage-des-pneus": "Equilibrado de ruedas",
     "pneus-montage": "Montaje de neumáticos",
     "direction": "Dirección",
-    "kit-de-roulement-arriere-gauche-ou-droit": "Kit de rodamiento trasero (izq. o der.)",
-    "biellette-remplacement": "Biela de dirección (sustitución)",
-    "rotules-de-suspension-remplacement": "Rótulas de suspensión (sustitución)",
-    "rotules-de-direction-remplacement": "Rótulas de dirección (sustitución)",
+    "kit-de-roulement-arriere-gauche-ou-droit": "Sustitución del rodamiento de rueda trasera (izq. o der.)",
+    "biellette-remplacement": "Sustitución de la bieleta de dirección",
+    "rotules-de-suspension-remplacement": "Sustitución de las rótulas de suspensión",
+    "rotules-de-direction-remplacement": "Sustitución de las rótulas de dirección",
     "transmission": "Transmisión",
-    "cardan-avant-droit-remplacement": "Cardán delantero derecho (sustitución)",
-    "cardan-avant-gauche-remplacement": "Cardán delantero izquierdo (sustitución)",
-    "cardan-train-avant-remplacement": "Cardán del eje delantero (sustitución)",
-    "cardan-arriere-droit-remplacement": "Cardán trasero derecho (sustitución)",
-    "cardan-arriere-gauche-remplacement": "Cardán trasero izquierdo (sustitución)",
-    "cardan-train-arriere-remplacement": "Cardán del eje trasero (sustitución)",
+    "cardan-avant-droit-remplacement": "Sustitución del semieje delantero derecho",
+    "cardan-avant-gauche-remplacement": "Sustitución del semieje delantero izquierdo",
+    "cardan-train-avant-remplacement": "Sustitución de los semiejes delanteros",
+    "cardan-arriere-droit-remplacement": "Sustitución del semieje trasero derecho",
+    "cardan-arriere-gauche-remplacement": "Sustitución del semieje trasero izquierdo",
+    "cardan-train-arriere-remplacement": "Sustitución de los semiejes traseros",
     "carrosserie": "Carrocería",
-    "carrosserie-renovation-1-element": "Carrocería – renovación de 1 elemento",
-    "carrosserie-renovation-2-elements": "Carrocería – renovación de 2 elementos",
+    "carrosserie-renovation-1-element": "Carrocería – reparación de 1 elemento",
+    "carrosserie-renovation-2-elements": "Carrocería – reparación de 2 elementos",
     "vision-et-pare-brise": "Visibilidad y parabrisas",
     "remplacement-de-pare-brise": "Sustitución de parabrisas",
     "reparation-de-pare-brise": "Reparación de parabrisas",
     "phares-renovation-des-optiques": "Faros – renovación de ópticas",
-    "phare-remplacement-1-optique": "Faro – sustitución de 1 óptica",
-    "remplacement-ampoule-ou-reglage-phare": "Sustitución de bombilla o reglaje de faros",
+    "phare-remplacement-1-optique": "Sustitución de 1 faro",
+    "remplacement-ampoule-ou-reglage-phare": "Sustitución de bombilla o ajuste de faros",
     "controles-et-diagnostics": "Controles y diagnósticos",
     "diagnostic-securite": "Diagnóstico de seguridad",
     "diagnostic-electronique": "Diagnóstico electrónico",
     "pack-controle-technique": "Pack de inspección técnica",
     "pre-controle-technique": "Pre-inspección técnica",
-    "recherche-de-pannes": "Búsqueda de averías",
+    "recherche-de-pannes": "Diagnóstico de averías",
     "probleme-de-freinage": "Problema de frenos",
     "probleme-de-moteur": "Problema de motor",
     "probleme-d-embrayage": "Problema de embrague",
@@ -278,8 +278,8 @@
     "probleme-d-echappement": "Problema de escape",
     "probleme-de-roues-direction": "Problema de ruedas/dirección",
     "probleme-de-demarrage-et-charge": "Problema de arranque y carga",
-    "prise-de-rdv-autre-probleme": "Reservar cita (otro problema)",
-    "prendre-rendez-vous-autre-probleme": "Reservar cita (otro problema)"
+    "prise-de-rdv-autre-probleme": "Solicitar cita (otro problema)",
+    "prendre-rendez-vous-autre-probleme": "Solicitar cita (otro problema)"
   },
   "partnerForm": {
     "title": "Conviértete en socio",
@@ -348,7 +348,7 @@
   "requestModal": {
     "quoteTitle": "Solicitar presupuesto",
     "quoteSubtitle": "Solicitar presupuesto en {partner}",
-    "send": "Send",
+    "send": "Enviar",
     "sending": "Enviando...",
     "quoteSuccessTitle": "¡Solicitud de presupuesto enviada!",
     "quoteSuccessMessage": "Tu solicitud de presupuesto en {partner} ha sido enviada. El taller te contactará."
@@ -365,7 +365,7 @@
   },
   "pneus": {
     "title": "Compra tus neumáticos al mejor precio",
-    "subtitle": "Compara ofertas de neumáticos de los talleres asociados y hazlos instalar cerca de ti.",
+    "subtitle": "Compara ofertas de neumáticos de talleres asociados y haz que los instalen cerca de ti.",
     "cta": "Solicitar presupuesto",
     "size": "Medida",
     "season": "Temporada",
@@ -374,89 +374,523 @@
     "brand": "Marca",
     "all": "Todas",
     "tires": [
-      { "brand": "Michelin", "model": "Primacy 4+", "size": "205/55 R16", "season": "Verano", "price": "235 DT", "dealer": "Garage Auto Plus" },
-      { "brand": "Bridgestone", "model": "Turanza T005", "size": "215/60 R16", "season": "Todas las estaciones", "price": "265 DT", "dealer": "Pneus Pro Sousse" },
-      { "brand": "Continental", "model": "EcoContact 6", "size": "195/65 R15", "season": "Verano", "price": "199 DT", "dealer": "Garage Tunis Auto" },
-      { "brand": "Pirelli", "model": "Cinturato P7", "size": "225/45 R17", "season": "Todas las estaciones", "price": "310 DT", "dealer": "Auto Service Nabeul" },
-      { "brand": "Goodyear", "model": "EfficientGrip Performance", "size": "185/60 R15", "season": "Invierno", "price": "175 DT", "dealer": "Pneus Express Bizerte" },
-      { "brand": "Hankook", "model": "Kinergy Eco2", "size": "205/55 R16", "season": "Verano", "price": "189 DT", "dealer": "Garage Auto Plus" }
+      {
+        "brand": "Michelin",
+        "model": "Primacy 4+",
+        "size": "205/55 R16",
+        "season": "Verano",
+        "price": "235 DT",
+        "dealer": "Garage Auto Plus"
+      },
+      {
+        "brand": "Bridgestone",
+        "model": "Turanza T005",
+        "size": "215/60 R16",
+        "season": "Todas las estaciones",
+        "price": "265 DT",
+        "dealer": "Pneus Pro Sousse"
+      },
+      {
+        "brand": "Continental",
+        "model": "EcoContact 6",
+        "size": "195/65 R15",
+        "season": "Verano",
+        "price": "199 DT",
+        "dealer": "Garage Tunis Auto"
+      },
+      {
+        "brand": "Pirelli",
+        "model": "Cinturato P7",
+        "size": "225/45 R17",
+        "season": "Todas las estaciones",
+        "price": "310 DT",
+        "dealer": "Auto Service Nabeul"
+      },
+      {
+        "brand": "Goodyear",
+        "model": "EfficientGrip Performance",
+        "size": "185/60 R15",
+        "season": "Invierno",
+        "price": "175 DT",
+        "dealer": "Pneus Express Bizerte"
+      },
+      {
+        "brand": "Hankook",
+        "model": "Kinergy Eco2",
+        "size": "205/55 R16",
+        "season": "Verano",
+        "price": "189 DT",
+        "dealer": "Garage Auto Plus"
+      }
     ]
   },
   "parts": {
     "title": "Encuentra la pieza correcta al mejor precio",
-    "subtitle": "Compara ofertas de piezas de talleres asociados y hazlas instalar cerca de ti.",
+    "subtitle": "Compara ofertas de repuestos de talleres asociados y haz que los instalen cerca de ti.",
     "cta": "Solicitar presupuesto",
-    "category": "Categoria",
+    "category": "Categoría",
     "brand": "Marca",
     "price": "Precio",
     "dealer": "Taller",
     "all": "Todas",
-    "regions": { "europe": "Europa", "japan": "Japón", "southKorea": "Corea del Sur", "unitedStates": "Estados Unidos", "turkey": "Turquía", "chinaAsia": "China / Asia", "tunisia": "Túnez" },
+    "regions": {
+      "europe": "Europa",
+      "japan": "Japón",
+      "southKorea": "Corea del Sur",
+      "unitedStates": "Estados Unidos",
+      "turkey": "Turquía",
+      "chinaAsia": "China / Asia",
+      "tunisia": "Túnez"
+    },
     "items": [
-      { "brand": "Valeo", "model": "Clutch kit", "category": "Embrague", "price": "350 DT", "dealer": "AD Tunisie" },
-      { "brand": "Bosch", "model": "Spark plugs", "category": "Electrico", "price": "95 DT", "dealer": "BM Auto Parts" },
-      { "brand": "Continental", "model": "Timing belt kit", "category": "Motor", "price": "245 DT", "dealer": "Société Ben Hriz Auto" },
-      { "brand": "Purflux", "model": "Engine oil filter", "category": "Filtros", "price": "28 DT", "dealer": "STE Global Pièces Auto" },
-      { "brand": "Brembo", "model": "Brake discs", "category": "Frenos", "price": "210 DT", "dealer": "EL HOG AUTO PARTS - HAP" },
-      { "brand": "Denso", "model": "Spark plugs (set)", "category": "Electrico", "price": "120 DT", "dealer": "Ulysse Spare Parts - USP" },
-      { "brand": "Aisin", "model": "Water pump", "category": "Motor", "price": "180 DT", "dealer": "Electro Diesel Tunisie - EDT" },
-      { "brand": "KYB", "model": "Shock absorbers (pair)", "category": "Suspension", "price": "320 DT", "dealer": "GDIS - Générale Distribution Industrielle et Services" },
-      { "brand": "ACDelco", "model": "Battery 12V 70Ah", "category": "Electrico", "price": "290 DT", "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles" },
-      { "brand": "Moog", "model": "Suspension arms", "category": "Suspension", "price": "260 DT", "dealer": "Société Jaouani Spare Parts - JSP" },
-      { "brand": "Klaxcar", "model": "Clutch kit", "category": "Embrague", "price": "310 DT", "dealer": "AD Tunisie" },
-      { "brand": "SASIC", "model": "Brake pads (front)", "category": "Frenos", "price": "85 DT", "dealer": "AAPT - Asian Auto Parts Tunisia" },
-      { "brand": "Restagraf", "model": "Body repair kit", "category": "Carrocería", "price": "65 DT", "dealer": "Société Ben Hriz Auto" },
-      { "brand": "ATE", "model": "Brake discs (front)", "category": "Frenos", "price": "195 DT", "dealer": "BM Auto Parts" },
-      { "brand": "Corteco", "model": "Engine gasket set", "category": "Motor", "price": "140 DT", "dealer": "GDIS - Générale Distribution Industrielle et Services" },
-      { "brand": "FEBI", "model": "Engine mounts", "category": "Motor", "price": "175 DT", "dealer": "STE Global Pièces Auto" },
-      { "brand": "FAG", "model": "Wheel bearing kit", "category": "Suspension", "price": "150 DT", "dealer": "Société Jaouani Spare Parts - JSP" },
-      { "brand": "HELLA", "model": "Headlight bulb set", "category": "Electrico", "price": "55 DT", "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles" },
-      { "brand": "INA", "model": "Timing chain kit", "category": "Motor", "price": "270 DT", "dealer": "EL HOG AUTO PARTS - HAP" },
-      { "brand": "Kolbenschmidt", "model": "Piston set", "category": "Motor", "price": "320 DT", "dealer": "Ulysse Spare Parts - USP" },
-      { "brand": "Lemförder", "model": "Track rod ends", "category": "Dirección", "price": "110 DT", "dealer": "Electro Diesel Tunisie - EDT" },
-      { "brand": "Luk", "model": "Clutch kit", "category": "Embrague", "price": "330 DT", "dealer": "Aures Gros" },
-      { "brand": "MAHLE", "model": "Piston rings", "category": "Motor", "price": "160 DT", "dealer": "AD Tunisie" },
-      { "brand": "MANN-FILTER", "model": "Fuel filter", "category": "Filtros", "price": "35 DT", "dealer": "AAPT - Asian Auto Parts Tunisia" },
-      { "brand": "Pierburg", "model": "Throttle body", "category": "Motor", "price": "240 DT", "dealer": "Société Ben Hriz Auto" },
-      { "brand": "Ruville", "model": "Wheel hub", "category": "Suspension", "price": "185 DT", "dealer": "BM Auto Parts" },
-      { "brand": "Sachs", "model": "Clutch kit", "category": "Embrague", "price": "300 DT", "dealer": "GDIS - Générale Distribution Industrielle et Services" },
-      { "brand": "SWAG", "model": "Shock absorber", "category": "Suspension", "price": "145 DT", "dealer": "STE Global Pièces Auto" },
-      { "brand": "vanWezel", "model": "Stabilizer link", "category": "Suspension", "price": "60 DT", "dealer": "Société Jaouani Spare Parts - JSP" },
-      { "brand": "VDO", "model": "Speed sensor", "category": "Electrico", "price": "70 DT", "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles" },
-      { "brand": "ZF", "model": "Steering pump", "category": "Dirección", "price": "260 DT", "dealer": "EL HOG AUTO PARTS - HAP" },
-      { "brand": "ERA", "model": "Wiper motor", "category": "Electrico", "price": "130 DT", "dealer": "Ulysse Spare Parts - USP" },
-      { "brand": "Facet", "model": "Fuel pump", "category": "Motor", "price": "210 DT", "dealer": "Electro Diesel Tunisie - EDT" },
-      { "brand": "LPR", "model": "Brake pads (rear)", "category": "Frenos", "price": "75 DT", "dealer": "Aures Gros" },
-      { "brand": "Magneti Marelli", "model": "Alternator", "category": "Electrico", "price": "280 DT", "dealer": "AD Tunisie" },
-      { "brand": "Metelli", "model": "Brake master cylinder", "category": "Frenos", "price": "165 DT", "dealer": "AAPT - Asian Auto Parts Tunisia" },
-      { "brand": "OCAP", "model": "Steering rack ends", "category": "Dirección", "price": "95 DT", "dealer": "Société Ben Hriz Auto" },
-      { "brand": "Ajusa", "model": "Head gasket", "category": "Motor", "price": "120 DT", "dealer": "BM Auto Parts" },
-      { "brand": "Autofren Seinsa", "model": "Brake discs (rear)", "category": "Frenos", "price": "170 DT", "dealer": "GDIS - Générale Distribution Industrielle et Services" },
-      { "brand": "DOGA", "model": "Mirror housing", "category": "Carrocería", "price": "90 DT", "dealer": "STE Global Pièces Auto" },
-      { "brand": "FerSA", "model": "Bearing kit", "category": "Suspension", "price": "105 DT", "dealer": "Société Jaouani Spare Parts - JSP" },
-      { "brand": "Frenkit", "model": "Brake hose kit", "category": "Frenos", "price": "80 DT", "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles" },
-      { "brand": "Lizarte", "model": "Timing belt", "category": "Motor", "price": "100 DT", "dealer": "EL HOG AUTO PARTS - HAP" },
-      { "brand": "MECAFILTER", "model": "Air filter", "category": "Filtros", "price": "30 DT", "dealer": "Ulysse Spare Parts - USP" },
-      { "brand": "AP", "model": "Clutch cover", "category": "Embrague", "price": "250 DT", "dealer": "Electro Diesel Tunisie - EDT" },
-      { "brand": "BGA", "model": "Camshaft kit", "category": "Motor", "price": "290 DT", "dealer": "Aures Gros" },
-      { "brand": "Comline", "model": "Brake pads set", "category": "Frenos", "price": "95 DT", "dealer": "AD Tunisie" },
-      { "brand": "Ferodo", "model": "Brake pads (front)", "category": "Frenos", "price": "88 DT", "dealer": "AAPT - Asian Auto Parts Tunisia" },
-      { "brand": "Girling", "model": "Brake caliper", "category": "Frenos", "price": "220 DT", "dealer": "Société Ben Hriz Auto" },
-      { "brand": "GKN", "model": "Drive shaft (complete)", "category": "Transmisión", "price": "350 DT", "dealer": "BM Auto Parts" },
-      { "brand": "Quantum", "model": "Exhaust silencer", "category": "Motor", "price": "340 DT", "dealer": "GDIS - Générale Distribution Industrielle et Services" },
-      { "brand": "Bosal", "model": "Exhaust muffler", "category": "Motor", "price": "230 DT", "dealer": "STE Global Pièces Auto" },
-      { "brand": "MILES", "model": "Oil filter", "category": "Filtros", "price": "25 DT", "dealer": "Société Jaouani Spare Parts - JSP" },
-      { "brand": "Nipparts", "model": "Water pump", "category": "Motor", "price": "155 DT", "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles" },
-      { "brand": "SKF", "model": "Wheel bearing", "category": "Suspension", "price": "135 DT", "dealer": "EL HOG AUTO PARTS - HAP" },
-      { "brand": "NTN", "model": "Hub bearing kit", "category": "Suspension", "price": "190 DT", "dealer": "Ulysse Spare Parts - USP" },
-      { "brand": "GMB", "model": "Water pump", "category": "Motor", "price": "140 DT", "dealer": "Electro Diesel Tunisie - EDT" },
-      { "brand": "Mando", "model": "Brake booster", "category": "Frenos", "price": "310 DT", "dealer": "Aures Gros" },
-      { "brand": "Silla", "model": "Shock absorber", "category": "Suspension", "price": "120 DT", "dealer": "AD Tunisie" },
-      { "brand": "BorgWarner", "model": "Turbocharger", "category": "Motor", "price": "450 DT", "dealer": "AAPT - Asian Auto Parts Tunisia" },
-      { "brand": "Dayco", "model": "Serpentine belt", "category": "Motor", "price": "65 DT", "dealer": "Société Ben Hriz Auto" },
-      { "brand": "Delphi", "model": "Injector (set)", "category": "Motor", "price": "380 DT", "dealer": "BM Auto Parts" },
-      { "brand": "TRW", "model": "Brake caliper (rear)", "category": "Frenos", "price": "205 DT", "dealer": "GDIS - Générale Distribution Industrielle et Services" },
-      { "brand": "MGA", "model": "Filter kit (oil + air)", "category": "Filtros", "price": "45 DT", "dealer": "STE Global Pièces Auto" }
+      {
+        "brand": "Valeo",
+        "model": "Kit de embrague",
+        "category": "Embrague",
+        "price": "350 DT",
+        "dealer": "AD Tunisie"
+      },
+      {
+        "brand": "Bosch",
+        "model": "Bujías de encendido",
+        "category": "Eléctrico",
+        "price": "95 DT",
+        "dealer": "BM Auto Parts"
+      },
+      {
+        "brand": "Continental",
+        "model": "Kit de distribución",
+        "category": "Motor",
+        "price": "245 DT",
+        "dealer": "Société Ben Hriz Auto"
+      },
+      {
+        "brand": "Purflux",
+        "model": "Filtro de aceite del motor",
+        "category": "Filtros",
+        "price": "28 DT",
+        "dealer": "STE Global Pièces Auto"
+      },
+      {
+        "brand": "Brembo",
+        "model": "Discos de freno",
+        "category": "Frenos",
+        "price": "210 DT",
+        "dealer": "EL HOG AUTO PARTS - HAP"
+      },
+      {
+        "brand": "Denso",
+        "model": "Juego de bujías de encendido",
+        "category": "Eléctrico",
+        "price": "120 DT",
+        "dealer": "Ulysse Spare Parts - USP"
+      },
+      {
+        "brand": "Aisin",
+        "model": "Bomba de agua",
+        "category": "Motor",
+        "price": "180 DT",
+        "dealer": "Electro Diesel Tunisie - EDT"
+      },
+      {
+        "brand": "KYB",
+        "model": "Amortiguadores (par)",
+        "category": "Suspensión",
+        "price": "320 DT",
+        "dealer": "GDIS - Générale Distribution Industrielle et Services"
+      },
+      {
+        "brand": "ACDelco",
+        "model": "Batería 12 V 70 Ah",
+        "category": "Eléctrico",
+        "price": "290 DT",
+        "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles"
+      },
+      {
+        "brand": "Moog",
+        "model": "Brazos de suspensión",
+        "category": "Suspensión",
+        "price": "260 DT",
+        "dealer": "Société Jaouani Spare Parts - JSP"
+      },
+      {
+        "brand": "Klaxcar",
+        "model": "Kit de embrague",
+        "category": "Embrague",
+        "price": "310 DT",
+        "dealer": "AD Tunisie"
+      },
+      {
+        "brand": "SASIC",
+        "model": "Pastillas de freno delanteras",
+        "category": "Frenos",
+        "price": "85 DT",
+        "dealer": "AAPT - Asian Auto Parts Tunisia"
+      },
+      {
+        "brand": "Restagraf",
+        "model": "Kit de reparación de carrocería",
+        "category": "Carrocería",
+        "price": "65 DT",
+        "dealer": "Société Ben Hriz Auto"
+      },
+      {
+        "brand": "ATE",
+        "model": "Discos de freno delanteros",
+        "category": "Frenos",
+        "price": "195 DT",
+        "dealer": "BM Auto Parts"
+      },
+      {
+        "brand": "Corteco",
+        "model": "Juego de juntas del motor",
+        "category": "Motor",
+        "price": "140 DT",
+        "dealer": "GDIS - Générale Distribution Industrielle et Services"
+      },
+      {
+        "brand": "FEBI",
+        "model": "Soportes del motor",
+        "category": "Motor",
+        "price": "175 DT",
+        "dealer": "STE Global Pièces Auto"
+      },
+      {
+        "brand": "FAG",
+        "model": "Kit de rodamiento de rueda",
+        "category": "Suspensión",
+        "price": "150 DT",
+        "dealer": "Société Jaouani Spare Parts - JSP"
+      },
+      {
+        "brand": "HELLA",
+        "model": "Juego de bombillas de faro",
+        "category": "Eléctrico",
+        "price": "55 DT",
+        "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles"
+      },
+      {
+        "brand": "INA",
+        "model": "Kit de cadena de distribución",
+        "category": "Motor",
+        "price": "270 DT",
+        "dealer": "EL HOG AUTO PARTS - HAP"
+      },
+      {
+        "brand": "Kolbenschmidt",
+        "model": "Juego de pistones",
+        "category": "Motor",
+        "price": "320 DT",
+        "dealer": "Ulysse Spare Parts - USP"
+      },
+      {
+        "brand": "Lemförder",
+        "model": "Terminales de dirección",
+        "category": "Dirección",
+        "price": "110 DT",
+        "dealer": "Electro Diesel Tunisie - EDT"
+      },
+      {
+        "brand": "Luk",
+        "model": "Kit de embrague",
+        "category": "Embrague",
+        "price": "330 DT",
+        "dealer": "Aures Gros"
+      },
+      {
+        "brand": "MAHLE",
+        "model": "Segmentos de pistón",
+        "category": "Motor",
+        "price": "160 DT",
+        "dealer": "AD Tunisie"
+      },
+      {
+        "brand": "MANN-FILTER",
+        "model": "Filtro de combustible",
+        "category": "Filtros",
+        "price": "35 DT",
+        "dealer": "AAPT - Asian Auto Parts Tunisia"
+      },
+      {
+        "brand": "Pierburg",
+        "model": "Cuerpo de mariposa",
+        "category": "Motor",
+        "price": "240 DT",
+        "dealer": "Société Ben Hriz Auto"
+      },
+      {
+        "brand": "Ruville",
+        "model": "Buje de rueda",
+        "category": "Suspensión",
+        "price": "185 DT",
+        "dealer": "BM Auto Parts"
+      },
+      {
+        "brand": "Sachs",
+        "model": "Kit de embrague",
+        "category": "Embrague",
+        "price": "300 DT",
+        "dealer": "GDIS - Générale Distribution Industrielle et Services"
+      },
+      {
+        "brand": "SWAG",
+        "model": "Amortiguador",
+        "category": "Suspensión",
+        "price": "145 DT",
+        "dealer": "STE Global Pièces Auto"
+      },
+      {
+        "brand": "vanWezel",
+        "model": "Stabilizer link",
+        "category": "Suspensión",
+        "price": "60 DT",
+        "dealer": "Société Jaouani Spare Parts - JSP"
+      },
+      {
+        "brand": "VDO",
+        "model": "Speed sensor",
+        "category": "Eléctrico",
+        "price": "70 DT",
+        "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles"
+      },
+      {
+        "brand": "ZF",
+        "model": "Bomba de dirección",
+        "category": "Dirección",
+        "price": "260 DT",
+        "dealer": "EL HOG AUTO PARTS - HAP"
+      },
+      {
+        "brand": "ERA",
+        "model": "Motor del limpiaparabrisas",
+        "category": "Eléctrico",
+        "price": "130 DT",
+        "dealer": "Ulysse Spare Parts - USP"
+      },
+      {
+        "brand": "Facet",
+        "model": "Bomba de combustible",
+        "category": "Motor",
+        "price": "210 DT",
+        "dealer": "Electro Diesel Tunisie - EDT"
+      },
+      {
+        "brand": "LPR",
+        "model": "Pastillas de freno traseras",
+        "category": "Frenos",
+        "price": "75 DT",
+        "dealer": "Aures Gros"
+      },
+      {
+        "brand": "Magneti Marelli",
+        "model": "Alternador",
+        "category": "Eléctrico",
+        "price": "280 DT",
+        "dealer": "AD Tunisie"
+      },
+      {
+        "brand": "Metelli",
+        "model": "Bomba de freno",
+        "category": "Frenos",
+        "price": "165 DT",
+        "dealer": "AAPT - Asian Auto Parts Tunisia"
+      },
+      {
+        "brand": "OCAP",
+        "model": "Terminales de cremallera de dirección",
+        "category": "Dirección",
+        "price": "95 DT",
+        "dealer": "Société Ben Hriz Auto"
+      },
+      {
+        "brand": "Ajusa",
+        "model": "Junta de culata",
+        "category": "Motor",
+        "price": "120 DT",
+        "dealer": "BM Auto Parts"
+      },
+      {
+        "brand": "Autofren Seinsa",
+        "model": "Discos de freno traseros",
+        "category": "Frenos",
+        "price": "170 DT",
+        "dealer": "GDIS - Générale Distribution Industrielle et Services"
+      },
+      {
+        "brand": "DOGA",
+        "model": "Carcasa del retrovisor",
+        "category": "Carrocería",
+        "price": "90 DT",
+        "dealer": "STE Global Pièces Auto"
+      },
+      {
+        "brand": "FerSA",
+        "model": "Kit de rodamientos",
+        "category": "Suspensión",
+        "price": "105 DT",
+        "dealer": "Société Jaouani Spare Parts - JSP"
+      },
+      {
+        "brand": "Frenkit",
+        "model": "Kit de latiguillos de freno",
+        "category": "Frenos",
+        "price": "80 DT",
+        "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles"
+      },
+      {
+        "brand": "Lizarte",
+        "model": "Correa de distribución",
+        "category": "Motor",
+        "price": "100 DT",
+        "dealer": "EL HOG AUTO PARTS - HAP"
+      },
+      {
+        "brand": "MECAFILTER",
+        "model": "Filtro de aire",
+        "category": "Filtros",
+        "price": "30 DT",
+        "dealer": "Ulysse Spare Parts - USP"
+      },
+      {
+        "brand": "AP",
+        "model": "Plato de embrague",
+        "category": "Embrague",
+        "price": "250 DT",
+        "dealer": "Electro Diesel Tunisie - EDT"
+      },
+      {
+        "brand": "BGA",
+        "model": "Kit de árbol de levas",
+        "category": "Motor",
+        "price": "290 DT",
+        "dealer": "Aures Gros"
+      },
+      {
+        "brand": "Comline",
+        "model": "Juego de pastillas de freno",
+        "category": "Frenos",
+        "price": "95 DT",
+        "dealer": "AD Tunisie"
+      },
+      {
+        "brand": "Ferodo",
+        "model": "Pastillas de freno delanteras",
+        "category": "Frenos",
+        "price": "88 DT",
+        "dealer": "AAPT - Asian Auto Parts Tunisia"
+      },
+      {
+        "brand": "Girling",
+        "model": "Pinza de freno",
+        "category": "Frenos",
+        "price": "220 DT",
+        "dealer": "Société Ben Hriz Auto"
+      },
+      {
+        "brand": "GKN",
+        "model": "Semieje completo",
+        "category": "Transmisión",
+        "price": "350 DT",
+        "dealer": "BM Auto Parts"
+      },
+      {
+        "brand": "Quantum",
+        "model": "Silenciador de escape",
+        "category": "Motor",
+        "price": "340 DT",
+        "dealer": "GDIS - Générale Distribution Industrielle et Services"
+      },
+      {
+        "brand": "Bosal",
+        "model": "Silenciador de escape",
+        "category": "Motor",
+        "price": "230 DT",
+        "dealer": "STE Global Pièces Auto"
+      },
+      {
+        "brand": "MILES",
+        "model": "Filtro de aceite",
+        "category": "Filtros",
+        "price": "25 DT",
+        "dealer": "Société Jaouani Spare Parts - JSP"
+      },
+      {
+        "brand": "Nipparts",
+        "model": "Bomba de agua",
+        "category": "Motor",
+        "price": "155 DT",
+        "dealer": "CIFA - Comptoir Industriel et Fournitures Automobiles"
+      },
+      {
+        "brand": "SKF",
+        "model": "Wheel bearing",
+        "category": "Suspensión",
+        "price": "135 DT",
+        "dealer": "EL HOG AUTO PARTS - HAP"
+      },
+      {
+        "brand": "NTN",
+        "model": "Kit de rodamiento de buje",
+        "category": "Suspensión",
+        "price": "190 DT",
+        "dealer": "Ulysse Spare Parts - USP"
+      },
+      {
+        "brand": "GMB",
+        "model": "Bomba de agua",
+        "category": "Motor",
+        "price": "140 DT",
+        "dealer": "Electro Diesel Tunisie - EDT"
+      },
+      {
+        "brand": "Mando",
+        "model": "Servofreno",
+        "category": "Frenos",
+        "price": "310 DT",
+        "dealer": "Aures Gros"
+      },
+      {
+        "brand": "Silla",
+        "model": "Amortiguador",
+        "category": "Suspensión",
+        "price": "120 DT",
+        "dealer": "AD Tunisie"
+      },
+      {
+        "brand": "BorgWarner",
+        "model": "Turbocompresor",
+        "category": "Motor",
+        "price": "450 DT",
+        "dealer": "AAPT - Asian Auto Parts Tunisia"
+      },
+      {
+        "brand": "Dayco",
+        "model": "Correa auxiliar",
+        "category": "Motor",
+        "price": "65 DT",
+        "dealer": "Société Ben Hriz Auto"
+      },
+      {
+        "brand": "Delphi",
+        "model": "Juego de inyectores",
+        "category": "Motor",
+        "price": "380 DT",
+        "dealer": "BM Auto Parts"
+      },
+      {
+        "brand": "TRW",
+        "model": "Pinza de freno trasera",
+        "category": "Frenos",
+        "price": "205 DT",
+        "dealer": "GDIS - Générale Distribution Industrielle et Services"
+      },
+      {
+        "brand": "MGA",
+        "model": "Kit de filtros (aceite + aire)",
+        "category": "Filtros",
+        "price": "45 DT",
+        "dealer": "STE Global Pièces Auto"
+      }
     ]
   },
   "advice": {
@@ -464,31 +898,91 @@
     "subtitle": "Guías y consejos para mantener tu vehículo y tomar las mejores decisiones.",
     "cta": "Leer artículo",
     "articles": [
-      { "category": "Mantenimiento", "title": "¿Cuándo hay que cambiar los neumáticos?", "excerpt": "Desgaste, fecha, temporada: cómo saber si tus neumáticos siguen en buen estado.", "readTime": "5 min" },
-      { "category": "Ahorro", "title": "5 hábitos para reducir el consumo de combustible", "excerpt": "Gestos sencillos que marcan la diferencia en tu presupuesto.", "readTime": "4 min" },
-      { "category": "Diagnóstico", "title": "Testigos del cuadro de mandos explicados", "excerpt": "Qué significa cada testigo y cuándo debes preocuparte.", "readTime": "8 min" },
-      { "category": "Mantenimiento", "title": "Cambio de aceite: ¿qué aceite elegir?", "excerpt": "Los criterios para elegir el aceite adecuado y proteger tu motor.", "readTime": "6 min" },
-      { "category": "Seguridad", "title": "Frenos: signos de desgaste que no debes ignorar", "excerpt": "Ruidos, vibraciones, distancia de frenado: cómo detectar un problema.", "readTime": "5 min" },
-      { "category": "Compra", "title": "Coche de segunda mano: la checklist antes de comprar", "excerpt": "Los puntos esenciales para evitar sorpresas desagradables.", "readTime": "10 min" }
+      {
+        "category": "Mantenimiento",
+        "title": "¿Cuándo hay que cambiar los neumáticos?",
+        "excerpt": "Desgaste, fecha, temporada: cómo saber si tus neumáticos siguen en buen estado.",
+        "readTime": "5 min"
+      },
+      {
+        "category": "Ahorro",
+        "title": "5 hábitos para reducir el consumo de combustible",
+        "excerpt": "Gestos sencillos que marcan la diferencia en tu presupuesto.",
+        "readTime": "4 min"
+      },
+      {
+        "category": "Diagnóstico",
+        "title": "Testigos del cuadro de mandos explicados",
+        "excerpt": "Qué significa cada testigo y cuándo debes preocuparte.",
+        "readTime": "8 min"
+      },
+      {
+        "category": "Mantenimiento",
+        "title": "Cambio de aceite: ¿qué aceite elegir?",
+        "excerpt": "Los criterios para elegir el aceite adecuado y proteger tu motor.",
+        "readTime": "6 min"
+      },
+      {
+        "category": "Seguridad",
+        "title": "Frenos: signos de desgaste que no debes ignorar",
+        "excerpt": "Ruidos, vibraciones, distancia de frenado: cómo detectar un problema.",
+        "readTime": "5 min"
+      },
+      {
+        "category": "Compra",
+        "title": "Coche de segunda mano: la checklist antes de comprar",
+        "excerpt": "Los puntos esenciales para evitar sorpresas desagradables.",
+        "readTime": "10 min"
+      }
     ]
   },
   "deals": {
     "title": "Ofertas",
     "subtitle": "Ofertas y promociones exclusivas de los talleres asociados a CarDeal.",
-    "cta": "Aprovechar",
+    "cta": "Ver oferta",
     "until": "Hasta el {date}",
     "deals": [
-      { "badge": "-20%", "title": "Cambio de aceite completo a precio reducido", "desc": "Aceite, filtro y mano de obra incluidos. Oferta válida en el taller.", "date": "31 ago 2026" },
-      { "badge": "-15%", "title": "Cambio de pastillas de freno", "desc": "Kit de pastillas delanteras con montaje gratis en los talleres participantes.", "date": "30 sep 2026" },
-      { "badge": "-30%", "title": "Paquete neumáticos + montaje", "desc": "Hasta 30% de descuento en el par de neumáticos comprado, montaje incluido.", "date": "31 ago 2026" },
-      { "badge": "-10%", "title": "Diagnóstico electrónico completo", "desc": "Lectura de averías e informe detallado con cualquier intervención.", "date": "31 dic 2026" },
-      { "badge": "-25%", "title": "Recarga de aire acondicionado", "desc": "Recarga de gas con control de estanqueidad a precio excepcional.", "date": "30 sep 2026" },
-      { "badge": "-50%", "title": "Primera ITV", "desc": "Paquete de pre-ITV con corrección de defectos importantes.", "date": "31 ago 2026" }
+      {
+        "badge": "-20%",
+        "title": "Cambio de aceite completo a precio reducido",
+        "desc": "Aceite, filtro y mano de obra incluidos. Oferta válida en el taller.",
+        "date": "31 ago 2026"
+      },
+      {
+        "badge": "-15%",
+        "title": "Cambio de pastillas de freno",
+        "desc": "Kit de pastillas delanteras con montaje gratis en los talleres participantes.",
+        "date": "30 sep 2026"
+      },
+      {
+        "badge": "-30%",
+        "title": "Paquete neumáticos + montaje",
+        "desc": "Hasta 30% de descuento en el par de neumáticos comprado, montaje incluido.",
+        "date": "31 ago 2026"
+      },
+      {
+        "badge": "-10%",
+        "title": "Diagnóstico electrónico completo",
+        "desc": "Lectura de averías e informe detallado con cualquier intervención.",
+        "date": "31 dic 2026"
+      },
+      {
+        "badge": "-25%",
+        "title": "Recarga de aire acondicionado",
+        "desc": "Recarga de gas con control de estanqueidad a precio excepcional.",
+        "date": "30 sep 2026"
+      },
+      {
+        "badge": "-50%",
+        "title": "Primera ITV",
+        "desc": "Paquete de pre-ITV con corrección de defectos importantes.",
+        "date": "31 ago 2026"
+      }
     ]
   },
   "dealers": {
     "title": "Proveedores de piezas de automóvil",
-    "subtitle": "Directorio de proveedores de piezas de automóvil en Túnez, con reseñas de Google.",
+    "subtitle": "Directorio de proveedores de repuestos de automoción en Túnez, con reseñas de Google.",
     "loading": "Cargando proveedores...",
     "error": "No se pudieron cargar los proveedores. Inténtelo más tarde.",
     "empty": "No hay proveedores disponibles por ahora.",
@@ -586,7 +1080,7 @@
       "title": "¿Necesitas ayuda?",
       "subtitle": "Nuestro equipo está aquí para ayudarte",
       "call": "Llamar",
-      "email": "Enviar un correo",
+      "email": "Enviar un correo electrónico",
       "faq": "Consultar las FAQ",
       "chat": "Iniciar chat"
     },

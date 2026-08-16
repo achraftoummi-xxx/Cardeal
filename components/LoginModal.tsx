@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { setAuthenticated, setUserName } from "@/lib/auth";
+import { useAuth } from "@/components/AuthProvider";
 import cardealLogo from "@/assets/images/cardeal_logo.png";
 import BrandSelect from "@/components/BrandSelect";
 import { carBrandOption } from "@/components/CarBrandLogo";
@@ -121,6 +122,7 @@ function PasswordInput({
 
 export default function LoginModal({ open, onClose }: Props) {
   const { t } = useTranslation();
+  const { authed } = useAuth();
   const [mode, setMode] = useState<Mode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -139,6 +141,12 @@ export default function LoginModal({ open, onClose }: Props) {
       emailRef.current?.focus();
     }
   }, [open]);
+
+  /* Once a session is detected (OAuth callback, hash capture, listener),
+     close the modal and reveal the authenticated UI. */
+  useEffect(() => {
+    if (authed) onClose();
+  }, [authed, onClose]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {

@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import TranslationProvider from "@/components/TranslationProvider";
 import ThemeProvider from "@/components/ThemeProvider";
+import AuthProvider from "@/components/AuthProvider";
 import cardealLogo from "@/assets/images/cardeal_logo.png";
 
 export const metadata: Metadata = {
@@ -40,7 +41,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ThemeProvider>
-          <TranslationProvider>{children}</TranslationProvider>
+          <TranslationProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </TranslationProvider>
         </ThemeProvider>
       </body>
     </html>
