@@ -50,6 +50,11 @@ export function partnerDistanceKm(
   return haversineKm(origin.lat, origin.lng, partner.latitude, partner.longitude);
 }
 
+/** Deep link into Google Maps pinned at an exact geographic coordinate. */
+export function googleMapsUrl(latitude: number, longitude: number): string {
+  return `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+}
+
 const normalize = (s: string) =>
   s
     .toLowerCase()

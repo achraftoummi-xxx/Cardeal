@@ -4,7 +4,7 @@ import { Star, Globe, MapPin, CalendarDays, FileText, Warehouse, CircleDot } fro
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
-import { partnerAvailableSpots, partnerDistanceKm, type Partner } from "@/lib/partners";
+import { partnerAvailableSpots, partnerDistanceKm, googleMapsUrl, type Partner } from "@/lib/partners";
 
 type Props = {
   partner: Partner;
@@ -115,6 +115,18 @@ export default function PartnerCard({ partner, origin, active = false, activeBoo
           >
             <Globe size={12} />
             {t("partnerCard.website")}
+          </a>
+        )}
+        {partner.latitude != null && partner.longitude != null && (
+          <a
+            href={googleMapsUrl(partner.latitude, partner.longitude)}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-1.5 text-blue-500 hover:underline"
+          >
+            <MapPin size={12} />
+            {t("partnerCard.checkOnGoogleMaps")}
           </a>
         )}
       </div>

@@ -313,7 +313,8 @@
     "capacity": "Capacidad",
     "availableOne": "{count} plaza disponible",
     "availableMany": "{count} plazas disponibles",
-    "full": "Completo"
+    "full": "Completo",
+    "checkOnGoogleMaps": "Ver en Google Maps"
   },
   "map": {
     "list": "Lista",

@@ -3,10 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import L from "leaflet";
 import { MapContainer, Marker, Popup, useMap } from "react-leaflet";
+import { ExternalLink } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
-import { partnerDistanceKm, type Partner } from "@/lib/partners";
+import { googleMapsUrl, partnerDistanceKm, type Partner } from "@/lib/partners";
 import StadiaBasemap from "./StadiaBasemap";
 
 type Props = {
@@ -209,6 +210,15 @@ export default function PartnerMap({
                     >
                       {t("partnerCard.takeAppointment")}
                     </button>
+                    <a
+                      href={googleMapsUrl(p.latitude, p.longitude)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1.5 flex w-full items-center justify-center gap-1.5 rounded-lg border border-blue-500/40 px-3 py-1.5 text-xs font-medium text-blue-500 transition-colors hover:bg-blue-500/10"
+                    >
+                      <ExternalLink size={12} />
+                      {t("partnerCard.checkOnGoogleMaps")}
+                    </a>
                   </div>
                 </Popup>
               </Marker>

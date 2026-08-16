@@ -313,7 +313,8 @@
     "capacity": "السعة",
     "availableOne": "{count} مكان متاح",
     "availableMany": "{count} أماكن متاحة",
-    "full": "ممتلئ"
+    "full": "ممتلئ",
+    "checkOnGoogleMaps": "عرض على خرائط جوجل"
   },
   "map": {
     "list": "القائمة",
