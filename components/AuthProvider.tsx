@@ -17,6 +17,8 @@ type AuthContextValue = {
   authed: boolean;
   /** Display name of the signed-in user, "" when signed out. */
   userName: string;
+  /** Exact email from the Supabase session (user.email), "" when unavailable. */
+  email: string;
   /** True until the initial session check has completed. */
   loading: boolean;
 };
@@ -24,6 +26,7 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue>({
   authed: false,
   userName: "",
+  email: "",
   loading: true,
 });
 
@@ -57,6 +60,7 @@ function nameFromUser(user: {
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [authed, setAuthed] = useState(false);
   const [userName, setUserNameState] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
 
   const applySession = useCallback((session: Session | null) => {
@@ -65,10 +69,12 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       setAuthenticated(true);
       setUserName(name);
       setUserNameState(name);
+      setEmail(session.user.email ?? "");
       setAuthed(true);
     } else {
       setAuthenticated(false);
       setUserNameState("");
+      setEmail("");
       setAuthed(false);
     }
   }, []);
@@ -153,7 +159,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }, [applySession]);
 
   return (
-    <AuthContext.Provider value={{ authed, userName, loading }}>
+    <AuthContext.Provider value={{ authed, userName, email, loading }}>
       {children}
     </AuthContext.Provider>
   );

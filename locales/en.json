@@ -498,6 +498,10 @@
   "dashboard": {
     "nav": {
       "home": "Home",
+      "search": "Search",
+      "tires": "Tires",
+      "deals": "Deals",
+      "advice": "Advice",
       "vehicles": "My vehicles",
       "quotes": "My quotes",
       "parts": "Parts",
@@ -593,6 +597,7 @@
     "section": {
       "comingSoon": "This section is coming soon.",
       "back": "Back to home"
-    }
+    },
+    "settings": { "language": "Language" }
   }
 }

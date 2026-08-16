@@ -992,6 +992,10 @@
   "dashboard": {
     "nav": {
       "home": "Inicio",
+      "search": "Búsqueda",
+      "tires": "Neumáticos",
+      "deals": "Ofertas",
+      "advice": "Consejos",
       "vehicles": "Mis vehículos",
       "quotes": "Mis presupuestos",
       "parts": "Piezas",
@@ -1087,6 +1091,7 @@
     "section": {
       "comingSoon": "Esta sección estará disponible pronto.",
       "back": "Volver al inicio"
-    }
+    },
+    "settings": { "language": "Idioma" }
   }
 }

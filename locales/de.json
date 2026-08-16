@@ -498,6 +498,10 @@
   "dashboard": {
     "nav": {
       "home": "Startseite",
+      "search": "Suche",
+      "tires": "Reifen",
+      "deals": "Angebote",
+      "advice": "Ratgeber",
       "vehicles": "Meine Fahrzeuge",
       "quotes": "Meine Angebote",
       "parts": "Teile",
@@ -593,6 +597,7 @@
     "section": {
       "comingSoon": "Dieser Bereich kommt bald.",
       "back": "Zurück zur Startseite"
-    }
+    },
+    "settings": { "language": "Sprache" }
   }
 }

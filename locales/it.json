@@ -498,6 +498,10 @@
   "dashboard": {
     "nav": {
       "home": "Home",
+      "search": "Ricerca",
+      "tires": "Pneumatici",
+      "deals": "Offerte",
+      "advice": "Consigli",
       "vehicles": "I miei veicoli",
       "quotes": "I miei preventivi",
       "parts": "Ricambi",
@@ -593,6 +597,7 @@
     "section": {
       "comingSoon": "Questa sezione arriverà presto.",
       "back": "Torna alla home"
-    }
+    },
+    "settings": { "language": "Lingua" }
   }
 }

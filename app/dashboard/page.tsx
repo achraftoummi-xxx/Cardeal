@@ -60,14 +60,14 @@ const MAP_FILTERS: { key: MapFilter; labelKey: string; match: (type: string | nu
 ];
 
 const PART_CATEGORIES: { icon: LucideIcon; label: string; href: string }[] = [
-  { icon: Disc, label: "Freinage", href: "/rechercher-des-pieces" },
-  { icon: Cog, label: "Moteur", href: "/rechercher-des-pieces" },
-  { icon: Lightbulb, label: "Éclairage", href: "/rechercher-des-pieces" },
-  { icon: Car, label: "Carrosserie", href: "/rechercher-des-pieces" },
-  { icon: CircleDot, label: "Pneus", href: "/rechercher-des-pieces" },
-  { icon: Zap, label: "Électrique", href: "/rechercher-des-pieces" },
-  { icon: Snowflake, label: "Climatisation", href: "/rechercher-des-pieces" },
-  { icon: Filter, label: "Filtres", href: "/rechercher-des-pieces" },
+  { icon: Disc, label: "Freinage", href: "/dashboard/pieces" },
+  { icon: Cog, label: "Moteur", href: "/dashboard/pieces" },
+  { icon: Lightbulb, label: "Éclairage", href: "/dashboard/pieces" },
+  { icon: Car, label: "Carrosserie", href: "/dashboard/pieces" },
+  { icon: CircleDot, label: "Pneus", href: "/dashboard/pieces" },
+  { icon: Zap, label: "Électrique", href: "/dashboard/pieces" },
+  { icon: Snowflake, label: "Climatisation", href: "/dashboard/pieces" },
+  { icon: Filter, label: "Filtres", href: "/dashboard/pieces" },
 ];
 
 const REMINDER_ICONS: Record<ReminderType, LucideIcon> = {
@@ -167,7 +167,7 @@ export default function DashboardHomePage() {
       {/* ---------------- Quick actions ---------------- */}
       <section className="grid gap-4 sm:grid-cols-2">
         <Link
-          href="/#find-service"
+          href="/dashboard/recherche"
           className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-[var(--cardeal-primary)]/40 hover:shadow-md"
         >
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] ring-1 ring-[var(--cardeal-primary)]/20 transition-transform group-hover:scale-105">
@@ -180,7 +180,7 @@ export default function DashboardHomePage() {
           <ArrowRight size={18} className="shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-[var(--cardeal-primary)]" />
         </Link>
         <Link
-          href="/rechercher-des-pieces"
+          href="/dashboard/pieces"
           className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-500/40 hover:shadow-md"
         >
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500 ring-1 ring-blue-500/20 transition-transform group-hover:scale-105">
@@ -359,7 +359,7 @@ export default function DashboardHomePage() {
           <p className="mt-0.5 text-xs text-muted-foreground">{t("dashboard.parts.subtitle")}</p>
 
           <Link
-            href="/rechercher-des-pieces"
+            href="/dashboard/pieces"
             className="mt-4 flex min-h-12 items-center gap-3 rounded-xl border border-border bg-muted/40 px-4 text-sm text-muted-foreground transition-colors hover:border-blue-500/40 hover:text-foreground"
           >
             <Search size={16} className="shrink-0 text-blue-500" />
@@ -391,7 +391,7 @@ export default function DashboardHomePage() {
             {POPULAR_PARTS.map((part) => (
               <Link
                 key={part}
-                href="/rechercher-des-pieces"
+                href="/dashboard/pieces"
                 className="rounded-full border border-border bg-muted/30 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-blue-500/40 hover:text-blue-500"
               >
                 {part}
@@ -420,7 +420,7 @@ export default function DashboardHomePage() {
               {t("dashboard.support.email")}
             </a>
             <a
-              href="/conseil-auto"
+              href="/dashboard/conseils"
               className="flex min-h-11 items-center gap-2.5 rounded-xl border border-border px-3.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
             >
               <Search size={15} className="text-amber-500" />

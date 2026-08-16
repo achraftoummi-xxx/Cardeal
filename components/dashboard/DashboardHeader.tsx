@@ -19,12 +19,14 @@ import { useDashboard } from "./DashboardContext";
 import { CITY_OPTIONS, DASHBOARD_MESSAGES, DASHBOARD_NOTIFICATIONS, getUserName } from "@/data/dashboard";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { setAuthenticated } from "@/lib/auth";
+import { useAuth } from "@/components/AuthProvider";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSelector from "@/components/LanguageSelector";
 
 export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
   const { t } = useTranslation();
   const { location, setLocation } = useDashboard();
+  const { email } = useAuth();
   const [cityOpen, setCityOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -198,7 +200,7 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
             <div className="absolute right-0 top-full z-50 mt-2 w-60 overflow-hidden rounded-xl border border-border bg-card shadow-2xl shadow-black/20">
               <div className="border-b border-border px-4 py-3">
                 <p className="truncate text-sm font-semibold text-foreground">{userName}</p>
-                <p className="truncate text-xs text-muted-foreground">user@cardeal.tn</p>
+                <p className="truncate text-xs text-muted-foreground">{email || userName}</p>
               </div>
               <ul className="p-1.5">
                 <li>

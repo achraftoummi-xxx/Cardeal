@@ -4,15 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Home,
+  Search,
   Car,
   FileText,
   Wrench,
+  Disc,
   CalendarDays,
   History,
   MessageCircle,
   Heart,
   FolderOpen,
   Wallet,
+  Tag,
+  BookOpen,
   Settings,
   X,
   type LucideIcon,
@@ -23,28 +27,36 @@ import cardealLogo from "@/assets/images/cardeal_logo.png";
 
 export type NavKey =
   | "home"
+  | "search"
   | "vehicles"
   | "quotes"
   | "parts"
+  | "tires"
   | "appointments"
   | "history"
   | "messages"
   | "favorites"
   | "documents"
   | "expenses"
+  | "deals"
+  | "advice"
   | "settings";
 
 export const NAV_ITEMS: { key: NavKey; href: string; icon: LucideIcon }[] = [
   { key: "home", href: "/dashboard", icon: Home },
+  { key: "search", href: "/dashboard/recherche", icon: Search },
   { key: "vehicles", href: "/dashboard/vehicules", icon: Car },
   { key: "quotes", href: "/dashboard/devis", icon: FileText },
   { key: "parts", href: "/dashboard/pieces", icon: Wrench },
+  { key: "tires", href: "/dashboard/pneus", icon: Disc },
   { key: "appointments", href: "/dashboard/rendez-vous", icon: CalendarDays },
   { key: "history", href: "/dashboard/historique", icon: History },
   { key: "messages", href: "/dashboard/messages", icon: MessageCircle },
   { key: "favorites", href: "/dashboard/favoris", icon: Heart },
   { key: "documents", href: "/dashboard/documents", icon: FolderOpen },
   { key: "expenses", href: "/dashboard/depenses", icon: Wallet },
+  { key: "deals", href: "/dashboard/bons-plans", icon: Tag },
+  { key: "advice", href: "/dashboard/conseils", icon: BookOpen },
   { key: "settings", href: "/dashboard/parametres", icon: Settings },
 ];
 

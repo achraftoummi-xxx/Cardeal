@@ -147,6 +147,55 @@ export const DASHBOARD_NOTIFICATIONS = [
   { id: "n3", title: "Rappel d'entretien", detail: "Vidange recommandée dans 18 jours", time: "Hier" },
 ];
 
+export type DashboardFavorite = {
+  id: string;
+  name: string;
+  type: string;
+  location: string;
+  rating: number;
+  note: string;
+};
+
+export const DASHBOARD_FAVORITES: DashboardFavorite[] = [
+  { id: "f1", name: "El Mecano Garage", type: "Garage", location: "Tunis, La Marsa", rating: 4.8, note: "Vidange + filtres — 120 DT" },
+  { id: "f2", name: "Das Auto Repair", type: "Garage", location: "Tunis, Le Bardo", rating: 4.6, note: "Plaquettes de freins avant — 260 DT" },
+  { id: "f3", name: "Auto Pièces Nord", type: "Pièces détachées", location: "Ariana, Charguia", rating: 4.5, note: "Batterie VARTA 60Ah — 210 DT" },
+  { id: "f4", name: "Garage l'Expert", type: "Garage", location: "Tunis, Lafayette", rating: 4.7, note: "Diagnostic électronique — 90 DT" },
+];
+
+export type DashboardDocument = {
+  id: string;
+  title: string;
+  type: string;
+  date: string;
+  size: string;
+};
+
+export const DASHBOARD_DOCUMENTS: DashboardDocument[] = [
+  { id: "d1", title: "Facture révision 40 000 km", type: "PDF", date: "28 juil. 2026", size: "284 Ko" },
+  { id: "d2", title: "Devis n°q2 — plaquettes avant", type: "PDF", date: "15 août 2026", size: "142 Ko" },
+  { id: "d3", title: "Carte grise (copie)", type: "PDF", date: "12 juin 2026", size: "1,1 Mo" },
+  { id: "d4", title: "Attestation d'assurance 2026", type: "PDF", date: "2 juin 2026", size: "98 Ko" },
+  { id: "d5", title: "Certificat contrôle technique", type: "PDF", date: "27 mai 2026", size: "310 Ko" },
+];
+
+export type DashboardExpense = {
+  id: string;
+  label: string;
+  category: string;
+  date: string;
+  amount: number;
+};
+
+export const DASHBOARD_EXPENSES: DashboardExpense[] = [
+  { id: "e1", label: "Révision 40 000 km", category: "Entretien", date: "28 juil. 2026", amount: 380 },
+  { id: "e2", label: "Remplacement batterie", category: "Réparation", date: "19 juil. 2026", amount: 210 },
+  { id: "e3", label: "Plein carburant", category: "Carburant", date: "9 août 2026", amount: 95 },
+  { id: "e4", label: "Parallélisme train avant", category: "Réparation", date: "2 juil. 2026", amount: 60 },
+  { id: "e5", label: "Assurance auto 2026", category: "Assurance", date: "2 juin 2026", amount: 520 },
+  { id: "e6", label: "Courroie de distribution", category: "Entretien", date: "21 juin 2026", amount: 340 },
+];
+
 export type PartCategory = {
   id: string;
   label: string;
