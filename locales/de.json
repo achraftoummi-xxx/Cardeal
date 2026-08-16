@@ -598,6 +598,31 @@
       "comingSoon": "Dieser Bereich kommt bald.",
       "back": "Zurück zur Startseite"
     },
-    "settings": { "language": "Sprache" }
+        "settings": {
+      "language": "Sprache",
+      "profile": "Benutzerprofil",
+      "profileSubtitle": "Ihre persönlichen Daten",
+      "fullName": "Vollständiger Name",
+      "email": "E-Mail-Adresse",
+      "phone": "Telefonnummer",
+      "save": "Änderungen speichern",
+      "saved": "Änderungen gespeichert",
+      "vehiclesTitle": "Meine Fahrzeuge",
+      "vehiclesSubtitle": "Fahrzeugdaten hinzufügen und verwalten",
+      "addVehicle": "Fahrzeug hinzufügen",
+      "brand": "Marke",
+      "model": "Modell",
+      "capacity": "Motorhubraum",
+      "cylinders": "Zylinder",
+      "fuel": "Kraftstoff",
+      "year": "Baujahr",
+      "mileage": "Kilometerstand",
+      "saveVehicle": "Fahrzeug hinzufügen",
+      "updateVehicle": "Aktualisieren",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "noVehicles": "Noch keine Fahrzeuge"
+    }
   }
 }

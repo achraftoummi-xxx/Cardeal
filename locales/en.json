@@ -598,6 +598,31 @@
       "comingSoon": "This section is coming soon.",
       "back": "Back to home"
     },
-    "settings": { "language": "Language" }
+        "settings": {
+      "language": "Language",
+      "profile": "User profile",
+      "profileSubtitle": "Your personal information",
+      "fullName": "Full name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "save": "Save changes",
+      "saved": "Changes saved",
+      "vehiclesTitle": "My vehicles",
+      "vehiclesSubtitle": "Add and manage your vehicles' specifications",
+      "addVehicle": "Add a vehicle",
+      "brand": "Brand",
+      "model": "Model",
+      "capacity": "Engine capacity",
+      "cylinders": "Cylinders",
+      "fuel": "Fuel",
+      "year": "Year",
+      "mileage": "Mileage",
+      "saveVehicle": "Add vehicle",
+      "updateVehicle": "Update",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "noVehicles": "No vehicles yet"
+    }
   }
 }

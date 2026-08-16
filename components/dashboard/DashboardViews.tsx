@@ -8,6 +8,7 @@ import {
   BookOpen,
   CalendarDays,
   Car,
+  Check,
   Clock,
   Download,
   FileText,
@@ -17,11 +18,16 @@ import {
   LogOut,
   MapPin,
   MessageCircle,
+  Pencil,
   Phone,
+  Plus,
+  Save,
   Search,
   ShieldCheck,
   Star,
   Tag,
+  Trash2,
+  User,
   Wallet,
   Wrench,
   type LucideIcon,
@@ -39,10 +45,12 @@ import { fetchDealers, type Dealer } from "@/lib/dealers";
 import { getManufacturerLogo } from "@/data/manufacturerLogos";
 import { MANUFACTURER_CATALOG } from "@/data/manufacturerCatalog";
 import { getTireBrandLogo } from "@/data/tireBrandLogos";
+import { brandModels } from "@/data/carBrands";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
-import { setAuthenticated } from "@/lib/auth";
+import { setAuthenticated, setUserName } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import {
+  CYLINDER_OPTIONS,
   DASHBOARD_APPOINTMENTS,
   DASHBOARD_DOCUMENTS,
   DASHBOARD_EXPENSES,
@@ -50,8 +58,16 @@ import {
   DASHBOARD_HISTORY,
   DASHBOARD_MESSAGES,
   DASHBOARD_QUOTES,
+  FUEL_OPTIONS,
+  emptyUserVehicle,
   getDashboardVehicle,
   getUserName,
+  loadUserProfile,
+  loadUserVehicles,
+  saveUserProfile,
+  saveUserVehicles,
+  seedUserVehicle,
+  type UserVehicle,
 } from "@/data/dashboard";
 
 /* ------------------------------------------------------------------ */
@@ -812,10 +828,75 @@ function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: 
 export function SettingsView() {
   const { t } = useTranslation();
   const { email } = useAuth();
-  const userName = getUserName();
-  const [notifyMaintenance, setNotifyMaintenance] = useState(true);
-  const [notifyQuotes, setNotifyQuotes] = useState(true);
-  const [notifyPromos, setNotifyPromos] = useState(false);
+  const initialProfile = useMemo(() => loadUserProfile(), []);
+  const [name, setName] = useState(() => getUserName());
+  const [phone, setPhone] = useState(initialProfile?.phone ?? "");
+  const [notifyMaintenance, setNotifyMaintenance] = useState(
+    initialProfile?.prefs.notifyMaintenance ?? true
+  );
+  const [notifyQuotes, setNotifyQuotes] = useState(initialProfile?.prefs.notifyQuotes ?? true);
+  const [notifyPromos, setNotifyPromos] = useState(initialProfile?.prefs.notifyPromos ?? false);
+  const [savedFlash, setSavedFlash] = useState(false);
+
+  const [vehicles, setVehicles] = useState<UserVehicle[]>(() => {
+    const stored = loadUserVehicles();
+    return stored ?? [seedUserVehicle(getDashboardVehicle())];
+  });
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [draft, setDraft] = useState<UserVehicle>(emptyUserVehicle);
+
+  useEffect(() => {
+    saveUserVehicles(vehicles);
+  }, [vehicles]);
+
+  const vehicleBrands = useMemo(() => Object.keys(brandModels).sort(), []);
+  const yearOptions = useMemo(() => {
+    const current = new Date().getFullYear();
+    return Array.from({ length: current - 1960 + 1 }, (_, i) => String(current - i));
+  }, []);
+  const capacityOptions = useMemo(
+    () => Array.from({ length: 81 }, (_, i) => ((5 + i) / 10).toFixed(1) + "L"),
+    []
+  );
+  const modelsFor = (brand: string) => (brand ? [...(brandModels[brand] ?? [])].sort() : []);
+
+  const handleSaveProfile = () => {
+    setUserName(name.trim() || "Karim");
+    saveUserProfile({ phone, prefs: { notifyMaintenance, notifyQuotes, notifyPromos } });
+    if (isSupabaseConfigured) {
+      void supabase!.auth.updateUser({ data: { full_name: name.trim() } }).catch(() => {});
+    }
+    setSavedFlash(true);
+    window.setTimeout(() => setSavedFlash(false), 2000);
+  };
+
+  const openAddForm = () => {
+    setDraft(emptyUserVehicle());
+    setEditingId(null);
+    setFormOpen(true);
+  };
+
+  const openEditForm = (v: UserVehicle) => {
+    setDraft({ ...v });
+    setEditingId(v.id);
+    setFormOpen(true);
+  };
+
+  const submitVehicle = () => {
+    if (!draft.brand) return;
+    setVehicles((prev) => {
+      const isEdit = editingId && prev.some((v) => v.id === editingId);
+      return isEdit ? prev.map((v) => (v.id === editingId ? draft : v)) : [...prev, draft];
+    });
+    setFormOpen(false);
+    setEditingId(null);
+  };
+
+  const deleteVehicle = (id: string) => {
+    setVehicles((prev) => prev.filter((v) => v.id !== id));
+    if (editingId === id) setFormOpen(false);
+  };
 
   const handleLogout = () => {
     setAuthenticated(false);
@@ -828,15 +909,39 @@ export function SettingsView() {
       <SectionHeader navKey="settings" />
 
       <Card>
-        <div className="flex items-center gap-4">
+        <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+          <User size={14} />
+          {t("dashboard.settings.profile")}
+        </h2>
+        <p className="mt-1 text-xs text-muted-foreground">{t("dashboard.settings.profileSubtitle")}</p>
+        <div className="mt-4 flex items-center gap-4">
           <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--cardeal-primary)]/10 text-xl font-bold text-[var(--cardeal-primary)] ring-1 ring-[var(--cardeal-primary)]/20">
-            {userName.charAt(0).toUpperCase()}
+            {(name || "K").charAt(0).toUpperCase()}
           </span>
           <div className="min-w-0">
-            <p className="truncate text-base font-bold text-foreground">{userName}</p>
-            <p className="truncate text-sm text-muted-foreground">{email || userName}</p>
+            <p className="truncate text-base font-bold text-foreground">{name || "—"}</p>
+            <p className="truncate text-sm text-muted-foreground">{email}</p>
           </div>
         </div>
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
+          <TextInput label={t("dashboard.settings.fullName")} value={name} onChange={setName} />
+          <TextInput label={t("dashboard.settings.email")} value={email} readOnly />
+          <TextInput
+            label={t("dashboard.settings.phone")}
+            value={phone}
+            onChange={setPhone}
+            type="tel"
+            placeholder="+216 ..."
+          />
+        </div>
+        <button
+          type="button"
+          onClick={handleSaveProfile}
+          className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[var(--cardeal-primary)] px-5 text-sm font-semibold text-white shadow-lg shadow-[#BA2529]/25 transition-all hover:bg-[#9E1F23] active:scale-95"
+        >
+          {savedFlash ? <Check size={16} /> : <Save size={16} />}
+          {savedFlash ? t("dashboard.settings.saved") : t("dashboard.settings.save")}
+        </button>
       </Card>
 
       <Card>
@@ -864,6 +969,150 @@ export function SettingsView() {
         </div>
       </Card>
 
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+              <Car size={14} />
+              {t("dashboard.settings.vehiclesTitle")}
+            </h2>
+            <p className="mt-1 text-xs text-muted-foreground">{t("dashboard.settings.vehiclesSubtitle")}</p>
+          </div>
+          {!formOpen && (
+            <button
+              type="button"
+              onClick={openAddForm}
+              className="inline-flex min-h-10 items-center gap-1.5 rounded-xl bg-[var(--cardeal-primary)] px-4 text-sm font-semibold text-white shadow-lg shadow-[#BA2529]/25 transition-all hover:bg-[#9E1F23] active:scale-95"
+            >
+              <Plus size={15} />
+              {t("dashboard.settings.addVehicle")}
+            </button>
+          )}
+        </div>
+
+        {vehicles.length === 0 && !formOpen && (
+          <p className="mt-4 rounded-xl border border-dashed border-border px-4 py-6 text-center text-sm text-muted-foreground">
+            {t("dashboard.settings.noVehicles")}
+          </p>
+        )}
+
+        {vehicles.map((v) => (
+          <div
+            key={v.id}
+            className="mt-3 flex items-center gap-3 rounded-xl border border-border bg-background/60 p-4"
+          >
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 ring-1 ring-blue-500/20">
+              <CarBrandLogo name={v.brand} className="h-5 w-auto max-w-[36px]" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold text-foreground">
+                {v.brand || "—"} {v.model}
+              </p>
+              <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                {[
+                  v.fuel,
+                  v.capacity,
+                  v.cylinders ? `${v.cylinders} cyl.` : "",
+                  v.year,
+                  v.mileageKm != null ? `${Number(v.mileageKm).toLocaleString("fr-FR")} km` : "",
+                ]
+                  .filter(Boolean)
+                  .join(" · ") || "—"}
+              </p>
+            </div>
+            <div className="flex shrink-0 items-center gap-1">
+              <button
+                type="button"
+                onClick={() => openEditForm(v)}
+                aria-label={t("dashboard.settings.edit")}
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              >
+                <Pencil size={15} />
+              </button>
+              <button
+                type="button"
+                onClick={() => deleteVehicle(v.id)}
+                aria-label={t("dashboard.settings.delete")}
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-red-500/10 hover:text-red-500"
+              >
+                <Trash2 size={15} />
+              </button>
+            </div>
+          </div>
+        ))}
+
+        {formOpen && (
+          <div className="mt-4 rounded-xl border border-border bg-background/60 p-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <Select
+                label={t("dashboard.settings.brand")}
+                value={draft.brand}
+                options={vehicleBrands}
+                onChange={(brand) => setDraft((d) => ({ ...d, brand, model: "" }))}
+              />
+              <Select
+                label={t("dashboard.settings.model")}
+                value={draft.model}
+                options={modelsFor(draft.brand)}
+                onChange={(model) => setDraft((d) => ({ ...d, model }))}
+                disabled={!draft.brand}
+              />
+              <Select
+                label={t("dashboard.settings.capacity")}
+                value={draft.capacity}
+                options={capacityOptions}
+                onChange={(capacity) => setDraft((d) => ({ ...d, capacity }))}
+              />
+              <Select
+                label={t("dashboard.settings.cylinders")}
+                value={draft.cylinders}
+                options={CYLINDER_OPTIONS}
+                onChange={(cylinders) => setDraft((d) => ({ ...d, cylinders }))}
+              />
+              <Select
+                label={t("dashboard.settings.fuel")}
+                value={draft.fuel}
+                options={FUEL_OPTIONS}
+                onChange={(fuel) => setDraft((d) => ({ ...d, fuel }))}
+              />
+              <Select
+                label={t("dashboard.settings.year")}
+                value={draft.year}
+                options={yearOptions}
+                onChange={(year) => setDraft((d) => ({ ...d, year }))}
+              />
+              <TextInput
+                label={t("dashboard.settings.mileage")}
+                type="number"
+                min={0}
+                value={draft.mileageKm?.toString() ?? ""}
+                onChange={(v) => setDraft((d) => ({ ...d, mileageKm: v === "" ? null : Number(v) }))}
+              />
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={submitVehicle}
+                disabled={!draft.brand}
+                className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[var(--cardeal-primary)] px-5 text-sm font-semibold text-white shadow-lg shadow-[#BA2529]/25 transition-all hover:bg-[#9E1F23] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {editingId ? t("dashboard.settings.updateVehicle") : t("dashboard.settings.saveVehicle")}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setFormOpen(false);
+                  setEditingId(null);
+                }}
+                className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border px-5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              >
+                {t("dashboard.settings.cancel")}
+              </button>
+            </div>
+          </div>
+        )}
+      </Card>
+
       <Card className="border-red-500/20">
         <button
           type="button"
@@ -888,12 +1137,14 @@ function Select({
   options,
   onChange,
   placeholder,
+  disabled = false,
 }: {
   label: string;
   value: string;
   options: string[];
   onChange: (v: string) => void;
   placeholder?: string;
+  disabled?: boolean;
 }) {
   const { t } = useTranslation();
   const fieldId = `select-${label.toLowerCase().replace(/\s+/g, "-")}`;
@@ -906,10 +1157,12 @@ function Select({
         <select
           id={fieldId}
           value={value}
+          disabled={disabled}
           onChange={(e) => onChange(e.target.value)}
           className={cn(
             "w-full max-sm:min-h-12 appearance-none rounded-xl border border-border bg-background px-4 py-3 pr-10 text-sm shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20",
-            !value && "text-muted-foreground/70"
+            !value && "text-muted-foreground/70",
+            disabled && "cursor-not-allowed opacity-60"
           )}
         >
           <option value="">{placeholder ?? t("filters.any")}</option>
@@ -927,6 +1180,46 @@ function Select({
           </svg>
         </div>
       </div>
+    </div>
+  );
+}
+
+function TextInput({
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  readOnly = false,
+  min,
+}: {
+  label: string;
+  value: string;
+  onChange?: (v: string) => void;
+  placeholder?: string;
+  type?: string;
+  readOnly?: boolean;
+  min?: number;
+}) {
+  const fieldId = `input-${label.toLowerCase().replace(/\s+/g, "-")}`;
+  return (
+    <div>
+      <label htmlFor={fieldId} className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        {label}
+      </label>
+      <input
+        id={fieldId}
+        type={type}
+        value={value}
+        readOnly={readOnly}
+        min={min}
+        onChange={(e) => onChange?.(e.target.value)}
+        placeholder={placeholder}
+        className={cn(
+          "w-full max-sm:min-h-12 rounded-xl border border-border bg-background px-4 py-3 text-sm shadow-sm outline-none transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20",
+          readOnly && "cursor-not-allowed opacity-70"
+        )}
+      />
     </div>
   );
 }

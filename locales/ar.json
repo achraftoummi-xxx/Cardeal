@@ -598,6 +598,31 @@
       "comingSoon": "هذا القسم قادم قريباً.",
       "back": "العودة إلى الرئيسية"
     },
-    "settings": { "language": "اللغة" }
+        "settings": {
+      "language": "اللغة",
+      "profile": "الملف الشخصي",
+      "profileSubtitle": "معلوماتك الشخصية",
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "save": "حفظ التغييرات",
+      "saved": "تم حفظ التغييرات",
+      "vehiclesTitle": "سياراتي",
+      "vehiclesSubtitle": "أضف وأدر مواصفات سياراتك",
+      "addVehicle": "إضافة سيارة",
+      "brand": "الماركة",
+      "model": "الطراز",
+      "capacity": "سعة المحرك",
+      "cylinders": "الأسطوانات",
+      "fuel": "الوقود",
+      "year": "السنة",
+      "mileage": "المسافة المقطوعة",
+      "saveVehicle": "إضافة السيارة",
+      "updateVehicle": "تحديث",
+      "cancel": "إلغاء",
+      "delete": "حذف",
+      "edit": "تعديل",
+      "noVehicles": "لا توجد سيارات بعد"
+    }
   }
 }

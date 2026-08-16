@@ -107,6 +107,102 @@ export function getDashboardVehicle(): DashboardVehicle {
   };
 }
 
+/** User-managed profile details persisted locally (mock backend). */
+export type UserProfilePrefs = {
+  notifyMaintenance: boolean;
+  notifyQuotes: boolean;
+  notifyPromos: boolean;
+};
+
+export type UserProfile = {
+  phone: string;
+  prefs: UserProfilePrefs;
+};
+
+export const PROFILE_STORAGE_KEY = "cardeal_profile";
+export const VEHICLES_STORAGE_KEY = "cardeal_vehicles";
+
+export function loadUserProfile(): UserProfile | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(PROFILE_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as UserProfile) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveUserProfile(profile: UserProfile): void {
+  try {
+    window.localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
+
+/** Vehicle specs managed from the settings screen. */
+export type UserVehicle = {
+  id: string;
+  brand: string;
+  model: string;
+  year: string;
+  capacity: string;
+  cylinders: string;
+  fuel: string;
+  mileageKm: number | null;
+};
+
+export const FUEL_OPTIONS = ["Essence", "Diesel", "Hybride", "Électrique", "GPL"];
+export const CYLINDER_OPTIONS = ["2", "3", "4", "5", "6", "8", "10", "12"];
+
+/** null = never initialized (seed from the demo/sign-up vehicle), [] = user cleared them. */
+export function loadUserVehicles(): UserVehicle[] | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(VEHICLES_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as UserVehicle[];
+    return Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveUserVehicles(vehicles: UserVehicle[]): void {
+  try {
+    window.localStorage.setItem(VEHICLES_STORAGE_KEY, JSON.stringify(vehicles));
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
+
+export function emptyUserVehicle(): UserVehicle {
+  return {
+    id: `vehicle-${Date.now().toString(36)}`,
+    brand: "",
+    model: "",
+    year: "",
+    capacity: "",
+    cylinders: "",
+    fuel: "",
+    mileageKm: null,
+  };
+}
+
+export function seedUserVehicle(v: DashboardVehicle): UserVehicle {
+  const capacityMatch = /^([\d.]+)L/i.exec(v.engine);
+  return {
+    id: "seed-vehicle",
+    brand: v.brand,
+    model: v.model === "—" ? "" : v.model,
+    year: v.year === "—" ? "" : v.year,
+    capacity: capacityMatch ? `${capacityMatch[1]}L` : "",
+    cylinders: "",
+    fuel: /diesel/i.test(v.engine) ? "Diesel" : "Essence",
+    mileageKm: v.mileageKm ?? null,
+  };
+}
+
 export const DASHBOARD_QUOTES: DashboardQuote[] = [
   { id: "q1", partner: "El Mecano Garage", service: "Vidange + filtres", amount: 120, date: "2026-08-14", status: "pending" },
   { id: "q2", partner: "Das Auto Repair", service: "Plaquettes de freins avant", amount: 260, date: "2026-08-15", status: "pending" },
