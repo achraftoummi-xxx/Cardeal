@@ -539,7 +539,6 @@
     "vehicle": {
       "title": "My car",
       
-    "vehiclePreviewEmpty": "Choose a brand to see the preview",
     "vehiclePreviewHint": "The picture updates automatically with brand, model, year and color.","mileage": "Mileage",
       "healthScore": "Health score",
       "maintenanceStatus": "Maintenance status",
@@ -622,7 +621,9 @@
       "mileage": "Mileage",
       "color": "Color",
       "avatar": "Change profile picture",
-      "saveVehicle": "Add vehicle",
+          "vehiclePreviewEmpty": "No preview available",
+    "vehiclePreviewHint": "The picture updates automatically with brand, model, year and color.",
+"saveVehicle": "Add vehicle",
       "updateVehicle": "Update",
       "cancel": "Cancel",
       "delete": "Delete",

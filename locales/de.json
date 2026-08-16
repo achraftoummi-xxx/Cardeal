@@ -539,7 +539,6 @@
     "vehicle": {
       "title": "Mein Auto",
       
-    "vehiclePreviewEmpty": "Wählen Sie eine Marke, um die Vorschau zu sehen",
     "vehiclePreviewHint": "Das Bild aktualisiert sich automatisch nach Marke, Modell, Baujahr und Farbe.","mileage": "Kilometerstand",
       "healthScore": "Gesundheitswert",
       "maintenanceStatus": "Wartungsstatus",
@@ -622,7 +621,9 @@
       "mileage": "Kilometerstand",
       "color": "Farbe",
       "avatar": "Profilbild ändern",
-      "saveVehicle": "Fahrzeug hinzufügen",
+          "vehiclePreviewEmpty": "Keine Vorschau verfügbar",
+    "vehiclePreviewHint": "Das Bild aktualisiert sich automatisch nach Marke, Modell, Baujahr und Farbe.",
+"saveVehicle": "Fahrzeug hinzufügen",
       "updateVehicle": "Aktualisieren",
       "cancel": "Abbrechen",
       "delete": "Löschen",

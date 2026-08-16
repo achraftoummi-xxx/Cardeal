@@ -45,7 +45,11 @@ import polo7Gray from "@/assets/cars/POLO7-gray.png";
 import clio4White from "@/assets/cars/clio-4-white.png";
 import clio5Red from "@/assets/cars/clio-5-red.png";
 import kwidGray from "@/assets/cars/Renault Kwid-gray.png";
+import megane2Black from "@/assets/cars/MEGANE-2-Black.png";
 import megane2Gray from "@/assets/cars/Renault-Megane-2-sedan-gray.png";
+import megane2Red from "@/assets/cars/MEGANE-2-RED.png";
+import megane2Silver from "@/assets/cars/MEGANE-2-SILVER.png";
+import megane3Blue from "@/assets/cars/Renault-Megane-3-blue.png";
 import megane3White from "@/assets/cars/Renault-Megane-3-white.png";
 import rangeRoverRed from "@/assets/cars/rang-rover-2017-red.png";
 import suzukiSwift from "@/assets/cars/SUZUKI-Swift.png";
@@ -53,7 +57,7 @@ import suzukiSwiftRed from "@/assets/cars/SUZUKI-Swift-Red.png";
 import hiluxWhite from "@/assets/cars/Toyota-Hilux-white.png";
 import amarokBlue from "@/assets/cars/volkswagen-amarok-blue.png";
 import caddyWhite from "@/assets/cars/volkswagen-caddy-white.png";
-import vwUp from "@/assets/cars/VW-UP.png";
+import vwUp from "@/assets/cars/volkswagen-UP-white.png";
 
 export type VehicleColor = { id: string; label: string; swatch: string };
 
@@ -66,6 +70,7 @@ export const VEHICLE_COLORS: VehicleColor[] = [
   { id: "beige", label: "Beige", swatch: "#d8c9a3" },
   { id: "champagne", label: "Champagne", swatch: "#e0d2b0" },
   { id: "pistache", label: "Pistache", swatch: "#a8cc6b" },
+  { id: "silver", label: "Argent", swatch: "#c0c4cc" },
 ];
 
 export function getVehicleColorLabel(id: string): string {
@@ -135,7 +140,11 @@ export const VEHICLE_IMAGE_CATALOG: VehicleImageAsset[] = [
   { brand: "renault", model: "clio", color: "red", yearStart: 2019, src: clio5Red },
   { brand: "renault", model: "kwid", color: "gray", yearStart: 2015, src: kwidGray },
   { brand: "renault", model: "megane", color: "gray", yearStart: 2002, yearEnd: 2009, src: megane2Gray },
+  { brand: "renault", model: "megane", color: "black", yearStart: 2002, yearEnd: 2009, src: megane2Black },
+  { brand: "renault", model: "megane", color: "red", yearStart: 2002, yearEnd: 2009, src: megane2Red },
+  { brand: "renault", model: "megane", color: "silver", yearStart: 2002, yearEnd: 2009, src: megane2Silver },
   { brand: "renault", model: "megane", color: "white", yearStart: 2009, yearEnd: 2016, src: megane3White },
+  { brand: "renault", model: "megane", color: "blue", yearStart: 2009, yearEnd: 2016, src: megane3Blue },
   { brand: "landrover", model: "rangerover", color: "red", yearStart: 2013, yearEnd: 2021, src: rangeRoverRed },
   { brand: "suzuki", model: "swift", src: suzukiSwift },
   { brand: "suzuki", model: "swift", color: "red", src: suzukiSwiftRed },
@@ -169,8 +178,37 @@ function inYearRange(asset: VehicleImageAsset, year: number | null): boolean {
 /**
  * Resolve the best car picture for a (brand, model, year, color) selection.
  * Priority: exact model + color + year range, then model + color,
- * then model + year range, then any catalog entry for the model,
- * and finally the default fallback image.
+ * then model + year range, then any catalog entry for the model.
+ * Returns null when no catalog entry matches the selection.
+ */
+export function resolveVehicleImage(
+  brand: string,
+  model: string,
+  year: string,
+  color: string
+): VehicleImageAsset | null {
+  const b = normalize(brand || "");
+  const m = normalize(model || "");
+  const y = year ? (Number.isNaN(Number(year)) ? null : Number(year)) : null;
+  const c = color || "";
+
+  const candidates = VEHICLE_IMAGE_CATALOG.filter((a) => a.brand === b && a.model === m);
+  if (candidates.length === 0) return null;
+
+  const withColor = candidates.filter((a) => a.color === c);
+  const withColorInYear = withColor.filter((a) => inYearRange(a, y));
+  if (withColorInYear.length > 0) return withColorInYear[0];
+  if (withColor.length > 0) return withColor[0];
+
+  const withYear = candidates.filter((a) => inYearRange(a, y));
+  if (withYear.length > 0) return withYear[0];
+
+  return candidates[0];
+}
+
+/**
+ * Resolve the best car picture for a (brand, model, year, color) selection,
+ * falling back to the neutral default image when nothing matches.
  */
 export function getVehicleImage(
   brand: string,
@@ -178,21 +216,5 @@ export function getVehicleImage(
   year: string,
   color: string
 ): StaticImageData {
-  const b = normalize(brand || "");
-  const m = normalize(model || "");
-  const y = year ? (Number.isNaN(Number(year)) ? null : Number(year)) : null;
-  const c = color || "";
-
-  const candidates = VEHICLE_IMAGE_CATALOG.filter((a) => a.brand === b && a.model === m);
-  if (candidates.length === 0) return VEHICLE_IMAGE_FALLBACK;
-
-  const withColor = candidates.filter((a) => a.color === c);
-  const withColorInYear = withColor.filter((a) => inYearRange(a, y));
-  if (withColorInYear.length > 0) return withColorInYear[0].src;
-  if (withColor.length > 0) return withColor[0].src;
-
-  const withYear = candidates.filter((a) => inYearRange(a, y));
-  if (withYear.length > 0) return withYear[0].src;
-
-  return candidates[0].src;
+  return resolveVehicleImage(brand, model, year, color)?.src ?? VEHICLE_IMAGE_FALLBACK;
 }

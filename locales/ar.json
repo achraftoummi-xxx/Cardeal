@@ -539,7 +539,6 @@
     "vehicle": {
       "title": "سيارتي",
       
-    "vehiclePreviewEmpty": "اختر علامة تجارية لعرض المعاينة",
     "vehiclePreviewHint": "تتحدّث الصورة تلقائيًا حسب العلامة التجارية والطراز والسنة واللون.","mileage": "المسافة المقطوعة",
       "healthScore": "درجة الصحة",
       "maintenanceStatus": "حالة الصيانة",
@@ -622,7 +621,9 @@
       "mileage": "المسافة المقطوعة",
       "color": "اللون",
       "avatar": "تغيير صورة الملف الشخصي",
-      "saveVehicle": "إضافة السيارة",
+          "vehiclePreviewEmpty": "لا تتوفر معاينة",
+    "vehiclePreviewHint": "تتحدّث الصورة تلقائيًا حسب العلامة التجارية والطراز والسنة واللون.",
+"saveVehicle": "إضافة السيارة",
       "updateVehicle": "تحديث",
       "cancel": "إلغاء",
       "delete": "حذف",

@@ -53,6 +53,7 @@ import { brandModels } from "@/data/carBrands";
 import {
   getVehicleColorLabel,
   getVehicleImage,
+  resolveVehicleImage,
   VEHICLE_COLORS,
 } from "@/data/vehicleImages";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
@@ -1250,6 +1251,9 @@ export function SettingsView() {
     }
   };
 
+  const previewImage =
+    formOpen && draft.brand ? (resolveVehicleImage(draft.brand, draft.model, draft.year, draft.color)?.src ?? null) : null;
+
   return (
     <div className="space-y-4">
       <SectionHeader navKey="settings" />
@@ -1426,14 +1430,14 @@ export function SettingsView() {
           <div className="mt-4 rounded-xl border border-border bg-background/60 p-4">
             <div className="mb-4 flex items-center gap-4 rounded-xl border border-dashed border-border bg-muted/30 p-3">
               <span className="flex h-20 w-28 shrink-0 items-center justify-center rounded-lg border border-border bg-background p-1.5">
-                {draft.brand ? (
+                {previewImage ? (
                   <img
-                    src={getVehicleImage(draft.brand, draft.model, draft.year, draft.color).src}
+                    src={previewImage.src}
                     alt={`${draft.brand} ${draft.model}`}
                     className="max-h-full w-auto max-w-full object-contain"
                   />
                 ) : (
-                  <span className="text-center text-[10px] text-muted-foreground">
+                  <span className="px-1 text-center text-[10px] leading-tight text-muted-foreground">
                     {t("dashboard.settings.vehiclePreviewEmpty")}
                   </span>
                 )}

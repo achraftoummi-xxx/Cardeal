@@ -1040,7 +1040,6 @@
     "vehicle": {
       "title": "Mi coche",
       
-    "vehiclePreviewEmpty": "Elige una marca para ver la vista previa",
     "vehiclePreviewHint": "La imagen se actualiza automáticamente según la marca, el modelo, el año y el color.","mileage": "Kilometraje",
       "healthScore": "Puntuación de salud",
       "maintenanceStatus": "Estado del mantenimiento",
@@ -1123,7 +1122,9 @@
       "mileage": "Kilometraje",
       "color": "Color",
       "avatar": "Cambiar la foto de perfil",
-      "saveVehicle": "Añadir vehículo",
+          "vehiclePreviewEmpty": "No hay vista previa disponible",
+    "vehiclePreviewHint": "La imagen se actualiza automáticamente según la marca, el modelo, el año y el color.",
+"saveVehicle": "Añadir vehículo",
       "updateVehicle": "Actualizar",
       "cancel": "Cancelar",
       "delete": "Eliminar",
