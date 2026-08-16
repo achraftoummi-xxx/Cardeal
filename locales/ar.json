@@ -538,7 +538,9 @@
     },
     "vehicle": {
       "title": "سيارتي",
-      "mileage": "المسافة المقطوعة",
+      
+    "vehiclePreviewEmpty": "اختر علامة تجارية لعرض المعاينة",
+    "vehiclePreviewHint": "تتحدّث الصورة تلقائيًا حسب العلامة التجارية والطراز والسنة واللون.","mileage": "المسافة المقطوعة",
       "healthScore": "درجة الصحة",
       "maintenanceStatus": "حالة الصيانة",
       "uptoDate": "محدثة",

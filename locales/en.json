@@ -538,7 +538,9 @@
     },
     "vehicle": {
       "title": "My car",
-      "mileage": "Mileage",
+      
+    "vehiclePreviewEmpty": "Choose a brand to see the preview",
+    "vehiclePreviewHint": "The picture updates automatically with brand, model, year and color.","mileage": "Mileage",
       "healthScore": "Health score",
       "maintenanceStatus": "Maintenance status",
       "uptoDate": "Up to date",

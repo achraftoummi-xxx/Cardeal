@@ -538,7 +538,9 @@
     },
     "vehicle": {
       "title": "Mein Auto",
-      "mileage": "Kilometerstand",
+      
+    "vehiclePreviewEmpty": "Wählen Sie eine Marke, um die Vorschau zu sehen",
+    "vehiclePreviewHint": "Das Bild aktualisiert sich automatisch nach Marke, Modell, Baujahr und Farbe.","mileage": "Kilometerstand",
       "healthScore": "Gesundheitswert",
       "maintenanceStatus": "Wartungsstatus",
       "uptoDate": "Aktuell",
