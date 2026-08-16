@@ -21,8 +21,8 @@ export default function SiteHeader({
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: "#find-service", label: t("nav.findService") },
-    { href: "#request-quote", label: t("nav.requestQuote") },
+    { href: authed ? "/dashboard/recherche" : "/#find-service", label: t("nav.findService") },
+    { href: authed ? "/dashboard/recherche" : "/#find-service", label: t("nav.requestQuote") },
     { href: "/rechercher-des-pieces", label: t("nav.searchParts") },
     { href: "/pneus", label: t("nav.tires") },
     { href: "/conseil-auto", label: t("nav.advice") },

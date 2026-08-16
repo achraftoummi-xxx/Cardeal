@@ -1,6 +1,7 @@
 "use client";
 
 import { notFound } from "next/navigation";
+import { use } from "react";
 import {
   AdviceView,
   AppointmentsView,
@@ -37,8 +38,13 @@ const SECTION_VIEWS: Record<string, () => React.ReactNode> = {
   parametres: SettingsView,
 };
 
-export default function DashboardSectionPage({ params }: { params: { section: string } }) {
-  const View = SECTION_VIEWS[params.section];
+export default function DashboardSectionPage({
+  params,
+}: {
+  params: Promise<{ section: string }>;
+}) {
+  const { section } = use(params);
+  const View = SECTION_VIEWS[section];
   if (!View) notFound();
 
   return <View />;
