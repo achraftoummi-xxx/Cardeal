@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { cityByLabel, CITY_OPTIONS } from "@/data/dashboard";
 
 export type DashboardLocation = { label: string; lat: number; lng: number };
@@ -42,7 +42,10 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const bumpVehiclesVersion = () => setVehiclesVersion((v) => v + 1);
+  /* Stable identity is required: consumers use it in effect deps and an
+     unstable function would re-trigger their effects on every provider
+     render, causing an infinite update loop. */
+  const bumpVehiclesVersion = useCallback(() => setVehiclesVersion((v) => v + 1), []);
 
   return (
     <DashboardContext.Provider value={{ location, setLocation, vehiclesVersion, bumpVehiclesVersion }}>

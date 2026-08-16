@@ -142,11 +142,14 @@ export default function LoginModal({ open, onClose }: Props) {
     }
   }, [open]);
 
-  /* Once a session is detected (OAuth callback, hash capture, listener),
-     close the modal and reveal the authenticated UI. */
+  /* Close the modal only when a NEW session appears while it is open
+     (OAuth hash capture, sign-in completing). If the user was already
+     authenticated when opening it, keep it open so the form still shows. */
+  const prevAuthed = useRef(authed);
   useEffect(() => {
-    if (authed) onClose();
-  }, [authed, onClose]);
+    if (open && authed && !prevAuthed.current) onClose();
+    prevAuthed.current = authed;
+  }, [open, authed, onClose]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
