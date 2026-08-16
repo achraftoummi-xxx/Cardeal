@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   Car,
@@ -26,7 +26,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useTranslation } from "@/components/TranslationProvider";
-import CarBrandLogo from "@/components/CarBrandLogo";
 import { useDashboard } from "@/components/dashboard/DashboardContext";
 import {
   DASHBOARD_APPOINTMENTS,
@@ -34,12 +33,18 @@ import {
   DASHBOARD_MESSAGES,
   DASHBOARD_QUOTES,
   DASHBOARD_REMINDERS,
+  computeVehicleHealth,
+  formatMileageKm,
   getDashboardVehicle,
   getUserName,
+  loadUserVehicles,
   POPULAR_PARTS,
   quoteCounts,
+  seedUserVehicle,
   type ReminderType,
+  type UserVehicle,
 } from "@/data/dashboard";
+import { getVehicleImage } from "@/data/vehicleImages";
 import { fetchPartners, type Partner } from "@/lib/partners";
 import { cn } from "@/lib/utils";
 
@@ -114,10 +119,27 @@ function HealthScoreRing({ score }: { score: number }) {
 export default function DashboardHomePage() {
   const { t } = useTranslation();
   const { location } = useDashboard();
-  const [vehicle] = useState(getDashboardVehicle);
+  const [vehicle] = useState<UserVehicle>(() => {
+    const stored = loadUserVehicles();
+    if (stored && stored.length > 0) return stored[0];
+    return seedUserVehicle(getDashboardVehicle());
+  });
   const [partners, setPartners] = useState<Partner[]>([]);
   const [loadingServices, setLoadingServices] = useState(true);
   const [mapFilter, setMapFilter] = useState<MapFilter>("all");
+
+  const { healthScore, maintenanceUptoDate } = useMemo(
+    () => computeVehicleHealth(DASHBOARD_REMINDERS, DASHBOARD_QUOTES, DASHBOARD_HISTORY),
+    []
+  );
+  const vehicleSpecs = [
+    vehicle.year,
+    vehicle.fuel,
+    vehicle.capacity,
+    vehicle.cylinders ? `${vehicle.cylinders} cyl.` : "",
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
   const counts = quoteCounts(DASHBOARD_QUOTES);
   const userName = getUserName();
@@ -208,19 +230,23 @@ export default function DashboardHomePage() {
             </Link>
           </div>
           <div className="mt-4 flex items-center gap-4">
-            <div className="flex h-16 w-24 shrink-0 items-center justify-center rounded-2xl border border-border bg-muted/40 p-2">
-              <CarBrandLogo name={vehicle.brand} className="max-h-full w-auto max-w-full" />
+            <div className="flex h-20 w-32 shrink-0 items-center justify-center rounded-2xl border border-border bg-muted/40 p-2">
+              <img
+                src={getVehicleImage(vehicle.brand, vehicle.model, vehicle.year, vehicle.color).src}
+                alt={`${vehicle.brand} ${vehicle.model}`}
+                className="max-h-full w-auto max-w-full object-contain"
+              />
             </div>
             <div className="min-w-0">
               <p className="truncate text-base font-bold text-foreground">
-                {vehicle.brand} {vehicle.model}
+                {vehicle.brand || "—"} {vehicle.model}
               </p>
-              <p className="mt-0.5 text-xs text-muted-foreground">
-                {vehicle.year} · {vehicle.engine}
+              <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                {vehicleSpecs || "—"}
               </p>
               <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
                 <Gauge size={12} className="text-blue-500" />
-                {t("dashboard.vehicle.mileage")}: {vehicle.mileageKm.toLocaleString("fr-FR")} km
+                {t("dashboard.vehicle.mileage")}: {formatMileageKm(vehicle.mileageKm)}
               </p>
             </div>
           </div>
@@ -232,16 +258,16 @@ export default function DashboardHomePage() {
               <span
                 className={cn(
                   "mt-1 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ring-1",
-                  vehicle.maintenanceUptoDate
+                  maintenanceUptoDate
                     ? "bg-green-500/10 text-green-500 ring-green-500/20"
                     : "bg-amber-500/10 text-amber-500 ring-amber-500/20"
                 )}
               >
                 <ShieldCheck size={11} />
-                {t(vehicle.maintenanceUptoDate ? "dashboard.vehicle.uptoDate" : "dashboard.vehicle.recommended")}
+                {t(maintenanceUptoDate ? "dashboard.vehicle.uptoDate" : "dashboard.vehicle.recommended")}
               </span>
             </div>
-            <HealthScoreRing score={vehicle.healthScore} />
+            <HealthScoreRing score={healthScore} />
           </div>
         </div>
 

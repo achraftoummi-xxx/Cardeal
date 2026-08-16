@@ -206,6 +206,69 @@ export function seedUserVehicle(v: DashboardVehicle): UserVehicle {
   };
 }
 
+/** Format a mileage value with French thousands separators, e.g. "68 400 km". */
+export function formatMileageKm(km: number | null | undefined): string {
+  if (km == null) return "—";
+  return `${km.toLocaleString("fr-FR").replace(/[\u202f\u00a0]/g, " ")} km`;
+}
+
+const FR_MONTHS: Record<string, number> = {
+  "janv.": 0,
+  "févr.": 1,
+  mars: 2,
+  "avr.": 3,
+  mai: 4,
+  juin: 5,
+  "juil.": 6,
+  août: 7,
+  "sept.": 8,
+  "oct.": 9,
+  "nov.": 10,
+  "déc.": 11,
+};
+
+/** Parse French display dates like "28 juil. 2026" into a Date (null when unparseable). */
+export function parseFrDate(label: string): Date | null {
+  const m = /^(\d{1,2})\s+([a-zéû]+\.?)\s+(\d{4})$/i.exec(label.trim());
+  if (!m) return null;
+  const month = FR_MONTHS[m[2].toLowerCase()];
+  if (month === undefined) return null;
+  return new Date(Number(m[3]), month, Number(m[1]));
+}
+
+/**
+ * Derive the vehicle health score and maintenance status from live
+ * maintenance data: reminders, pending service quotes and the service log.
+ */
+export function computeVehicleHealth(
+  reminders: MaintenanceReminder[],
+  quotes: DashboardQuote[],
+  history: ServiceHistoryEntry[]
+): { healthScore: number; maintenanceUptoDate: boolean } {
+  let score = 100;
+
+  for (const r of reminders) {
+    if (r.dueInDays < 0) score -= 15;
+    else if (r.dueInDays === 0) score -= 12;
+    else if (r.dueInDays <= 7) score -= 8;
+    else if (r.dueInDays <= 30) score -= 5;
+    else score -= 2;
+  }
+
+  score -= Math.min(9, quotes.filter((q) => q.status === "pending").length * 3);
+
+  const mostRecent = history
+    .map((h) => parseFrDate(h.date))
+    .filter((d): d is Date => d !== null)
+    .sort((a, b) => b.getTime() - a.getTime())[0];
+  if (mostRecent && Date.now() - mostRecent.getTime() > 90 * 86_400_000) {
+    score -= 8;
+  }
+
+  const healthScore = Math.max(10, Math.min(100, score));
+  return { healthScore, maintenanceUptoDate: healthScore >= 75 };
+}
+
 export const DASHBOARD_QUOTES: DashboardQuote[] = [
   { id: "q1", partner: "El Mecano Garage", service: "Vidange + filtres", amount: 120, date: "2026-08-14", status: "pending" },
   { id: "q2", partner: "Das Auto Repair", service: "Plaquettes de freins avant", amount: 260, date: "2026-08-15", status: "pending" },

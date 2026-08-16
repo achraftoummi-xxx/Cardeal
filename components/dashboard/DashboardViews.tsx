@@ -65,6 +65,7 @@ import {
   DASHBOARD_QUOTES,
   FUEL_OPTIONS,
   emptyUserVehicle,
+  formatMileageKm,
   getDashboardVehicle,
   getUserName,
   loadUserProfile,
@@ -467,8 +468,7 @@ export function VehiclesView() {
       { label: t("dashboard.settings.cylinders"), value: v.cylinders },
       {
         label: t("dashboard.settings.mileage"),
-        value:
-          v.mileageKm != null ? `${Number(v.mileageKm).toLocaleString("fr-FR")} km` : "",
+        value: v.mileageKm != null ? formatMileageKm(v.mileageKm) : "",
       },
       { label: t("dashboard.settings.color"), value: getVehicleColorLabel(v.color) },
     ].filter((s) => s.value);
@@ -1029,7 +1029,7 @@ export function SettingsView() {
                   v.cylinders ? `${v.cylinders} cyl.` : "",
                   v.year,
                   getVehicleColorLabel(v.color),
-                  v.mileageKm != null ? `${Number(v.mileageKm).toLocaleString("fr-FR")} km` : "",
+                  v.mileageKm != null ? formatMileageKm(v.mileageKm) : "",
                 ]
                   .filter(Boolean)
                   .join(" · ") || "—"}
