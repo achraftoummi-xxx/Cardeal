@@ -32,6 +32,7 @@ import {
   User,
   Wallet,
   Wrench,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import SearchAndMapSection from "@/components/SearchAndMapSection";
@@ -40,6 +41,7 @@ import BrandSelect from "@/components/BrandSelect";
 import CarBrandLogo from "@/components/CarBrandLogo";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSelector from "@/components/LanguageSelector";
+import { useDashboard } from "@/components/dashboard/DashboardContext";
 import { useTranslation } from "@/components/TranslationProvider";
 import { useAuth } from "@/components/AuthProvider";
 import { navLabel, type NavKey } from "@/components/dashboard/DashboardSidebar";
@@ -57,6 +59,9 @@ import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { setAuthenticated, setUserName } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import {
+  computeVehicleHealthFromServices,
+  CUSTOM_SERVICE_ID,
+  CUSTOM_SERVICE_INTERVAL_KM,
   CYLINDER_OPTIONS,
   DASHBOARD_APPOINTMENTS,
   DASHBOARD_DOCUMENTS,
@@ -75,6 +80,8 @@ import {
   saveUserProfile,
   saveUserVehicles,
   seedUserVehicle,
+  SERVICE_CATALOG,
+  type UserService,
   type UserVehicle,
 } from "@/data/dashboard";
 
@@ -454,13 +461,191 @@ export function AdviceView() {
 /* My vehicles                                                         */
 /* ------------------------------------------------------------------ */
 
+function ServiceModal({
+  vehicle,
+  onClose,
+  onSave,
+}: {
+  vehicle: UserVehicle;
+  onClose: () => void;
+  onSave: (service: UserService) => void;
+}) {
+  const { t } = useTranslation();
+  const [type, setType] = useState(SERVICE_CATALOG[0].id);
+  const [customLabel, setCustomLabel] = useState("");
+  const [customWeight, setCustomWeight] = useState(5);
+  const [mileage, setMileage] = useState(
+    vehicle.mileageKm != null ? String(vehicle.mileageKm) : ""
+  );
+  const [error, setError] = useState(false);
+
+  const catalogItem = SERVICE_CATALOG.find((c) => c.id === type);
+  const isCustom = type === CUSTOM_SERVICE_ID;
+  const weight = isCustom ? customWeight : (catalogItem?.weight ?? 0);
+
+  const handleSave = () => {
+    const km = Number(mileage);
+    if (!Number.isFinite(km) || km < 0 || (isCustom && !customLabel.trim())) {
+      setError(true);
+      return;
+    }
+    onSave({
+      id: `service-${Date.now().toString(36)}`,
+      type,
+      label: isCustom ? customLabel.trim() : (catalogItem?.label ?? ""),
+      weight,
+      mileageKm: km,
+      date: new Date().toISOString().slice(0, 10),
+    });
+  };
+
+  const inputCls =
+    "w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-[var(--cardeal-primary)]";
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-md overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
+          <div className="min-w-0">
+            <h3 className="truncate text-base font-bold text-foreground">
+              {t("dashboard.vehicles.logService")}
+            </h3>
+            <p className="mt-0.5 truncate text-xs text-muted-foreground">
+              {vehicle.brand || "—"} {vehicle.model}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={t("dashboard.settings.cancel")}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          >
+            <X size={16} />
+          </button>
+        </div>
+        <div className="space-y-4 px-5 py-5">
+          <div>
+            <label className="mb-1.5 block text-xs font-medium text-muted-foreground">
+              {t("dashboard.vehicles.serviceType")}
+            </label>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className={inputCls}
+            >
+              {SERVICE_CATALOG.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.label}
+                </option>
+              ))}
+              <option value={CUSTOM_SERVICE_ID}>
+                {t("dashboard.vehicles.customService")}
+              </option>
+            </select>
+            <p className="mt-1.5 text-[11px] text-muted-foreground">
+              {t("dashboard.vehicles.serviceIntervalHint", {
+                km: formatMileageKm(
+                  isCustom ? CUSTOM_SERVICE_INTERVAL_KM : (catalogItem?.intervalKm ?? 0)
+                ),
+                weight,
+              })}
+            </p>
+          </div>
+          {isCustom && (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-muted-foreground">
+                  {t("dashboard.vehicles.serviceCustomName")}
+                </label>
+                <input
+                  value={customLabel}
+                  onChange={(e) => {
+                    setCustomLabel(e.target.value);
+                    setError(false);
+                  }}
+                  placeholder="Ex. Parallélisme"
+                  className={cn(inputCls, error && "border-red-500")}
+                />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-muted-foreground">
+                  {t("dashboard.vehicles.serviceWeight")}
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={40}
+                  value={customWeight}
+                  onChange={(e) => setCustomWeight(Number(e.target.value))}
+                  className={inputCls}
+                />
+              </div>
+            </div>
+          )}
+          <div>
+            <label className="mb-1.5 block text-xs font-medium text-muted-foreground">
+              {t("dashboard.vehicles.serviceMileage")}
+            </label>
+            <input
+              type="number"
+              min={0}
+              value={mileage}
+              onChange={(e) => {
+                setMileage(e.target.value);
+                setError(false);
+              }}
+              placeholder="0"
+              className={cn(inputCls, error && "border-red-500")}
+            />
+            {error && (
+              <p className="mt-1.5 text-[11px] text-red-500">
+                {t("dashboard.vehicles.serviceError")}
+              </p>
+            )}
+          </div>
+          <div className="flex items-center justify-end gap-2 border-t border-border pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-xl border border-border px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent"
+            >
+              {t("dashboard.settings.cancel")}
+            </button>
+            <button
+              type="button"
+              onClick={handleSave}
+              className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[var(--cardeal-primary)] px-4 text-sm font-semibold text-white shadow-lg shadow-[#BA2529]/25 transition-all hover:bg-[#9E1F23] active:scale-95"
+            >
+              <Plus size={15} />
+              {t("dashboard.vehicles.saveService")}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function VehiclesView() {
   const { t } = useTranslation();
-  const [vehicles] = useState<UserVehicle[]>(() => {
+  const { bumpVehiclesVersion } = useDashboard();
+  const [vehicles, setVehicles] = useState<UserVehicle[]>(() => {
     const stored = loadUserVehicles();
     if (stored && stored.length > 0) return stored;
     return [seedUserVehicle(getDashboardVehicle())];
   });
+  const [serviceTarget, setServiceTarget] = useState<UserVehicle | null>(null);
+
+  useEffect(() => {
+    saveUserVehicles(vehicles);
+    bumpVehiclesVersion();
+  }, [vehicles, bumpVehiclesVersion]);
 
   const specs = (v: UserVehicle) =>
     [
@@ -475,37 +660,144 @@ export function VehiclesView() {
       { label: t("dashboard.settings.color"), value: getVehicleColorLabel(v.color) },
     ].filter((s) => s.value);
 
+  const sortedServices = (v: UserVehicle) =>
+    [...(v.services ?? [])].sort((a, b) => b.mileageKm - a.mileageKm);
+
+  const addService = (service: UserService) => {
+    if (!serviceTarget) return;
+    setVehicles((prev) =>
+      prev.map((v) =>
+        v.id === serviceTarget.id
+          ? { ...v, services: [...(v.services ?? []), service] }
+          : v
+      )
+    );
+    setServiceTarget(null);
+  };
+
+  const removeService = (vehicleId: string, serviceId: string) => {
+    setVehicles((prev) =>
+      prev.map((v) =>
+        v.id === vehicleId
+          ? { ...v, services: (v.services ?? []).filter((s) => s.id !== serviceId) }
+          : v
+      )
+    );
+  };
+
   return (
     <div className="space-y-4">
       <SectionHeader navKey="vehicles" />
-      {vehicles.map((v) => (
-        <Card key={v.id}>
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-            <div className="flex h-24 w-40 shrink-0 items-center justify-center rounded-2xl border border-border bg-muted/40 p-2">
-              <img
-                src={getVehicleImage(v.brand, v.model, v.year, v.color).src}
-                alt={`${v.brand} ${v.model}`}
-                className="max-h-full w-auto max-w-full object-contain"
-              />
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-lg font-bold text-foreground">
-                {v.brand || "—"} {v.model}
-              </p>
-              <div className="mt-3 grid grid-cols-2 gap-x-6 gap-y-2.5 sm:grid-cols-3">
-                {specs(v).map((s) => (
-                  <div key={s.label}>
-                    <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                      {s.label}
-                    </p>
-                    <p className="mt-0.5 text-sm font-semibold text-foreground">{s.value}</p>
-                  </div>
-                ))}
+      {vehicles.map((v) => {
+        const health = computeVehicleHealthFromServices(v);
+        const uptoDate = health >= 75;
+        return (
+          <Card key={v.id}>
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+              <div className="flex h-24 w-40 shrink-0 items-center justify-center rounded-2xl border border-border bg-muted/40 p-2">
+                <img
+                  src={getVehicleImage(v.brand, v.model, v.year, v.color).src}
+                  alt={`${v.brand} ${v.model}`}
+                  className="max-h-full w-auto max-w-full object-contain"
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="text-lg font-bold text-foreground">
+                    {v.brand || "—"} {v.model}
+                  </p>
+                  <HealthScoreRing score={health} />
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-x-6 gap-y-2.5 sm:grid-cols-3">
+                  {specs(v).map((s) => (
+                    <div key={s.label}>
+                      <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                        {s.label}
+                      </p>
+                      <p className="mt-0.5 text-sm font-semibold text-foreground">{s.value}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </Card>
-      ))}
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                  {t("dashboard.vehicle.healthScore")}
+                </p>
+                <span
+                  className={cn(
+                    "mt-1 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ring-1",
+                    uptoDate
+                      ? "bg-green-500/10 text-green-500 ring-green-500/20"
+                      : "bg-amber-500/10 text-amber-500 ring-amber-500/20"
+                  )}
+                >
+                  <ShieldCheck size={11} />
+                  {t(uptoDate ? "dashboard.vehicle.uptoDate" : "dashboard.vehicle.recommended")}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setServiceTarget(v)}
+                className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-[var(--cardeal-primary)] px-4 text-sm font-semibold text-white shadow-lg shadow-[#BA2529]/25 transition-all hover:bg-[#9E1F23] active:scale-95"
+              >
+                <Plus size={15} />
+                {t("dashboard.vehicles.addService")}
+              </button>
+            </div>
+            <div className="mt-4 border-t border-border pt-4">
+              <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <Wrench size={13} />
+                {t("dashboard.vehicles.serviceHistory")}
+              </h3>
+              {sortedServices(v).length === 0 ? (
+                <p className="mt-3 text-sm text-muted-foreground">
+                  {t("dashboard.vehicles.noServices")}
+                </p>
+              ) : (
+                <ul className="mt-3 space-y-2">
+                  {sortedServices(v).map((s) => (
+                    <li
+                      key={s.id}
+                      className="flex items-center gap-3 rounded-xl border border-border/70 px-3 py-2.5"
+                    >
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] ring-1 ring-[var(--cardeal-primary)]/20">
+                        <Wrench size={14} />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium text-foreground">{s.label}</p>
+                        <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                          {formatMileageKm(s.mileageKm)} · {s.date.slice(8)}/{s.date.slice(5, 7)}/
+                          {s.date.slice(0, 4)}
+                        </p>
+                      </div>
+                      <span className="shrink-0 rounded-full bg-muted/50 px-2 py-0.5 text-[11px] font-medium text-muted-foreground ring-1 ring-border">
+                        {s.weight}%
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => removeService(v.id, s.id)}
+                        aria-label={t("dashboard.vehicles.removeService")}
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-red-500/10 hover:text-red-500"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </Card>
+        );
+      })}
+      {serviceTarget && (
+        <ServiceModal
+          vehicle={serviceTarget}
+          onClose={() => setServiceTarget(null)}
+          onSave={addService}
+        />
+      )}
     </div>
   );
 }
@@ -840,6 +1132,7 @@ function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: 
 export function SettingsView() {
   const { t } = useTranslation();
   const { email, avatarUrl, setAvatarUrl } = useAuth();
+  const { bumpVehiclesVersion } = useDashboard();
   const initialProfile = useMemo(() => loadUserProfile(), []);
   const [name, setName] = useState(() => getUserName());
   const [phone, setPhone] = useState(initialProfile?.phone ?? "");
@@ -862,7 +1155,8 @@ export function SettingsView() {
 
   useEffect(() => {
     saveUserVehicles(vehicles);
-  }, [vehicles]);
+    bumpVehiclesVersion();
+  }, [vehicles, bumpVehiclesVersion]);
 
   const vehicleBrands = useMemo(() => Object.keys(brandModels).sort(), []);
   const yearOptions = useMemo(() => {

@@ -626,6 +626,27 @@
       "delete": "Supprimer",
       "edit": "Modifier",
       "noVehicles": "Aucun véhicule pour le moment"
-    }
+    },
+          "vehicles": {
+      "logService": "Enregistrer un service",
+      "serviceType": "Type de service",
+      "customService": "Autre service (personnalisé)",
+      "serviceIntervalHint": "Intervalle standard : tous les {km} · impact {weight} %",
+      "serviceCustomName": "Nom du service",
+      "serviceWeight": "Poids de santé (%)",
+      "serviceMileage": "Kilométrage du service",
+      "serviceError": "Renseignez un kilométrage valide et un nom de service.",
+      "saveService": "Enregistrer le service",
+      "addService": "Ajouter un service",
+      "serviceHistory": "Historique d'entretien",
+      "noServices": "Aucun service enregistré",
+      "removeService": "Supprimer le service",
+      "healthAlert": {
+        "title": "Santé du véhicule faible",
+        "body": "Le score de santé est passé sous 55 %. Faites entretenir votre voiture dès que possible.",
+        "viewVehicles": "Voir mes véhicules",
+        "dismiss": "Fermer"
+        }
+      }
   }
 }

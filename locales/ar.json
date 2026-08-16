@@ -626,6 +626,27 @@
       "delete": "حذف",
       "edit": "تعديل",
       "noVehicles": "لا توجد سيارات بعد"
-    }
+    },
+          "vehicles": {
+      "logService": "تسجيل خدمة",
+      "serviceType": "نوع الخدمة",
+      "customService": "خدمة أخرى (مخصصة)",
+      "serviceIntervalHint": "الفاصل القياسي: كل {km} · تأثير صحي {weight}%",
+      "serviceCustomName": "اسم الخدمة",
+      "serviceWeight": "وزن الصحة (%)",
+      "serviceMileage": "عدد الكيلومترات عند الخدمة",
+      "serviceError": "أدخل عدد كيلومترات صحيح واسم خدمة.",
+      "saveService": "حفظ الخدمة",
+      "addService": "إضافة خدمة",
+      "serviceHistory": "سجل الصيانة",
+      "noServices": "لا توجد خدمات مسجلة",
+      "removeService": "حذف الخدمة",
+      "healthAlert": {
+        "title": "صحة المركبة منخفضة",
+        "body": "انخفض مؤشر الصحة عن 55%. قم بصيانة سيارتك في أقرب وقت ممكن.",
+        "viewVehicles": "عرض مركباتي",
+        "dismiss": "إغلاق"
+        }
+      }
   }
 }

@@ -33,7 +33,7 @@ import {
   DASHBOARD_MESSAGES,
   DASHBOARD_QUOTES,
   DASHBOARD_REMINDERS,
-  computeVehicleHealth,
+  computeVehicleHealthFromServices,
   formatMileageKm,
   getDashboardVehicle,
   getUserName,
@@ -118,8 +118,8 @@ function HealthScoreRing({ score }: { score: number }) {
 
 export default function DashboardHomePage() {
   const { t } = useTranslation();
-  const { location } = useDashboard();
-  const [vehicle] = useState<UserVehicle>(() => {
+  const { location, vehiclesVersion } = useDashboard();
+  const [vehicle, setVehicle] = useState<UserVehicle>(() => {
     const stored = loadUserVehicles();
     if (stored && stored.length > 0) return stored[0];
     return seedUserVehicle(getDashboardVehicle());
@@ -128,10 +128,16 @@ export default function DashboardHomePage() {
   const [loadingServices, setLoadingServices] = useState(true);
   const [mapFilter, setMapFilter] = useState<MapFilter>("all");
 
-  const { healthScore, maintenanceUptoDate } = useMemo(
-    () => computeVehicleHealth(DASHBOARD_REMINDERS, DASHBOARD_QUOTES, DASHBOARD_HISTORY),
-    []
-  );
+  const { healthScore, maintenanceUptoDate } = useMemo(() => {
+    const score = computeVehicleHealthFromServices(vehicle);
+    return { healthScore: score, maintenanceUptoDate: score >= 75 };
+  }, [vehicle]);
+
+  useEffect(() => {
+    const stored = loadUserVehicles();
+    if (stored && stored.length > 0) setVehicle(stored[0]);
+    else setVehicle(seedUserVehicle(getDashboardVehicle()));
+  }, [vehiclesVersion]);
   const vehicleSpecs = [
     vehicle.year,
     vehicle.fuel,

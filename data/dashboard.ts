@@ -122,6 +122,44 @@ export type UserProfile = {
 export const PROFILE_STORAGE_KEY = "cardeal_profile";
 export const VEHICLES_STORAGE_KEY = "cardeal_vehicles";
 export const AVATAR_STORAGE_KEY = "cardeal_avatar";
+const HEALTH_WARN_KEY = "cardeal_health_warn";
+
+/** Service categories with predefined health/wear impact weights (% of the total score). */
+export type ServiceCategory = {
+  id: string;
+  label: string;
+  intervalKm: number;
+  weight: number;
+};
+
+export const SERVICE_CATALOG: ServiceCategory[] = [
+  { id: "vidange", label: "Vidange", intervalKm: 10000, weight: 25 },
+  { id: "distribution", label: "Kit de distribution", intervalKm: 120000, weight: 40 },
+  { id: "plaquettes", label: "Plaquettes de frein", intervalKm: 30000, weight: 10 },
+  { id: "frein", label: "Liquide de frein", intervalKm: 40000, weight: 10 },
+  { id: "filtres", label: "Filtres (air / huile)", intervalKm: 20000, weight: 5 },
+  { id: "bougies", label: "Bougies d'allumage", intervalKm: 40000, weight: 5 },
+  { id: "embrayage", label: "Embrayage", intervalKm: 150000, weight: 5 },
+];
+
+/** Custom service type id (user-defined label + weight). */
+export const CUSTOM_SERVICE_ID = "autre";
+/** Assumed standard interval used to age custom services against mileage. */
+export const CUSTOM_SERVICE_INTERVAL_KM = 20000;
+
+/** A maintenance service logged by the user against a vehicle. */
+export type UserService = {
+  id: string;
+  /** SERVICE_CATALOG id or CUSTOM_SERVICE_ID for user-defined services. */
+  type: string;
+  label: string;
+  /** Health weight in % (catalog weight or the user-provided custom weight). */
+  weight: number;
+  /** Vehicle mileage at which the service was performed. */
+  mileageKm: number;
+  /** ISO date (YYYY-MM-DD) the service was logged. */
+  date: string;
+};
 
 export function loadAvatarUrl(): string {
   if (typeof window === "undefined") return "";
@@ -169,6 +207,8 @@ export type UserVehicle = {
   fuel: string;
   color: string;
   mileageKm: number | null;
+  /** Maintenance services logged by the user (newest first is not guaranteed). */
+  services: UserService[];
 };
 
 export const FUEL_OPTIONS = ["Essence", "Diesel", "Hybride", "Électrique", "GPL"];
@@ -206,6 +246,7 @@ export function emptyUserVehicle(): UserVehicle {
     fuel: "",
     color: "",
     mileageKm: null,
+    services: [],
   };
 }
 
@@ -221,6 +262,7 @@ export function seedUserVehicle(v: DashboardVehicle): UserVehicle {
     fuel: /diesel/i.test(v.engine) ? "Diesel" : "Essence",
     color: "",
     mileageKm: v.mileageKm ?? null,
+    services: [],
   };
 }
 
@@ -285,6 +327,56 @@ export function computeVehicleHealth(
 
   const healthScore = Math.max(10, Math.min(100, score));
   return { healthScore, maintenanceUptoDate: healthScore >= 75 };
+}
+
+/**
+ * Derive the health score of a user-managed vehicle from the services
+ * logged by the user and the current mileage versus standard service
+ * intervals. Each category contributes weight × (1 - wear) where
+ * wear = min(1, kmSinceLastService / interval). Categories without any
+ * logged service carry no penalty.
+ */
+export function computeVehicleHealthFromServices(vehicle: UserVehicle): number {
+  const mileage = vehicle.mileageKm ?? 0;
+  const services = vehicle.services ?? [];
+  let score = 100;
+
+  for (const cat of SERVICE_CATALOG) {
+    const last = services
+      .filter((s) => s.type === cat.id)
+      .sort((a, b) => b.mileageKm - a.mileageKm)[0];
+    if (!last) continue;
+    const since = Math.max(0, mileage - last.mileageKm);
+    const wear = Math.min(1, since / cat.intervalKm);
+    score -= cat.weight * wear;
+  }
+
+  for (const s of services) {
+    if (s.type !== CUSTOM_SERVICE_ID) continue;
+    const since = Math.max(0, mileage - s.mileageKm);
+    const wear = Math.min(1, since / CUSTOM_SERVICE_INTERVAL_KM);
+    score -= (s.weight || 0) * wear;
+  }
+
+  return Math.round(Math.max(10, Math.min(100, score)));
+}
+
+/**
+ * One-shot gate for the low-health toast: returns true (and consumes the
+ * slot) only once per cooldown window per vehicle while health < 55.
+ */
+export function consumeLowHealthWarning(vehicleId: string, health: number, cooldownMs = 6 * 3600 * 1000): boolean {
+  if (health >= 55) return false;
+  try {
+    const key = `${HEALTH_WARN_KEY}_${vehicleId}`;
+    const last = window.localStorage.getItem(key);
+    const now = Date.now();
+    if (last && now - Number(last) < cooldownMs) return false;
+    window.localStorage.setItem(key, String(now));
+    return true;
+  } catch {
+    return true;
+  }
 }
 
 export const DASHBOARD_QUOTES: DashboardQuote[] = [

@@ -8,6 +8,7 @@ import { isAuthenticated } from "@/lib/auth";
 import { DashboardProvider } from "./DashboardContext";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardHeader from "./DashboardHeader";
+import LowHealthToast from "./LowHealthToast";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
@@ -61,6 +62,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </main>
         </div>
       </div>
+      <LowHealthToast />
     </DashboardProvider>
   );
 }

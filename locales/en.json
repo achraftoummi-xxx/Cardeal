@@ -626,6 +626,27 @@
       "delete": "Delete",
       "edit": "Edit",
       "noVehicles": "No vehicles yet"
-    }
+    },
+          "vehicles": {
+      "logService": "Log a service",
+      "serviceType": "Service type",
+      "customService": "Other service (custom)",
+      "serviceIntervalHint": "Standard interval: every {km} · health impact {weight}%",
+      "serviceCustomName": "Service name",
+      "serviceWeight": "Health weight (%)",
+      "serviceMileage": "Service mileage",
+      "serviceError": "Enter a valid mileage and a service name.",
+      "saveService": "Save service",
+      "addService": "Add a service",
+      "serviceHistory": "Service history",
+      "noServices": "No services logged",
+      "removeService": "Remove service",
+      "healthAlert": {
+        "title": "Low vehicle health",
+        "body": "Your health score dropped below 55%. Have your car serviced as soon as possible.",
+        "viewVehicles": "View my vehicles",
+        "dismiss": "Dismiss"
+        }
+      }
   }
 }

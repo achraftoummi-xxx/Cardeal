@@ -626,6 +626,27 @@
       "delete": "Löschen",
       "edit": "Bearbeiten",
       "noVehicles": "Noch keine Fahrzeuge"
-    }
+    },
+          "vehicles": {
+      "logService": "Service erfassen",
+      "serviceType": "Serviceart",
+      "customService": "Anderer Service (benutzerdefiniert)",
+      "serviceIntervalHint": "Standardintervall: alle {km} · Auswirkung {weight}%",
+      "serviceCustomName": "Servicename",
+      "serviceWeight": "Gesundheitsgewicht (%)",
+      "serviceMileage": "Kilometerstand des Service",
+      "serviceError": "Geben Sie einen gültigen Kilometerstand und einen Servicenamen ein.",
+      "saveService": "Service speichern",
+      "addService": "Service hinzufügen",
+      "serviceHistory": "Servicehistorie",
+      "noServices": "Keine Services erfasst",
+      "removeService": "Service entfernen",
+      "healthAlert": {
+        "title": "Fahrzeuggesundheit niedrig",
+        "body": "Der Gesundheitswert liegt unter 55 %. Lassen Sie Ihr Auto so schnell wie möglich warten.",
+        "viewVehicles": "Meine Fahrzeuge ansehen",
+        "dismiss": "Schließen"
+        }
+      }
   }
 }
