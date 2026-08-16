@@ -1,4 +1,4 @@
-{
+﻿{
   "site": {
     "name": "CarDeal"
   },
@@ -489,5 +489,105 @@
     "empty": "Nessun rivenditore disponibile al momento.",
     "website": "Sito web",
     "facebook": "Facebook"
+  },
+  "dashboard": {
+    "nav": {
+      "home": "Home",
+      "vehicles": "I miei veicoli",
+      "quotes": "I miei preventivi",
+      "parts": "Ricambi",
+      "appointments": "Appuntamenti",
+      "history": "Cronologia",
+      "messages": "Messaggi",
+      "favorites": "Preferiti",
+      "documents": "Documenti",
+      "expenses": "Spese",
+      "settings": "Impostazioni"
+    },
+    "header": {
+      "location": "Scegli città",
+      "notifications": "Notifiche",
+      "messages": "Messaggi",
+      "profile": "Il mio profilo",
+      "mySpace": "Il mio spazio",
+      "logout": "Esci",
+      "openMenu": "Apri menu",
+      "closeMenu": "Chiudi menu",
+      "backToSite": "Torna al sito",
+      "loginRequiredTitle": "Accesso richiesto",
+      "loginRequiredMessage": "Accedi per aprire il tuo spazio personale.",
+      "backHome": "Torna alla home"
+    },
+    "greeting": {
+      "hello": "Ciao, {name} 👋",
+      "subtitle": "Ecco lo stato della tua auto e i prossimi passi.",
+      "requestQuote": "Richiedi un preventivo",
+      "requestQuoteDesc": "Ricevi offerte da officine vicine in pochi minuti.",
+      "findPart": "Trova un ricambio",
+      "findPartDesc": "Confronta i prezzi dei ricambi dai migliori venditori."
+    },
+    "vehicle": {
+      "title": "La mia auto",
+      "mileage": "Chilometraggio",
+      "healthScore": "Punteggio di salute",
+      "maintenanceStatus": "Stato della manutenzione",
+      "uptoDate": "Aggiornato",
+      "recommended": "Manutenzione consigliata",
+      "viewDetails": "Vedi dettagli"
+    },
+    "quotes": {
+      "title": "Preventivi attivi",
+      "pending": "In attesa",
+      "accepted": "Accettati",
+      "completed": "Completati",
+      "viewAll": "Vedi tutti"
+    },
+    "appointments": {
+      "title": "Prossimi appuntamenti",
+      "viewAll": "Vedi agenda"
+    },
+    "reminders": {
+      "title": "Promemoria di manutenzione",
+      "oil": "Cambio olio",
+      "inspection": "Revisione tecnica",
+      "insurance": "Assicurazione",
+      "dueIn": "Tra {count} giorni",
+      "dueToday": "Oggi",
+      "overdue": "{count} giorni in ritardo"
+    },
+    "parts": {
+      "title": "Ti serve un ricambio?",
+      "subtitle": "Cerca per categoria o tra i ricambi popolari",
+      "search": "Cerca un ricambio…",
+      "popular": "Ricambi popolari"
+    },
+    "map": {
+      "title": "Servizi vicino a te",
+      "subtitle": "Officine e fornitori di ricambi intorno a te",
+      "all": "Tutti",
+      "garages": "Officine",
+      "partsShops": "Ricambi",
+      "bodyShops": "Carrozzeria"
+    },
+    "messages": {
+      "title": "Messaggi recenti",
+      "viewAll": "Tutti i messaggi"
+    },
+    "history": {
+      "title": "Cronologia dei servizi",
+      "viewAll": "Vedi cronologia"
+    },
+    "support": {
+      "title": "Hai bisogno di aiuto?",
+      "subtitle": "Il nostro team è qui per aiutarti",
+      "call": "Chiama",
+      "email": "Invia un'e-mail",
+      "faq": "Consulta le FAQ",
+      "chat": "Avvia una chat"
+    },
+    "section": {
+      "comingSoon": "Questa sezione arriverà presto.",
+      "back": "Torna alla home"
+    }
   }
 }

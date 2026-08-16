@@ -83,6 +83,7 @@ export default function SignupPage() {
 
     /* Mock sign-up: mark the user as authenticated in this session. */
     setAuthenticated(true);
+    window.sessionStorage.setItem("cardeal_user_name", form.fullName.trim());
 
     /* Replay any request stored before redirecting here. */
     const stored = readPendingRequest();

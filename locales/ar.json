@@ -1,4 +1,4 @@
-{
+﻿{
   "site": {
     "name": "كار ديل"
   },
@@ -489,5 +489,105 @@
     "empty": "لا يتوفر موزعون حاليًا.",
     "website": "الموقع الإلكتروني",
     "facebook": "فيسبوك"
+  },
+  "dashboard": {
+    "nav": {
+      "home": "الرئيسية",
+      "vehicles": "سياراتي",
+      "quotes": "عروض الأسعار",
+      "parts": "قطع الغيار",
+      "appointments": "المواعيد",
+      "history": "السجل",
+      "messages": "الرسائل",
+      "favorites": "المفضلة",
+      "documents": "المستندات",
+      "expenses": "المصاريف",
+      "settings": "الإعدادات"
+    },
+    "header": {
+      "location": "اختر مدينة",
+      "notifications": "الإشعارات",
+      "messages": "الرسائل",
+      "profile": "ملفي الشخصي",
+      "mySpace": "مساحتي",
+      "logout": "تسجيل الخروج",
+      "openMenu": "فتح القائمة",
+      "closeMenu": "إغلاق القائمة",
+      "backToSite": "العودة إلى الموقع",
+      "loginRequiredTitle": "تسجيل الدخول مطلوب",
+      "loginRequiredMessage": "يرجى تسجيل الدخول للوصول إلى مساحتك الشخصية.",
+      "backHome": "العودة إلى الرئيسية"
+    },
+    "greeting": {
+      "hello": "مرحباً، {name} 👋",
+      "subtitle": "هذه حالة سيارتك وخطواتك القادمة.",
+      "requestQuote": "طلب عرض سعر",
+      "requestQuoteDesc": "استقبل عروضاً من الورشات القريبة منك في دقائق.",
+      "findPart": "البحث عن قطعة",
+      "findPartDesc": "قارن أسعار قطع الغيار لدى أفضل البائعين."
+    },
+    "vehicle": {
+      "title": "سيارتي",
+      "mileage": "المسافة المقطوعة",
+      "healthScore": "درجة الصحة",
+      "maintenanceStatus": "حالة الصيانة",
+      "uptoDate": "محدثة",
+      "recommended": "صيانة موصى بها",
+      "viewDetails": "عرض التفاصيل"
+    },
+    "quotes": {
+      "title": "عروض الأسعار النشطة",
+      "pending": "قيد الانتظار",
+      "accepted": "مقبولة",
+      "completed": "مكتملة",
+      "viewAll": "عرض الكل"
+    },
+    "appointments": {
+      "title": "المواعيد القادمة",
+      "viewAll": "عرض الجدول"
+    },
+    "reminders": {
+      "title": "تذكيرات الصيانة",
+      "oil": "تغيير الزيت",
+      "inspection": "الفحص الفني",
+      "insurance": "التأمين",
+      "dueIn": "خلال {count} يوم",
+      "dueToday": "اليوم",
+      "overdue": "متأخر بـ {count} يوم"
+    },
+    "parts": {
+      "title": "تحتاج قطعة؟",
+      "subtitle": "ابحث حسب الفئة أو تصفح القطع الشائعة",
+      "search": "ابحث عن قطعة…",
+      "popular": "قطع شائعة"
+    },
+    "map": {
+      "title": "خدمات قريبة منك",
+      "subtitle": "ورشات وموردو قطع حولك",
+      "all": "الكل",
+      "garages": "ورشات",
+      "partsShops": "قطع الغيار",
+      "bodyShops": "بنية السيارات"
+    },
+    "messages": {
+      "title": "رسائل حديثة",
+      "viewAll": "كل الرسائل"
+    },
+    "history": {
+      "title": "سجل الخدمات",
+      "viewAll": "عرض السجل"
+    },
+    "support": {
+      "title": "تحتاج مساعدة؟",
+      "subtitle": "فريقنا جاهز لمساعدتك",
+      "call": "اتصل بنا",
+      "email": "أرسل بريداً إلكترونياً",
+      "faq": "اطلع على الأسئلة الشائعة",
+      "chat": "ابدأ محادثة"
+    },
+    "section": {
+      "comingSoon": "هذا القسم قادم قريباً.",
+      "back": "العودة إلى الرئيسية"
+    }
   }
 }

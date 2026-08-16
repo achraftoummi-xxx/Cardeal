@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useTranslation } from "@/components/TranslationProvider";
+import { isAuthenticated } from "@/lib/auth";
 import cardealLogo from "@/assets/images/cardeal_logo.png";
 
 export default function SiteHeader({
@@ -17,6 +18,11 @@ export default function SiteHeader({
 }) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [authed, setAuthed] = useState(false);
+
+  useEffect(() => {
+    setAuthed(isAuthenticated());
+  }, []);
 
   const navLinks = [
     { href: "#find-service", label: t("nav.findService") },
@@ -54,7 +60,17 @@ export default function SiteHeader({
           <ThemeToggle />
           <LanguageSelector />
           <Button variant="outline" className="hidden text-sm sm:inline-flex" onClick={onPartner}>{t("buttons.becomePartner")}</Button>
-          <Button onClick={onLogin} className="text-sm">{t("buttons.login")}</Button>
+          {authed ? (
+            <a
+              href="/dashboard"
+              onClick={() => setMenuOpen(false)}
+              className="inline-flex items-center rounded-lg bg-[var(--cardeal-primary)] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#BA2529]/25 transition-all duration-200 hover:bg-[#9E1F23] hover:shadow-xl hover:shadow-[#BA2529]/30 active:scale-95 max-sm:min-h-12"
+            >
+              {t("dashboard.header.mySpace")}
+            </a>
+          ) : (
+            <Button onClick={onLogin} className="text-sm">{t("buttons.login")}</Button>
+          )}
           <button
             type="button"
             onClick={() => setMenuOpen((o) => !o)}
@@ -69,6 +85,15 @@ export default function SiteHeader({
       {/* Mobile nav panel */}
       {menuOpen && (
         <div className="border-t border-border bg-background/95 px-[max(1rem,env(safe-area-inset-left))] py-2 pr-[max(1rem,env(safe-area-inset-right))] backdrop-blur-xl lg:hidden">
+          {authed && (
+            <a
+              href="/dashboard"
+              onClick={() => setMenuOpen(false)}
+              className="flex min-h-11 items-center rounded-lg px-3 text-sm font-semibold text-[var(--cardeal-primary)] transition-colors hover:bg-accent"
+            >
+              {t("dashboard.header.mySpace")}
+            </a>
+          )}
           {navLinks.map((link) => (
             <a
               key={link.href}

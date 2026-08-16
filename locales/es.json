@@ -1,4 +1,4 @@
-{
+﻿{
   "site": {
     "name": "CarDeal"
   },
@@ -489,5 +489,105 @@
     "empty": "No hay proveedores disponibles por ahora.",
     "website": "Sitio web",
     "facebook": "Facebook"
+  },
+  "dashboard": {
+    "nav": {
+      "home": "Inicio",
+      "vehicles": "Mis vehículos",
+      "quotes": "Mis presupuestos",
+      "parts": "Piezas",
+      "appointments": "Citas",
+      "history": "Historial",
+      "messages": "Mensajes",
+      "favorites": "Favoritos",
+      "documents": "Documentos",
+      "expenses": "Gastos",
+      "settings": "Ajustes"
+    },
+    "header": {
+      "location": "Elegir ciudad",
+      "notifications": "Notificaciones",
+      "messages": "Mensajes",
+      "profile": "Mi perfil",
+      "mySpace": "Mi espacio",
+      "logout": "Cerrar sesión",
+      "openMenu": "Abrir menú",
+      "closeMenu": "Cerrar menú",
+      "backToSite": "Volver al sitio",
+      "loginRequiredTitle": "Inicio de sesión requerido",
+      "loginRequiredMessage": "Inicia sesión para acceder a tu espacio personal.",
+      "backHome": "Volver al inicio"
+    },
+    "greeting": {
+      "hello": "Hola, {name} 👋",
+      "subtitle": "Aquí está el estado de tu coche y tus próximos pasos.",
+      "requestQuote": "Solicitar presupuesto",
+      "requestQuoteDesc": "Recibe ofertas de talleres cercanos en pocos minutos.",
+      "findPart": "Buscar una pieza",
+      "findPartDesc": "Compara precios de piezas de coche en los mejores vendedores."
+    },
+    "vehicle": {
+      "title": "Mi coche",
+      "mileage": "Kilometraje",
+      "healthScore": "Puntuación de salud",
+      "maintenanceStatus": "Estado del mantenimiento",
+      "uptoDate": "Al día",
+      "recommended": "Mantenimiento recomendado",
+      "viewDetails": "Ver detalles"
+    },
+    "quotes": {
+      "title": "Presupuestos activos",
+      "pending": "Pendientes",
+      "accepted": "Aceptados",
+      "completed": "Completados",
+      "viewAll": "Ver todos"
+    },
+    "appointments": {
+      "title": "Próximas citas",
+      "viewAll": "Ver agenda"
+    },
+    "reminders": {
+      "title": "Recordatorios de mantenimiento",
+      "oil": "Cambio de aceite",
+      "inspection": "Inspección técnica",
+      "insurance": "Seguro",
+      "dueIn": "En {count} días",
+      "dueToday": "Hoy",
+      "overdue": "{count} días de retraso"
+    },
+    "parts": {
+      "title": "¿Necesitas una pieza?",
+      "subtitle": "Busca por categoría o entre las piezas populares",
+      "search": "Buscar una pieza…",
+      "popular": "Piezas populares"
+    },
+    "map": {
+      "title": "Servicios cerca de ti",
+      "subtitle": "Talleres y proveedores de piezas a tu alrededor",
+      "all": "Todos",
+      "garages": "Talleres",
+      "partsShops": "Piezas de repuesto",
+      "bodyShops": "Carrocería"
+    },
+    "messages": {
+      "title": "Mensajes recientes",
+      "viewAll": "Todos los mensajes"
+    },
+    "history": {
+      "title": "Historial de servicios",
+      "viewAll": "Ver historial"
+    },
+    "support": {
+      "title": "¿Necesitas ayuda?",
+      "subtitle": "Nuestro equipo está aquí para ayudarte",
+      "call": "Llamar",
+      "email": "Enviar un correo",
+      "faq": "Consultar las FAQ",
+      "chat": "Iniciar chat"
+    },
+    "section": {
+      "comingSoon": "Esta sección estará disponible pronto.",
+      "back": "Volver al inicio"
+    }
   }
 }

@@ -1,4 +1,4 @@
-{
+﻿{
   "site": {
     "name": "CarDeal"
   },
@@ -489,5 +489,105 @@
     "empty": "Derzeit sind keine Händler verfügbar.",
     "website": "Website",
     "facebook": "Facebook"
+  },
+  "dashboard": {
+    "nav": {
+      "home": "Startseite",
+      "vehicles": "Meine Fahrzeuge",
+      "quotes": "Meine Angebote",
+      "parts": "Teile",
+      "appointments": "Termine",
+      "history": "Verlauf",
+      "messages": "Nachrichten",
+      "favorites": "Favoriten",
+      "documents": "Dokumente",
+      "expenses": "Ausgaben",
+      "settings": "Einstellungen"
+    },
+    "header": {
+      "location": "Stadt wählen",
+      "notifications": "Benachrichtigungen",
+      "messages": "Nachrichten",
+      "profile": "Mein Profil",
+      "mySpace": "Mein Bereich",
+      "logout": "Abmelden",
+      "openMenu": "Menü öffnen",
+      "closeMenu": "Menü schließen",
+      "backToSite": "Zurück zur Website",
+      "loginRequiredTitle": "Anmeldung erforderlich",
+      "loginRequiredMessage": "Bitte melden Sie sich an, um Ihren persönlichen Bereich zu öffnen.",
+      "backHome": "Zurück zur Startseite"
+    },
+    "greeting": {
+      "hello": "Hallo, {name} 👋",
+      "subtitle": "Hier ist der Zustand Ihres Autos und was als Nächstes ansteht.",
+      "requestQuote": "Angebot anfordern",
+      "requestQuoteDesc": "Erhalten Sie in wenigen Minuten Angebote von Werkstätten in Ihrer Nähe.",
+      "findPart": "Teil finden",
+      "findPartDesc": "Vergleichen Sie Autoteile-Preise bei den besten Händlern."
+    },
+    "vehicle": {
+      "title": "Mein Auto",
+      "mileage": "Kilometerstand",
+      "healthScore": "Gesundheitswert",
+      "maintenanceStatus": "Wartungsstatus",
+      "uptoDate": "Aktuell",
+      "recommended": "Wartung empfohlen",
+      "viewDetails": "Details ansehen"
+    },
+    "quotes": {
+      "title": "Aktive Angebote",
+      "pending": "Ausstehend",
+      "accepted": "Akzeptiert",
+      "completed": "Abgeschlossen",
+      "viewAll": "Alle ansehen"
+    },
+    "appointments": {
+      "title": "Kommende Termine",
+      "viewAll": "Kalender ansehen"
+    },
+    "reminders": {
+      "title": "Wartungserinnerungen",
+      "oil": "Ölwechsel",
+      "inspection": "Technische Prüfung",
+      "insurance": "Versicherung",
+      "dueIn": "In {count} Tagen",
+      "dueToday": "Heute",
+      "overdue": "{count} Tage überfällig"
+    },
+    "parts": {
+      "title": "Teil benötigt?",
+      "subtitle": "Suchen Sie nach Kategorie oder stöbern Sie in beliebten Teilen",
+      "search": "Teil suchen…",
+      "popular": "Beliebte Teile"
+    },
+    "map": {
+      "title": "Dienste in Ihrer Nähe",
+      "subtitle": "Werkstätten und Teilehändler um Sie herum",
+      "all": "Alle",
+      "garages": "Werkstätten",
+      "partsShops": "Teilehändler",
+      "bodyShops": "Karosserie"
+    },
+    "messages": {
+      "title": "Aktuelle Nachrichten",
+      "viewAll": "Alle Nachrichten"
+    },
+    "history": {
+      "title": "Serviceverlauf",
+      "viewAll": "Verlauf ansehen"
+    },
+    "support": {
+      "title": "Brauchen Sie Hilfe?",
+      "subtitle": "Unser Team ist für Sie da",
+      "call": "Anrufen",
+      "email": "E-Mail senden",
+      "faq": "FAQ lesen",
+      "chat": "Chat starten"
+    },
+    "section": {
+      "comingSoon": "Dieser Bereich kommt bald.",
+      "back": "Zurück zur Startseite"
+    }
   }
 }

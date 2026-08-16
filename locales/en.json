@@ -1,4 +1,4 @@
-{
+﻿{
   "site": {
     "name": "CarDeal"
   },
@@ -489,5 +489,105 @@
     "empty": "No dealers available at the moment.",
     "website": "Website",
     "facebook": "Facebook"
+  },
+  "dashboard": {
+    "nav": {
+      "home": "Home",
+      "vehicles": "My vehicles",
+      "quotes": "My quotes",
+      "parts": "Parts",
+      "appointments": "Appointments",
+      "history": "History",
+      "messages": "Messages",
+      "favorites": "Favorites",
+      "documents": "Documents",
+      "expenses": "Expenses",
+      "settings": "Settings"
+    },
+    "header": {
+      "location": "Choose a city",
+      "notifications": "Notifications",
+      "messages": "Messages",
+      "profile": "My profile",
+      "mySpace": "My space",
+      "logout": "Log out",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "backToSite": "Back to website",
+      "loginRequiredTitle": "Sign in required",
+      "loginRequiredMessage": "Please sign in to access your personal space.",
+      "backHome": "Back to home"
+    },
+    "greeting": {
+      "hello": "Hello, {name} 👋",
+      "subtitle": "Here's your car's status and what's coming next.",
+      "requestQuote": "Request a quote",
+      "requestQuoteDesc": "Get offers from garages near you within minutes.",
+      "findPart": "Find a part",
+      "findPartDesc": "Compare auto part prices from the best sellers."
+    },
+    "vehicle": {
+      "title": "My car",
+      "mileage": "Mileage",
+      "healthScore": "Health score",
+      "maintenanceStatus": "Maintenance status",
+      "uptoDate": "Up to date",
+      "recommended": "Maintenance recommended",
+      "viewDetails": "View details"
+    },
+    "quotes": {
+      "title": "Active quotes",
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "completed": "Completed",
+      "viewAll": "View all"
+    },
+    "appointments": {
+      "title": "Upcoming appointments",
+      "viewAll": "View agenda"
+    },
+    "reminders": {
+      "title": "Maintenance reminders",
+      "oil": "Oil change",
+      "inspection": "Technical inspection",
+      "insurance": "Insurance",
+      "dueIn": "In {count} days",
+      "dueToday": "Today",
+      "overdue": "{count} days overdue"
+    },
+    "parts": {
+      "title": "Need a part?",
+      "subtitle": "Search by category or browse popular parts",
+      "search": "Search for a part…",
+      "popular": "Popular parts"
+    },
+    "map": {
+      "title": "Services near you",
+      "subtitle": "Garages and parts suppliers around you",
+      "all": "All",
+      "garages": "Garages",
+      "partsShops": "Parts suppliers",
+      "bodyShops": "Body shops"
+    },
+    "messages": {
+      "title": "Recent messages",
+      "viewAll": "All messages"
+    },
+    "history": {
+      "title": "Service history",
+      "viewAll": "View history"
+    },
+    "support": {
+      "title": "Need help?",
+      "subtitle": "Our team is here to support you",
+      "call": "Call us",
+      "email": "Send an email",
+      "faq": "Read the FAQ",
+      "chat": "Start a chat"
+    },
+    "section": {
+      "comingSoon": "This section is coming soon.",
+      "back": "Back to home"
+    }
   }
 }

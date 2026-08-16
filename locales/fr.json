@@ -1,4 +1,4 @@
-{
+﻿{
   "site": {
     "name": "CarDeal"
   },
@@ -489,5 +489,105 @@
     "empty": "Aucun distributeur disponible pour le moment.",
     "website": "Site web",
     "facebook": "Facebook"
+  },
+  "dashboard": {
+    "nav": {
+      "home": "Accueil",
+      "vehicles": "Mes véhicules",
+      "quotes": "Mes devis",
+      "parts": "Pièces",
+      "appointments": "Rendez-vous",
+      "history": "Historique",
+      "messages": "Messages",
+      "favorites": "Favoris",
+      "documents": "Documents",
+      "expenses": "Dépenses",
+      "settings": "Paramètres"
+    },
+    "header": {
+      "location": "Choisir une ville",
+      "notifications": "Notifications",
+      "messages": "Messages",
+      "profile": "Mon profil",
+      "mySpace": "Mon espace",
+      "logout": "Se déconnecter",
+      "openMenu": "Ouvrir le menu",
+      "closeMenu": "Fermer le menu",
+      "backToSite": "Retour au site",
+      "loginRequiredTitle": "Connexion requise",
+      "loginRequiredMessage": "Connectez-vous pour accéder à votre espace personnel.",
+      "backHome": "Retour à l'accueil"
+    },
+    "greeting": {
+      "hello": "Bonjour, {name} 👋",
+      "subtitle": "Voici l'état de votre voiture et vos prochaines étapes.",
+      "requestQuote": "Demander un devis",
+      "requestQuoteDesc": "Recevez des offres de garages près de chez vous en quelques minutes.",
+      "findPart": "Trouver une pièce",
+      "findPartDesc": "Comparez les prix des pièces auto chez les meilleurs vendeurs."
+    },
+    "vehicle": {
+      "title": "Ma voiture",
+      "mileage": "Kilométrage",
+      "healthScore": "Score de santé",
+      "maintenanceStatus": "Statut d'entretien",
+      "uptoDate": "À jour",
+      "recommended": "Entretien recommandé",
+      "viewDetails": "Voir les détails"
+    },
+    "quotes": {
+      "title": "Devis en cours",
+      "pending": "En attente",
+      "accepted": "Acceptés",
+      "completed": "Terminés",
+      "viewAll": "Tout voir"
+    },
+    "appointments": {
+      "title": "Prochains rendez-vous",
+      "viewAll": "Voir l'agenda"
+    },
+    "reminders": {
+      "title": "Rappels d'entretien",
+      "oil": "Vidange",
+      "inspection": "Contrôle technique",
+      "insurance": "Assurance",
+      "dueIn": "Dans {count} jours",
+      "dueToday": "Aujourd'hui",
+      "overdue": "En retard de {count} jours"
+    },
+    "parts": {
+      "title": "Besoin d'une pièce ?",
+      "subtitle": "Recherchez par catégorie ou parmi les pièces populaires",
+      "search": "Rechercher une pièce…",
+      "popular": "Pièces populaires"
+    },
+    "map": {
+      "title": "Services près de vous",
+      "subtitle": "Garages et vendeurs de pièces autour de vous",
+      "all": "Tous",
+      "garages": "Garages",
+      "partsShops": "Pièces détachées",
+      "bodyShops": "Carrosserie"
+    },
+    "messages": {
+      "title": "Messages récents",
+      "viewAll": "Tous les messages"
+    },
+    "history": {
+      "title": "Historique des services",
+      "viewAll": "Tout l'historique"
+    },
+    "support": {
+      "title": "Besoin d'aide ?",
+      "subtitle": "Notre équipe est là pour vous accompagner",
+      "call": "Appeler",
+      "email": "Envoyer un e-mail",
+      "faq": "Consulter la FAQ",
+      "chat": "Démarrer un chat"
+    },
+    "section": {
+      "comingSoon": "Cette section arrive bientôt.",
+      "back": "Retour à l'accueil"
+    }
   }
 }
