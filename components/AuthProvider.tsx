@@ -11,6 +11,7 @@ import {
 import type { Session } from "@supabase/supabase-js";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { isAuthenticated, setAuthenticated, setUserName } from "@/lib/auth";
+import { loadAvatarUrl, saveAvatarUrl } from "@/data/dashboard";
 
 type AuthContextValue = {
   /** True when a valid session (real Supabase or local mock) exists. */
@@ -19,6 +20,10 @@ type AuthContextValue = {
   userName: string;
   /** Exact email from the Supabase session (user.email), "" when unavailable. */
   email: string;
+  /** Avatar URL (Supabase Storage public URL or local data URL), "" when unset. */
+  avatarUrl: string;
+  /** Persists a new avatar URL (local cache + Supabase user metadata). */
+  setAvatarUrl: (url: string) => void;
   /** True until the initial session check has completed. */
   loading: boolean;
 };
@@ -27,6 +32,8 @@ const AuthContext = createContext<AuthContextValue>({
   authed: false,
   userName: "",
   email: "",
+  avatarUrl: "",
+  setAvatarUrl: () => {},
   loading: true,
 });
 
@@ -61,21 +68,36 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [authed, setAuthed] = useState(false);
   const [userName, setUserNameState] = useState("");
   const [email, setEmail] = useState("");
+  const [avatarUrl, setAvatarUrlState] = useState("");
   const [loading, setLoading] = useState(true);
 
   const applySession = useCallback((session: Session | null) => {
     if (session?.user) {
       const name = nameFromUser(session.user);
+      const meta = session.user.user_metadata ?? {};
+      const metaAvatar = typeof meta.avatar_url === "string" ? meta.avatar_url : "";
       setAuthenticated(true);
       setUserName(name);
       setUserNameState(name);
       setEmail(session.user.email ?? "");
+      setAvatarUrlState(metaAvatar || loadAvatarUrl());
       setAuthed(true);
     } else {
       setAuthenticated(false);
       setUserNameState("");
       setEmail("");
+      setAvatarUrlState("");
       setAuthed(false);
+    }
+  }, []);
+
+  const setAvatarUrl = useCallback((url: string) => {
+    setAvatarUrlState(url);
+    saveAvatarUrl(url);
+    if (isSupabaseConfigured && supabase) {
+      void supabase.auth
+        .updateUser({ data: { avatar_url: url || null } })
+        .catch(() => {});
     }
   }, []);
 
@@ -83,6 +105,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     if (!isSupabaseConfigured || !supabase) {
       /* Mock mode: no backend, mirror the sessionStorage flag. */
       setAuthed(isAuthenticated());
+      setAvatarUrlState(loadAvatarUrl());
       setLoading(false);
       return;
     }
@@ -159,7 +182,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }, [applySession]);
 
   return (
-    <AuthContext.Provider value={{ authed, userName, email, loading }}>
+    <AuthContext.Provider value={{ authed, userName, email, avatarUrl, setAvatarUrl, loading }}>
       {children}
     </AuthContext.Provider>
   );

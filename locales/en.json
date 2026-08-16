@@ -619,6 +619,7 @@
       "year": "Year",
       "mileage": "Mileage",
       "color": "Color",
+      "avatar": "Change profile picture",
       "saveVehicle": "Add vehicle",
       "updateVehicle": "Update",
       "cancel": "Cancel",

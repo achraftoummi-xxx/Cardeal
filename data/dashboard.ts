@@ -121,6 +121,24 @@ export type UserProfile = {
 
 export const PROFILE_STORAGE_KEY = "cardeal_profile";
 export const VEHICLES_STORAGE_KEY = "cardeal_vehicles";
+export const AVATAR_STORAGE_KEY = "cardeal_avatar";
+
+export function loadAvatarUrl(): string {
+  if (typeof window === "undefined") return "";
+  try {
+    return window.localStorage.getItem(AVATAR_STORAGE_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+export function saveAvatarUrl(url: string): void {
+  try {
+    window.localStorage.setItem(AVATAR_STORAGE_KEY, url);
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
 
 export function loadUserProfile(): UserProfile | null {
   if (typeof window === "undefined") return null;

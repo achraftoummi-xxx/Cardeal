@@ -1120,6 +1120,7 @@
       "year": "Año",
       "mileage": "Kilometraje",
       "color": "Color",
+      "avatar": "Cambiar la foto de perfil",
       "saveVehicle": "Añadir vehículo",
       "updateVehicle": "Actualizar",
       "cancel": "Cancelar",

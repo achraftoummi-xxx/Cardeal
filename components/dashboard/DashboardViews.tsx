@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   Bell,
   BookOpen,
   CalendarDays,
+  Camera,
   Car,
   Check,
   Clock,
@@ -15,6 +16,7 @@ import {
   FolderOpen,
   Gauge,
   Heart,
+  Loader2,
   LogOut,
   MapPin,
   MessageCircle,
@@ -837,7 +839,7 @@ function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: 
 
 export function SettingsView() {
   const { t } = useTranslation();
-  const { email } = useAuth();
+  const { email, avatarUrl, setAvatarUrl } = useAuth();
   const initialProfile = useMemo(() => loadUserProfile(), []);
   const [name, setName] = useState(() => getUserName());
   const [phone, setPhone] = useState(initialProfile?.phone ?? "");
@@ -847,6 +849,8 @@ export function SettingsView() {
   const [notifyQuotes, setNotifyQuotes] = useState(initialProfile?.prefs.notifyQuotes ?? true);
   const [notifyPromos, setNotifyPromos] = useState(initialProfile?.prefs.notifyPromos ?? false);
   const [savedFlash, setSavedFlash] = useState(false);
+  const [avatarUploading, setAvatarUploading] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   const [vehicles, setVehicles] = useState<UserVehicle[]>(() => {
     const stored = loadUserVehicles();
@@ -914,6 +918,44 @@ export function SettingsView() {
     window.location.href = "/";
   };
 
+  const handleAvatarFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!(file.type === "image/png" || file.type === "image/jpeg") || file.size > 2 * 1024 * 1024)
+      return;
+    setAvatarUploading(true);
+    try {
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = () => reject(new Error("read failed"));
+        reader.readAsDataURL(file);
+      });
+      if (isSupabaseConfigured && supabase) {
+        try {
+          const { data: userData } = await supabase.auth.getUser();
+          const userId = userData.user?.id ?? "anonymous";
+          const ext = file.type === "image/png" ? "png" : "jpg";
+          const path = `avatars/${userId}.${ext}`;
+          const { error: upErr } = await supabase.storage
+            .from("avatars")
+            .upload(path, file, { upsert: true, contentType: file.type });
+          if (!upErr) {
+            const { data: pub } = supabase.storage.from("avatars").getPublicUrl(path);
+            setAvatarUrl(pub.publicUrl);
+            return;
+          }
+        } catch {
+          /* storage unavailable — fall back to local */
+        }
+      }
+      setAvatarUrl(dataUrl);
+    } finally {
+      setAvatarUploading(false);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <SectionHeader navKey="settings" />
@@ -925,9 +967,39 @@ export function SettingsView() {
         </h2>
         <p className="mt-1 text-xs text-muted-foreground">{t("dashboard.settings.profileSubtitle")}</p>
         <div className="mt-4 flex items-center gap-4">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--cardeal-primary)]/10 text-xl font-bold text-[var(--cardeal-primary)] ring-1 ring-[var(--cardeal-primary)]/20">
-            {(name || "K").charAt(0).toUpperCase()}
-          </span>
+          <div className="relative shrink-0">
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt={t("dashboard.settings.avatar")}
+                className="h-14 w-14 rounded-full object-cover ring-1 ring-[var(--cardeal-primary)]/20"
+              />
+            ) : (
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--cardeal-primary)]/10 text-xl font-bold text-[var(--cardeal-primary)] ring-1 ring-[var(--cardeal-primary)]/20">
+                {(name || "K").charAt(0).toUpperCase()}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => avatarInputRef.current?.click()}
+              disabled={avatarUploading}
+              aria-label={t("dashboard.settings.avatar")}
+              className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow transition-colors hover:bg-accent hover:text-foreground disabled:opacity-60"
+            >
+              {avatarUploading ? (
+                <Loader2 size={12} className="animate-spin" />
+              ) : (
+                <Camera size={12} />
+              )}
+            </button>
+            <input
+              ref={avatarInputRef}
+              type="file"
+              accept="image/png,image/jpeg"
+              className="hidden"
+              onChange={handleAvatarFile}
+            />
+          </div>
           <div className="min-w-0">
             <p className="truncate text-base font-bold text-foreground">{name || "—"}</p>
             <p className="truncate text-sm text-muted-foreground">{email}</p>
