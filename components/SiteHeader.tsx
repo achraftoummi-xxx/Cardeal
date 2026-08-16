@@ -56,10 +56,7 @@ export default function SiteHeader({
           <ThemeToggle />
           <LanguageSelector />
           <Button variant="outline" className="hidden text-sm sm:inline-flex" onClick={onPartner}>{t("buttons.becomePartner")}</Button>
-          <Button
-            onClick={() => (authed ? (window.location.href = "/dashboard") : onLogin())}
-            className="text-sm"
-          >
+          <Button onClick={onLogin} className="text-sm">
             {t("buttons.login")}
           </Button>
           <button
