@@ -193,12 +193,15 @@ export default function PneusPage() {
                     Configure your setup to view technical specifications and compatibility.
                   </p>
                 </div>
-                <button
-                  onClick={() => setIsSelectorOpen(false)}
-                  className="h-10 w-10 rounded-full bg-[#1c1b1b] border border-[#554241] text-[#dac1be] hover:text-[#fafafa] flex items-center justify-center transition-colors cursor-pointer"
-                >
-                  <span className="material-symbols-outlined">close</span>
-                </button>
+              <button
+                onClick={() => setIsSelectorOpen(false)}
+                className="h-10 w-10 rounded-full bg-[#1c1b1b] border border-[#554241] text-[#dac1be] hover:text-[#fafafa] flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Close"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
               </div>
 
               {isLoadingAuth ? (
@@ -519,8 +522,10 @@ export default function PneusPage() {
           <div className="bg-[#0e0e0e] border border-[#554241] rounded-xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto text-[#e5e2e1]">
             <div className="flex justify-between items-center mb-5">
               <h3 className="text-lg font-bold font-['Space_Grotesk'] text-[#fafafa]">Understanding Wheel &amp; Tire Sizes</h3>
-              <button onClick={() => setIsSizeGuideOpen(false)} className="text-[#dac1be] hover:text-[#fafafa]">
-                <span className="material-symbols-outlined">close</span>
+              <button onClick={() => setIsSizeGuideOpen(false)} className="text-[#dac1be] hover:text-[#fafafa]" aria-label="Close">
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
             </div>
 
