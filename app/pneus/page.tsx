@@ -105,9 +105,8 @@ export default function PneusPage() {
         </div>
         <button
           onClick={() => setIsSelectorOpen(true)}
-          className="text-sm font-semibold text-[var(--cardeal-primary)] hover:underline flex items-center gap-1.5 transition-colors"
+          className="text-sm font-semibold text-muted-foreground hover:text-foreground underline cursor-pointer transition-colors"
         >
-          <span className="material-symbols-outlined text-base">settings</span>
           Wheel &amp; Tire Size Selector
         </button>
       </section>
