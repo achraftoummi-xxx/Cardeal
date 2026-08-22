@@ -93,22 +93,27 @@ export default function PneusPage() {
       </section>
 
       {/* Brand filter and subtle selector link */}
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="w-full sm:w-auto grid gap-4 sm:grid-cols-2 lg:max-w-2xl">
-          <Select
-            label={t("pneus.brand")}
-            value={brand}
-            onChange={setBrand}
-            options={["", ...TIRE_BRANDS]}
-            placeholder={t("pneus.all")}
-          />
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+          <div className="w-full sm:w-auto grid gap-4 sm:grid-cols-2 lg:max-w-2xl flex-1">
+            <Select
+              label={t("pneus.brand")}
+              value={brand}
+              onChange={setBrand}
+              options={["", ...TIRE_BRANDS]}
+              placeholder={t("pneus.all")}
+            />
+          </div>
+          
+          {/* Visible Link Trigger */}
+          <button
+            onClick={() => setIsSelectorOpen(true)}
+            className="text-sm font-semibold text-[#BA2529] hover:text-[#f5504d] underline underline-offset-4 transition-colors cursor-pointer flex items-center gap-1.5 shrink-0"
+          >
+            <span className="material-symbols-outlined text-base">settings</span>
+            Wheel &amp; Tire Size Selector
+          </button>
         </div>
-        <button
-          onClick={() => setIsSelectorOpen(true)}
-          className="text-sm font-semibold text-muted-foreground hover:text-foreground underline cursor-pointer transition-colors"
-        >
-          Wheel &amp; Tire Size Selector
-        </button>
       </section>
 
       {/* Tire offers */}
