@@ -7,8 +7,24 @@ import LoginModal from "@/components/LoginModal";
 import PartnerModal from "@/components/PartnerModal";
 import { useTranslation } from "@/components/TranslationProvider";
 
-export default function WheelTireSizeSelector() {
-  const { authed } = useAuth();
+export default function WheelTireSizeSelectorPage() {
+  const { authed, loading } = useAuth();
+
+  return (
+    <WheelTireSizeSelector 
+      isAuthenticated={authed} 
+      isLoadingAuth={loading} 
+    />
+  );
+}
+
+function WheelTireSizeSelector({
+  isAuthenticated,
+  isLoadingAuth,
+}: {
+  isAuthenticated: boolean;
+  isLoadingAuth: boolean;
+}) {
   const { t } = useTranslation();
   const [showLogin, setShowLogin] = useState(false);
   const [showPartner, setShowPartner] = useState(false);
@@ -67,7 +83,12 @@ export default function WheelTireSizeSelector() {
           </p>
         </header>
 
-        {authed ? (
+        {isLoadingAuth ? (
+          <div className="flex flex-col items-center justify-center py-24">
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#554241] border-t-[#BA2529]" />
+            <p className="mt-4 text-sm text-[#dac1be]">Checking session...</p>
+          </div>
+        ) : isAuthenticated ? (
           /* Main Grid for Authenticated Users */
           <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6">
             
