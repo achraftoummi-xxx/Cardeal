@@ -109,9 +109,8 @@ export default function PneusPage() {
           {/* Visible Link Trigger */}
           <button
             onClick={() => setIsSelectorOpen(true)}
-            className="text-sm font-semibold text-[#BA2529] hover:text-[#f5504d] underline underline-offset-4 transition-colors cursor-pointer flex items-center gap-1.5 shrink-0"
+            className="text-sm font-semibold text-[#BA2529] hover:text-[#f5504d] underline underline-offset-4 transition-colors cursor-pointer shrink-0"
           >
-            <span className="material-symbols-outlined text-base">settings</span>
             Wheel &amp; Tire Size Selector
           </button>
         </div>
