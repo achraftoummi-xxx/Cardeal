@@ -518,39 +518,115 @@ export default function PneusPage() {
 
       {/* Size Guide Modal */}
       {isSizeGuideOpen && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-[#0e0e0e] border border-[#554241] rounded-xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto text-[#e5e2e1]">
-            <div className="flex justify-between items-center mb-5">
-              <h3 className="text-lg font-bold font-['Space_Grotesk'] text-[#fafafa]">Understanding Wheel &amp; Tire Sizes</h3>
-              <button onClick={() => setIsSizeGuideOpen(false)} className="text-[#dac1be] hover:text-[#fafafa]" aria-label="Close">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-[#0e0e0e] border border-[#554241] rounded-2xl max-w-3xl w-full p-6 md:p-8 shadow-2xl relative max-h-[92vh] overflow-y-auto text-[#e5e2e1]">
+            <div className="flex justify-between items-center mb-6 border-b border-[#353534] pb-4">
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold font-['Space_Grotesk'] text-[#fafafa]">
+                  Understanding Wheel &amp; Tire Sizes
+                </h3>
+                <p className="text-xs text-[#dac1be] font-['Manrope'] mt-1">
+                  Complete breakdown of tire sidewall nomenclature and technical ratings.
+                </p>
+              </div>
+              <button
+                onClick={() => setIsSizeGuideOpen(false)}
+                className="h-10 w-10 rounded-full bg-[#1c1b1b] border border-[#554241] text-[#dac1be] hover:text-[#fafafa] flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Close"
+              >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            <div className="space-y-4 text-xs">
-              <div className="bg-[#131313] p-3.5 rounded-lg border border-[#554241] text-center">
-                <div className="flex justify-center items-center gap-1.5 text-2xl font-bold text-[#fafafa]">
-                  <span className="text-[#BA2529]">205</span>
+            <div className="space-y-6 text-sm">
+              {/* Header Banner with Full Standard Code */}
+              <div className="bg-[#131313] p-6 rounded-xl border border-[#554241] text-center shadow-inner">
+                <div className="flex justify-center items-center gap-2 text-3xl md:text-4xl font-extrabold text-[#fafafa] tracking-wider flex-wrap font-['Space_Grotesk']">
+                  <span className="text-[#BA2529]">195</span>
                   <span className="text-[#554241]">/</span>
                   <span className="text-[#BA2529]">55</span>
                   <span className="text-[#dac1be]">R</span>
                   <span className="text-[#BA2529]">16</span>
+                  <span className="text-[#dac1be] ml-2">87</span>
+                  <span className="text-[#BA2529]">V</span>
                 </div>
-                <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-[#dac1be]">
-                  <div className="bg-[#18181b] p-2 rounded border border-[#554241]">
-                    <strong className="text-[#BA2529] block mb-0.5">Width</strong>205 mm
+                <p className="text-xs text-[#dac1be] mt-2">Standard Tyre Sidewall Marking Example</p>
+              </div>
+
+              {/* Expanded Breakdown Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-[#131313] border border-[#554241] rounded-xl p-4 flex flex-col justify-between">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
+                      195
+                    </span>
+                    <h4 className="font-bold text-[#fafafa] text-sm">Section Width</h4>
                   </div>
-                  <div className="bg-[#18181b] p-2 rounded border border-[#554241]">
-                    <strong className="text-[#BA2529] block mb-0.5">Profile</strong>55%
+                  <p className="text-xs text-[#dac1be] leading-relaxed">
+                    Tyre width in millimeters measured from sidewall to sidewall across the tread.
+                  </p>
+                </div>
+
+                <div className="bg-[#131313] border border-[#554241] rounded-xl p-4 flex flex-col justify-between">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
+                      55
+                    </span>
+                    <h4 className="font-bold text-[#fafafa] text-sm">Aspect Ratio</h4>
                   </div>
-                  <div className="bg-[#18181b] p-2 rounded border border-[#554241]">
-                    <strong className="text-[#dac1be] block mb-0.5">Type</strong>Radial
+                  <p className="text-xs text-[#dac1be] leading-relaxed">
+                    The sidewall height expressed as a percentage of the tire&apos;s section width (55% of 195mm).
+                  </p>
+                </div>
+
+                <div className="bg-[#131313] border border-[#554241] rounded-xl p-4 flex flex-col justify-between">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
+                      R
+                    </span>
+                    <h4 className="font-bold text-[#fafafa] text-sm">Construction</h4>
                   </div>
-                  <div className="bg-[#18181b] p-2 rounded border border-[#554241]">
-                    <strong className="text-[#BA2529] block mb-0.5">Diameter</strong>16 in
+                  <p className="text-xs text-[#dac1be] leading-relaxed">
+                    Radial construction, indicating the internal ply cords run radially at right angles to the bead.
+                  </p>
+                </div>
+
+                <div className="bg-[#131313] border border-[#554241] rounded-xl p-4 flex flex-col justify-between">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
+                      16
+                    </span>
+                    <h4 className="font-bold text-[#fafafa] text-sm">Rim Diameter</h4>
                   </div>
+                  <p className="text-xs text-[#dac1be] leading-relaxed">
+                    The diameter of the wheel rim in inches that the tire is designed to fit onto.
+                  </p>
+                </div>
+
+                <div className="bg-[#131313] border border-[#554241] rounded-xl p-4 flex flex-col justify-between">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
+                      87
+                    </span>
+                    <h4 className="font-bold text-[#fafafa] text-sm">Load Rating</h4>
+                  </div>
+                  <p className="text-xs text-[#dac1be] leading-relaxed">
+                    Numerical code corresponding to the maximum load capacity per single tire (e.g., index 87 = 545 kg).
+                  </p>
+                </div>
+
+                <div className="bg-[#131313] border border-[#554241] rounded-xl p-4 flex flex-col justify-between">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
+                      V
+                    </span>
+                    <h4 className="font-bold text-[#fafafa] text-sm">Speed Rating</h4>
+                  </div>
+                  <p className="text-xs text-[#dac1be] leading-relaxed">
+                    Letter code indicating the maximum safe operating speed for the tire (e.g., V = up to 240 km/h).
+                  </p>
                 </div>
               </div>
             </div>
