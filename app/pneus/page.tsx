@@ -111,7 +111,7 @@ export default function PneusPage() {
             onClick={() => setIsSelectorOpen(true)}
             className="text-sm font-semibold text-[#BA2529] hover:text-[#f5504d] underline underline-offset-4 transition-colors cursor-pointer shrink-0"
           >
-            Wheel &amp; Tire Size Selector
+            {t("wheelSelector.title")}
           </button>
         </div>
       </section>
@@ -187,16 +187,16 @@ export default function PneusPage() {
               <div className="flex justify-between items-center mb-8 border-b border-[#353534] pb-4">
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold font-['Space_Grotesk'] text-[#fafafa]">
-                    Wheel &amp; Tire Size Selector
+                    {t("wheelSelector.title")}
                   </h2>
                   <p className="text-sm text-[#dac1be] font-['Manrope'] mt-1">
-                    Configure your setup to view technical specifications and compatibility.
+                    {t("wheelSelector.subtitle")}
                   </p>
                 </div>
               <button
                 onClick={() => setIsSelectorOpen(false)}
                 className="h-10 w-10 rounded-full bg-[#1c1b1b] border border-[#554241] text-[#dac1be] hover:text-[#fafafa] flex items-center justify-center transition-colors cursor-pointer"
-                aria-label="Close"
+                aria-label={t("wheelSelector.close")}
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -207,22 +207,22 @@ export default function PneusPage() {
               {isLoadingAuth ? (
                 <div className="flex flex-col items-center justify-center py-20">
                   <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#554241] border-t-[#BA2529]" />
-                  <p className="mt-4 text-sm text-[#dac1be]">Checking session...</p>
+                  <p className="mt-4 text-sm text-[#dac1be]">{t("wheelSelector.checkingSession")}</p>
                 </div>
               ) : authed ? (
                 <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6">
                   {/* Left Side: Controls & Specs Table */}
                   <section className="lg:col-span-5 flex flex-col gap-6 bg-[#131313] p-5 rounded-xl border border-[#353534] shadow-sm relative z-10 order-1">
                     <div className="flex justify-between items-center flex-wrap gap-2">
-                      <h3 className="text-lg font-semibold font-['Space_Grotesk'] text-[#fafafa]">Configuration</h3>
+                      <h3 className="text-lg font-semibold font-['Space_Grotesk'] text-[#fafafa]">{t("wheelSelector.configuration")}</h3>
                       <button
                         onClick={() => setIsSizeGuideOpen(true)}
                         className="ml-auto mr-2 flex items-center gap-1 text-xs font-bold tracking-widest text-[#BA2529] hover:underline cursor-pointer"
                       >
-                        <span className="material-symbols-outlined text-base">help</span>Size Guide
+                        <span className="material-symbols-outlined text-base">help</span>{t("wheelSelector.sizeGuide")}
                       </button>
                       <label className="flex items-center cursor-pointer gap-2">
-                        <span className="text-xs font-bold tracking-widest text-[#dac1be]">Compare</span>
+                        <span className="text-xs font-bold tracking-widest text-[#dac1be]">{t("wheelSelector.compare")}</span>
                         <div className="relative">
                           <input
                             type="checkbox"
@@ -231,17 +231,17 @@ export default function PneusPage() {
                             onChange={(e) => setIsCompare(e.target.checked)}
                           />
                           <div className={`block w-9 h-5 rounded-full transition-colors ${isCompare ? "bg-[#8e1c21]" : "bg-[#353534]"}`}></div>
-                          <div className={`dot absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform ${isCompare ? "translate-x-4" : ""}`}></div>
+                          <div className={`dot absolute start-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform ${isCompare ? "translate-x-4 rtl:-translate-x-4" : ""}`}></div>
                         </div>
                       </label>
                     </div>
 
                     {/* Current Setup */}
                     <div className="space-y-3">
-                      <h4 className="text-xs font-semibold tracking-wider text-[#BA2529] uppercase font-['Manrope']">Current Setup</h4>
+                      <h4 className="text-xs font-semibold tracking-wider text-[#BA2529] uppercase font-['Manrope']">{t("wheelSelector.currentSetup")}</h4>
                       <div className="grid grid-cols-2 gap-2.5">
                         <div>
-                          <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">Width (mm)</label>
+                          <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">{t("wheelSelector.widthMm")}</label>
                           <select
                             value={width}
                             onChange={(e) => setWidth(e.target.value)}
@@ -256,7 +256,7 @@ export default function PneusPage() {
                           </select>
                         </div>
                         <div>
-                          <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">Profile</label>
+                          <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">{t("wheelSelector.profile")}</label>
                           <select
                             value={profile}
                             onChange={(e) => setProfile(e.target.value)}
@@ -270,7 +270,7 @@ export default function PneusPage() {
                           </select>
                         </div>
                         <div>
-                          <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">Diameter (in)</label>
+                          <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">{t("wheelSelector.diameterIn")}</label>
                           <select
                             value={diameter}
                             onChange={(e) => setDiameter(e.target.value)}
@@ -283,7 +283,7 @@ export default function PneusPage() {
                           </select>
                         </div>
                         <div>
-                          <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">Offset (ET)</label>
+                          <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">{t("wheelSelector.offsetEt")}</label>
                           <select
                             value={offset}
                             onChange={(e) => setOffset(e.target.value)}
@@ -301,10 +301,10 @@ export default function PneusPage() {
                     {/* Compare Setup */}
                     {isCompare && (
                       <div className="space-y-3 pt-3 border-t border-[#554241]">
-                        <h4 className="text-xs font-semibold tracking-wider text-[#f5504d] uppercase font-['Manrope']">New Setup</h4>
+                        <h4 className="text-xs font-semibold tracking-wider text-[#f5504d] uppercase font-['Manrope']">{t("wheelSelector.newSetup")}</h4>
                         <div className="grid grid-cols-2 gap-2.5">
                           <div>
-                            <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">Width (mm)</label>
+                            <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">{t("wheelSelector.widthMm")}</label>
                             <select
                               value={compareWidth}
                               onChange={(e) => setCompareWidth(e.target.value)}
@@ -315,7 +315,7 @@ export default function PneusPage() {
                             </select>
                           </div>
                           <div>
-                            <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">Profile</label>
+                            <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">{t("wheelSelector.profile")}</label>
                             <select
                               value={compareProfile}
                               onChange={(e) => setCompareProfile(e.target.value)}
@@ -326,7 +326,7 @@ export default function PneusPage() {
                             </select>
                           </div>
                           <div>
-                            <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">Diameter (in)</label>
+                            <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">{t("wheelSelector.diameterIn")}</label>
                             <select
                               value={compareDiameter}
                               onChange={(e) => setCompareDiameter(e.target.value)}
@@ -337,7 +337,7 @@ export default function PneusPage() {
                             </select>
                           </div>
                           <div>
-                            <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">Offset (ET)</label>
+                            <label className="block text-[11px] font-bold tracking-wider text-[#dac1be] mb-1">{t("wheelSelector.offsetEt")}</label>
                             <select
                               value={compareOffset}
                               onChange={(e) => setCompareOffset(e.target.value)}
@@ -355,37 +355,37 @@ export default function PneusPage() {
 
                     {/* Info Table */}
                     <div className="border border-[#554241] rounded-lg overflow-hidden bg-[#18181b]">
-                      <table className="w-full text-left border-collapse text-xs">
+                      <table className="w-full text-start border-collapse text-xs">
                         <thead>
                           <tr className="bg-[#1c1b1b] border-b border-[#554241]">
-                            <th className="py-2 px-2.5 font-bold text-[#dac1be]">Specification</th>
-                            <th className="py-2 px-2.5 font-bold text-[#dac1be]">Value</th>
-                            {isCompare && <th className="py-2 px-2.5 font-bold text-[#f5504d]">New Value</th>}
+                            <th className="py-2 px-2.5 font-bold text-[#dac1be]">{t("wheelSelector.specification")}</th>
+                            <th className="py-2 px-2.5 font-bold text-[#dac1be]">{t("wheelSelector.value")}</th>
+                            {isCompare && <th className="py-2 px-2.5 font-bold text-[#f5504d]">{t("wheelSelector.newValue")}</th>}
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#554241]">
                           <tr>
-                            <td className="py-2 px-2.5 text-[#dac1be]">Width</td>
+                            <td className="py-2 px-2.5 text-[#dac1be]">{t("wheelSelector.rows.width")}</td>
                             <td className="py-2 px-2.5 text-[#fafafa] font-semibold">{width} mm</td>
                             {isCompare && <td className="py-2 px-2.5 text-[#f5504d] font-semibold">{compareWidth} mm</td>}
                           </tr>
                           <tr>
-                            <td className="py-2 px-2.5 text-[#dac1be]">Sidewall</td>
+                            <td className="py-2 px-2.5 text-[#dac1be]">{t("wheelSelector.rows.sidewall")}</td>
                             <td className="py-2 px-2.5 text-[#fafafa] font-semibold">{sidewall} mm</td>
                             {isCompare && <td className="py-2 px-2.5 text-[#f5504d] font-semibold">{compSidewall} mm</td>}
                           </tr>
                           <tr>
-                            <td className="py-2 px-2.5 text-[#dac1be]">Rim Diameter</td>
+                            <td className="py-2 px-2.5 text-[#dac1be]">{t("wheelSelector.rows.rimDiameter")}</td>
                             <td className="py-2 px-2.5 text-[#fafafa] font-semibold">{diameter}" ({rimMm} mm)</td>
                             {isCompare && <td className="py-2 px-2.5 text-[#f5504d] font-semibold">{compareDiameter}" ({compRimMm} mm)</td>}
                           </tr>
                           <tr>
-                            <td className="py-2 px-2.5 text-[#dac1be]">Overall Diameter</td>
+                            <td className="py-2 px-2.5 text-[#dac1be]">{t("wheelSelector.rows.overallDiameter")}</td>
                             <td className="py-2 px-2.5 text-[#fafafa] font-semibold">{overallDiameter} mm</td>
                             {isCompare && <td className="py-2 px-2.5 text-[#f5504d] font-semibold">{compOverall} mm</td>}
                           </tr>
                           <tr>
-                            <td className="py-2 px-2.5 text-[#dac1be]">Circumference</td>
+                            <td className="py-2 px-2.5 text-[#dac1be]">{t("wheelSelector.rows.circumference")}</td>
                             <td className="py-2 px-2.5 text-[#fafafa] font-semibold">{circumference} mm</td>
                             {isCompare && <td className="py-2 px-2.5 text-[#f5504d] font-semibold">{compCircum} mm</td>}
                           </tr>
@@ -396,13 +396,13 @@ export default function PneusPage() {
                     <div className="pt-1 flex flex-col gap-2.5">
                       <button className="w-full h-11 bg-[#BA2529] hover:bg-[#BA2529]/90 text-white text-xs font-bold tracking-wider rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer">
                         <span className="material-symbols-outlined text-base">directions_car</span>
-                        Check compatibility with my vehicle
+                        {t("wheelSelector.checkCompatibility")}
                       </button>
                       <button
                         onClick={() => setIsSelectorOpen(false)}
                         className="w-full h-11 bg-[#18181b] hover:bg-[#1c1b1b] border border-[#554241] text-[#fafafa] text-xs font-bold tracking-wider rounded-lg transition-colors cursor-pointer"
                       >
-                        Close Selector
+                        {t("wheelSelector.closeSelector")}
                       </button>
                     </div>
                   </section>
@@ -414,19 +414,19 @@ export default function PneusPage() {
                         onClick={() => setActiveView("height")}
                         className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${activeView === "height" ? "bg-[#BA2529] text-white" : "text-[#dac1be] hover:bg-[#1c1b1b]"}`}
                       >
-                        Height
+                        {t("wheelSelector.shortHeight")}
                       </button>
                       <button
                         onClick={() => setActiveView("diameter")}
                         className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${activeView === "diameter" ? "bg-[#BA2529] text-white" : "text-[#dac1be] hover:bg-[#1c1b1b]"}`}
                       >
-                        Diameter
+                        {t("wheelSelector.shortDiameter")}
                       </button>
                       <button
                         onClick={() => setActiveView("width")}
                         className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${activeView === "width" ? "bg-[#BA2529] text-white" : "text-[#dac1be] hover:bg-[#1c1b1b]"}`}
                       >
-                        Width
+                        {t("wheelSelector.shortWidth")}
                       </button>
                     </div>
 
@@ -435,11 +435,11 @@ export default function PneusPage() {
                         <div className="text-center flex flex-col items-center">
                           <img
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXEcMX1ADHfq2E4jo-L99t3dN5saYVqQs8rQAoo_J3cHxTHbqkprRmi0IPuPZZL2q1pis3l_eqkfccXTrIH4XycILxMh5f9IgfqdNcDxJz70sAqQYtw_TLCxUFVbdJmbkTAqbm3eYeu_0EKJ7DkxLuif7GTWTBRs_pnFvVzqVPGi4vv4KMAVv9TfMQ0Ccz1aTbqagJ2Mv5JqGD2tSe5VisTHOb6oJbL1hpVoqcWe4zV1Gto2-0_Ycum45w8d9F59UvkfU"
-                            alt="Side Profile"
+                            alt={t("wheelSelector.altSideProfile")}
                             className="max-h-[280px] object-contain drop-shadow-2xl"
                           />
                           <div className="mt-3 bg-[#18181b] border border-[#554241] px-3 py-1.5 rounded-lg text-xs">
-                            <span className="text-[#BA2529] font-bold">Overall Diameter:</span> {overallDiameter} mm
+                            <span className="text-[#BA2529] font-bold">{t("wheelSelector.rows.overallDiameter")}:</span> {overallDiameter} mm
                           </div>
                         </div>
                       )}
@@ -447,11 +447,11 @@ export default function PneusPage() {
                         <div className="text-center flex flex-col items-center">
                           <img
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCewFIDL0pmcUvrXEnh1I9UiK7XnaaC-ivEUMdHkHQhhxVyXq88A_d6cdfGKiiJ3qmUCWtOb8b9fABMH9JGmB8rOXqXr_mmB23zknPihtJWDbyVdCFpw1rpZlWbu9DOeTKalDHMVxuAvrLTn8VfCrZlw2RrWpvmEa1HcUoan4JUlUvXM1I0BN-kuDAJRZoTlcME2OoYjc9cZASE1Hk5M9OjLziKreFHHlrwqG1ZFxl_QZllbt3J79SUblAYF5ou-1BjYio"
-                            alt="Front View"
+                            alt={t("wheelSelector.altFrontView")}
                             className="max-h-[280px] object-contain drop-shadow-2xl"
                           />
                           <div className="mt-3 bg-[#18181b] border border-[#554241] px-3 py-1.5 rounded-lg text-xs">
-                            <span className="text-[#BA2529] font-bold">Rim Diameter:</span> {diameter}" ({rimMm} mm)
+                            <span className="text-[#BA2529] font-bold">{t("wheelSelector.rows.rimDiameter")}:</span> {diameter}" ({rimMm} mm)
                           </div>
                         </div>
                       )}
@@ -459,11 +459,11 @@ export default function PneusPage() {
                         <div className="text-center flex flex-col items-center">
                           <img
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzG_XP5LcgXPOmwyufYX0C_x8R1lcd5YqjtLB5ekVgCm5OuD9tj7BqfwqVFSYipRciAy59IDnh9TG_y07XlVyh_uG2kBmWaKuBOFT0ctbXClpifN1Kmjs1InQQ5LeDByLACuZGsDIehcjE1VZaKFzIfoI_vqWCZdeY1NEk3b9tCxQ_UuCteM_4jzmtRiKECtH4Mv_yFISQrTzHucP5gm8BEurd9kHi4JSVLE4IssiKo7NzmFbbt6703h2H829ComB-oRA"
-                            alt="Tread View"
+                            alt={t("wheelSelector.altTreadView")}
                             className="max-h-[280px] object-contain drop-shadow-2xl"
                           />
                           <div className="mt-3 bg-[#18181b] border border-[#554241] px-3 py-1.5 rounded-lg text-xs">
-                            <span className="text-[#BA2529] font-bold">Tread Width:</span> {width} mm
+                            <span className="text-[#BA2529] font-bold">{t("wheelSelector.guide.treadWidth")}:</span> {width} mm
                           </div>
                         </div>
                       )}
@@ -473,7 +473,7 @@ export default function PneusPage() {
                       <div className="absolute bottom-4 left-4 right-4 z-30 bg-[#18181b]/95 backdrop-blur-md rounded-lg p-3 flex justify-between items-center border border-[#554241] text-xs">
                         <div className="flex items-center gap-2 text-[#BA2529]">
                           <span className="material-symbols-outlined text-base">speed</span>
-                          <span className="font-bold">Speedometer Variance:</span>
+                          <span className="font-bold">{t("wheelSelector.speedometerVariance")}</span>
                         </div>
                         <span className="text-base font-bold text-[#fafafa]">{speedVariance}%</span>
                       </div>
@@ -487,10 +487,10 @@ export default function PneusPage() {
                     <span className="material-symbols-outlined text-2xl">lock</span>
                   </div>
                   <h3 className="text-xl font-bold font-['Space_Grotesk'] text-[#fafafa] mb-2">
-                    Unlock Full Wheel &amp; Tire Configurations
+                    {t("wheelSelector.unlockTitle")}
                   </h3>
                   <p className="text-xs text-[#dac1be] mb-6 leading-relaxed">
-                    Sign in or create a free account to access custom dimensions, visualizer comparisons, speedometer variance calculations, and direct vehicle compatibility checks.
+                    {t("wheelSelector.unlockDesc")}
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                     <button
@@ -500,13 +500,13 @@ export default function PneusPage() {
                       }}
                       className="h-11 bg-[#BA2529] hover:bg-[#BA2529]/95 text-white font-bold px-6 rounded-xl text-xs transition-all shadow-lg shadow-[#BA2529]/25 cursor-pointer"
                     >
-                      Sign In / Register
+                      {t("wheelSelector.signInRegister")}
                     </button>
                     <button
                       onClick={() => setIsSizeGuideOpen(true)}
                       className="h-11 bg-[#18181b] hover:bg-[#202023] border border-[#554241] text-[#fafafa] font-bold px-6 rounded-xl text-xs transition-all cursor-pointer"
                     >
-                      Preview Wheel Size Guide
+                      {t("wheelSelector.previewGuide")}
                     </button>
                   </div>
                 </div>
@@ -523,16 +523,16 @@ export default function PneusPage() {
             <div className="flex justify-between items-center mb-6 border-b border-[#353534] pb-4">
               <div>
                 <h3 className="text-xl md:text-2xl font-bold font-['Space_Grotesk'] text-[#fafafa]">
-                  Understanding Wheel &amp; Tire Sizes
+                  {t("wheelSelector.guide.title")}
                 </h3>
                 <p className="text-xs text-[#dac1be] font-['Manrope'] mt-1">
-                  Complete breakdown of tire sidewall nomenclature and technical ratings.
+                  {t("wheelSelector.guide.subtitle")}
                 </p>
               </div>
               <button
                 onClick={() => setIsSizeGuideOpen(false)}
                 className="h-10 w-10 rounded-full bg-[#1c1b1b] border border-[#554241] text-[#dac1be] hover:text-[#fafafa] flex items-center justify-center transition-colors cursor-pointer"
-                aria-label="Close"
+                aria-label={t("wheelSelector.close")}
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -552,7 +552,7 @@ export default function PneusPage() {
                   <span className="text-[#dac1be] ml-2">87</span>
                   <span className="text-[#BA2529]">V</span>
                 </div>
-                <p className="text-xs text-[#dac1be] mt-2">Standard Tyre Sidewall Marking Example</p>
+                <p className="text-xs text-[#dac1be] mt-2">{t("wheelSelector.guide.markingExample")}</p>
               </div>
 
               {/* Expanded Breakdown Cards */}
@@ -562,10 +562,10 @@ export default function PneusPage() {
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
                       195
                     </span>
-                    <h4 className="font-bold text-[#fafafa] text-sm">Section Width</h4>
+                    <h4 className="font-bold text-[#fafafa] text-sm">{t("wheelSelector.guide.sectionWidth")}</h4>
                   </div>
                   <p className="text-xs text-[#dac1be] leading-relaxed">
-                    Tyre width in millimeters measured from sidewall to sidewall across the tread.
+                    {t("wheelSelector.guide.sectionWidthDesc")}
                   </p>
                 </div>
 
@@ -574,10 +574,10 @@ export default function PneusPage() {
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
                       55
                     </span>
-                    <h4 className="font-bold text-[#fafafa] text-sm">Aspect Ratio</h4>
+                    <h4 className="font-bold text-[#fafafa] text-sm">{t("wheelSelector.guide.aspectRatio")}</h4>
                   </div>
                   <p className="text-xs text-[#dac1be] leading-relaxed">
-                    The sidewall height expressed as a percentage of the tire&apos;s section width (55% of 195mm).
+                    {t("wheelSelector.guide.aspectRatioDesc")}
                   </p>
                 </div>
 
@@ -586,10 +586,10 @@ export default function PneusPage() {
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
                       R
                     </span>
-                    <h4 className="font-bold text-[#fafafa] text-sm">Construction</h4>
+                    <h4 className="font-bold text-[#fafafa] text-sm">{t("wheelSelector.guide.construction")}</h4>
                   </div>
                   <p className="text-xs text-[#dac1be] leading-relaxed">
-                    Radial construction, indicating the internal ply cords run radially at right angles to the bead.
+                    {t("wheelSelector.guide.constructionDesc")}
                   </p>
                 </div>
 
@@ -598,10 +598,10 @@ export default function PneusPage() {
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
                       16
                     </span>
-                    <h4 className="font-bold text-[#fafafa] text-sm">Rim Diameter</h4>
+                    <h4 className="font-bold text-[#fafafa] text-sm">{t("wheelSelector.guide.rimDiameter")}</h4>
                   </div>
                   <p className="text-xs text-[#dac1be] leading-relaxed">
-                    The diameter of the wheel rim in inches that the tire is designed to fit onto.
+                    {t("wheelSelector.guide.rimDiameterDesc")}
                   </p>
                 </div>
 
@@ -610,10 +610,10 @@ export default function PneusPage() {
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
                       87
                     </span>
-                    <h4 className="font-bold text-[#fafafa] text-sm">Load Rating</h4>
+                    <h4 className="font-bold text-[#fafafa] text-sm">{t("wheelSelector.guide.loadRating")}</h4>
                   </div>
                   <p className="text-xs text-[#dac1be] leading-relaxed">
-                    Numerical code corresponding to the maximum load capacity per single tire (e.g., index 87 = 545 kg).
+                    {t("wheelSelector.guide.loadRatingDesc")}
                   </p>
                 </div>
 
@@ -622,10 +622,10 @@ export default function PneusPage() {
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#BA2529]/10 text-[#BA2529] font-bold font-['Space_Grotesk'] text-base ring-1 ring-[#BA2529]/20">
                       V
                     </span>
-                    <h4 className="font-bold text-[#fafafa] text-sm">Speed Rating</h4>
+                    <h4 className="font-bold text-[#fafafa] text-sm">{t("wheelSelector.guide.speedRating")}</h4>
                   </div>
                   <p className="text-xs text-[#dac1be] leading-relaxed">
-                    Letter code indicating the maximum safe operating speed for the tire (e.g., V = up to 240 km/h).
+                    {t("wheelSelector.guide.speedRatingDesc")}
                   </p>
                 </div>
               </div>
