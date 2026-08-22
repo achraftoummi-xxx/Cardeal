@@ -61,9 +61,9 @@ export default function PneusPage() {
         </div>
       </section>
 
-      {/* Brand filter */}
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
-        <div className="grid gap-4 sm:grid-cols-2 lg:max-w-2xl">
+        {/* Brand filter */}
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="w-full sm:w-auto grid gap-4 sm:grid-cols-2 lg:max-w-2xl">
           <Select
             label={t("pneus.brand")}
             value={brand}
@@ -72,6 +72,13 @@ export default function PneusPage() {
             placeholder={t("pneus.all")}
           />
         </div>
+        <a
+          href="/pneus/selector"
+          className="inline-flex items-center gap-2 rounded-xl bg-[var(--cardeal-primary)] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#BA2529]/25 transition-all hover:bg-[#9E1F23]"
+        >
+          <span className="material-symbols-outlined">settings</span>
+          Wheel &amp; Tire Size Selector
+        </a>
       </section>
 
       {/* Tire offers */}
