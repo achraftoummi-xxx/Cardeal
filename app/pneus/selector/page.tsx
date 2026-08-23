@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useAuth } from "@/components/AuthProvider";
 import SiteHeader from "@/components/SiteHeader";
 import LoginModal from "@/components/LoginModal";
@@ -49,6 +50,11 @@ function WheelTireSizeSelector({
   // Modal States
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [showSelectorModal, setShowSelectorModal] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Calculations
   const wNum = parseFloat(width);
@@ -401,8 +407,8 @@ function WheelTireSizeSelector({
           </div>
         )}
 
-        {/* Size Guide Modal with Independent High Z-Index Overlay */}
-        {isSizeGuideOpen && (
+        {/* Size Guide Modal with Independent Portal Overlay */}
+        {mounted && isSizeGuideOpen && createPortal(
           <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
             <div className="bg-[#0e0e0e] border border-[#554241] rounded-xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-6">
@@ -454,7 +460,8 @@ function WheelTireSizeSelector({
                 </div>
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )}
       </main>
 
