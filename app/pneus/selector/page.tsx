@@ -401,13 +401,13 @@ function WheelTireSizeSelector({
           </div>
         )}
 
-        {/* Size Guide Modal with Non-Clipped Inline Definition Panel */}
+        {/* Size Guide Modal with Independent High Z-Index Overlay */}
         {isSizeGuideOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
             <div className="bg-[#0e0e0e] border border-[#554241] rounded-xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold font-['Space_Grotesk'] text-[#fafafa]">{t("wheelSelector.guide.title")}</h3>
-                <button onClick={() => setIsSizeGuideOpen(false)} aria-label={t("wheelSelector.close")} className="text-[#dac1be] hover:text-[#fafafa]">
+                <button onClick={() => setIsSizeGuideOpen(false)} aria-label={t("wheelSelector.close")} className="text-[#dac1be] hover:text-[#fafafa] p-1">
                   <span className="material-symbols-outlined">close</span>
                 </button>
               </div>
