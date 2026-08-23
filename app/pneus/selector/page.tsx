@@ -46,8 +46,9 @@ function WheelTireSizeSelector({
   // View state for visualizer
   const [activeView, setActiveView] = useState<"height" | "diameter" | "width">("height");
 
-  // Modal State
+  // Modal States
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
+  const [showSelectorModal, setShowSelectorModal] = useState(false);
 
   // Calculations
   const wNum = parseFloat(width);
