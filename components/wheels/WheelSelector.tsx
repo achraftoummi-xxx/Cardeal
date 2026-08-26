@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Info, X, Car, Search, Move as DragPan, Box as ViewInAr } from 'lucide-react'; // Or your icon library
+import { Info, X, Car, Search, Move as DragPan, Box as ViewInAr, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 interface WheelSpecs {
   width: number;
@@ -28,7 +29,16 @@ export default function WheelSelector() {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-10 py-12 bg-[#0a0a0a] text-[#e5e2e1] antialiased">
       {/* Header */}
-      <header className="mb-12 text-center">
+      <header className="mb-12 relative text-center">
+        <div className="absolute left-0 top-1/2 -translate-y-1/2">
+          <Link
+            href="/tires"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0e0e0e] border border-[#353534] hover:border-[#BA2529] text-[#e5e2e1] hover:text-white transition-all text-xs font-semibold shadow-md cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4 text-[#BA2529]" />
+            <span className="hidden sm:inline">Back to Tires</span>
+          </Link>
+        </div>
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-3">
           Wheel & Tire Size Selector
         </h1>

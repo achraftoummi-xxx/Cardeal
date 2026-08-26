@@ -18,11 +18,10 @@ export default function TiresPage() {
         {/* Permanent Link to Dedicated Wheel Selector Route */}
         <Link
           href="/wheels/selector"
-          className="flex items-center gap-2 px-6 py-3.5 bg-[#BA2529] hover:brightness-110 text-white font-semibold rounded-lg shadow-xl transition-all cursor-pointer"
+          className="text-[#BA2529] hover:underline font-medium text-sm md:text-base transition-all inline-flex items-center gap-1.5 cursor-pointer"
         >
-          <SlidersHorizontal className="w-5 h-5" />
-          <span>Check Your wheel and Tire siz</span>
-          <ChevronRight className="w-4 h-4 ml-1" />
+          <span>Check Your wheel and Tire size</span>
+          <ChevronRight className="w-4 h-4" />
         </Link>
       </div>
 
