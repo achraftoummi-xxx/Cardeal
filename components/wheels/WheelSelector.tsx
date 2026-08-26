@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Info, X, Car, Search, Move as DragPan, Box as ViewInAr, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -18,6 +18,16 @@ export default function WheelSelector() {
   const [offset, setOffset] = useState<number>(40);
   const [isGuideOpen, setIsGuideOpen] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'height' | 'diameter' | 'width'>('height');
+  const [backHref, setBackHref] = useState<string>('/pneus');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('from') === 'dashboard') {
+        setBackHref('/dashboard/pneus');
+      }
+    }
+  }, []);
 
   // Scientific calculations
   const sidewall = width * (profile / 100);
@@ -32,7 +42,7 @@ export default function WheelSelector() {
       <header className="mb-12 relative text-center">
         <div className="absolute left-0 top-1/2 -translate-y-1/2">
           <Link
-            href="/pneus"
+            href={backHref}
             className="flex items-center gap-2 text-[#BA2529] hover:underline text-sm font-semibold cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
