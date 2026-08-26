@@ -366,6 +366,7 @@
   "pneus": {
     "title": "Achetez vos pneus au meilleur prix",
     "subtitle": "Comparez les offres de pneus des garages partenaires et faites-les poser près de chez vous.",
+    "checkWheelAndTireSize": "Vérifiez la taille de vos roues et pneus",
     "cta": "Demander un devis",
     "size": "Dimension",
     "season": "Saison",

@@ -323,7 +323,7 @@ export function TiresView() {
           href="/wheels/selector?from=dashboard"
           className="text-[#BA2529] hover:underline font-medium text-sm md:text-base transition-all inline-flex items-center gap-1.5 cursor-pointer"
         >
-          <span>Check Your wheel and Tire size</span>
+          <span>{t("pneus.checkWheelAndTireSize")}</span>
           <ChevronRight className="w-4 h-4" />
         </Link>
       </div>
