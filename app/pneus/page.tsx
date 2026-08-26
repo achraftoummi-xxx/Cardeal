@@ -10,6 +10,8 @@ import { useTranslation } from "@/components/TranslationProvider";
 import { getTireBrandLogo } from "@/data/tireBrandLogos";
 import { cn } from "@/lib/utils";
 import heroTiresImage from "@/assets/images/cardeal-tires.png";
+import Link from "next/link";
+import { SlidersHorizontal, ChevronRight } from "lucide-react";
 
 type TireOffer = {
   brand: string;
@@ -63,6 +65,18 @@ export default function PneusPage() {
 
       {/* Brand filter */}
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <Link
+            href="/wheels/selector"
+            className="flex items-center justify-between w-full max-w-xl px-6 py-4 bg-[#BA2529] hover:brightness-110 text-white font-semibold rounded-xl shadow-xl transition-all cursor-pointer"
+          >
+            <div className="flex items-center gap-3">
+              <SlidersHorizontal className="w-5 h-5 shrink-0" />
+              <span>Check Your wheel and Tire siz</span>
+            </div>
+            <ChevronRight className="w-5 h-5 shrink-0" />
+          </Link>
+        </div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
           <div className="w-full sm:w-auto grid gap-4 sm:grid-cols-2 lg:max-w-2xl flex-1">
             <Select
