@@ -10,6 +10,7 @@ import {
   Camera,
   Car,
   Check,
+  ChevronRight,
   Clock,
   Download,
   FileText,
@@ -316,6 +317,16 @@ export function TiresView() {
   return (
     <div className="space-y-4">
       <SectionHeader navKey="tires" />
+
+      <div className="mb-6">
+        <Link
+          href="/wheels/selector"
+          className="text-[#BA2529] hover:underline font-medium text-sm md:text-base transition-all inline-flex items-center gap-1.5 cursor-pointer"
+        >
+          <span>Check Your wheel and Tire size</span>
+          <ChevronRight className="w-4 h-4" />
+        </Link>
+      </div>
 
       <Card className="py-4">
         <div className="grid gap-4 sm:grid-cols-2 lg:max-w-xs">
