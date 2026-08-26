@@ -68,13 +68,10 @@ export default function PneusPage() {
         <div className="mb-6">
           <Link
             href="/wheels/selector"
-            className="flex items-center justify-between w-full max-w-xl px-6 py-4 bg-[#BA2529] hover:brightness-110 text-white font-semibold rounded-xl shadow-xl transition-all cursor-pointer"
+            className="text-[#BA2529] hover:underline font-medium text-sm md:text-base transition-all inline-flex items-center gap-1.5 cursor-pointer"
           >
-            <div className="flex items-center gap-3">
-              <SlidersHorizontal className="w-5 h-5 shrink-0" />
-              <span>Check Your wheel and Tire siz</span>
-            </div>
-            <ChevronRight className="w-5 h-5 shrink-0" />
+            <span>Check Your wheel and Tire size</span>
+            <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">

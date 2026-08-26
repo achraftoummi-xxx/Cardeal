@@ -32,11 +32,11 @@ export default function WheelSelector() {
       <header className="mb-12 relative text-center">
         <div className="absolute left-0 top-1/2 -translate-y-1/2">
           <Link
-            href="/tires"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0e0e0e] border border-[#353534] hover:border-[#BA2529] text-[#e5e2e1] hover:text-white transition-all text-xs font-semibold shadow-md cursor-pointer"
+            href="/pneus"
+            className="flex items-center gap-2 text-[#BA2529] hover:underline text-sm font-semibold cursor-pointer"
           >
-            <ArrowLeft className="w-4 h-4 text-[#BA2529]" />
-            <span className="hidden sm:inline">Back to Tires</span>
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back</span>
           </Link>
         </div>
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-3">
