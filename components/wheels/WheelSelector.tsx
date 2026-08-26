@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Info, X, Car, Search, Move as DragPan, Box as ViewInAr, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from '@/components/TranslationProvider';
 
 interface WheelSpecs {
   width: number;
@@ -12,6 +13,7 @@ interface WheelSpecs {
 }
 
 export default function WheelSelector() {
+  const { t } = useTranslation();
   const [width, setWidth] = useState<number>(245);
   const [profile, setProfile] = useState<number>(40);
   const [diameter, setDiameter] = useState<number>(19);
@@ -46,14 +48,14 @@ export default function WheelSelector() {
             className="flex items-center gap-2 text-[#BA2529] hover:underline text-sm font-semibold cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back</span>
+            <span>{t('wheelSelector.back') !== 'wheelSelector.back' ? t('wheelSelector.back') : 'Back'}</span>
           </Link>
         </div>
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-3">
-          Wheel & Tire Size Selector
+          {t('wheelSelector.title')}
         </h1>
         <p className="text-base md:text-lg text-[#dac1be]">
-          Configure your setup to view technical specifications and compatibility.
+          {t('wheelSelector.subtitle')}
         </p>
       </header>
 
@@ -72,7 +74,7 @@ export default function WheelSelector() {
                   activeTab === 'height' ? 'bg-[#BA2529] text-white' : 'text-[#dac1be] hover:text-white'
                 }`}
               >
-                Height (Side)
+                {t('wheelSelector.viewHeightSide')}
               </button>
               <button
                 onClick={() => setActiveTab('diameter')}
@@ -80,7 +82,7 @@ export default function WheelSelector() {
                   activeTab === 'diameter' ? 'bg-[#BA2529] text-white' : 'text-[#dac1be] hover:text-white'
                 }`}
               >
-                Diameter (Front)
+                {t('wheelSelector.viewDiameterFront')}
               </button>
               <button
                 onClick={() => setActiveTab('width')}
@@ -88,7 +90,7 @@ export default function WheelSelector() {
                   activeTab === 'width' ? 'bg-[#BA2529] text-white' : 'text-[#dac1be] hover:text-white'
                 }`}
               >
-                Width (Tread)
+                {t('wheelSelector.viewWidthTread')}
               </button>
             </div>
 
@@ -119,18 +121,18 @@ export default function WheelSelector() {
           {/* Configuration Card */}
           <section className="bg-[#0e0e0e] p-6 rounded-xl border border-[#353534] shadow-2xl">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-white uppercase tracking-tight">Configuration</h2>
+              <h2 className="text-xl font-semibold text-white uppercase tracking-tight">{t('wheelSelector.configuration')}</h2>
               <button
                 onClick={() => setIsGuideOpen(true)}
                 className="flex items-center gap-1 text-xs font-bold text-[#BA2529] hover:underline cursor-pointer"
               >
-                <Info className="w-4 h-4" /> Guide des tailles
+                <Info className="w-4 h-4" /> {t('wheelSelector.sizeGuide')}
               </button>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="block text-[10px] uppercase tracking-widest text-[#dac1be] font-bold">Width (mm)</label>
+                <label className="block text-[10px] uppercase tracking-widest text-[#dac1be] font-bold">{t('wheelSelector.widthMm')}</label>
                 <select
                   value={width}
                   onChange={(e) => setWidth(Number(e.target.value))}
@@ -144,7 +146,7 @@ export default function WheelSelector() {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-[10px] uppercase tracking-widest text-[#dac1be] font-bold">Profile</label>
+                <label className="block text-[10px] uppercase tracking-widest text-[#dac1be] font-bold">{t('wheelSelector.profile')}</label>
                 <select
                   value={profile}
                   onChange={(e) => setProfile(Number(e.target.value))}
@@ -158,7 +160,7 @@ export default function WheelSelector() {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-[10px] uppercase tracking-widest text-[#dac1be] font-bold">Diameter (in)</label>
+                <label className="block text-[10px] uppercase tracking-widest text-[#dac1be] font-bold">{t('wheelSelector.diameterIn')}</label>
                 <select
                   value={diameter}
                   onChange={(e) => setDiameter(Number(e.target.value))}
@@ -173,7 +175,7 @@ export default function WheelSelector() {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-[10px] uppercase tracking-widest text-[#dac1be] font-bold">Offset (ET)</label>
+                <label className="block text-[10px] uppercase tracking-widest text-[#dac1be] font-bold">{t('wheelSelector.offsetEt')}</label>
                 <select
                   value={offset}
                   onChange={(e) => setOffset(Number(e.target.value))}
@@ -188,28 +190,28 @@ export default function WheelSelector() {
 
             <div className="mt-8 pt-6 border-t border-[#353534] flex flex-col gap-3">
               <button className="w-full h-12 bg-[#BA2529] text-white font-semibold rounded-lg flex items-center justify-center gap-2 hover:brightness-110 transition-all cursor-pointer">
-                <Car className="w-5 h-5" /> Check Compatibility
+                <Car className="w-5 h-5" /> {t('wheelSelector.checkCompatibility')}
               </button>
               <button className="w-full h-12 bg-[#131313] border border-[#554241] text-white font-semibold rounded-lg flex items-center justify-center gap-2 hover:bg-[#353534] transition-all cursor-pointer">
-                <Search className="w-5 h-5" /> Search Tires
+                <Search className="w-5 h-5" /> {t('wheelSelector.searchTires')}
               </button>
             </div>
           </section>
 
           {/* Specification Table Card */}
           <section className="bg-[#0e0e0e] p-6 rounded-xl border border-[#353534]">
-            <h3 className="text-xs uppercase tracking-widest text-[#dac1be] mb-4 font-bold">Technical Specifications</h3>
+            <h3 className="text-xs uppercase tracking-widest text-[#dac1be] mb-4 font-bold">{t('wheelSelector.specification')}</h3>
             <div className="space-y-3">
               <div className="flex justify-between py-2 border-b border-[#554241]/30">
-                <span className="text-sm text-[#dac1be]">Overall Diameter</span>
+                <span className="text-sm text-[#dac1be]">{t('wheelSelector.rows.overallDiameter')}</span>
                 <span className="text-sm font-bold text-white">{overallDiameter.toFixed(1)} mm</span>
               </div>
               <div className="flex justify-between py-2 border-b border-[#554241]/30">
-                <span className="text-sm text-[#dac1be]">Sidewall Height</span>
+                <span className="text-sm text-[#dac1be]">{t('wheelSelector.rows.sidewall')}</span>
                 <span className="text-sm font-bold text-white">{sidewall.toFixed(1)} mm</span>
               </div>
               <div className="flex justify-between py-2 border-b border-[#554241]/30">
-                <span className="text-sm text-[#dac1be]">Circumference</span>
+                <span className="text-sm text-[#dac1be]">{t('wheelSelector.rows.circumference')}</span>
                 <span className="text-sm font-bold text-white">{circumference.toFixed(1)} mm</span>
               </div>
               <div className="flex justify-between py-2">
