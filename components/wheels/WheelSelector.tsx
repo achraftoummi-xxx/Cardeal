@@ -48,7 +48,7 @@ export default function WheelSelector() {
             className="flex items-center gap-2 text-[#BA2529] hover:underline text-sm font-semibold cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>{t('wheelSelector.back') !== 'wheelSelector.back' ? t('wheelSelector.back') : 'Back'}</span>
+             <span>{t('wheelSelector.back')}</span>
           </Link>
         </div>
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-3">
