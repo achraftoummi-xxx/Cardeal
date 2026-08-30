@@ -12,6 +12,7 @@ import {
   Settings,
   User,
   Check,
+  ShieldAlert,
 } from "lucide-react";
 import { useTranslation } from "@/components/TranslationProvider";
 import { cn } from "@/lib/utils";
@@ -20,8 +21,12 @@ import { CITY_OPTIONS, DASHBOARD_MESSAGES, DASHBOARD_NOTIFICATIONS, getUserName 
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { setAuthenticated } from "@/lib/auth";
 import { useAuth } from "@/components/AuthProvider";
+import { useAdminRole } from "@/components/admin/useAdminRole";
+import { AdminPortal } from "@/components/admin/AdminPortal";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSelector from "@/components/LanguageSelector";
+
+const ADMIN_EMAILS = ['mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com'];
 
 export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
   const { t } = useTranslation();
@@ -30,9 +35,13 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
   const [cityOpen, setCityOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
   const cityRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+
+  const { isAdmin } = useAdminRole(undefined, email);
+  const isUserAdmin = isAdmin || (email && ADMIN_EMAILS.includes(email.toLowerCase()));
 
   const unreadMessages = DASHBOARD_MESSAGES.filter((m) => m.unread).length;
   const userName = getUserName();
@@ -52,7 +61,8 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-2 border-b border-border bg-background/85 px-4 backdrop-blur-xl sm:gap-3 sm:px-6">
+    <>
+      <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-2 border-b border-border bg-background/85 px-4 backdrop-blur-xl sm:gap-3 sm:px-6">
       {/* Mobile menu toggle */}
       <button
         type="button"
@@ -116,6 +126,17 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
       <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
         <ThemeToggle />
         <LanguageSelector />
+
+        {/* Conditional Admin Portal Trigger */}
+        {isUserAdmin && (
+          <button
+            type="button"
+            onClick={() => setAdminOpen(true)}
+            className="flex h-10 items-center gap-1.5 rounded-lg border border-red-500/50 bg-red-600/20 px-3 text-xs font-semibold text-red-400 shadow-sm transition-colors hover:bg-red-600/30 hover:text-red-300"
+          >
+            <ShieldAlert size={16} /> Admin Portal
+          </button>
+        )}
 
         {/* Notifications */}
         <div ref={notifRef} className="relative">
@@ -250,6 +271,8 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
           <User size={18} />
         </Link>
       </div>
-    </header>
+      </header>
+      {isUserAdmin && <AdminPortal isOpen={adminOpen} onClose={() => setAdminOpen(false)} />}
+    </>
   );
 }
