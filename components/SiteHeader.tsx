@@ -64,8 +64,8 @@ export default function SiteHeader({
             <LanguageSelector />
             {isAdmin && (
               <Button
-                variant="destructive"
-                className="hidden text-sm bg-red-600 hover:bg-red-700 sm:inline-flex items-center gap-1.5"
+                variant="outline"
+                className="hidden text-sm bg-red-600/20 border-red-500/50 text-red-400 hover:bg-red-600/30 hover:text-red-300 sm:inline-flex items-center gap-1.5"
                 onClick={() => setAdminOpen(true)}
               >
                 <ShieldAlert className="w-4 h-4" /> Admin Portal
