@@ -22,8 +22,10 @@ function WheelModel({ width, profile, diameter, offset }: WheelModelProps) {
   const baseProfile = 40;
   const baseDiameter = 19;
 
-  const scaleX = width / baseWidth;
-  const scaleY = (diameter + (width * (profile / 100)) / 25.4 / 2) / (baseDiameter + (baseWidth * (baseProfile / 100)) / 25.4 / 2);
+  const scaleMultiplier = 3.2; // Prominently increase overall scale so the wheel fills the viewport
+
+  const scaleX = (width / baseWidth) * scaleMultiplier;
+  const scaleY = ((diameter + (width * (profile / 100)) / 25.4 / 2) / (baseDiameter + (baseWidth * (baseProfile / 100)) / 25.4 / 2)) * scaleMultiplier;
   const scaleZ = scaleY;
 
   useFrame((state) => {
@@ -35,10 +37,10 @@ function WheelModel({ width, profile, diameter, offset }: WheelModelProps) {
 
   return (
     <group ref={groupRef}>
-      <Center>
+      <Center top>
         <primitive 
           object={scene} 
-          scale={[scaleX * 1.5, scaleY * 1.5, scaleZ * 1.5]} 
+          scale={[scaleX, scaleY, scaleZ]} 
           position={[0, 0, 0]} 
         />
       </Center>
@@ -57,20 +59,20 @@ export default function WheelViewer3D({ width, profile, diameter, offset }: Whee
   return (
     <div className="w-full h-full relative">
       <Canvas
-        camera={{ position: [0, 2, 5], fov: 50 }}
+        camera={{ position: [0, 0, 3.5], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
       >
-        <ambientLight intensity={0.7} />
-        <directionalLight position={[10, 20, 15]} intensity={1.5} />
-        <directionalLight position={[-10, -10, -15]} intensity={0.5} />
+        <ambientLight intensity={0.9} />
+        <directionalLight position={[10, 20, 15]} intensity={2.0} />
+        <directionalLight position={[-10, -10, -15]} intensity={0.8} />
         
         <WheelModel width={width} profile={profile} diameter={diameter} offset={offset} />
         
         <OrbitControls
           enablePan={false}
           enableZoom={true}
-          minDistance={2}
-          maxDistance={8}
+          minDistance={1.5}
+          maxDistance={6}
           autoRotate={false}
         />
         <Environment preset="city" />
