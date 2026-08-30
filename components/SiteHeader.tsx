@@ -10,7 +10,6 @@ import { useAuth } from "@/components/AuthProvider";
 import { useAdminRole } from "@/components/admin/useAdminRole";
 import { AdminPortal } from "@/components/admin/AdminPortal";
 import cardealLogo from "@/assets/images/cardeal_logo.png";
-import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 const ADMIN_EMAILS = ['mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com'];
 
@@ -28,43 +27,7 @@ export default function SiteHeader({
 
   const { isAdmin } = useAdminRole(undefined, email);
 
-  const handleAdminClick = async () => {
-    // 1. Authentication Check
-    if (!authed) {
-      onLogin();
-      return;
-    }
-
-    // 2. Role Verification / Admin Access Check
-    let userIsAdmin = isAdmin;
-    if (email && ADMIN_EMAILS.includes(email.toLowerCase())) {
-      userIsAdmin = true;
-    } else if (isSupabaseConfigured && supabase) {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const user = sessionData?.session?.user;
-      if (user) {
-        if (user.email && ADMIN_EMAILS.includes(user.email.toLowerCase())) {
-          userIsAdmin = true;
-        } else {
-          const { data } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single();
-          if (data?.role === 'admin') {
-            userIsAdmin = true;
-          }
-        }
-      }
-    }
-
-    if (userIsAdmin) {
-      setAdminOpen(true);
-    } else {
-      // 3. Regular User Restriction Notice
-      alert("Accès refusé : Le portail administrateur est réservé aux administrateurs.");
-    }
-  };
+  const isUserAdmin = isAdmin || (email && ADMIN_EMAILS.includes(email.toLowerCase()));
 
   const navLinks = [
     { href: authed ? "/dashboard/recherche" : "/#find-service", label: t("nav.findService") },
@@ -102,13 +65,15 @@ export default function SiteHeader({
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <ThemeToggle />
             <LanguageSelector />
-            <Button
-              variant="outline"
-              className="hidden text-sm bg-red-600/20 border-red-500/50 text-red-400 hover:bg-red-600/30 hover:text-red-300 sm:inline-flex items-center gap-1.5"
-              onClick={handleAdminClick}
-            >
-              <ShieldAlert className="w-4 h-4" /> Admin Portal
-            </Button>
+            {isUserAdmin && (
+              <Button
+                variant="outline"
+                className="hidden text-sm bg-red-600/20 border-red-500/50 text-red-400 hover:bg-red-600/30 hover:text-red-300 sm:inline-flex items-center gap-1.5"
+                onClick={() => setAdminOpen(true)}
+              >
+                <ShieldAlert className="w-4 h-4" /> Admin Portal
+              </Button>
+            )}
             <Button variant="outline" className="hidden text-sm sm:inline-flex" onClick={onPartner}>{t("buttons.becomePartner")}</Button>
             <Button onClick={onLogin} className="text-sm">
               {t("buttons.login")}
@@ -137,16 +102,18 @@ export default function SiteHeader({
                 {link.label}
               </a>
             ))}
-            <button
-              onClick={() => { handleAdminClick(); setMenuOpen(false); }}
-              className="flex w-full min-h-11 items-center gap-2 rounded-lg px-3 text-sm font-semibold text-red-500 transition-colors hover:bg-red-500/10"
-            >
-              <ShieldAlert size={16} /> Admin Portal
-            </button>
+            {isUserAdmin && (
+              <button
+                onClick={() => { setAdminOpen(true); setMenuOpen(false); }}
+                className="flex w-full min-h-11 items-center gap-2 rounded-lg px-3 text-sm font-semibold text-red-500 transition-colors hover:bg-red-500/10"
+              >
+                <ShieldAlert size={16} /> Admin Portal
+              </button>
+            )}
           </div>
         )}
       </header>
-      <AdminPortal isOpen={adminOpen} onClose={() => setAdminOpen(false)} />
+      {isUserAdmin && <AdminPortal isOpen={adminOpen} onClose={() => setAdminOpen(false)} />}
     </>
   );
 }
