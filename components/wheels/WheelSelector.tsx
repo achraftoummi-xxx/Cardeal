@@ -4,6 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { Info, X, Car, Search, Move as DragPan, Box as ViewInAr, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from '@/components/TranslationProvider';
+import dynamic from 'next/dynamic';
+
+const WheelViewer3D = dynamic(() => import('./WheelViewer3D'), {
+  ssr: false,
+});
 
 interface WheelSpecs {
   width: number;
@@ -94,17 +99,9 @@ export default function WheelSelector() {
               </button>
             </div>
 
-            {/* 3D Model Placeholder Container */}
-            <div className="flex-1 flex flex-col items-center justify-center">
-              <div className="relative">
-                <ViewInAr className="w-24 h-24 text-[#BA2529] opacity-20" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <ViewInAr className="w-12 h-12 text-[#BA2529] animate-pulse" />
-                </div>
-              </div>
-              <p className="mt-4 text-[10px] text-[#dac1be] uppercase tracking-[0.3em] font-bold">
-                Premium 3D Visualization ({activeTab.toUpperCase()})
-              </p>
+            {/* 3D Model Viewer Component */}
+            <div className="flex-1 w-full h-full relative">
+              <WheelViewer3D width={width} profile={profile} diameter={diameter} offset={offset} />
             </div>
 
             {/* Interaction Indicator */}
