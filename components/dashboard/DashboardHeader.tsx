@@ -73,7 +73,7 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
       <div className="flex-1" />
 
       {/* Right actions */}
-      <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+      <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5 sm:gap-2">
         <ThemeToggle />
         <LanguageSelector />
 
@@ -82,9 +82,9 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
           <button
             type="button"
             onClick={() => setAdminOpen(true)}
-            className="flex h-10 items-center gap-1.5 rounded-lg border border-red-500/50 bg-red-600/20 px-3 text-xs font-semibold text-red-400 shadow-sm transition-colors hover:bg-red-600/30 hover:text-red-300"
+            className="flex h-10 items-center gap-1 rounded-lg border border-red-500/50 bg-red-600/20 px-2.5 sm:px-3 text-xs font-semibold text-red-400 shadow-sm transition-colors hover:bg-red-600/30 hover:text-red-300"
           >
-            <ShieldAlert size={16} /> <span className="hidden sm:inline">Admin Portal</span>
+            <ShieldAlert size={15} /> <span className="hidden md:inline">Admin Portal</span>
           </button>
         )}
 

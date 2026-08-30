@@ -91,8 +91,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="w-full max-w-4xl h-full bg-[#121212] border-l border-neutral-800 p-6 overflow-y-auto text-white flex flex-col shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/80 backdrop-blur-sm animate-fadeIn overflow-x-hidden">
+      <div className="w-full max-w-2xl sm:max-w-3xl md:max-w-4xl h-full bg-[#121212] border-l border-neutral-800 p-4 sm:p-6 overflow-y-auto overflow-x-hidden text-white flex flex-col shadow-2xl">
         {/* Header */}
         <div className="flex justify-between items-center pb-4 border-b border-neutral-800">
           <div className="flex items-center gap-3">
