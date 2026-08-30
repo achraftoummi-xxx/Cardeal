@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body>
+      <body className="overflow-x-hidden">
         <ThemeProvider>
           <TranslationProvider>
             <AuthProvider>{children}</AuthProvider>

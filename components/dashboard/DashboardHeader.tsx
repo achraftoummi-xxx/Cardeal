@@ -32,11 +32,9 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
   const { t } = useTranslation();
   const { location, setLocation } = useDashboard();
   const { email, avatarUrl } = useAuth();
-  const [cityOpen, setCityOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
-  const cityRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +46,6 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
 
   useEffect(() => {
     const onPointerDown = (e: MouseEvent | TouchEvent) => {
-      if (!cityRef.current?.contains(e.target as Node)) setCityOpen(false);
       if (!notifRef.current?.contains(e.target as Node)) setNotifOpen(false);
       if (!profileRef.current?.contains(e.target as Node)) setProfileOpen(false);
     };
@@ -73,53 +70,6 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
         <Menu size={18} />
       </button>
 
-      {/* Location selector */}
-      <div ref={cityRef} className="relative min-w-0">
-        <button
-          type="button"
-          onClick={() => {
-            setCityOpen((o) => !o);
-            setNotifOpen(false);
-            setProfileOpen(false);
-          }}
-          aria-expanded={cityOpen}
-          className="flex min-h-10 max-w-full items-center gap-1.5 rounded-lg border border-border px-2.5 text-sm text-foreground transition-colors hover:bg-accent sm:px-3"
-        >
-          <MapPin size={15} className="shrink-0 text-[var(--cardeal-primary)]" />
-          <span className="truncate">{location.label}</span>
-          <ChevronDown size={14} className={cn("shrink-0 text-muted-foreground transition-transform", cityOpen && "rotate-180")} />
-        </button>
-        {cityOpen && (
-          <div className="absolute left-0 top-full z-50 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-card shadow-2xl shadow-black/20">
-            <p className="border-b border-border px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-              {t("dashboard.header.location")}
-            </p>
-            <ul className="max-h-64 overflow-y-auto p-1">
-              {CITY_OPTIONS.map((c) => (
-                <li key={c.label}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setLocation(c);
-                      setCityOpen(false);
-                    }}
-                    className={cn(
-                      "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors",
-                      c.label === location.label
-                        ? "bg-[var(--cardeal-primary)]/10 font-medium text-[var(--cardeal-primary)]"
-                        : "text-foreground hover:bg-accent"
-                    )}
-                  >
-                    <span>{c.label}</span>
-                    {c.label === location.label && <Check size={14} />}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-
       <div className="flex-1" />
 
       {/* Right actions */}
@@ -134,7 +84,7 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
             onClick={() => setAdminOpen(true)}
             className="flex h-10 items-center gap-1.5 rounded-lg border border-red-500/50 bg-red-600/20 px-3 text-xs font-semibold text-red-400 shadow-sm transition-colors hover:bg-red-600/30 hover:text-red-300"
           >
-            <ShieldAlert size={16} /> Admin Portal
+            <ShieldAlert size={16} /> <span className="hidden sm:inline">Admin Portal</span>
           </button>
         )}
 
