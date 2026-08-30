@@ -94,7 +94,6 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
             type="button"
             onClick={() => {
               setNotifOpen((o) => !o);
-              setCityOpen(false);
               setProfileOpen(false);
             }}
             aria-expanded={notifOpen}
@@ -153,7 +152,6 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
             type="button"
             onClick={() => {
               setProfileOpen((o) => !o);
-              setCityOpen(false);
               setNotifOpen(false);
             }}
             aria-expanded={profileOpen}
