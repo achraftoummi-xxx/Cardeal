@@ -49,25 +49,25 @@ export default function Page() {
                 className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-black/60 hover:border-white/40 hover:scale-105"
               >
                 <span className="w-2 h-2 rounded-full bg-[var(--cardeal-primary)] animate-pulse"></span>
-                Sélecteur de Pneus & Jantes
+                Changer Pneus
               </a>
               <a
                 href="/bons-plans"
                 className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-black/60 hover:border-white/40 hover:scale-105"
               >
-                Bons Plans Garage
+                Promos
               </a>
               <a
                 href="/conseil-auto"
                 className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-black/60 hover:border-white/40 hover:scale-105"
               >
-                Conseils Auto
+                Conseils
               </a>
               <a
                 href="/rechercher-des-pieces"
                 className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-black/60 hover:border-white/40 hover:scale-105"
               >
-                Catalogue Pièces
+                Trouver Pièces
               </a>
             </div>
 
