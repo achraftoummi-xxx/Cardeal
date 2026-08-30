@@ -19,7 +19,13 @@
   "hero": {
     "title": "Find the right garage. {highlight} Keep your car running.",
     "highlight": "Compare repair offers.",
-    "subtitle": "Submit one repair request and receive offers from trusted garages near you."
+    "subtitle": "Submit one repair request and receive offers from trusted garages near you.",
+    "quick": {
+      "changeTires": "Change Tires",
+      "promos": "Promos",
+      "advice": "Advice",
+      "findParts": "Find Parts"
+    }
   },
   "vehicleFinder": {
     "title": "Find your vehicle",

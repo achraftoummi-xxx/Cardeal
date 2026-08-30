@@ -19,7 +19,13 @@
   "hero": {
     "title": "Encuentra el taller adecuado. {highlight} Mantén tu coche en marcha.",
     "highlight": "Compara ofertas de reparación.",
-    "subtitle": "Envía una solicitud de reparación y recibe ofertas de talleres de confianza cerca de ti."
+    "subtitle": "Envía una solicitud de reparación y recibe ofertas de talleres de confianza cerca de ti.",
+    "quick": {
+      "changeTires": "Cambiar Neumáticos",
+      "promos": "Promociones",
+      "advice": "Consejos",
+      "findParts": "Buscar Repuestos"
+    }
   },
   "vehicleFinder": {
     "title": "Encuentra tu vehículo",

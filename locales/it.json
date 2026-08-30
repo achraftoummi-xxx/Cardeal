@@ -19,7 +19,13 @@
   "hero": {
     "title": "Trova l'officina giusta. {highlight} Mantieni la tua auto in funzione.",
     "highlight": "Confronta le offerte di riparazione.",
-    "subtitle": "Invia una richiesta di riparazione e ricevi offerte da officine di fiducia vicino a te."
+    "subtitle": "Invia una richiesta di riparazione e ricevi offerte da officine di fiducia vicino a te.",
+    "quick": {
+      "changeTires": "Cambio Gomme",
+      "promos": "Promozioni",
+      "advice": "Consigli",
+      "findParts": "Trova Ricambi"
+    }
   },
   "vehicleFinder": {
     "title": "Trova il tuo veicolo",

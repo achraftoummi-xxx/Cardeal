@@ -19,7 +19,13 @@
   "hero": {
     "title": "Trouvez le bon garage. {highlight} Gardez votre voiture en marche.",
     "highlight": "Comparez les offres de réparation.",
-    "subtitle": "Soumettez une demande de réparation et recevez des offres de garages de confiance près de chez vous."
+    "subtitle": "Soumettez une demande de réparation et recevez des offres de garages de confiance près de chez vous.",
+    "quick": {
+      "changeTires": "Changer Pneus",
+      "promos": "Promos",
+      "advice": "Conseils",
+      "findParts": "Trouver Pièces"
+    }
   },
   "vehicleFinder": {
     "title": "Trouvez votre véhicule",

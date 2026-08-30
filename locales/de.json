@@ -19,7 +19,13 @@
   "hero": {
     "title": "Finden Sie die richtige Werkstatt. {highlight} Halten Sie Ihr Auto am Laufen.",
     "highlight": "Vergleichen Sie Reparaturofferten.",
-    "subtitle": "Senden Sie eine Reparaturanfrage und erhalten Sie Angebote von vertrauenswürdigen Werkstätten in Ihrer Nähe."
+    "subtitle": "Senden Sie eine Reparaturanfrage und erhalten Sie Angebote von vertrauenswürdigen Werkstätten in Ihrer Nähe.",
+    "quick": {
+      "changeTires": "Reifenwechsel",
+      "promos": "Angebote",
+      "advice": "Tipps",
+      "findParts": "Teile Finden"
+    }
   },
   "vehicleFinder": {
     "title": "Finden Sie Ihr Fahrzeug",
