@@ -237,9 +237,10 @@ export default function WheelSelector() {
             {/* Modal Header / Hero */}
             <div className="relative w-full h-48 md:h-56 bg-[#0e0e0e] border-b border-[#27272a] overflow-hidden group flex-shrink-0">
               <img
-                alt="High-resolution close-up of a premium alloy wheel and tire against a dark blue background"
+                alt=""
+                aria-hidden="true"
                 className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-700"
-                src="https://lh3.googleusercontent.com/aida/AEtjO1VvzGsKyqglvV6uWzb9jWbRCwVvxcZA_0pcwsE9MwgSaDBTIMpUmKqgJkS9mg6gtSfX9Yxzh4UvEXSzQRzRg01Th0oL38cXO34PizgEdLFLtaLekqjs0wfOFpgHO88NtCDY_CxtGZ4o6H6UJGOs770phHlQYYYLj-URcQQcJmgxmeFv_4T4jj2bmjjhsppbHfc23lyemv3yLv5U2Sai8OfAn4cavfar0L3kFF1QqI6dKofNXR0DRjp5cmI"
+                src="/assets/images/wheel-bg.png"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#18181b] via-[#18181b]/50 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col items-center justify-end pb-6 px-4 md:px-10 text-center z-10">
