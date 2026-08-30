@@ -50,6 +50,35 @@ export default function Page() {
               Soumettez une demande de réparation et recevez des offres de garages de confiance
               près de chez vous.
             </p>
+
+            {/* Quick Access Service Pills */}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href="/wheels/selector"
+                className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-black/60 hover:border-white/40 hover:scale-105"
+              >
+                <span className="w-2 h-2 rounded-full bg-[var(--cardeal-primary)] animate-pulse"></span>
+                Sélecteur de Pneus & Jantes
+              </a>
+              <a
+                href="/bons-plans"
+                className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-black/60 hover:border-white/40 hover:scale-105"
+              >
+                Bons Plans Garage
+              </a>
+              <a
+                href="/conseil-auto"
+                className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-black/60 hover:border-white/40 hover:scale-105"
+              >
+                Conseils Auto
+              </a>
+              <a
+                href="/rechercher-des-pieces"
+                className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-black/60 hover:border-white/40 hover:scale-105"
+              >
+                Catalogue Pièces
+              </a>
+            </div>
           </div>
         </div>
       </section>
