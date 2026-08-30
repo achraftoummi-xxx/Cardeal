@@ -226,42 +226,122 @@ export default function WheelSelector() {
 
       {/* Size Guide Modal Overlay */}
       {isGuideOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-[#0e0e0e] border border-[#554241] rounded-xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative max-h-[85vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold text-white">Understanding Wheel & Tire Sizes</h3>
-              <button
-                onClick={() => setIsGuideOpen(false)}
-                className="text-[#dac1be] hover:text-white p-2 rounded-full hover:bg-[#353534] transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="space-y-6 text-sm text-[#dac1be]">
-              <div className="bg-[#131313] p-4 rounded-lg border border-[#353534] text-center">
-                <p className="text-2xl font-bold text-white tracking-widest">
-                  <span className="text-[#BA2529]">205</span> / <span className="text-[#BA2529]">55</span> R <span className="text-[#BA2529]">16</span> 87V
-                </p>
-                <p className="text-xs mt-2 text-[#dac1be]">Standard ETRTO sidewall marking layout breakdown.</p>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 flex items-center justify-center p-4 md:p-10 overflow-y-auto text-[#e5e2e1]">
+          {/* Modal Container */}
+          <div className="bg-[#18181b] border border-[#27272a] rounded-xl w-full max-w-4xl shadow-2xl relative overflow-hidden flex flex-col my-8">
+            {/* Close Button */}
+            <button
+              onClick={() => setIsGuideOpen(false)}
+              aria-label="Close modal"
+              className="absolute top-4 right-4 z-50 p-2 text-[#71717a] hover:text-[#fafafa] hover:bg-[#2a2a2a] rounded-full transition-colors duration-200 hover:rotate-90 transition-transform duration-300 cursor-pointer"
+            >
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>close</span>
+            </button>
+            {/* Modal Header / Hero */}
+            <div className="relative w-full h-64 md:h-80 bg-[#0e0e0e] border-b border-[#27272a] overflow-hidden group">
+              <img
+                alt="High-resolution close-up of a premium alloy wheel and tire against a dark blue background"
+                className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-700"
+                src="https://lh3.googleusercontent.com/aida/AEtjO1VvzGsKyqglvV6uWzb9jWbRCwVvxcZA_0pcwsE9MwgSaDBTIMpUmKqgJkS9mg6gtSfX9Yxzh4UvEXSzQRzRg01Th0oL38cXO34PizgEdLFLtaLekqjs0wfOFpgHO88NtCDY_CxtGZ4o6H6UJGOs770phHlQYYYLj-URcQQcJmgxmeFv_4T4jj2bmjjhsppbHfc23lyemv3yLv5U2Sai8OfAn4cavfar0L3kFF1QqI6dKofNXR0DRjp5cmI"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#18181b] via-[#18181b]/50 to-transparent"></div>
+              <div className="absolute inset-0 flex flex-col items-center justify-end pb-12 px-4 md:px-10 text-center z-10">
+                <h1 className="text-[28px] md:text-[32px] leading-[1.2] font-semibold text-[#fafafa] mb-1 drop-shadow-md">Comprendre les dimensions</h1>
+                {/* Glowing Code Snippet */}
+                <div className="mt-3 bg-[#0a0a0a]/80 backdrop-blur-md border border-[#BA2529]/30 px-6 py-3 rounded-lg shadow-[0_0_15px_rgba(186,37,41,0.2)]">
+                  <div className="flex items-center gap-2 text-3xl md:text-5xl font-bold tracking-tighter">
+                    <span className="bg-[#BA2529]/20 text-[#ffb3ae] px-3 py-1 rounded-full border border-[#BA2529]/30">195</span>
+                    <span className="text-[#71717a]">/</span>
+                    <span className="bg-[#BA2529]/20 text-[#ffb3ae] px-3 py-1 rounded-full border border-[#BA2529]/30">55</span>
+                    <span className="text-[#fafafa] mx-2">R</span>
+                    <span className="bg-[#BA2529]/20 text-[#ffb3ae] px-3 py-1 rounded-full border border-[#BA2529]/30">16</span>
+                    <span className="bg-[#BA2529]/20 text-[#ffb3ae] px-3 py-1 rounded-full border border-[#BA2529]/30">87</span>
+                    <span className="text-[#fafafa] ml-1">V</span>
+                  </div>
+                </div>
+                <p className="text-[12px] leading-none tracking-[0.1em] font-bold text-[#71717a] mt-3 uppercase">Exemple de marquage standard sur le flanc</p>
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-[#131313] p-4 rounded-lg border border-[#353534]">
-                  <h4 className="font-bold text-white text-base mb-1 text-[#BA2529]">Section Width (205)</h4>
-                  <p className="text-xs">Nominal section width in millimeters measured across outer to inner sidewalls.</p>
+            </div>
+            {/* Modal Body (Grid) */}
+            <div className="p-4 md:p-6 overflow-y-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Card 1 */}
+                <div className="bg-[#131313]/40 backdrop-blur-md border border-[#27272a]/50 rounded-xl p-6 hover:border-[#BA2529]/40 hover:shadow-[0_0_20px_rgba(186,37,41,0.15)] hover:scale-[1.02] transition-all duration-300 flex flex-col group/card">
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="w-10 h-10 rounded bg-[#2a2a2a] flex items-center justify-center border border-[#27272a] text-[#BA2529]">
+                      <span className="material-symbols-outlined">straighten</span>
+                    </div>
+                    <div>
+                      <span className="text-[12px] leading-none tracking-[0.1em] font-bold text-[#71717a] block tracking-[0.15em] text-[#dac1be]">LARGEUR</span>
+                      <span className="text-[24px] leading-[1.3] font-medium text-[#fafafa] font-bold tracking-tight drop-shadow-[0_0_8px_rgba(255,179,174,0.3)]">195</span>
+                    </div>
+                  </div>
+                  <p className="text-[14px] leading-[1.6] text-[#dac1be] flex-grow border-t border-[#27272a]/50 mt-4 pt-4 leading-relaxed">Largeur nominale de boudin (en mm) : distance maximale entre les flancs externe et interne d'un pneu gonflé, hors marquages de protection.</p>
                 </div>
-                <div className="bg-[#131313] p-4 rounded-lg border border-[#353534]">
-                  <h4 className="font-bold text-white text-base mb-1 text-[#BA2529]">Aspect Ratio (55)</h4>
-                  <p className="text-xs">Sidewall height as a precise percentage of the total tread width.</p>
+                {/* Card 2 */}
+                <div className="bg-[#131313]/40 backdrop-blur-md border border-[#27272a]/50 rounded-xl p-6 hover:border-[#BA2529]/40 hover:shadow-[0_0_20px_rgba(186,37,41,0.15)] hover:scale-[1.02] transition-all duration-300 flex flex-col group/card">
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="w-10 h-10 rounded bg-[#2a2a2a] flex items-center justify-center border border-[#27272a] text-[#BA2529]">
+                      <span className="material-symbols-outlined">height</span>
+                    </div>
+                    <div>
+                      <span className="text-[12px] leading-none tracking-[0.1em] font-bold text-[#71717a] block tracking-[0.15em] text-[#dac1be]">PROFIL</span>
+                      <span className="text-[24px] leading-[1.3] font-medium text-[#fafafa] font-bold tracking-tight drop-shadow-[0_0_8px_rgba(255,179,174,0.3)]">55</span>
+                    </div>
+                  </div>
+                  <p className="text-[14px] leading-[1.6] text-[#dac1be] flex-grow border-t border-[#27272a]/50 mt-4 pt-4 leading-relaxed">Rapport d'aspect (Série) : hauteur de flanc exprimée en pourcentage exact de la largeur de boudin (55% de 195 mm = 107.25 mm). Indique la hauteur du flanc.</p>
                 </div>
-                <div className="bg-[#131313] p-4 rounded-lg border border-[#353534]">
-                  <h4 className="font-bold text-white text-base mb-1 text-[#BA2529]">Radial Construction (R)</h4>
-                  <p className="text-xs">Radial ply structure layout aligning internal cords perpendicularly.</p>
+                {/* Card 3 */}
+                <div className="bg-[#131313]/40 backdrop-blur-md border border-[#27272a]/50 rounded-xl p-6 hover:border-[#BA2529]/40 hover:shadow-[0_0_20px_rgba(186,37,41,0.15)] hover:scale-[1.02] transition-all duration-300 flex flex-col group/card">
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="w-10 h-10 rounded bg-[#2a2a2a] flex items-center justify-center border border-[#27272a] text-[#BA2529]">
+                      <span className="material-symbols-outlined">layers</span>
+                    </div>
+                    <div>
+                      <span className="text-[12px] leading-none tracking-[0.1em] font-bold text-[#71717a] block tracking-[0.15em] text-[#dac1be]">STRUCTURE</span>
+                      <span className="text-[24px] leading-[1.3] font-medium text-[#fafafa] font-bold tracking-tight drop-shadow-[0_0_8px_rgba(255,179,174,0.3)]">R</span>
+                    </div>
+                  </div>
+                  <p className="text-[14px] leading-[1.6] text-[#dac1be] flex-grow border-t border-[#27272a]/50 mt-4 pt-4 leading-relaxed">Type de construction : 'R' désigne une structure radiale, où les câbles de la carcasse sont disposés perpendiculairement à la direction du mouvement (à 90° de l'axe longitudinal).</p>
                 </div>
-                <div className="bg-[#131313] p-4 rounded-lg border border-[#353534]">
-                  <h4 className="font-bold text-white text-base mb-1 text-[#BA2529]">Rim Diameter (16)</h4>
-                  <p className="text-xs">Diameter of the wheel rim bead seat measured directly in inches.</p>
+                {/* Card 4 */}
+                <div className="bg-[#131313]/40 backdrop-blur-md border border-[#27272a]/50 rounded-xl p-6 hover:border-[#BA2529]/40 hover:shadow-[0_0_20px_rgba(186,37,41,0.15)] hover:scale-[1.02] transition-all duration-300 flex flex-col group/card">
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="w-10 h-10 rounded bg-[#2a2a2a] flex items-center justify-center border border-[#27272a] text-[#BA2529]">
+                      <span className="material-symbols-outlined">radio_button_unchecked</span>
+                    </div>
+                    <div>
+                      <span className="text-[12px] leading-none tracking-[0.1em] font-bold text-[#71717a] block tracking-[0.15em] text-[#dac1be]">DIAMÈTRE JANTE</span>
+                      <span className="text-[24px] leading-[1.3] font-medium text-[#fafafa] font-bold tracking-tight drop-shadow-[0_0_8px_rgba(255,179,174,0.3)]">16"</span>
+                    </div>
+                  </div>
+                  <p className="text-[14px] leading-[1.6] text-[#dac1be] flex-grow border-t border-[#27272a]/50 mt-4 pt-4 leading-relaxed">Diamètre nominal de la jante : diamètre du siège de la jante exprimé en pouces (correspondant au diamètre intérieur du pneu).</p>
+                </div>
+                {/* Card 5 */}
+                <div className="bg-[#131313]/40 backdrop-blur-md border border-[#27272a]/50 rounded-xl p-6 hover:border-[#BA2529]/40 hover:shadow-[0_0_20px_rgba(186,37,41,0.15)] hover:scale-[1.02] transition-all duration-300 flex flex-col group/card">
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="w-10 h-10 rounded bg-[#2a2a2a] flex items-center justify-center border border-[#27272a] text-[#BA2529]">
+                      <span className="material-symbols-outlined">weight</span>
+                    </div>
+                    <div>
+                      <span className="text-[12px] leading-none tracking-[0.1em] font-bold text-[#71717a] block tracking-[0.15em] text-[#dac1be]">CHARGE</span>
+                      <span className="text-[24px] leading-[1.3] font-medium text-[#fafafa] font-bold tracking-tight drop-shadow-[0_0_8px_rgba(255,179,174,0.3)]">87</span>
+                    </div>
+                  </div>
+                  <p className="text-[14px] leading-[1.6] text-[#dac1be] flex-grow border-t border-[#27272a]/50 mt-4 pt-4 leading-relaxed">Indice de capacité de charge : code numérique standardisé (ex: 87 = 545 kg maximum par pneu sous charge statique maximale).</p>
+                </div>
+                {/* Card 6 */}
+                <div className="bg-[#131313]/40 backdrop-blur-md border border-[#27272a]/50 rounded-xl p-6 hover:border-[#BA2529]/40 hover:shadow-[0_0_20px_rgba(186,37,41,0.15)] hover:scale-[1.02] transition-all duration-300 flex flex-col group/card">
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="w-10 h-10 rounded bg-[#2a2a2a] flex items-center justify-center border border-[#27272a] text-[#BA2529]">
+                      <span className="material-symbols-outlined">speed</span>
+                    </div>
+                    <div>
+                      <span className="text-[12px] leading-none tracking-[0.1em] font-bold text-[#71717a] block tracking-[0.15em] text-[#dac1be]">VITESSE</span>
+                      <span className="text-[24px] leading-[1.3] font-medium text-[#fafafa] font-bold tracking-tight drop-shadow-[0_0_8px_rgba(255,179,174,0.3)]">V</span>
+                    </div>
+                  </div>
+                  <p className="text-[14px] leading-[1.6] text-[#dac1be] flex-grow border-t border-[#27272a]/50 mt-4 pt-4 leading-relaxed">Code de catégorie de vitesse : lettre indiquant la vitesse maximale admissible en toute sécurité (ex: V = jusqu'à 240 km/h).</p>
                 </div>
               </div>
             </div>
