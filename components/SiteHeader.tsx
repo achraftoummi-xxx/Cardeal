@@ -78,11 +78,6 @@ export default function SiteHeader({
                     {userName ? userName.charAt(0).toUpperCase() : <User size={14} />}
                   </div>
                   <span className="hidden sm:inline max-w-[120px] truncate">{userName || email}</span>
-                  {isUserAdmin && (
-                    <span className="ml-1 rounded bg-red-500/20 px-1.5 py-0.5 text-[10px] font-bold text-red-400 uppercase tracking-wider">
-                      Admin
-                    </span>
-                  )}
                 </button>
 
                 {profileDropdownOpen && (
