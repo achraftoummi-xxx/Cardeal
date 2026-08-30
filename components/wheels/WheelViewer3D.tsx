@@ -22,7 +22,7 @@ function WheelModel({ width, profile, diameter, offset }: WheelModelProps) {
   const baseProfile = 40;
   const baseDiameter = 19;
 
-  const scaleMultiplier = 3.2; // Prominently increase overall scale so the wheel fills the viewport
+  const scaleMultiplier = 2.4; // Balanced scale to prevent clipping outside container bounds
 
   const scaleX = (width / baseWidth) * scaleMultiplier;
   const scaleY = ((diameter + (width * (profile / 100)) / 25.4 / 2) / (baseDiameter + (baseWidth * (baseProfile / 100)) / 25.4 / 2)) * scaleMultiplier;
@@ -37,7 +37,7 @@ function WheelModel({ width, profile, diameter, offset }: WheelModelProps) {
 
   return (
     <group ref={groupRef}>
-      <Center top>
+      <Center>
         <primitive 
           object={scene} 
           scale={[scaleX, scaleY, scaleZ]} 
@@ -59,7 +59,7 @@ export default function WheelViewer3D({ width, profile, diameter, offset }: Whee
   return (
     <div className="w-full h-full relative">
       <Canvas
-        camera={{ position: [0, 0, 3.5], fov: 45 }}
+        camera={{ position: [0, 0, 4.5], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
       >
         <ambientLight intensity={0.9} />
