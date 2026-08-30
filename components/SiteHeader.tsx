@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, ShieldAlert, User, LogOut } from "lucide-react";
+import { Menu, X, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -21,10 +21,9 @@ export default function SiteHeader({
   onPartner: () => void;
 }) {
   const { t } = useTranslation();
-  const { authed, email, userName } = useAuth();
+  const { authed, email } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
-  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   const { isAdmin } = useAdminRole(undefined, email);
 
@@ -68,63 +67,19 @@ export default function SiteHeader({
             <LanguageSelector />
             <Button variant="outline" className="hidden text-sm sm:inline-flex" onClick={onPartner}>{t("buttons.becomePartner")}</Button>
             
-            {authed ? (
-              <div className="relative">
-                <button
-                  onClick={() => setProfileDropdownOpen((prev) => !prev)}
-                  className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground transition-all hover:border-muted-foreground/50"
-                >
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--cardeal-primary)] text-white text-xs font-bold">
-                    {userName ? userName.charAt(0).toUpperCase() : <User size={14} />}
-                  </div>
-                  <span className="hidden sm:inline max-w-[120px] truncate">{userName || email}</span>
-                </button>
-
-                {profileDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-xl border border-border bg-card p-2 shadow-2xl backdrop-blur-xl z-50">
-                    <div className="px-3 py-2 border-b border-border mb-1">
-                      <p className="text-xs font-medium text-muted-foreground truncate">{email}</p>
-                      <p className="text-sm font-bold text-foreground truncate">{userName || "Mon Compte"}</p>
-                    </div>
-
-                    <a
-                      href="/dashboard"
-                      onClick={() => setProfileDropdownOpen(false)}
-                      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                    >
-                      <User size={16} /> Mon Tableau de Bord
-                    </a>
-
-                    {isUserAdmin && (
-                      <button
-                        onClick={() => {
-                          setAdminOpen(true);
-                          setProfileDropdownOpen(false);
-                        }}
-                        className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-red-400 transition-colors hover:bg-red-500/10"
-                      >
-                        <ShieldAlert size={16} /> Admin Portal
-                      </button>
-                    )}
-
-                    <div className="border-t border-border my-1" />
-
-                    <a
-                      href="/auth"
-                      onClick={() => setProfileDropdownOpen(false)}
-                      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-destructive transition-colors hover:bg-destructive/10"
-                    >
-                      <LogOut size={16} /> Déconnexion
-                    </a>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Button onClick={onLogin} className="text-sm">
-                {t("buttons.login")}
+            {isUserAdmin && (
+              <Button
+                variant="outline"
+                className="hidden text-sm bg-red-600/20 border-red-500/50 text-red-400 hover:bg-red-600/30 hover:text-red-300 sm:inline-flex items-center gap-1.5"
+                onClick={() => setAdminOpen(true)}
+              >
+                <ShieldAlert className="w-4 h-4" /> Admin Portal
               </Button>
             )}
 
+            <Button onClick={onLogin} className="text-sm">
+              {t("buttons.login")}
+            </Button>
             <button
               type="button"
               onClick={() => setMenuOpen((o) => !o)}
