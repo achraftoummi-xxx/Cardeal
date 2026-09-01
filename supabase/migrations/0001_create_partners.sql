@@ -374,4 +374,56 @@ Fermé',
 • Test suspension • Nettoyage filtre à particules
 • Nettoyage catalyseur',
     NULL
+  ),
+  (
+    'Tunis',
+    '2036',
+    'AutoGo X20',
+    'Station Pneumatique & Garage',
+    'Avenue X20, Tunis, Tunisia',
+    '71000000',
+    NULL,
+    NULL,
+    '36.847336, 10.107711',
+    '36.847336',
+    '10.107711',
+    NULL,
+    NULL,
+    '4.8',
+    '28',
+    '• Lundi - Samedi :
+8h00 - 18h00
+• Dimanche : Fermé',
+    '• Station Pneumatique
+• Vente et montage de Pneus & Batteries
+• Equilibrage
+• Parallélisme
+• Charge climatiseur
+• Diagnostic complet',
+    NULL
+  ),
+  (
+    'Nabeul',
+    '8000',
+    'Trabelsi Pneu',
+    'Station Pneumatique & Vente de Pneus',
+    'Avenue Habib Bourguiba, Nabeul, Tunisia',
+    '72000000',
+    NULL,
+    NULL,
+    '36.46863694716793, 10.762677515342881',
+    '36.46863694716793',
+    '10.762677515342881',
+    NULL,
+    NULL,
+    '4.6',
+    '19',
+    '• Lundi - Samedi :
+8h00 - 19h00
+• Dimanche : Fermé',
+    '• Sale tires
+• Vente et montage de Pneus
+• Equilibrage
+• Réparation de pneus',
+    NULL
   );
