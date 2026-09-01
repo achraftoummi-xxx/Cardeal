@@ -6,6 +6,7 @@ import globalPiecesAutoLogo from "@/assets/dealers_logos/GPA.png";
 import amineLogo from "@/assets/dealers_logos/AMINE.png";
 import autoGoX20Logo from "@/assets/dealers_logos/AutoGox20.png";
 import trabelsiPneuLogo from "@/assets/dealers_logos/Trabelsi-Pneu.png";
+import smartAutoTunisieLogo from "@/assets/dealers_logos/smartautotunisie.jpg";
 import defaultDealerLogo from "@/assets/dealers_logos/default.png";
 
 /* Dealer logos — keyed by a normalized dealer name (lowercase, alphanumeric
@@ -28,6 +29,8 @@ const DEALER_LOGOS: Record<string, StaticImageData> = {
   autogox: autoGoX20Logo,
   trabelsipneu: trabelsiPneuLogo,
   trabelsi: trabelsiPneuLogo,
+  smartautotunisie: smartAutoTunisieLogo,
+  smartauto: smartAutoTunisieLogo,
 };
 
 export const DEFAULT_DEALER_LOGO: StaticImageData = defaultDealerLogo;

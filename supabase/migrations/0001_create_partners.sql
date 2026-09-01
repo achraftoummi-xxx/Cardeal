@@ -426,4 +426,28 @@ Fermé',
 • Equilibrage
 • Réparation de pneus',
     NULL
+  ),
+  (
+    'Tunis',
+    '1001',
+    'SMART auto tunisie',
+    'Magasin d''accessoires et pièces automobiles',
+    'Tunis, Tunisia',
+    '71111111',
+    NULL,
+    NULL,
+    '36.800205, 10.185776',
+    '36.800205',
+    '10.185776',
+    NULL,
+    NULL,
+    '4.7',
+    '31',
+    '• Lundi - Samedi :
+8h30 - 18h30
+• Dimanche : Fermé',
+    '• Vente de l''accessoires pour les véhicules automobiles
+• Accessoires intérieurs et extérieurs
+• Équipements et gadgets auto',
+    NULL
   );
