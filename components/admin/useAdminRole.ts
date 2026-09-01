@@ -6,8 +6,8 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 const ADMIN_EMAILS = ['mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com'];
 
 export function useAdminRole(userId: string | undefined, userEmail: string | undefined) {
-  const [isAdmin, setIsAdmin] = useState(true); // Temporarily true for easy access & testing
-  const [loading, setLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function checkAdmin() {

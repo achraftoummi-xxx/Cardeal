@@ -30,8 +30,8 @@ export default function SiteHeader({
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
-      <nav className="flex items-center justify-between gap-2 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6 sm:pt-3 lg:px-8">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl box-border w-full">
+      <nav className="flex items-center justify-between gap-2 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6 sm:pt-3 lg:px-8 box-border w-full max-w-full">
         <a href="/" className="shrink-0" aria-label={t("site.name")}>
           <img
             src={cardealLogo.src}

@@ -68,6 +68,11 @@
      container, unlike overflow: hidden). */
   body {
     overflow-x: clip;
+    box-sizing: border-box;
+  }
+
+  *, *:before, *:after {
+    box-sizing: border-box;
   }
 
   /* iOS Safari auto-zooms into inputs whose font-size is below 16px.

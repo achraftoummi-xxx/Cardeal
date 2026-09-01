@@ -260,7 +260,7 @@ export default function SearchModule({
   const showEmpty = hasSearched && !shopsLoading && !shopsError && shops.length === 0;
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-4 shadow-2xl shadow-black/10 dark:shadow-black/40 backdrop-blur-xl sm:p-8">
+    <div className="rounded-2xl border border-border bg-card p-4 shadow-2xl shadow-black/10 dark:shadow-black/40 backdrop-blur-xl sm:p-8 w-full max-w-full box-border">
       {/* Location (reuses the existing LocationBar) */}
       <LocationBar onLocationChange={handleLocationChange} className="mb-4 sm:mb-6" />
 

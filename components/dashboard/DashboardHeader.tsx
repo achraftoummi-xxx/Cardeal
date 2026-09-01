@@ -59,7 +59,7 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-2 border-b border-border bg-background/85 px-4 backdrop-blur-xl sm:gap-3 sm:px-6">
+      <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-2 border-b border-border bg-background/85 px-4 backdrop-blur-xl sm:gap-3 sm:px-6 box-border min-w-0">
       {/* Mobile menu toggle */}
       <button
         type="button"

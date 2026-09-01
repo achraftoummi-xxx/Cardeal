@@ -140,7 +140,7 @@ const STATUS_CLASSES: Record<string, string> = {
 
 function Card({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn("rounded-2xl border border-border bg-card p-5 shadow-sm", className)}>
+    <div className={cn("rounded-2xl border border-border bg-card p-5 shadow-sm w-full max-w-full box-border", className)}>
       {children}
     </div>
   );

@@ -57,8 +57,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <DashboardSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <div className="flex min-w-0 flex-1 flex-col">
           <DashboardHeader onMenu={() => setSidebarOpen((o) => !o)} />
-          <main className="flex-1 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-5 sm:pt-6">
-            <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">{children}</div>
+          <main className="flex-1 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-5 sm:pt-6 box-border min-w-0 overflow-x-hidden">
+            <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 box-border">{children}</div>
           </main>
         </div>
       </div>
