@@ -179,17 +179,29 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
                 <p className="truncate text-sm font-semibold text-foreground">{userName}</p>
                 <p className="truncate text-xs text-muted-foreground">{email || userName}</p>
               </div>
-              <ul className="p-1.5">
-                <li>
-                  <Link
-                    href="/dashboard/parametres"
-                    onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-foreground transition-colors hover:bg-accent"
-                  >
-                    <Settings size={15} className="text-muted-foreground" />
-                    {t("dashboard.nav.settings")}
-                  </Link>
-                </li>
+               <ul className="p-1.5">
+                 {isUserAdmin && (
+                   <li>
+                     <Link
+                       href="/admin"
+                       onClick={() => setProfileOpen(false)}
+                       className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-red-400 font-semibold transition-colors hover:bg-red-500/10"
+                     >
+                       <ShieldAlert size={15} className="text-red-500" />
+                       Admin Control Center
+                     </Link>
+                   </li>
+                 )}
+                 <li>
+                   <Link
+                     href="/dashboard/parametres"
+                     onClick={() => setProfileOpen(false)}
+                     className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-foreground transition-colors hover:bg-accent"
+                   >
+                     <Settings size={15} className="text-muted-foreground" />
+                     {t("dashboard.nav.settings")}
+                   </Link>
+                 </li>
                 <li>
                   <button
                     type="button"

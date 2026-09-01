@@ -29,7 +29,6 @@ export default function SiteHeader({
 
   const navLinks = [
     { href: authed ? "/dashboard/recherche" : "/#find-service", label: t("nav.findService") },
-    { href: authed ? "/dashboard/recherche" : "/#find-service", label: t("nav.requestQuote") },
     { href: "/rechercher-des-pieces", label: t("nav.searchParts") },
     { href: "/pneus", label: t("nav.tires") },
     { href: "/conseil-auto", label: t("nav.advice") },
