@@ -2,8 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import cardealLogo from '@/assets/images/cardeal_logo.png';
 import { 
   LayoutDashboard, 
   FileText, 
@@ -70,17 +72,17 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     setLoading(true);
     if (!isSupabaseConfigured || !supabase) {
       setPendingRequests([
-        { id: '1-mock', company_name: 'Garage Al-Amine', email: 'amine@garage.tn', category: 'Mécanique générale', status: 'pending', created_at: new Date().toISOString() },
-        { id: '2-mock', company_name: 'Electro-Auto Tunis', email: 'contact@electroauto.tn', category: 'Électricité & Diagnostic', status: 'pending', created_at: new Date().toISOString() }
+        { id: '1-mock', company_name: 'Alpha Construction & Co', email: 'contact@alphabuild.tn', category: 'General Construction', status: 'pending', created_at: new Date().toISOString() },
+        { id: '2-mock', company_name: 'Tunis Property Facilities', email: 'ops@tunisprop.tn', category: 'Facilities Management', status: 'pending', created_at: new Date().toISOString() }
       ]);
       setClients([
         { id: 'c1', email: 'mokhtari.achref06@gmail.com', role: 'admin', created_at: new Date().toISOString() },
         { id: 'c2', email: 'toumiachref21@gmail.com', role: 'admin', created_at: new Date().toISOString() },
-        { id: 'c3', email: 'client.tunis@cardeal.tn', role: 'client', created_at: new Date().toISOString() }
+        { id: 'c3', email: 'client.tunis@geometra.io', role: 'client', created_at: new Date().toISOString() }
       ]);
       setVehicles([
-        { id: 'v1', brand: 'Toyota', model: 'Corolla', year: 2022, health_score: 94, owner_email: 'client.tunis@cardeal.tn', history: [{ date: '2026-02-10', service: 'Vidange & Filtres', status: 'Complété' }] },
-        { id: 'v2', brand: 'Volkswagen', model: 'Golf 7', year: 2019, health_score: 82, owner_email: 'client.tunis@cardeal.tn', history: [{ date: '2026-01-15', service: 'Remplacement Plaquettes de Frein', status: 'Complété' }] }
+        { id: 'v1', brand: 'Alpha Site', model: 'Block A Residential', year: 2026, health_score: 94, owner_email: 'client.tunis@geometra.io', history: [{ date: '2026-02-10', service: 'Foundation Inspection', status: 'Completed' }] },
+        { id: 'v2', brand: 'Beta Complex', model: 'Commercial Tower', year: 2025, health_score: 82, owner_email: 'client.tunis@geometra.io', history: [{ date: '2026-01-15', service: 'Structural Review', status: 'Completed' }] }
       ]);
       setLoading(false);
       return;
@@ -129,12 +131,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
       <nav className="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-card border-r border-border py-6 z-40 backdrop-blur-xl shadow-sm">
         {/* Brand Header */}
         <div className="px-6 mb-8 flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-[--radius] bg-[var(--cardeal-primary)]/15 flex items-center justify-center text-[var(--cardeal-primary)]">
-            <Gauge className="w-5 h-5" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-[var(--cardeal-primary)] tracking-tight font-['Space_Grotesk']">CarDeal</h1>
-            <p className="text-[11px] text-muted-foreground uppercase tracking-widest mt-0.5">Precision Admin</p>
+          <div className="relative w-32 h-8">
+            <Image 
+              src={cardealLogo.src} 
+              alt="Geometra" 
+              fill 
+              sizes="128px"
+              className="object-contain object-left dark:brightness-150" 
+              priority 
+            />
           </div>
         </div>
 
@@ -161,7 +166,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             }`}
           >
             <Handshake className={`w-5 h-5 ${activeTab === 'requests' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm">Partnership Requests ({pendingRequests.length})</span>
+            <span className="text-sm">Tenant Requests ({pendingRequests.length})</span>
           </button>
 
           <button
@@ -173,7 +178,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             }`}
           >
             <Users className={`w-5 h-5 ${activeTab === 'clients' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm">Customers ({clients.length})</span>
+            <span className="text-sm">Users ({clients.length})</span>
           </button>
 
           <button
@@ -185,7 +190,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             }`}
           >
             <Car className={`w-5 h-5 ${activeTab === 'vehicles' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm">Fleet & Vehicles</span>
+            <span className="text-sm">Projects & Portfolios</span>
           </button>
 
           <button
@@ -222,7 +227,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-[var(--cardeal-primary)] transition-colors w-4 h-4" />
               <input 
                 className="w-full bg-background border border-border rounded-[--radius] pl-10 pr-4 py-2 text-sm text-foreground focus:outline-none focus:border-[var(--cardeal-primary)] focus:ring-1 focus:ring-[var(--cardeal-primary)] transition-all placeholder:text-muted-foreground" 
-                placeholder="Search inventory, orders, or customers..." 
+                placeholder="Search projects, invoices, or users..." 
                 type="text" 
               />
             </div>
@@ -245,8 +250,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                 className="w-8 h-8 rounded-full border border-border object-cover"
               />
               <div className="hidden md:block text-left">
-                <p className="text-xs font-bold text-foreground leading-tight">Admin User</p>
-                <p className="text-[11px] text-muted-foreground">CarDeal HQ</p>
+                <p className="text-xs font-bold text-foreground leading-tight">Achref Toumi</p>
+                <p className="text-[11px] text-muted-foreground">Geometra Admin</p>
               </div>
             </div>
           </div>
@@ -257,8 +262,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           {/* Page Header & Actions */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground font-['Space_Grotesk']">Control Center Overview</h2>
-              <p className="text-sm text-muted-foreground mt-1">Real-time performance metrics and admin management.</p>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground font-['Space_Grotesk']">SaaS Control Center</h2>
+              <p className="text-sm text-muted-foreground mt-1">Multi-tenant performance analytics and administrative management.</p>
             </div>
             <div className="flex items-center gap-2 bg-card border border-border rounded-[--radius] p-1.5 shadow-sm">
               <Calendar className="w-4 h-4 text-muted-foreground ml-2" />
@@ -279,13 +284,12 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             <>
               {/* Bento Grid: Key Metrics */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-8 gap-4">
-                <div className="bg-card/60 border border-border rounded-2xl p-5 hover:border-[var(--cardeal-primary)]/50 transition-colors relative overflow-hidden group backdrop-blur-xl shadow-xl">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--cardeal-primary)]/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-[var(--cardeal-primary)]/10 transition-colors"></div>
+                <div className="bg-card border border-border rounded-xl p-5 hover:border-[var(--cardeal-primary)]/50 transition-colors relative overflow-hidden group shadow-sm">
                   <div className="flex justify-between items-start mb-4 relative z-10">
-                    <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center border border-border text-[var(--cardeal-primary)]">
+                    <div className="w-10 h-10 rounded-lg bg-[var(--cardeal-primary)]/10 flex items-center justify-center text-[var(--cardeal-primary)]">
                       <Layers className="w-5 h-5" />
                     </div>
-                    <span className="flex items-center gap-1 text-[11px] font-bold text-[var(--cardeal-primary)] bg-[var(--cardeal-primary)]/10 px-2 py-1 rounded-lg border border-[var(--cardeal-primary)]/20">
+                    <span className="flex items-center gap-1 text-[11px] font-bold text-[var(--cardeal-primary)] bg-[var(--cardeal-primary)]/10 px-2 py-1 rounded">
                       <span className="relative flex h-2 w-2 mr-1">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--cardeal-primary)] opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--cardeal-primary)]"></span>
@@ -294,96 +298,92 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     </span>
                   </div>
                   <div className="relative z-10">
-                    <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Active Clients</p>
-                    <h3 className="text-2xl font-extrabold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.clients}</h3>
-                    <p className="text-xs text-muted-foreground mt-1">Subscription based</p>
+                    <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Active Tenants</p>
+                    <h3 className="text-2xl font-bold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.clients}</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Multi-tenant SaaS</p>
                   </div>
                 </div>
 
-                <div className="bg-card/60 border border-border rounded-2xl p-5 hover:border-[var(--cardeal-primary)]/50 transition-colors relative overflow-hidden group backdrop-blur-xl shadow-xl">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--cardeal-primary)]/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-[var(--cardeal-primary)]/10 transition-colors"></div>
+                <div className="bg-card border border-border rounded-xl p-5 hover:border-[var(--cardeal-primary)]/50 transition-colors relative overflow-hidden group shadow-sm">
                   <div className="flex justify-between items-start mb-4 relative z-10">
-                    <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center border border-border text-emerald-500">
+                    <div className="w-10 h-10 rounded-lg bg-[var(--cardeal-primary)]/10 flex items-center justify-center text-[var(--cardeal-primary)]">
                       <CreditCard className="w-5 h-5" />
                     </div>
-                    <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-lg border border-emerald-500/20">
+                    <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded">
                       <TrendingUp className="w-3.5 h-3.5" /> +12.5%
                     </span>
                   </div>
                   <div className="relative z-10">
-                    <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Monthly Revenue</p>
-                    <h3 className="text-2xl font-extrabold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.revenue} <span className="text-sm text-muted-foreground font-semibold">DT</span></h3>
-                    <p className="text-xs text-muted-foreground mt-1">Gross volume</p>
+                    <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Monthly MRR</p>
+                    <h3 className="text-2xl font-bold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.revenue} <span className="text-sm text-muted-foreground font-semibold">USD</span></h3>
+                    <p className="text-xs text-muted-foreground mt-1">Stripe billing</p>
                   </div>
                 </div>
 
-                <div className="bg-card/60 border border-border rounded-2xl p-5 hover:border-[var(--cardeal-primary)]/50 transition-colors relative overflow-hidden group backdrop-blur-xl shadow-xl">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--cardeal-primary)]/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-[var(--cardeal-primary)]/10 transition-colors"></div>
+                <div className="bg-card border border-border rounded-xl p-5 hover:border-[var(--cardeal-primary)]/50 transition-colors relative overflow-hidden group shadow-sm">
                   <div className="flex justify-between items-start mb-4 relative z-10">
-                    <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center border border-border text-amber-500">
+                    <div className="w-10 h-10 rounded-lg bg-[var(--cardeal-primary)]/10 flex items-center justify-center text-[var(--cardeal-primary)]">
                       <Users className="w-5 h-5" />
                     </div>
-                    <span className="flex items-center gap-1 text-[11px] font-bold text-amber-500 bg-amber-500/10 px-2 py-1 rounded-lg border border-amber-500/20">
+                    <span className="flex items-center gap-1 text-[11px] font-bold text-amber-500 bg-amber-500/10 px-2 py-1 rounded">
                       <TrendingDown className="w-3.5 h-3.5" /> -1.2%
                     </span>
                   </div>
                   <div className="relative z-10">
                     <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Pending Requests</p>
-                    <h3 className="text-2xl font-extrabold text-amber-500 tracking-tight font-['Space_Grotesk']">{pendingRequests.length}</h3>
+                    <h3 className="text-2xl font-bold text-amber-500 tracking-tight font-['Space_Grotesk']">{pendingRequests.length}</h3>
                     <p className="text-xs text-muted-foreground mt-1">Requires validation</p>
                   </div>
                 </div>
 
-                <div className="bg-card/60 border border-border rounded-2xl p-5 hover:border-[var(--cardeal-primary)]/50 transition-colors relative overflow-hidden group backdrop-blur-xl shadow-xl">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--cardeal-primary)]/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-[var(--cardeal-primary)]/10 transition-colors"></div>
+                <div className="bg-card border border-border rounded-xl p-5 hover:border-[var(--cardeal-primary)]/50 transition-colors relative overflow-hidden group shadow-sm">
                   <div className="flex justify-between items-start mb-4 relative z-10">
-                    <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center border border-border text-purple-500">
+                    <div className="w-10 h-10 rounded-lg bg-[var(--cardeal-primary)]/10 flex items-center justify-center text-[var(--cardeal-primary)]">
                       <Car className="w-5 h-5" />
                     </div>
-                    <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-lg border border-emerald-500/20">
+                    <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded">
                       <TrendingUp className="w-3.5 h-3.5" /> +8.4%
                     </span>
                   </div>
                   <div className="relative z-10">
-                    <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Vehicles Managed</p>
-                    <h3 className="text-2xl font-extrabold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.vehicles.toLocaleString()}</h3>
-                    <p className="text-xs text-muted-foreground mt-1">Across all regions</p>
+                    <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Managed Projects</p>
+                    <h3 className="text-2xl font-bold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.vehicles.toLocaleString()}</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Active construction sites</p>
                   </div>
                 </div>
               </div>
 
               {/* Secondary Stats Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-8 gap-4">
-                <div className="bg-card/60 border border-border rounded-2xl p-5 backdrop-blur-xl">
-                  <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Service Partners</p>
+                <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
+                  <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Contractors</p>
                   <h3 className="text-xl font-bold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.servicePartners}</h3>
-                  <p className="text-xs text-muted-foreground mt-1">Verified workshops</p>
+                  <p className="text-xs text-muted-foreground mt-1">Verified providers</p>
                 </div>
-                <div className="bg-card/60 border border-border rounded-2xl p-5 backdrop-blur-xl">
-                  <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Rental Partners</p>
+                <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
+                  <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Property Managers</p>
                   <h3 className="text-xl font-bold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.rentalPartners}</h3>
-                  <p className="text-xs text-muted-foreground mt-1">Fleet providers</p>
+                  <p className="text-xs text-muted-foreground mt-1">Asset supervisors</p>
                 </div>
-                <div className="bg-card/60 border border-border rounded-2xl p-5 backdrop-blur-xl">
-                  <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Services Delivered</p>
+                <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
+                  <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Tasks Delivered</p>
                   <h3 className="text-xl font-bold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.servicesDelivered.toLocaleString()}</h3>
                   <p className="text-xs text-muted-foreground mt-1">Total completions</p>
                 </div>
-                <div className="bg-card/60 border border-border rounded-2xl p-5 backdrop-blur-xl relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-[var(--cardeal-primary)]/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <p className="text-xs font-bold text-[var(--cardeal-primary)] mb-1 uppercase tracking-wider">Commission Earnings</p>
-                  <h3 className="text-xl font-bold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.commissionEarnings} <span className="text-xs text-muted-foreground">DT</span></h3>
-                  <p className="text-xs text-muted-foreground mt-1">Partner transactions</p>
+                <div className="bg-card border border-border rounded-xl p-5 shadow-sm relative overflow-hidden group">
+                  <p className="text-xs font-bold text-[var(--cardeal-primary)] mb-1 uppercase tracking-wider">Platform Commission</p>
+                  <h3 className="text-xl font-bold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.commissionEarnings} <span className="text-xs text-muted-foreground">USD</span></h3>
+                  <p className="text-xs text-muted-foreground mt-1">Tenant volume</p>
                 </div>
               </div>
             </>
           )}
 
           {activeTab === 'requests' && (
-            <div className="bg-card/60 border border-border rounded-2xl p-6 mb-8 shadow-sm">
-              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">Partnership Requests Queue ({pendingRequests.length})</h3>
+            <div className="bg-card border border-border rounded-xl p-6 mb-8 shadow-sm">
+              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">Tenant Registration Requests ({pendingRequests.length})</h3>
               {pendingRequests.length === 0 ? (
-                <p className="text-sm text-muted-foreground py-8 text-center">No pending partnership requests.</p>
+                <p className="text-sm text-muted-foreground py-8 text-center">No pending tenant requests.</p>
               ) : (
                 <div className="space-y-3">
                   {pendingRequests.map((req) => (
@@ -412,8 +412,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           )}
 
           {activeTab === 'clients' && (
-            <div className="bg-card/60 border border-border rounded-2xl p-6 mb-8 shadow-sm">
-              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">Customer Directory ({clients.length})</h3>
+            <div className="bg-card border border-border rounded-xl p-6 mb-8 shadow-sm">
+              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">User & Tenant Directory ({clients.length})</h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
                   <thead>
@@ -446,18 +446,18 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           )}
 
           {activeTab === 'vehicles' && (
-            <div className="bg-card/60 border border-border rounded-2xl p-6 mb-8 shadow-sm">
-              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">Vehicle Fleet Management ({vehicles.length})</h3>
+            <div className="bg-card border border-border rounded-xl p-6 mb-8 shadow-sm">
+              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">Construction & Property Portfolio ({vehicles.length})</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {vehicles.map((v) => (
-                  <div key={v.id} className="bg-secondary/30 border border-border p-4 rounded-xl flex flex-col justify-between">
+                  <div key={v.id} className="bg-secondary/30 border border-border p-4 rounded-xl flex flex-col justify-between shadow-sm">
                     <div className="flex justify-between items-start">
                       <div>
                         <span className="text-xs font-bold text-[var(--cardeal-primary)] uppercase tracking-wider">{v.brand}</span>
                         <h4 className="text-lg font-bold text-foreground">{v.model} ({v.year})</h4>
-                        <p className="text-xs text-muted-foreground mt-0.5">Owner: {v.owner_email || 'client.tunis@cardeal.tn'}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">Manager: {v.owner_email || 'client.tunis@geometra.io'}</p>
                       </div>
-                      <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 rounded-lg">
+                      <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 rounded-lg">
                         Health: {v.health_score || 92}%
                       </span>
                     </div>
@@ -468,15 +468,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           )}
 
           {activeTab === 'logs' && (
-            <div className="bg-card/60 border border-border rounded-2xl p-6 mb-8 shadow-sm">
-              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">System Activity & Maintenance Logs</h3>
+            <div className="bg-card border border-border rounded-xl p-6 mb-8 shadow-sm">
+              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">System Activity & RLS Audit Logs</h3>
               <div className="space-y-3">
                 <div className="bg-secondary/30 border border-border p-4 rounded-xl flex items-center justify-between text-xs">
                   <div className="flex items-center gap-3">
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
                     <div>
                       <p className="font-semibold text-foreground">Supabase Realtime RLS Synced</p>
-                      <span className="text-muted-foreground text-[11px]">Secure database channels active</span>
+                      <span className="text-muted-foreground text-[11px]">Secure database channels active for multi-tenant isolation</span>
                     </div>
                   </div>
                   <span className="text-muted-foreground">Just now</span>
@@ -485,8 +485,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                   <div className="flex items-center gap-3">
                     <div className="w-2.5 h-2.5 rounded-full bg-[var(--cardeal-primary)]"></div>
                     <div>
-                      <p className="font-semibold text-foreground">Partner Request Webhook Handled</p>
-                      <span className="text-muted-foreground text-[11px]">Sousse & Ariana garage registrations processed</span>
+                      <p className="font-semibold text-foreground">Tenant Onboarding Webhook Handled</p>
+                      <span className="text-muted-foreground text-[11px]">Ariana & Sousse construction site profiles processed</span>
                     </div>
                   </div>
                   <span className="text-muted-foreground">15m ago</span>
