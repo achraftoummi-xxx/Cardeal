@@ -50,30 +50,30 @@ export default function AdminRequestsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-extrabold text-white tracking-tight">Demandes de Partenariat Garages</h2>
-        <p className="mt-1 text-sm text-neutral-400">Examinez et validez les candidatures des ateliers souhaitant rejoindre le réseau CarDeal.</p>
+        <h2 className="text-2xl font-extrabold text-foreground tracking-tight font-['Space_Grotesk']">Demandes de Partenariat Garages</h2>
+        <p className="mt-1 text-sm text-muted-foreground font-['Manrope']">Examinez et validez les candidatures des ateliers souhaitant rejoindre le réseau CarDeal.</p>
       </div>
 
       {requests.length === 0 ? (
-        <p className="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-12 text-center text-sm text-neutral-500">
+        <p className="rounded-2xl border border-border bg-card/60 p-12 text-center text-sm text-muted-foreground">
           Aucune demande de partenariat disponible pour le moment.
         </p>
       ) : (
         <div className="space-y-4">
           {requests.map((req) => (
-            <div key={req.id} className="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
+            <div key={req.id} className="rounded-2xl border border-border bg-card/60 p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <Building2 size={18} className="text-red-500 shrink-0" />
-                  <h3 className="text-base font-bold text-white">{req.company_name}</h3>
+                  <Building2 size={18} className="text-[var(--cardeal-primary)] shrink-0" />
+                  <h3 className="text-base font-bold text-foreground font-['Space_Grotesk']">{req.company_name}</h3>
                 </div>
-                <p className="text-xs text-neutral-400">{req.email} • <span className="text-red-400 font-semibold">{req.category}</span></p>
+                <p className="text-xs text-muted-foreground">{req.email} • <span className="text-[var(--cardeal-primary)] font-semibold">{req.category}</span></p>
                 {req.address && (
-                  <p className="flex items-center gap-1 text-xs text-neutral-500">
+                  <p className="flex items-center gap-1 text-xs text-muted-foreground">
                     <MapPin size={12} /> {req.address}
                   </p>
                 )}
-                <span className="text-[10px] text-neutral-500 block">Soumis le {new Date(req.created_at || Date.now()).toLocaleDateString()}</span>
+                <span className="text-[10px] text-muted-foreground block">Soumis le {new Date(req.created_at || Date.now()).toLocaleDateString()}</span>
               </div>
 
               <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -81,20 +81,20 @@ export default function AdminRequestsPage() {
                   <>
                     <button
                       onClick={() => handleAction(req.id, req.email, req.category, 'accepted')}
-                      className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 rounded-xl bg-green-600/20 border border-green-500/50 px-4 py-2.5 text-xs font-bold text-green-400 hover:bg-green-600/30 transition"
+                      className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 rounded-xl bg-emerald-500/20 border border-emerald-500/50 px-4 py-2.5 text-xs font-bold text-emerald-400 hover:bg-emerald-500/30 transition"
                     >
                       <CheckCircle2 size={16} /> Accepter
                     </button>
                     <button
                       onClick={() => handleAction(req.id, req.email, req.category, 'denied')}
-                      className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 rounded-xl bg-neutral-800 px-4 py-2.5 text-xs font-bold text-red-400 hover:bg-neutral-700 transition"
+                      className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 rounded-xl bg-secondary border border-border px-4 py-2.5 text-xs font-bold text-[var(--cardeal-primary)] hover:bg-accent transition"
                     >
                       <XCircle size={16} /> Refuser
                     </button>
                   </>
                 ) : (
                   <span className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase ${
-                    req.status === 'accepted' ? 'bg-green-500/10 text-green-400 border border-green-500/30' : 'bg-red-500/10 text-red-400 border border-red-500/30'
+                    req.status === 'accepted' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] border border-[var(--cardeal-primary)]/30'
                   }`}>
                     {req.status}
                   </span>
