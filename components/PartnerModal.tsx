@@ -110,15 +110,7 @@ export default function PartnerModal({ open, onClose }: Props) {
         email: form.email,
         phone: form.phone,
         category: form.serviceCategory || "Mécanique générale",
-        address: form.location,
-        specialized_brand: form.specializedBrand,
-        opening_hours: `${form.openDayFrom} - ${form.openDayTo}, ${form.openTimeFrom} - ${form.openTimeTo}`,
-        staff_members: form.staffMembers ? Number(form.staffMembers) : null,
-        garage_capacity: form.garageCapacity ? Number(form.garageCapacity) : null,
-        services_offered: form.extraServices,
-        price_range: `${form.priceLow} - ${form.priceHigh} TND`,
         status: "pending",
-        created_at: new Date().toISOString(),
       };
 
       if (isSupabaseConfigured && supabase) {
