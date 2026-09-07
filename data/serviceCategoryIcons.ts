@@ -21,7 +21,7 @@ const CATEGORY_ICONS: Record<string, string> = {
   "Vente de Pièces Détachées": icon("engine_diagnostic.png"),
   "Diagnostic & Électronique": icon("diagnostic.png"),
   "Assurance": icon("security_diagnostic.png"),
-  "Location de voitures": icon("car-oil.png"),
+  "Location de voitures": icon("fuel-station.png"),
   "Autres Services": icon("book_appointment.png"),
 };
 
