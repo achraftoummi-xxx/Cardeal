@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { X, User, Briefcase, Clock, Banknote } from "lucide-react";
+import { X, User, Briefcase, Clock, Banknote, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
 import ServiceCategorySelect from "./ServiceCategorySelect";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 type Props = {
   open: boolean;
@@ -57,13 +58,17 @@ const EMPTY_FORM = {
 export default function PartnerModal({ open, onClose }: Props) {
   const { t } = useTranslation();
   const [form, setForm] = useState(EMPTY_FORM);
-  const [errors, setErrors] = useState<{ pricing?: string }>({});
+  const [errors, setErrors] = useState<{ pricing?: string; general?: string }>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (open) {
       setForm(EMPTY_FORM);
       setErrors({});
+      setSuccess(false);
+      setSubmitting(false);
       nameRef.current?.focus();
     }
   }, [open]);
@@ -87,7 +92,7 @@ export default function PartnerModal({ open, onClose }: Props) {
       }
     };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const low = Number(form.priceLow);
     const high = Number(form.priceHigh);
@@ -95,7 +100,45 @@ export default function PartnerModal({ open, onClose }: Props) {
       setErrors({ pricing: t("partnerForm.priceError") });
       return;
     }
-    window.location.href = "/results";
+
+    setSubmitting(true);
+    setErrors({});
+
+    try {
+      const payload = {
+        company_name: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        category: form.serviceCategory || "Mécanique générale",
+        address: form.location,
+        specialized_brand: form.specializedBrand,
+        opening_hours: `${form.openDayFrom} - ${form.openDayTo}, ${form.openTimeFrom} - ${form.openTimeTo}`,
+        staff_members: form.staffMembers ? Number(form.staffMembers) : null,
+        garage_capacity: form.garageCapacity ? Number(form.garageCapacity) : null,
+        services_offered: form.extraServices,
+        price_range: `${form.priceLow} - ${form.priceHigh} TND`,
+        status: "pending",
+        created_at: new Date().toISOString(),
+      };
+
+      if (isSupabaseConfigured && supabase) {
+        const { error } = await supabase.from('partner_requests').insert([payload]);
+        if (error) throw error;
+      } else {
+        // Mock fallback simulation delay
+        await new Promise((r) => setTimeout(r, 800));
+      }
+
+      setSuccess(true);
+      setTimeout(() => {
+        onClose();
+      }, 2500);
+    } catch (err: any) {
+      console.error("Partner request submission error:", err);
+      setErrors({ general: err?.message || "Erreur lors de la soumission de la demande. Veuillez réessayer." });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const days = DAYS.map((d) => ({ value: d, label: t(`partnerForm.${d}`) }));
@@ -439,9 +482,24 @@ export default function PartnerModal({ open, onClose }: Props) {
 
         {/* Sticky footer */}
         <div className="shrink-0 border-t border-border bg-card/95 px-5 py-4 backdrop-blur-xl sm:px-6">
-          <Button type="submit" form="partner-form" className="w-full">
-            {t("partnerForm.submit")}
-          </Button>
+          {success ? (
+            <div className="flex items-center justify-center gap-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 py-3 text-sm font-bold text-emerald-400">
+              <CheckCircle2 size={18} />
+              Demande envoyée avec succès ! En attente de validation admin.
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {errors.general && (
+                <div className="flex items-center gap-2 rounded-xl bg-red-500/10 border border-red-500/30 px-3 py-2 text-xs font-medium text-red-400">
+                  <AlertCircle size={14} className="shrink-0" />
+                  {errors.general}
+                </div>
+              )}
+              <Button type="submit" form="partner-form" disabled={submitting} className="w-full">
+                {submitting ? "Envoi en cours..." : t("partnerForm.submit")}
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

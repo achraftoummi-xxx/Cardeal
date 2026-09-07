@@ -67,6 +67,23 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
   useEffect(() => {
     if (isOpen) {
       fetchAdminData();
+
+      if (isSupabaseConfigured && supabase) {
+        const channel = supabase
+          .channel('admin_partner_requests_changes')
+          .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'partner_requests' },
+            () => {
+              fetchAdminData();
+            }
+          )
+          .subscribe();
+
+        return () => {
+          supabase.removeChannel(channel);
+        };
+      }
     }
   }, [isOpen]);
 
