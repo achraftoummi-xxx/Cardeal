@@ -45,6 +45,22 @@ export const SERVICE_CATEGORY_GROUPS: ServiceCategoryGroup[] = [
     ],
   },
   {
+    category: "Assurance",
+    subCategories: [
+      "Assurance Automobile - Tous Risques",
+      "Assurance Automobile - Au Tiers / Vol / Incendie",
+      "Assistance Routière & Dépannage",
+    ],
+  },
+  {
+    category: "Location de voitures",
+    subCategories: [
+      "Location de Véhicules Courte Durée",
+      "Location de Véhicules Longue Durée (LLD)",
+      "Location de Voitures de Luxe & Utilitaires",
+    ],
+  },
+  {
     category: "Autres Services",
     subCategories: ["Autres services et prestations automobiles"],
   },
