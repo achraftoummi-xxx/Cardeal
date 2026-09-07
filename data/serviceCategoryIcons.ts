@@ -16,24 +16,11 @@ const icon = (name: string): string => `${ICON_BASE}/${name}`;
 
 /** Icon per main category (falls back to the sub-category map, then a default). */
 const CATEGORY_ICONS: Record<string, string> = {
-  "Révisions et Vidange": icon("car-oil.png"),
-  Freinage: icon("brake.png"),
-  Distribution: icon("timing-belt.png"),
-  "Pièces Moteur": icon("engine_diagnostic.png"),
-  Embrayage: icon("clutch.png"),
-  Suspension: icon("suspension.png"),
-  Géométrie: icon("wheel-alignment.png"),
-  "Démarrage et Charge": icon("charging.png"),
-  Échappement: icon("exhaust.png"),
-  Climatisation: icon("airconditionner.png"),
-  "Pneumatiques (Hors Achat)": icon("tires.png"),
-  Direction: icon("steering-wheel.png"),
-  Transmission: icon("drive_train.png"),
-  Carrosserie: icon("body-repair.png"),
-  "Vision et Pare-Brise": icon("windsheild.png"),
-  "Contrôles et Diagnostics": icon("diagnostic.png"),
-  "Recherche de Pannes": icon("troubleshooting.png"),
-  "Prise de RDV (Autre Problème)": icon("book_appointment.png"),
+  "Atelier de Mécanique & Entretien": icon("car-oil.png"),
+  "Spécialiste Pneumatiques & Géométrie": icon("tires.png"),
+  "Vente de Pièces Détachées": icon("engine_diagnostic.png"),
+  "Diagnostic & Électronique": icon("diagnostic.png"),
+  "Autres Services": icon("book_appointment.png"),
 };
 
 /** Icon per sub-category, overriding the parent category icon when present. */
