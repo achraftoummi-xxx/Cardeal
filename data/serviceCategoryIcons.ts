@@ -44,9 +44,9 @@ const SUB_CATEGORY_ICONS: Record<string, string> = {
   "Assurance Automobile - Tous Risques": icon("security_diagnostic.png"),
   "Assurance Automobile - Au Tiers / Vol / Incendie": icon("security_diagnostic.png"),
   "Assistance Routière & Dépannage": icon("troubleshooting.png"),
-  "Location de Véhicules Courte Durée": icon("car-oil.png"),
-  "Location de Véhicules Longue Durée (LLD)": icon("car-oil.png"),
-  "Location de Voitures de Luxe & Utilitaires": icon("car-oil.png"),
+  "Location de Véhicules Courte Durée": icon("car-repair.png"),
+  "Location de Véhicules Longue Durée (LLD)": icon("car-repair.png"),
+  "Location de Voitures de Luxe & Utilitaires": icon("car-repair.png"),
   "Autres services et prestations automobiles": icon("book_appointment.png"),
 };
 
