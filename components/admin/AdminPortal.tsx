@@ -128,17 +128,17 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-end bg-background/85 backdrop-blur-md animate-fadeIn overflow-x-hidden text-foreground">
+    <div className="fixed inset-0 z-50 flex items-center justify-end bg-background/85 backdrop-blur-md animate-fadeIn overflow-x-hidden text-foreground antialiased font-sans">
       {/* SideNavBar Component */}
-      <nav className="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-card border-r border-border py-6 z-40 backdrop-blur-xl shadow-sm">
+      <nav className="hidden md:flex flex-col h-screen w-72 fixed left-0 top-0 bg-card border-r border-border py-4 z-40 backdrop-blur-xl shadow-sm">
         {/* Brand Header */}
-        <div className="px-6 mb-8 flex items-center gap-2.5">
+        <div className="px-6 mb-6 flex items-center justify-between">
           <div className="relative w-36 h-12">
             <Image 
               src={cardealLogo.src} 
               alt="Geometra" 
               fill 
-              sizes="128px"
+              sizes="144px"
               className="object-contain object-left dark:brightness-150" 
               priority 
             />
@@ -146,89 +146,89 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Navigation Links */}
-        <div className="flex-1 px-3 space-y-1.5 overflow-y-auto">
+        <div className="flex-1 px-3 space-y-1 overflow-y-auto">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-[--radius] transition-colors duration-200 ease-in-out text-left group ${
+            className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors duration-200 ease-in-out text-left group ${
               activeTab === 'overview'
-                ? 'text-foreground font-bold border-r-2 border-[var(--cardeal-primary)] bg-[var(--cardeal-primary)]/10'
-                : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                ? 'bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] ring-1 ring-[var(--cardeal-primary)]/20 font-medium'
+                : 'text-muted-foreground hover:bg-accent hover:text-foreground font-medium'
             }`}
           >
-            <LayoutDashboard className={`w-5 h-5 ${activeTab === 'overview' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm">Dashboard</span>
+            <LayoutDashboard size={18} className={`shrink-0 ${activeTab === 'overview' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
+            <span className="text-sm truncate">Dashboard</span>
           </button>
 
           <button
             onClick={() => setActiveTab('requests')}
-            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-[--radius] transition-colors duration-200 ease-in-out text-left group ${
+            className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors duration-200 ease-in-out text-left group ${
               activeTab === 'requests'
-                ? 'text-foreground font-bold border-r-2 border-[var(--cardeal-primary)] bg-[var(--cardeal-primary)]/10'
-                : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                ? 'bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] ring-1 ring-[var(--cardeal-primary)]/20 font-medium'
+                : 'text-muted-foreground hover:bg-accent hover:text-foreground font-medium'
             }`}
           >
-            <Handshake className={`w-5 h-5 ${activeTab === 'requests' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm">Tenant Requests ({pendingRequests.length})</span>
+            <Handshake size={18} className={`shrink-0 ${activeTab === 'requests' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
+            <span className="text-sm truncate">Tenant Requests ({pendingRequests.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('clients')}
-            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-[--radius] transition-colors duration-200 ease-in-out text-left group ${
+            className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors duration-200 ease-in-out text-left group ${
               activeTab === 'clients'
-                ? 'text-foreground font-bold border-r-2 border-[var(--cardeal-primary)] bg-[var(--cardeal-primary)]/10'
-                : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                ? 'bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] ring-1 ring-[var(--cardeal-primary)]/20 font-medium'
+                : 'text-muted-foreground hover:bg-accent hover:text-foreground font-medium'
             }`}
           >
-            <Users className={`w-5 h-5 ${activeTab === 'clients' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm">Users ({clients.length})</span>
+            <Users size={18} className={`shrink-0 ${activeTab === 'clients' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
+            <span className="text-sm truncate">Users ({clients.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('vehicles')}
-            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-[--radius] transition-colors duration-200 ease-in-out text-left group ${
+            className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors duration-200 ease-in-out text-left group ${
               activeTab === 'vehicles'
-                ? 'text-foreground font-bold border-r-2 border-[var(--cardeal-primary)] bg-[var(--cardeal-primary)]/10'
-                : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                ? 'bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] ring-1 ring-[var(--cardeal-primary)]/20 font-medium'
+                : 'text-muted-foreground hover:bg-accent hover:text-foreground font-medium'
             }`}
           >
-            <Car className={`w-5 h-5 ${activeTab === 'vehicles' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm">Projects & Portfolios</span>
+            <Car size={18} className={`shrink-0 ${activeTab === 'vehicles' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
+            <span className="text-sm truncate">Projects & Portfolios</span>
           </button>
 
           <button
             onClick={() => setActiveTab('logs')}
-            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-[--radius] transition-colors duration-200 ease-in-out text-left group ${
+            className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors duration-200 ease-in-out text-left group ${
               activeTab === 'logs'
-                ? 'text-foreground font-bold border-r-2 border-[var(--cardeal-primary)] bg-[var(--cardeal-primary)]/10'
-                : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                ? 'bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] ring-1 ring-[var(--cardeal-primary)]/20 font-medium'
+                : 'text-muted-foreground hover:bg-accent hover:text-foreground font-medium'
             }`}
           >
-            <FileText className={`w-5 h-5 ${activeTab === 'logs' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm">System Logs</span>
+            <FileText size={18} className={`shrink-0 ${activeTab === 'logs' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
+            <span className="text-sm truncate">System Logs</span>
           </button>
         </div>
 
         {/* CTA / Footer */}
-        <div className="mt-auto px-4 pt-4 border-t border-border">
-          <button onClick={onClose} className="w-full flex items-center justify-center gap-2 bg-secondary hover:bg-accent text-foreground border border-border py-2.5 rounded-[--radius] transition-colors text-xs font-semibold">
-            <ArrowLeft className="w-4 h-4" />
+        <div className="p-4 border-t border-border">
+          <button onClick={onClose} className="w-full flex items-center justify-center gap-2 bg-secondary hover:bg-accent text-foreground border border-border py-2.5 rounded-xl transition-colors text-sm font-medium">
+            <ArrowLeft size={16} />
             Close Portal
           </button>
         </div>
       </nav>
 
       {/* Main Content Area */}
-      <main className="flex-1 md:ml-64 min-h-screen flex flex-col relative w-full bg-background overflow-y-auto">
+      <main className="flex-1 md:ml-72 min-h-screen flex flex-col relative w-full bg-background overflow-y-auto">
         {/* TopNavBar Component */}
-        <header className="fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-50 bg-card/80 backdrop-blur-md border-b border-border h-16 px-6 flex justify-between items-center">
+        <header className="fixed top-0 right-0 w-full md:w-[calc(100%-18rem)] z-50 bg-card/80 backdrop-blur-md border-b border-border h-16 px-6 flex justify-between items-center">
           <button onClick={onClose} className="md:hidden text-muted-foreground hover:text-[var(--cardeal-primary)] transition-colors">
-            <Menu className="w-6 h-6" />
+            <Menu size={20} />
           </button>
           <div className="flex-1 max-w-md hidden sm:block">
             <div className="relative group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-[var(--cardeal-primary)] transition-colors w-4 h-4" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-[var(--cardeal-primary)] transition-colors" size={16} />
               <input 
-                className="w-full bg-background border border-border rounded-[--radius] pl-10 pr-4 py-2 text-sm text-foreground focus:outline-none focus:border-[var(--cardeal-primary)] focus:ring-1 focus:ring-[var(--cardeal-primary)] transition-all placeholder:text-muted-foreground" 
+                className="w-full bg-background border border-border rounded-xl pl-10 pr-4 py-2 text-sm text-foreground focus:outline-none focus:border-[var(--cardeal-primary)] focus:ring-1 focus:ring-[var(--cardeal-primary)] transition-all placeholder:text-muted-foreground" 
                 placeholder="Search projects, invoices, or users..." 
                 type="text" 
               />
@@ -236,15 +236,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           </div>
           <div className="flex items-center gap-4 ml-auto">
             <div className="flex items-center gap-2">
-              <button className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:bg-accent hover:text-[var(--cardeal-primary)] transition-colors relative">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-2 right-2 w-2 h-2 bg-[var(--cardeal-primary)] rounded-full"></span>
+              <button className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:bg-accent hover:text-[var(--cardeal-primary)] transition-colors relative">
+                <Bell size={18} />
+                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[var(--cardeal-primary)] rounded-full"></span>
               </button>
-              <button onClick={onClose} className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:bg-accent hover:text-[var(--cardeal-primary)] transition-colors">
+              <button onClick={onClose} className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:bg-accent hover:text-[var(--cardeal-primary)] transition-colors">
                 ✕
               </button>
             </div>
-            <div className="h-8 w-px bg-border hidden sm:block"></div>
+            <div className="h-6 w-px bg-border hidden sm:block"></div>
             <div className="flex items-center gap-2.5">
               {authAvatarUrl ? (
                 <img 
@@ -258,15 +258,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                 </div>
               )}
               <div className="hidden md:block text-left">
-                <p className="text-xs font-bold text-foreground leading-tight">{authUserName || "Administrator"}</p>
-                <p className="text-[11px] text-muted-foreground">{authEmail || "Geometra Admin"}</p>
+                <p className="text-sm font-semibold text-foreground leading-tight">{authUserName || "Administrator"}</p>
+                <p className="text-xs text-muted-foreground">{authEmail || "Geometra Admin"}</p>
               </div>
             </div>
           </div>
         </header>
 
         {/* Dashboard Content */}
-        <div className="flex-1 p-6 md:p-8 mt-16 max-w-[1440px] mx-auto w-full font-['Manrope']">
+        <div className="flex-1 p-6 md:p-8 mt-16 max-w-6xl mx-auto w-full">
           {/* Page Header & Actions */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
