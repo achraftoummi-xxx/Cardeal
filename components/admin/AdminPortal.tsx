@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/components/AuthProvider';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import cardealLogo from '@/assets/images/cardeal_logo.png';
 import { 
@@ -42,6 +43,7 @@ interface AdminPortalProps {
 
 export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => {
   const pathname = usePathname();
+  const { userName: authUserName, email: authEmail, avatarUrl: authAvatarUrl } = useAuth();
   const [timeRange, setTimeRange] = useState('7d');
   const [activeTab, setActiveTab] = useState<'overview' | 'requests' | 'clients' | 'vehicles' | 'logs'>('overview');
   
@@ -131,7 +133,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
       <nav className="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-card border-r border-border py-6 z-40 backdrop-blur-xl shadow-sm">
         {/* Brand Header */}
         <div className="px-6 mb-8 flex items-center gap-2.5">
-          <div className="relative w-32 h-8">
+          <div className="relative w-36 h-12">
             <Image 
               src={cardealLogo.src} 
               alt="Geometra" 
@@ -244,14 +246,20 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             </div>
             <div className="h-8 w-px bg-border hidden sm:block"></div>
             <div className="flex items-center gap-2.5">
-              <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqFp7-6HB3OaQeH219Wb1nZOWqBZ5rAbv8CZToBJ-vcR-Cx40iwQZ-A6tNRUi3Fwvi6-wP6ojk1GoAQIxsmn7cXvMXvVuQCxsuhWe0P5PyoI5xR3wLuoxHcseORQBB2kmmwxwaN0DJZgUz42S_qRjSLRu9ohLYkTSpsx2RZS42YLYAOwqmNesCD6VH1t5GZZv5Wq74MRpFt2DdxIJEV1SJE38Nq1NEF_JlDnVc9bBOC9C8au_B5PB_3A" 
-                alt="Administrator" 
-                className="w-8 h-8 rounded-full border border-border object-cover"
-              />
+              {authAvatarUrl ? (
+                <img 
+                  src={authAvatarUrl} 
+                  alt={authUserName || "Administrator"} 
+                  className="w-8 h-8 rounded-full border border-border object-cover"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-[var(--cardeal-primary)] text-white flex items-center justify-center text-xs font-bold">
+                  {(authUserName || "Admin").charAt(0).toUpperCase()}
+                </div>
+              )}
               <div className="hidden md:block text-left">
-                <p className="text-xs font-bold text-foreground leading-tight">Achref Toumi</p>
-                <p className="text-[11px] text-muted-foreground">Geometra Admin</p>
+                <p className="text-xs font-bold text-foreground leading-tight">{authUserName || "Administrator"}</p>
+                <p className="text-[11px] text-muted-foreground">{authEmail || "Geometra Admin"}</p>
               </div>
             </div>
           </div>

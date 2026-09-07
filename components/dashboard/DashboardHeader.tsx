@@ -42,7 +42,7 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
   const isUserAdmin = isAdmin || (email && ADMIN_EMAILS.includes(email.toLowerCase()));
 
   const unreadMessages = DASHBOARD_MESSAGES.filter((m) => m.unread).length;
-  const userName = getUserName();
+  const userName = useAuth().userName || getUserName();
 
   useEffect(() => {
     const onPointerDown = (e: MouseEvent | TouchEvent) => {
@@ -157,17 +157,17 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
             aria-expanded={profileOpen}
             className="flex min-h-10 items-center gap-2 rounded-lg border border-border py-1 pl-1 pr-2 transition-colors hover:bg-accent"
           >
-            {avatarUrl ? (
-              <img
-                src={avatarUrl}
-                alt={userName}
-                className="h-8 w-8 shrink-0 rounded-full object-cover"
-              />
-            ) : (
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--cardeal-primary)] text-sm font-bold text-white">
-                {userName.charAt(0).toUpperCase()}
-              </span>
-            )}
+              {avatarUrl ? (
+                <img
+                  src={avatarUrl}
+                  alt={userName}
+                  className="h-8 w-8 shrink-0 rounded-full object-cover"
+                />
+              ) : (
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--cardeal-primary)] text-sm font-bold text-white">
+                  {userName.charAt(0).toUpperCase()}
+                </span>
+              )}
             <span className="hidden max-w-24 truncate text-sm font-medium text-foreground md:block">
               {userName}
             </span>

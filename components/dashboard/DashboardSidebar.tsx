@@ -101,7 +101,7 @@ export default function DashboardSidebar({
               src={cardealLogo.src}
               alt={t("site.name")}
               draggable={false}
-              className="h-11 w-auto dark:brightness-150"
+              className="h-14 w-auto dark:brightness-150"
             />
           </Link>
           <button
