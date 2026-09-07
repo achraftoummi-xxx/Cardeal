@@ -11,161 +11,42 @@ export type ServiceCategoryGroup = {
 
 export const SERVICE_CATEGORY_GROUPS: ServiceCategoryGroup[] = [
   {
-    category: "Révisions et Vidange",
-    subCategories: ["Révisions et Vidange"],
-  },
-  {
-    category: "Freinage",
+    category: "Atelier de Mécanique & Entretien",
     subCategories: [
+      "Révisions et Vidange",
       "Plaquettes de freins Avant (Remplacement)",
-      "Plaquettes de freins Arrière (Remplacement)",
-      "Plaquettes de freins Avant/Arrière (Remplacement)",
-      "Disques et Plaquettes de freins Avant (Remplacement)",
-      "Disques et Plaquettes de freins Arrière (Remplacement)",
-      "Disques et Plaquettes de freins Avant/Arrière (Remplacement)",
-      "Kit de frein arrière - mâchoire ou tambour (Remplacement)",
-      "Liquide de Frein (Remplacement)",
-    ],
-  },
-  {
-    category: "Distribution",
-    subCategories: [
       "Courroie de distribution - Kit complet (Remplacement)",
-      "Courroie d’accessoires (Remplacement)",
-      "Poulie de vilebrequin (Remplacement)",
-    ],
-  },
-  {
-    category: "Pièces Moteur",
-    subCategories: [
-      "Injecteurs - Remplacement de tous les injecteurs",
-      "Liquide de Refroidissement (Remplacement)",
-      "Thermostat ou calorstat (Remplacement)",
-      "Injecteur - Remplacement d'un injecteur",
-    ],
-  },
-  {
-    category: "Embrayage",
-    subCategories: [
-      "Embrayage - Kit complet (Remplacement)",
-      "Embrayage et volant moteur - Kit complet (Remplacement)",
-    ],
-  },
-  {
-    category: "Suspension",
-    subCategories: [
       "Amortisseurs Avants (Remplacement)",
-      "Amortisseurs Arrières (Remplacement)",
-      "Amortisseurs Avants/Arrières (Remplacement)",
-      "Triangle de suspensions (non chiffrable)",
+      "Embrayage - Kit complet (Remplacement)",
     ],
   },
   {
-    category: "Géométrie",
+    category: "Spécialiste Pneumatiques & Géométrie",
     subCategories: [
+      "Pneus - Montage et Équilibrage",
+      "Réparation crevaison pneu",
       "Parallélisme train Avant (Réglage)",
-      "Parallélisme train Avant/Arrière (Réglage)",
     ],
   },
   {
-    category: "Démarrage et Charge",
+    category: "Vente de Pièces Détachées",
     subCategories: [
-      "Batterie (Remplacement)",
-      "Bougies d'allumage (Remplacement)",
-      "Bougies de préchauffage (Remplacement)",
-      "Démarreur (Remplacement)",
-      "Alternateur (Remplacement)",
+      "Pièces Moteur & Filtration",
+      "Freinage & Suspension",
+      "Électricité & Démarrage",
+    ],
+  },
+  {
+    category: "Diagnostic & Électronique",
+    subCategories: [
+      "Diagnostic Sécurité & Électronique",
+      "Recharge Climatisation",
       "Contrôle Circuit de charge",
     ],
   },
   {
-    category: "Échappement",
-    subCategories: [
-      "Échappement - Silencieux Arrière (Remplacement)",
-      "Vanne EGR (Remplacement)",
-      "Décalaminage",
-      "Régénération du filtre à particule (FAP)",
-    ],
-  },
-  {
-    category: "Climatisation",
-    subCategories: [
-      "Recharge Climatisation",
-      "Révision Climatisation",
-      "Diagnostic Climatisation",
-      "Filtre d’habitacle (Remplacement)",
-      "Traitement anti-bactérien Climatisation",
-    ],
-  },
-  {
-    category: "Pneumatiques (Hors Achat)",
-    subCategories: [
-      "Réparation crevaison pneu",
-      "Équilibrage des pneus",
-      "Pneus - Montage",
-    ],
-  },
-  {
-    category: "Direction",
-    subCategories: [
-      "Kit de roulement arrière (gauche ou droit)",
-      "Biellette (Remplacement)",
-      "Rotules de suspension (Remplacement)",
-      "Rotules de direction (Remplacement)",
-    ],
-  },
-  {
-    category: "Transmission",
-    subCategories: [
-      "Cardan Avant droit (Remplacement)",
-      "Cardan Avant gauche (Remplacement)",
-      "Cardan Train Avant (Remplacement)",
-      "Cardan Arrière droit (Remplacement)",
-      "Cardan Arrière gauche (Remplacement)",
-      "Cardan Train arrière (Remplacement)",
-    ],
-  },
-  {
-    category: "Carrosserie",
-    subCategories: [
-      "Carrosserie - Rénovation 1 élément",
-      "Carrosserie - Rénovation 2 éléments",
-    ],
-  },
-  {
-    category: "Vision et Pare-Brise",
-    subCategories: [
-      "Remplacement de Pare-brise",
-      "Réparation de Pare-brise",
-      "Phares - Rénovation des optiques",
-      "Phare - Remplacement 1 optique",
-      "Remplacement ampoule ou réglage phare",
-    ],
-  },
-  {
-    category: "Contrôles et Diagnostics",
-    subCategories: [
-      "Diagnostic Sécurité",
-      "Diagnostic Électronique",
-      "Pack contrôle technique",
-      "Pré-contrôle technique",
-    ],
-  },
-  {
-    category: "Recherche de Pannes",
-    subCategories: [
-      "Problème de Freinage",
-      "Problème de Moteur",
-      "Problème d'Embrayage",
-      "Problème de Suspension",
-      "Problème d'Échappement",
-      "Problème de Roues/Direction",
-      "Problème de Démarrage et Charge",
-    ],
-  },
-  {
-    category: "Prise de RDV (Autre Problème)",
-    subCategories: ["Prendre rendez-vous (Autre Problème)"],
+    category: "Autres Services",
+    subCategories: ["Autres services et prestations automobiles"],
   },
 ];
 
