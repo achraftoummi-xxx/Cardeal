@@ -21,21 +21,24 @@ alter table public.partner_requests
 alter table public.partner_requests enable row level security;
 
 drop policy if exists "partner_requests_insert_public" on public.partner_requests;
-create policy "partner_requests_insert_public"
+drop policy if exists "Allow public insert on partner_requests" on public.partner_requests;
+create policy "Allow public insert on partner_requests"
   on public.partner_requests
   for insert
   to anon, authenticated
   with check (true);
 
 drop policy if exists "partner_requests_select_admin" on public.partner_requests;
-create policy "partner_requests_select_admin"
+drop policy if exists "Allow public select on partner_requests" on public.partner_requests;
+create policy "Allow public select on partner_requests"
   on public.partner_requests
   for select
   to anon, authenticated
   using (true);
 
 drop policy if exists "partner_requests_update_admin" on public.partner_requests;
-create policy "partner_requests_update_admin"
+drop policy if exists "Allow public update on partner_requests" on public.partner_requests;
+create policy "Allow public update on partner_requests"
   on public.partner_requests
   for update
   to anon, authenticated
