@@ -54,6 +54,13 @@ export const SERVICE_CATEGORY_GROUPS: ServiceCategoryGroup[] = [
     ],
   },
   {
+    category: "Climatisation",
+    subCategories: [
+      "recharge climatiseur voiture",
+      "réparation climatiseur voiture",
+    ],
+  },
+  {
     category: "Assurance",
     subCategories: [
       "Assurance Automobile - Tous Risques",
