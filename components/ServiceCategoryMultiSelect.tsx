@@ -69,11 +69,22 @@ export default function ServiceCategoryMultiSelect({
       return;
     }
     updatePosition();
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (
+        anchorRef.current &&
+        !anchorRef.current.contains(e.target as Node) &&
+        !(e.target as HTMLElement).closest('[role="listbox"]')
+      ) {
+        setOpen(false);
+      }
+    };
     window.addEventListener("resize", updatePosition);
     window.addEventListener("scroll", updatePosition, true);
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
       window.removeEventListener("resize", updatePosition);
       window.removeEventListener("scroll", updatePosition, true);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [open, updatePosition]);
 
@@ -207,7 +218,7 @@ export default function ServiceCategoryMultiSelect({
               }}
               className="fixed z-[9999] max-h-80 overflow-y-auto rounded-xl border border-border bg-card py-2 shadow-2xl shadow-black/20 dark:shadow-black/60"
             >
-              <div className="px-3 pb-2 mb-2 border-b border-border">
+              <div className="px-3 pb-2 mb-2 border-b border-border flex items-center justify-between gap-2">
                 <input
                   ref={inputRef}
                   type="text"
@@ -217,6 +228,13 @@ export default function ServiceCategoryMultiSelect({
                   className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground outline-none focus:border-blue-500/50"
                   autoFocus
                 />
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="shrink-0 rounded-lg bg-[var(--cardeal-primary)] px-3 py-2 text-xs font-bold text-white transition hover:opacity-90"
+                >
+                  OK
+                </button>
               </div>
 
               <div className="space-y-1 px-1">
