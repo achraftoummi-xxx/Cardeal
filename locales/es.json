@@ -198,7 +198,15 @@
     "retry": "Reintentar"
   },
   "serviceCat": {
-    "revisions-et-vidange": "Revisión y cambio de aceite",
+    "atelier-de-mecanique-entretien": "Mecánica general",
+    "specialiste-pneumatiques-geometrie": "Especialista en neumáticos y geometría",
+    "vente-de-pieces-detachees": "Venta de repuestos",
+    "diagnostic-electronique": "Diagnóstico y electricidad del automóvil",
+    "peintures-et-carosserie": "Pintura y carrocería",
+    "polissage": "Pulido",
+    "stickage": "Rotulación y vinilos",
+    "peinture-complete-et-personnalisee": "Pintura completa y personalizada",
+    "renovation-des-optiques-de-phare": "Restauración de faros",
     "freinage": "Frenos",
     "plaquettes-de-freins-avant-remplacement": "Sustitución de pastillas de freno delanteras",
     "plaquettes-de-freins-arriere-remplacement": "Sustitución de pastillas de freno traseras",

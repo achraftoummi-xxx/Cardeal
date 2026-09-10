@@ -198,7 +198,15 @@
     "retry": "Erneut versuchen"
   },
   "serviceCat": {
-    "revisions-et-vidange": "Inspektionen und Ölwechsel",
+    "atelier-de-mecanique-entretien": "Allgemeine Mechanik",
+    "specialiste-pneumatiques-geometrie": "Reifenspezialist & Achsvermessung",
+    "vente-de-pieces-detachees": "Ersatzteilverkauf",
+    "diagnostic-electronique": "Diagnose & Fahrzeugelektrik",
+    "peintures-et-carosserie": "Lackierung und Karosserie",
+    "polissage": "Polieren",
+    "stickage": "Fahrzeugfolierung",
+    "peinture-complete-et-personnalisee": "Komplette und individuelle Lackierung",
+    "renovation-des-optiques-de-phare": "Scheinwerferaufbereitung",
     "freinage": "Bremsanlage",
     "plaquettes-de-freins-avant-remplacement": "Bremsbeläge vorne (Ersatz)",
     "plaquettes-de-freins-arriere-remplacement": "Bremsbeläge hinten (Ersatz)",

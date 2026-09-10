@@ -198,10 +198,15 @@
     "retry": "Retry"
   },
   "serviceCat": {
-    "atelier-de-mecanique-entretien": "Mechanical Workshop & Maintenance",
+    "atelier-de-mecanique-entretien": "General Mechanics",
     "specialiste-pneumatiques-geometrie": "Tire Specialist & Wheel Alignment",
     "vente-de-pieces-detachees": "Spare Parts Sales",
-    "diagnostic-electronique": "Diagnostics & Electronics",
+    "diagnostic-electronique": "Diagnostics & Auto Electricity",
+    "peintures-et-carosserie": "Paint and Bodywork",
+    "polissage": "Polishing",
+    "stickage": "Sticking/Wrapping",
+    "peinture-complete-et-personnalisee": "Complete and Customized Painting",
+    "renovation-des-optiques-de-phare": "Headlight Restoration",
     "assurance": "Insurance",
     "location-de-voitures": "Car Rental",
     "autres-services": "Other Services",

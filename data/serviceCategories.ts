@@ -45,6 +45,15 @@ export const SERVICE_CATEGORY_GROUPS: ServiceCategoryGroup[] = [
     ],
   },
   {
+    category: "Peintures et carosserie",
+    subCategories: [
+      "Polissage",
+      "Stickage",
+      "Peinture complète et personnalisée",
+      "rénovation des optiques de phare",
+    ],
+  },
+  {
     category: "Assurance",
     subCategories: [
       "Assurance Automobile - Tous Risques",

@@ -198,10 +198,15 @@
     "retry": "Réessayer"
   },
   "serviceCat": {
-    "atelier-de-mecanique-entretien": "Atelier de Mécanique & Entretien",
+    "atelier-de-mecanique-entretien": "Mécanique générale",
     "specialiste-pneumatiques-geometrie": "Spécialiste Pneumatiques & Géométrie",
     "vente-de-pieces-detachees": "Vente de Pièces Détachées",
-    "diagnostic-electronique": "Diagnostic & Électronique",
+    "diagnostic-electronique": "Diagnostique et électricité automobile",
+    "peintures-et-carosserie": "Peintures et carosserie",
+    "polissage": "Polissage",
+    "stickage": "Stickage",
+    "peinture-complete-et-personnalisee": "Peinture complète et personnalisée",
+    "renovation-des-optiques-de-phare": "rénovation des optiques de phare",
     "assurance": "Assurance",
     "location-de-voitures": "Location de voitures",
     "autres-services": "Autres Services",
