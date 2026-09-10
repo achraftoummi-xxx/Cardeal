@@ -185,7 +185,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             }`}
           >
             <Handshake size={18} className={`shrink-0 ${activeTab === 'requests' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm truncate">Tenant Requests ({pendingRequests.length})</span>
+            <span className="text-sm truncate">Partnership Requests ({pendingRequests.length})</span>
           </button>
 
           <button
@@ -288,7 +288,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground font-['Space_Grotesk']">SaaS Control Center</h2>
-              <p className="text-sm text-muted-foreground mt-1">Multi-tenant performance analytics and administrative management.</p>
+              <p className="text-sm text-muted-foreground mt-1">Partnership performance analytics and administrative management.</p>
             </div>
             <div className="flex items-center gap-2 bg-card border border-border rounded-[--radius] p-1.5 shadow-sm">
               <Calendar className="w-4 h-4 text-muted-foreground ml-2" />
@@ -323,9 +323,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     </span>
                   </div>
                   <div className="relative z-10">
-                    <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Active Tenants</p>
+                    <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Active Partners</p>
                     <h3 className="text-2xl font-bold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.clients}</h3>
-                    <p className="text-xs text-muted-foreground mt-1">Multi-tenant SaaS</p>
+                    <p className="text-xs text-muted-foreground mt-1">Partnership network</p>
                   </div>
                 </div>
 
@@ -398,7 +398,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                 <div className="bg-card border border-border rounded-xl p-5 shadow-sm relative overflow-hidden group">
                   <p className="text-xs font-bold text-[var(--cardeal-primary)] mb-1 uppercase tracking-wider">Platform Commission</p>
                   <h3 className="text-xl font-bold text-foreground tracking-tight font-['Space_Grotesk']">{metrics.commissionEarnings} <span className="text-xs text-muted-foreground">USD</span></h3>
-                  <p className="text-xs text-muted-foreground mt-1">Tenant volume</p>
+                  <p className="text-xs text-muted-foreground mt-1">Partnership volume</p>
                 </div>
               </div>
             </>
@@ -406,9 +406,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {activeTab === 'requests' && (
             <div className="bg-card border border-border rounded-xl p-6 mb-8 shadow-sm">
-              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">Tenant Registration Requests ({pendingRequests.length})</h3>
+               <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">Partnership Registration Requests ({pendingRequests.length})</h3>
               {pendingRequests.length === 0 ? (
-                <p className="text-sm text-muted-foreground py-8 text-center">No pending tenant requests.</p>
+                 <p className="text-sm text-muted-foreground py-8 text-center">No pending partnership requests.</p>
               ) : (
                 <div className="space-y-3">
                   {pendingRequests.map((req) => (
@@ -438,7 +438,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {activeTab === 'clients' && (
             <div className="bg-card border border-border rounded-xl p-6 mb-8 shadow-sm">
-              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">User & Tenant Directory ({clients.length})</h3>
+              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">User & Partner Directory ({clients.length})</h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
                   <thead>
@@ -501,7 +501,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
                     <div>
                       <p className="font-semibold text-foreground">Supabase Realtime RLS Synced</p>
-                      <span className="text-muted-foreground text-[11px]">Secure database channels active for multi-tenant isolation</span>
+                       <span className="text-muted-foreground text-[11px]">Secure database channels active for partnership verification</span>
                     </div>
                   </div>
                   <span className="text-muted-foreground">Just now</span>
@@ -510,8 +510,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                   <div className="flex items-center gap-3">
                     <div className="w-2.5 h-2.5 rounded-full bg-[var(--cardeal-primary)]"></div>
                     <div>
-                      <p className="font-semibold text-foreground">Tenant Onboarding Webhook Handled</p>
-                      <span className="text-muted-foreground text-[11px]">Ariana & Sousse construction site profiles processed</span>
+                       <p className="font-semibold text-foreground">Partnership Onboarding Webhook Handled</p>
+                      <span className="text-muted-foreground text-[11px]">Ariana & Sousse workshop profiles processed</span>
                     </div>
                   </div>
                   <span className="text-muted-foreground">15m ago</span>
