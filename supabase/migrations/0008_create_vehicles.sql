@@ -3,13 +3,17 @@
 -- ============================================================================
 
 create table if not exists public.vehicles (
-  id           uuid primary key default gen_random_uuid(),
-  owner_email  text,
-  brand        text not null,
-  model        text not null,
-  year         integer default 2024,
-  health_score integer default 95,
-  created_at   timestamptz not null default now()
+  id            uuid primary key default gen_random_uuid(),
+  user_id       uuid,
+  owner_email   text,
+  make          text,
+  brand         text not null,
+  model         text not null,
+  year          integer default 2024,
+  license_plate text,
+  vin           text,
+  health_score  integer default 95,
+  created_at    timestamptz not null default now()
 );
 
 -- Row Level Security
