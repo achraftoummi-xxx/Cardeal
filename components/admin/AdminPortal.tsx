@@ -108,7 +108,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     }
 
     try {
-      const { data: requests } = await supabase.from('partner_requests').select('*').eq('status', 'pending');
+      const { data: requests, error: requestsError } = await supabase.from('partner_requests').select('*');
+      console.log("AdminPortal partner_requests fetch:", { requests, requestsError });
       const { data: clientData, count: clientCount } = await supabase.from('profiles').select('*', { count: 'exact' });
       const { data: vehicleData, count: vehicleCount } = await supabase.from('vehicles').select('*', { count: 'exact' });
 

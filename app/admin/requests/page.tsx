@@ -53,7 +53,8 @@ export default function AdminRequestsPage() {
       setLoading(false);
       return;
     }
-    const { data } = await supabase.from('partner_requests').select('*').order('created_at', { ascending: false });
+    const { data, error } = await supabase.from('partner_requests').select('*').order('created_at', { ascending: false });
+    console.log("Supabase partner_requests fetch result:", { data, error, count: data?.length });
     setRequests(data || []);
     setLoading(false);
   }
