@@ -68,28 +68,19 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     if (isOpen) {
       fetchAdminData();
 
-      if (isSupabaseConfigured && supabase) {
-        const channel = supabase
-          .channel('admin_partner_requests_changes')
-          .on(
-            'postgres_changes',
-            { event: '*', schema: 'public', table: 'partner_requests' },
-            () => {
-              fetchAdminData();
-            }
-          )
-          .subscribe((status) => {
-            if (status === 'SUBSCRIBED') {
-              console.log("Supabase Realtime channel subscribed successfully.");
-            } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
-              console.warn("Supabase Realtime connection failed or timed out. Falling back gracefully without blocking.");
-            }
-          });
+      const interval = setInterval(() => {
+        fetchAdminData();
+      }, 10000);
 
-        return () => {
-          supabase.removeChannel(channel);
-        };
-      }
+      const onFocus = () => {
+        fetchAdminData();
+      };
+      window.addEventListener('focus', onFocus);
+
+      return () => {
+        clearInterval(interval);
+        window.removeEventListener('focus', onFocus);
+      };
     }
   }, [isOpen]);
 

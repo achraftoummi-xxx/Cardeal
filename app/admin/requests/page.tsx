@@ -21,6 +21,21 @@ export default function AdminRequestsPage() {
 
   useEffect(() => {
     fetchRequests();
+
+    // Polling interval & window focus listener for zero-delay instant updates
+    const interval = setInterval(() => {
+      fetchRequests();
+    }, 10000);
+
+    const onFocus = () => {
+      fetchRequests();
+    };
+    window.addEventListener('focus', onFocus);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('focus', onFocus);
+    };
   }, []);
 
   async function fetchRequests() {
