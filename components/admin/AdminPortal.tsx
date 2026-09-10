@@ -113,26 +113,26 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
       return;
     }
 
-    try {
-      const { data: requests, error: requestsError } = await supabase.from('partner_requests').select('*');
-      console.log("AdminPortal partner_requests fetch:", { requests, requestsError });
-      const { data: clientData, count: clientCount } = await supabase.from('profiles').select('*', { count: 'exact' });
-      const { data: vehicleData, count: vehicleCount } = await supabase.from('vehicles').select('*', { count: 'exact' });
+      try {
+        const { data: requests, error: requestsError } = await supabase.from('partner_requests').select('*');
+        console.log("AdminPortal partner_requests fetch:", { requests, requestsError });
+        const clientRes = await supabase.from('profiles').select('*', { count: 'exact' });
+        const vehicleRes = await supabase.from('vehicles').select('*', { count: 'exact' });
 
-      setPendingRequests(requests || []);
-      setClients(clientData || []);
-      setVehicles(vehicleData || []);
-      setMetrics(prev => ({
-        ...prev,
-        clients: clientCount || clientData?.length || prev.clients,
-        vehicles: vehicleCount || vehicleData?.length || prev.vehicles,
-        pending: requests?.length || prev.pending,
-      }));
-    } catch (err) {
-      console.error("Error loading portal data", err);
-    } finally {
-      setLoading(false);
-    }
+        setPendingRequests(requests || []);
+        setClients(clientRes.data || []);
+        setVehicles(vehicleRes.data || []);
+        setMetrics(prev => ({
+          ...prev,
+          clients: clientRes.count || clientRes.data?.length || prev.clients,
+          vehicles: vehicleRes.count || vehicleRes.data?.length || prev.vehicles,
+          pending: requests?.length || prev.pending,
+        }));
+      } catch (err) {
+        console.error("Error loading portal data", err);
+      } finally {
+        setLoading(false);
+      }
   }
 
   async function handlePartnerAction(requestId: string, email: string, category: string, action: 'accept' | 'denied') {

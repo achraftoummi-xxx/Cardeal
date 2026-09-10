@@ -50,15 +50,15 @@ export default function CarDealAdminDashboard() {
         return;
       }
       try {
-        const { count: clientCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
-        const { count: vehicleCount } = await supabase.from('vehicles').select('*', { count: 'exact', head: true });
-        const { count: reqsCount } = await supabase.from('partner_requests').select('*', { count: 'exact', head: true }).eq('status', 'pending');
+        const clientRes = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+        const vehicleRes = await supabase.from('vehicles').select('*', { count: 'exact', head: true });
+        const reqsRes = await supabase.from('partner_requests').select('*', { count: 'exact', head: true });
         
         setStats(prev => ({
           ...prev,
-          clients: clientCount || prev.clients,
-          vehicles: vehicleCount || prev.vehicles,
-          pendingRequests: reqsCount || prev.pendingRequests,
+          clients: clientRes.count || prev.clients,
+          vehicles: vehicleRes.count || prev.vehicles,
+          pendingRequests: reqsRes.count || prev.pendingRequests,
         }));
       } catch (err) {
         console.error("Error loading live dashboard stats", err);
