@@ -287,7 +287,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           {/* Page Header & Actions */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground font-['Space_Grotesk']">SaaS Control Center</h2>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground font-['Space_Grotesk']">Current Requests</h2>
               <p className="text-sm text-muted-foreground mt-1">Partnership performance analytics and administrative management.</p>
             </div>
             <div className="flex items-center gap-2 bg-card border border-border rounded-[--radius] p-1.5 shadow-sm">
