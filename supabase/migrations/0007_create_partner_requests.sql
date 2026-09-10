@@ -13,6 +13,10 @@ create table if not exists public.partner_requests (
   created_at       timestamptz not null default now()
 );
 
+-- Ensure services_offered column exists if table was previously created without it
+alter table public.partner_requests
+  add column if not exists services_offered text;
+
 -- Row Level Security: public insert, authenticated read/update for admins
 alter table public.partner_requests enable row level security;
 
