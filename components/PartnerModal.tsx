@@ -110,7 +110,7 @@ export default function PartnerModal({ open, onClose }: Props) {
         email: form.email,
         phone: form.phone,
         category: form.serviceCategories.filter(Boolean).join(", ") || "Mécanique générale",
-        services_offered: form.serviceCategories.filter(Boolean).join(", "),
+        services_offered: form.serviceCategories.filter(Boolean),
         status: "pending",
       };
 

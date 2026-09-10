@@ -8,14 +8,14 @@ create table if not exists public.partner_requests (
   email            text not null,
   phone            text,
   category         text,
-  services_offered text,
+  services_offered text[] default '{}',
   status           text not null default 'pending',
   created_at       timestamptz not null default now()
 );
 
--- Ensure services_offered column exists if table was previously created without it
+-- Ensure services_offered column is text[] array type to store multi-level selections
 alter table public.partner_requests
-  add column if not exists services_offered text;
+  alter column services_offered type text[] using string_to_array(services_offered, ', ');
 
 -- Row Level Security: public insert, authenticated read/update for admins
 alter table public.partner_requests enable row level security;
