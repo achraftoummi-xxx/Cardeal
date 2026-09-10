@@ -159,7 +159,7 @@ export default function AdminRequestsPage() {
                 key={req.id} 
                 className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-sm transition-all"
               >
-                {/* Compact Main Card Row */}
+                {/* Compact Main Card Row (Name & Status Badge ONLY when collapsed) */}
                 <div 
                   className="p-5 flex items-center justify-between gap-4 cursor-pointer hover:bg-secondary/20 transition-colors"
                   onClick={() => toggleExpand(req.id)}
@@ -168,20 +168,15 @@ export default function AdminRequestsPage() {
                     <div className="w-10 h-10 rounded-xl bg-[var(--cardeal-primary)]/10 border border-[var(--cardeal-primary)]/20 flex items-center justify-center text-[var(--cardeal-primary)] shrink-0">
                       <Building2 size={20} />
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2.5">
-                        <h3 className="text-base font-bold text-foreground font-['Space_Grotesk'] truncate">{req.company_name}</h3>
-                        <span className={`rounded-lg px-2.5 py-0.5 text-[10px] font-bold uppercase shrink-0 ${
-                          req.status === 'accepted' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' :
-                          req.status === 'denied' ? 'bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] border border-[var(--cardeal-primary)]/30' :
-                          'bg-amber-500/10 text-amber-500 border border-amber-500/30'
-                        }`}>
-                          {req.status}
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted-foreground truncate mt-0.5">
-                        {req.category || 'General Workshop'} • Submitted on {new Date(req.created_at || Date.now()).toLocaleDateString()}
-                      </p>
+                    <div className="min-w-0 flex-1 flex items-center gap-3">
+                      <h3 className="text-base font-bold text-foreground font-['Space_Grotesk'] truncate">{req.company_name}</h3>
+                      <span className={`rounded-lg px-2.5 py-0.5 text-[10px] font-bold uppercase shrink-0 ${
+                        req.status === 'accepted' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' :
+                        req.status === 'denied' ? 'bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] border border-[var(--cardeal-primary)]/30' :
+                        'bg-amber-500/10 text-amber-500 border border-amber-500/30'
+                      }`}>
+                        {req.status}
+                      </span>
                     </div>
                   </div>
 
