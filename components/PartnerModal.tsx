@@ -5,7 +5,7 @@ import { X, User, Briefcase, Clock, Banknote, CheckCircle2, AlertCircle } from "
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
-import ServiceCategorySelect from "./ServiceCategorySelect";
+import ServiceCategoryMultiSelect from "./ServiceCategoryMultiSelect";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 type Props = {
@@ -41,7 +41,7 @@ const EMPTY_FORM = {
   email: "",
   phone: "",
   password: "",
-  serviceCategory: "",
+  serviceCategories: [] as string[],
   specializedBrand: "",
   location: "",
   openDayFrom: "",
@@ -109,7 +109,8 @@ export default function PartnerModal({ open, onClose }: Props) {
         company_name: form.fullName,
         email: form.email,
         phone: form.phone,
-        category: form.serviceCategory || "Mécanique générale",
+        category: form.serviceCategories.filter(Boolean).join(", ") || "Mécanique générale",
+        services_offered: form.serviceCategories.filter(Boolean).join(", "),
         status: "pending",
       };
 
@@ -238,12 +239,12 @@ export default function PartnerModal({ open, onClose }: Props) {
               {t("partnerForm.businessSection")}
             </h3>
             <div className="sm:col-span-2">
-              <ServiceCategorySelect
+              <ServiceCategoryMultiSelect
                 id="partner-category"
                 name="partnerCategory"
                 label={t("partnerForm.serviceCategory")}
-                value={form.serviceCategory}
-                onChange={(v) => setForm((f) => ({ ...f, serviceCategory: v }))}
+                value={form.serviceCategories}
+                onChange={(v) => setForm((f) => ({ ...f, serviceCategories: v }))}
                 required
               />
             </div>

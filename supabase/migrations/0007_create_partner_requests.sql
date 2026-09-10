@@ -3,13 +3,14 @@
 -- ============================================================================
 
 create table if not exists public.partner_requests (
-  id           uuid primary key default gen_random_uuid(),
-  company_name text not null,
-  email        text not null,
-  phone        text,
-  category     text,
-  status       text not null default 'pending',
-  created_at   timestamptz not null default now()
+  id               uuid primary key default gen_random_uuid(),
+  company_name     text not null,
+  email            text not null,
+  phone            text,
+  category         text,
+  services_offered text,
+  status           text not null default 'pending',
+  created_at       timestamptz not null default now()
 );
 
 -- Row Level Security: public insert, authenticated read/update for admins
