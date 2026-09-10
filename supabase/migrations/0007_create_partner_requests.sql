@@ -13,9 +13,9 @@ create table if not exists public.partner_requests (
   created_at       timestamptz not null default now()
 );
 
--- Ensure services_offered column is text[] array type to store multi-level selections
+-- Ensure services_offered column is explicitly defined as text[] array type
 alter table public.partner_requests
-  alter column services_offered type text[] using string_to_array(services_offered, ', ');
+  alter column services_offered type text[] using services_offered::text[];
 
 -- Row Level Security: public insert, authenticated read/update for admins
 alter table public.partner_requests enable row level security;
