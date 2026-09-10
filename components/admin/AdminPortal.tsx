@@ -78,7 +78,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
               fetchAdminData();
             }
           )
-          .subscribe();
+          .subscribe((status) => {
+            if (status === 'SUBSCRIBED') {
+              console.log("Supabase Realtime channel subscribed successfully.");
+            } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+              console.warn("Supabase Realtime connection failed or timed out. Falling back gracefully without blocking.");
+            }
+          });
 
         return () => {
           supabase.removeChannel(channel);
