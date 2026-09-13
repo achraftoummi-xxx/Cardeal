@@ -54,15 +54,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
   const [clients, setClients] = useState<any[]>([]);
   const [vehicles, setVehicles] = useState<any[]>([]);
   const [metrics, setMetrics] = useState({ 
-    clients: 842, 
-    vehicles: 12840, 
-    pending: 12, 
-    activeSessions: 24,
-    revenue: "125k",
-    servicePartners: 156,
-    rentalPartners: 42,
-    servicesDelivered: 4820,
-    commissionEarnings: "24.5k"
+    clients: 0, 
+    vehicles: 0, 
+    pending: 0, 
+    activeSessions: 0,
+    revenue: "0",
+    servicePartners: 0,
+    rentalPartners: 0,
+    servicesDelivered: 0,
+    commissionEarnings: "0"
   });
   const [loading, setLoading] = useState(true);
   const [selectedVehicle, setSelectedVehicle] = useState<any | null>(null);
@@ -533,19 +533,37 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                 <div className="space-y-3">
                   {pendingRequests.map((req) => (
                     <div key={req.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-xl border border-border bg-secondary/30 p-4 gap-4">
-                      <div>
-                        <h4 className="font-semibold text-foreground text-base">{req.company_name}</h4>
-                        <p className="text-xs text-muted-foreground">{req.email} • <span className="text-[var(--cardeal-primary)] font-medium">{req.category}</span></p>
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-[var(--cardeal-primary)]/10 border border-[var(--cardeal-primary)]/30 flex items-center justify-center text-[var(--cardeal-primary)] shrink-0 mt-0.5">
+                          <Handshake size={18} />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h4 className="font-semibold text-foreground text-base">{req.company_name}</h4>
+                            <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-[var(--cardeal-primary)]/15 text-[var(--cardeal-primary)] border border-[var(--cardeal-primary)]/30">
+                              {req.category || 'Partner'}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground flex-wrap">
+                            <span className="flex items-center gap-1">
+                              <Users size={13} className="text-muted-foreground" /> {req.email}
+                            </span>
+                            <span>•</span>
+                            <span className="flex items-center gap-1">
+                              <Calendar size={13} className="text-muted-foreground" /> {new Date(req.created_at || Date.now()).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                       <div className="flex gap-2 w-full sm:w-auto">
                         <button 
                           onClick={() => handlePartnerAction(req.id, req.email, req.category, 'accept')}
-                          className="flex-1 sm:flex-none bg-emerald-500/20 border border-emerald-500/40 hover:bg-emerald-500/30 text-emerald-400 px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition">
+                          className="flex-1 sm:flex-none bg-emerald-500/20 border border-emerald-500/40 hover:bg-emerald-500/30 text-emerald-400 px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
                           <CheckCircle2 size={14} /> Accept
                         </button>
                         <button 
                           onClick={() => handlePartnerAction(req.id, req.email, req.category, 'denied')}
-                          className="flex-1 sm:flex-none bg-secondary hover:bg-accent border border-border text-[var(--cardeal-primary)] px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition">
+                          className="flex-1 sm:flex-none bg-secondary hover:bg-accent border border-border text-[var(--cardeal-primary)] px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
                           <XCircle size={14} /> Refuse
                         </button>
                       </div>
