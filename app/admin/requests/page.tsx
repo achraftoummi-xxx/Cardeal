@@ -138,24 +138,25 @@ export default function AdminRequestsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-extrabold text-foreground tracking-tight font-['Space_Grotesk']">Partnership Requests</h2>
-        <p className="mt-1 text-sm text-muted-foreground font-['Manrope']">Examine, review, and action incoming workshop partnership applications.</p>
+      <div className="border-b border-border pb-5">
+        <h2 className="text-3xl font-extrabold text-foreground tracking-tight font-['Space_Grotesk']">Partnership Requests</h2>
+        <p className="mt-1.5 text-base text-muted-foreground font-['Manrope']">Examine, review, and action incoming workshop partnership applications with full administrative privileges.</p>
       </div>
 
       {requests.length === 0 ? (
-        <p className="rounded-2xl border border-border bg-card/60 p-12 text-center text-sm text-muted-foreground">
+        <p className="rounded-2xl border border-border bg-card/60 p-12 text-center text-base text-muted-foreground">
           No partnership requests available at the moment.
         </p>
       ) : (
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {requests.map((req) => (
-            <PartnershipRequestCard
-              key={req.id}
-              request={req}
-              onAccept={(r) => openConfirmModal(r, 'accepted')}
-              onReject={(r) => openConfirmModal(r, 'denied')}
-            />
+            <div key={req.id} className="w-full max-w-none">
+              <PartnershipRequestCard
+                request={req}
+                onAccept={(r) => openConfirmModal(r, 'accepted')}
+                onReject={(r) => openConfirmModal(r, 'denied')}
+              />
+            </div>
           ))}
         </div>
       )}
