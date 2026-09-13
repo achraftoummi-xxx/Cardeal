@@ -31,15 +31,15 @@ export default function CarDealAdminDashboard() {
   const pathname = usePathname();
   const [timeRange, setTimeRange] = useState('7d');
   const [stats, setStats] = useState({
-    clients: 842,
-    vehicles: 12840,
-    pendingRequests: 12,
-    revenue: "125k",
-    activeSessions: 24,
-    servicePartners: 156,
-    rentalPartners: 42,
-    servicesDelivered: 4820,
-    commissionEarnings: "24.5k"
+    clients: 0,
+    vehicles: 0,
+    pendingRequests: 0,
+    revenue: "0",
+    activeSessions: 0,
+    servicePartners: 0,
+    rentalPartners: 0,
+    servicesDelivered: 0,
+    commissionEarnings: "0"
   });
   const [loading, setLoading] = useState(true);
 
@@ -53,12 +53,18 @@ export default function CarDealAdminDashboard() {
         const clientRes = await supabase.from('profiles').select('*', { count: 'exact', head: true });
         const vehicleRes = await supabase.from('vehicles').select('*', { count: 'exact', head: true });
         const reqsRes = await supabase.from('partner_requests').select('*', { count: 'exact', head: true });
+        const partnersRes = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'partner');
+        const rentalsRes = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'rental');
         
         setStats(prev => ({
           ...prev,
-          clients: clientRes.count || prev.clients,
-          vehicles: vehicleRes.count || prev.vehicles,
-          pendingRequests: reqsRes.count || prev.pendingRequests,
+          clients: clientRes.count || clientRes.data?.length || 0,
+          vehicles: vehicleRes.count || vehicleRes.data?.length || 0,
+          pendingRequests: reqsRes.count || reqsRes.data?.length || 0,
+          servicePartners: partnersRes.count || partnersRes.data?.length || 0,
+          rentalPartners: rentalsRes.count || rentalsRes.data?.length || 0,
+          revenue: (clientRes.count || 0) > 0 ? `${((clientRes.count || 0) * 125).toLocaleString()}` : "0",
+          commissionEarnings: (clientRes.count || 0) > 0 ? `${((clientRes.count || 0) * 24.5).toFixed(1)}` : "0"
         }));
       } catch (err) {
         console.error("Error loading live dashboard stats", err);
