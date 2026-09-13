@@ -67,6 +67,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
   const [loading, setLoading] = useState(true);
   const [selectedVehicle, setSelectedVehicle] = useState<any | null>(null);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [auditLogs, setAuditLogs] = useState<Array<{ id: string; action: string; details: string; type: 'success' | 'warning' | 'info' | 'error'; timestamp: string }>>([
+    { id: 'log-1', action: 'Supabase RLS Sync', details: 'Secure database channels active for partnership verification', type: 'success', timestamp: 'Just now' },
+    { id: 'log-2', action: 'Partnership Onboarding Webhook', details: 'Ariana & Sousse workshop profiles processed successfully', type: 'info', timestamp: '15m ago' }
+  ]);
 
   useEffect(() => {
     if (isOpen) {
@@ -131,15 +135,36 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
   }
 
   async function handlePartnerAction(requestId: string, email: string, category: string, action: 'accept' | 'denied') {
+    const timestamp = new Date().toLocaleTimeString();
     if (!isSupabaseConfigured || !supabase) {
       setPendingRequests(prev => prev.filter(r => r.id !== requestId));
+      setAuditLogs(prev => [
+        { id: `log-${Date.now()}`, action: action === 'accept' ? 'Partner Request Accepted' : 'Partner Request Refused', details: `Request ID: ${requestId} for ${email} (${category})`, type: action === 'accept' ? 'success' : 'warning', timestamp },
+        ...prev
+      ]);
       return;
     }
-    if (action === 'accept') {
-      await supabase.from('partner_requests').update({ status: 'accepted' }).eq('id', requestId);
-      await supabase.from('profiles').update({ role: 'partner', category }).eq('email', email);
-    } else {
-      await supabase.from('partner_requests').update({ status: 'denied' }).eq('id', requestId);
+    try {
+      if (action === 'accept') {
+        await supabase.from('partner_requests').update({ status: 'accepted' }).eq('id', requestId);
+        await supabase.from('profiles').update({ role: 'partner', category }).eq('email', email);
+        setAuditLogs(prev => [
+          { id: `log-${Date.now()}`, action: 'Partner Request Accepted', details: `Successfully accepted request for ${email} in category ${category}`, type: 'success', timestamp },
+          ...prev
+        ]);
+      } else {
+        await supabase.from('partner_requests').update({ status: 'denied' }).eq('id', requestId);
+        setAuditLogs(prev => [
+          { id: `log-${Date.now()}`, action: 'Partner Request Refused', details: `Refused partnership request for ${email}`, type: 'warning', timestamp },
+          ...prev
+        ]);
+      }
+    } catch (err: any) {
+      console.error("Error handling partner action", err);
+      setAuditLogs(prev => [
+        { id: `log-${Date.now()}`, action: 'Action Error', details: err?.message || 'Failed to process partnership request', type: 'error', timestamp },
+        ...prev
+      ]);
     }
     fetchAdminData();
   }
@@ -589,28 +614,33 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {activeTab === 'logs' && (
             <div className="bg-card border border-border rounded-xl p-6 mb-8 shadow-sm">
-              <h3 className="text-lg font-bold text-foreground mb-4 font-['Space_Grotesk']">System Activity & RLS Audit Logs</h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-foreground font-['Space_Grotesk']">System Activity & RLS Audit Logs ({auditLogs.length})</h3>
+                <button 
+                  onClick={() => setAuditLogs([{ id: `log-${Date.now()}`, action: 'Logs Cleared', details: 'Admin cleared audit history', type: 'info', timestamp: 'Just now' }])}
+                  className="text-xs text-muted-foreground hover:text-foreground underline transition"
+                >
+                  Clear logs
+                </button>
+              </div>
               <div className="space-y-3">
-                <div className="bg-secondary/30 border border-border p-4 rounded-xl flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                    <div>
-                      <p className="font-semibold text-foreground">Supabase Realtime RLS Synced</p>
-                       <span className="text-muted-foreground text-[11px]">Secure database channels active for partnership verification</span>
+                {auditLogs.map((log) => (
+                  <div key={log.id} className="bg-secondary/30 border border-border p-4 rounded-xl flex items-center justify-between text-xs gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${
+                        log.type === 'success' ? 'bg-emerald-500' :
+                        log.type === 'warning' ? 'bg-amber-500' :
+                        log.type === 'error' ? 'bg-red-500 animate-pulse' :
+                        'bg-[var(--cardeal-primary)] animate-pulse'
+                      }`}></div>
+                      <div>
+                        <p className="font-semibold text-foreground text-sm">{log.action}</p>
+                        <span className="text-muted-foreground text-xs">{log.details}</span>
+                      </div>
                     </div>
+                    <span className="text-muted-foreground whitespace-nowrap text-xs font-mono">{log.timestamp}</span>
                   </div>
-                  <span className="text-muted-foreground">Just now</span>
-                </div>
-                <div className="bg-secondary/30 border border-border p-4 rounded-xl flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[var(--cardeal-primary)]"></div>
-                    <div>
-                       <p className="font-semibold text-foreground">Partnership Onboarding Webhook Handled</p>
-                      <span className="text-muted-foreground text-[11px]">Ariana & Sousse workshop profiles processed</span>
-                    </div>
-                  </div>
-                  <span className="text-muted-foreground">15m ago</span>
-                </div>
+                ))}
               </div>
             </div>
           )}
