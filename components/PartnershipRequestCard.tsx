@@ -41,7 +41,6 @@ export interface PartnershipRequestCardProps {
   statusLabel?: string;
   stats?: PartnershipStat[];
   servicesList?: { category: string; items: string[] };
-  actionsHint?: string;
   onAccept?: ((request: PartnershipRequest) => void) | (() => void | Promise<void>);
   onReject?: ((request: PartnershipRequest) => void) | (() => void | Promise<void>);
   onDecline?: (() => void | Promise<void>);
@@ -122,14 +121,14 @@ export default function PartnershipRequestCard({
   return (
     <details
       className={cn(
-        'animate-fade-up group/card relative w-full overflow-hidden rounded-lg border border-[var(--border-default, #27272a)] bg-[#18181b]/95 backdrop-blur-xl transition-colors duration-300 hover:border-[var(--border-strong, #3a3a3f)]',
+        'animate-fade-up group/card relative w-full overflow-hidden rounded-lg border border-[var(--border-default,#27272a)] bg-[var(--surface-2,#18181b)]/95 backdrop-blur-xl transition-colors duration-300 hover:border-[var(--border-strong,#3a3a3f)]',
         className
       )}
       open={isOpen}
       onToggle={(e) => setIsOpen((e.currentTarget as HTMLDetailsElement).open)}
     >
       {/* Top accent */}
-      <div aria-hidden="true" className="h-0.5 w-full bg-gradient-to-r from-[#4A0A0C] via-[#BA2529] to-[#932024]" />
+      <div aria-hidden="true" className="h-0.5 w-full bg-gradient-to-r from-[var(--brand-700,#4A0A0C)] via-[var(--brand-400,#BA2529)] to-[var(--brand-500,#932024)]" />
 
       {/* SUMMARY */}
       <summary
@@ -138,17 +137,17 @@ export default function PartnershipRequestCard({
       >
         <div className="flex items-center justify-between gap-3 px-5 pt-5">
           <div className="flex items-center gap-2.5">
-            <div className="grid size-8 place-items-center rounded bg-[#4A0A0C] text-[#ffdad7] ring-1 ring-inset ring-[#BA2529]/30">
+            <div className="grid size-8 place-items-center rounded bg-[var(--brand-700,#4A0A0C)] text-[var(--brand-100,#ffdad7)] ring-1 ring-inset ring-[var(--brand-400,#BA2529)]/30">
               <span className="material-symbols-outlined text-[16px]" aria-hidden="true">handshake</span>
             </div>
             <div>
-              <h3 className="font-['Space_Grotesk'] text-[17px] font-semibold text-[#fafafa] leading-none">
+              <h3 className="font-['Space_Grotesk'] text-[17px] font-semibold text-[var(--fg-primary,#fafafa)] leading-none">
                 {title}
               </h3>
-              <p className="mt-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#71717a]">
+              <p className="mt-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">
                 {eyebrow}
-                <span aria-hidden="true" className="size-1 rounded-full bg-amber-500" />
-                <span className="text-amber-500">{statusLabel}</span>
+                <span aria-hidden="true" className="size-1 rounded-full bg-[var(--warning,#f59e0b)]" />
+                <span className="text-[var(--warning,#f59e0b)]">{statusLabel}</span>
               </p>
             </div>
           </div>
@@ -156,7 +155,7 @@ export default function PartnershipRequestCard({
           <span
             aria-hidden="true"
             className={cn(
-              'grid size-7 shrink-0 place-items-center rounded border border-[#1f1f22] bg-[#131313]/60 text-[#71717a] transition-transform duration-300',
+              'grid size-7 shrink-0 place-items-center rounded border border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/60 text-[var(--fg-tertiary,#71717a)] transition-transform duration-300',
               isOpen && 'rotate-180'
             )}
           >
@@ -165,28 +164,29 @@ export default function PartnershipRequestCard({
         </div>
 
         {/* Sender block */}
-        <div className="mt-5 flex items-center gap-3 border-y border-[#1f1f22] bg-[#131313]/50 px-5 py-4">
+        <div className="mt-5 flex items-center gap-3 border-y border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/50 px-5 py-4">
           <div className="relative shrink-0">
             <div
               aria-hidden="true"
-              className="grid size-11 place-items-center rounded-md bg-gradient-to-br from-[#932024] to-[#4A0A0C] font-['Space_Grotesk'] text-[13px] font-semibold text-[#ffdad7] ring-1 ring-inset ring-white/5"
+              className="grid size-11 place-items-center rounded-md bg-gradient-to-br from-[var(--brand-500,#932024)] to-[var(--brand-700,#4A0A0C)] font-['Space_Grotesk'] text-[13px] font-semibold text-[var(--brand-100,#ffdad7)] ring-1 ring-inset ring-white/5"
             >
               {partner.initials || 'AM'}
             </div>
-            <span className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full border-2 border-[#18181b] bg-emerald-500" />
+            <span
+              className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full border-2 border-[var(--surface-2,#18181b)] bg-[var(--success,#22c55e)]"></span>
           </div>
 
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
-              <h4 className="truncate font-['Space_Grotesk'] text-[13px] font-semibold text-[#fafafa]">
+              <h4 className="truncate font-['Space_Grotesk'] text-[13px] font-semibold text-[var(--fg-primary,#fafafa)]">
                 {partner.name}
               </h4>
               {partner.verified && (
-                <span className="material-symbols-outlined text-[12px] text-[#BA2529]" aria-hidden="true">verified</span>
+                <span className="material-symbols-outlined text-[12px] text-[var(--brand-400,#BA2529)]" aria-hidden="true">verified</span>
               )}
             </div>
             {partner.location && (
-              <p className="mt-0.5 flex items-center gap-1 text-[12px] text-[#71717a]">
+              <p className="mt-0.5 flex items-center gap-1 text-[12px] text-[var(--fg-tertiary,#71717a)]">
                 <span className="material-symbols-outlined text-[12px]" aria-hidden="true">location_on</span>
                 {partner.location}
               </p>
@@ -194,25 +194,25 @@ export default function PartnershipRequestCard({
           </div>
 
           <div className="shrink-0 text-right">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#71717a]">{stats[0]?.label || 'Fleet'}</p>
-            <p className="mt-0.5 font-['Space_Grotesk'] text-[13px] font-semibold text-[#fafafa]">{stats[0]?.value || '240+'}</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">{stats[0]?.label || 'Fleet'}</p>
+            <p className="mt-0.5 font-['Space_Grotesk'] text-[13px] font-semibold text-[var(--fg-primary,#fafafa)]">{stats[0]?.value || '240+'}</p>
           </div>
         </div>
       </summary>
 
       {/* COLLAPSIBLE BODY */}
       <div className="px-5 pt-4 pb-4 space-y-4">
-        <p className="text-[13px] text-[#a1a1aa] leading-[1.55]">
+        <p className="text-[13px] text-[var(--fg-secondary,#a1a1aa)] leading-[1.55]">
           {message}
         </p>
 
         {/* Mini stats */}
         {stats.length > 0 && (
-          <div className="grid grid-cols-3 divide-x divide-[#1f1f22] overflow-hidden rounded border border-[#1f1f22] bg-[#131313]/40">
+          <div className="grid grid-cols-3 divide-x divide-[var(--border-subtle,#1f1f22)] overflow-hidden rounded border border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/40">
             {stats.map((stat) => (
               <div key={stat.id} className="px-3 py-2.5">
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#71717a]">{stat.label}</p>
-                <p className="mt-1 font-['Space_Grotesk'] text-[13px] font-semibold text-[#fafafa]">{stat.value}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">{stat.label}</p>
+                <p className="mt-1 font-['Space_Grotesk'] text-[13px] font-semibold text-[var(--fg-primary,#fafafa)]">{stat.value}</p>
               </div>
             ))}
           </div>
@@ -220,33 +220,33 @@ export default function PartnershipRequestCard({
 
         {/* SERVICE CATALOG */}
         {servicesList && (
-          <details className="overflow-hidden rounded border border-[#1f1f22] bg-[#131313]/40 group/catalog">
-            <summary className="flex cursor-pointer select-none items-center justify-between gap-2 border-b border-[#1f1f22] bg-[#131313]/70 px-3.5 py-2.5 transition-colors duration-150 hover:bg-[#131313] list-none [&::-webkit-details-marker]:hidden">
+          <details className="overflow-hidden rounded border border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/40 group/catalog">
+            <summary className="flex cursor-pointer select-none items-center justify-between gap-2 border-b border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/70 px-3.5 py-2.5 transition-colors duration-150 hover:bg-[var(--surface-1,#131313)] list-none [&::-webkit-details-marker]:hidden">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[13px] text-[#BA2529]" aria-hidden="true">build</span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#71717a]">Services Offered</span>
+                <span className="material-symbols-outlined text-[13px] text-[var(--brand-400,#BA2529)]" aria-hidden="true">build</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">Services Offered</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="rounded-sm border border-[#932024]/40 bg-[#4A0A0C]/60 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#ffdad7]">
+                <span className="rounded-sm border border-[var(--brand-500,#932024)]/40 bg-[var(--brand-700,#4A0A0C)]/60 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--brand-100,#ffdad7)]">
                   {servicesList.items.length}
                 </span>
-                <span className="grid size-5 place-items-center rounded text-[#71717a] group-open/catalog:rotate-180 transition-transform" aria-hidden="true">
+                <span className="grid size-5 place-items-center rounded text-[var(--fg-tertiary,#71717a)] group-open/catalog:rotate-180 transition-transform" aria-hidden="true">
                   <span className="material-symbols-outlined text-[14px]">expand_more</span>
                 </span>
               </div>
             </summary>
 
             <div className="px-3.5 pt-3 pb-1.5">
-              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#71717a]">{servicesList.category}</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">{servicesList.category}</p>
             </div>
 
-            <ul className="divide-y divide-[#1f1f22]" role="list">
+            <ul className="divide-y divide-[var(--border-subtle,#1f1f22)]" role="list">
               {servicesList.items.map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 px-3.5 py-2.5 transition-colors duration-150 hover:bg-white/[0.02]">
-                  <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-sm bg-[#4A0A0C] text-[#ffdad7] ring-1 ring-inset ring-[#932024]/40" aria-hidden="true">
+                  <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-sm bg-[var(--brand-700,#4A0A0C)] text-[var(--brand-100,#ffdad7)] ring-1 ring-inset ring-[var(--brand-500,#932024)]/40" aria-hidden="true">
                     <span className="material-symbols-outlined text-[10px]">check</span>
                   </span>
-                  <p className="text-[13px] text-[#fafafa]">{item}</p>
+                  <p className="text-[13px] text-[var(--fg-primary,#fafafa)]">{item}</p>
                 </li>
               ))}
             </ul>
@@ -255,12 +255,12 @@ export default function PartnershipRequestCard({
       </div>
 
       {/* ACTIONS FOOTER */}
-      <footer className="flex items-center gap-2 border-t border-[#27272a] bg-[#131313]/60 px-5 py-3.5">
+      <footer className="flex items-center gap-2 border-t border-[var(--border-default,#27272a)] bg-[var(--surface-1,#131313)]/60 px-5 py-3.5">
         <button
           type="button"
           disabled={isBusy}
           onClick={handleDecline}
-          className="inline-flex items-center justify-center gap-1.5 rounded px-2.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[#71717a] transition-colors duration-150 hover:bg-white/[0.04] hover:text-[#a1a1aa] disabled:opacity-50 cursor-pointer"
+          className="inline-flex items-center justify-center gap-1.5 rounded px-2.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--fg-tertiary,#71717a)] transition-colors duration-150 hover:bg-white/[0.04] hover:text-[var(--fg-secondary,#a1a1aa)] disabled:opacity-50 cursor-pointer"
         >
           <span className="material-symbols-outlined text-[15px]" aria-hidden="true">block</span>
           Decline
@@ -271,7 +271,7 @@ export default function PartnershipRequestCard({
             type="button"
             disabled={isBusy}
             onClick={onMessage}
-            className="inline-flex size-9 items-center justify-center rounded border border-[#27272a] text-[#fafafa] transition-colors duration-150 hover:border-[#3a3a3f] hover:bg-white/[0.04] disabled:opacity-50 cursor-pointer"
+            className="inline-flex size-9 items-center justify-center rounded border border-[var(--border-default,#27272a)] text-[var(--fg-primary,#fafafa)] transition-colors duration-150 hover:border-[var(--border-strong,#3a3a3f)] hover:bg-white/[0.04] disabled:opacity-50 cursor-pointer"
             aria-label="Message partner"
           >
             <span className="material-symbols-outlined text-[16px]" aria-hidden="true">chat_bubble</span>
@@ -281,7 +281,7 @@ export default function PartnershipRequestCard({
             type="button"
             disabled={isBusy}
             onClick={handleAccept}
-            className="inline-flex items-center justify-center gap-1.5 rounded bg-[#BA2529] px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-[inset_0_-2px_0_0_#4A0A0C] transition-all duration-200 hover:bg-[#d94448] hover:shadow-[inset_0_-2px_0_0_#4A0A0C,0_6px_20px_-6px_rgba(186,37,41,0.7)] active:translate-y-px disabled:opacity-50 cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 rounded bg-[var(--brand-400,#BA2529)] px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-[inset_0_-2px_0_0_#4A0A0C] transition-all duration-200 hover:bg-[var(--brand-300,#d94448)] hover:shadow-[inset_0_-2px_0_0_#4A0A0C,0_6px_20px_-6px_rgba(186,37,41,0.7)] active:translate-y-px disabled:opacity-50 cursor-pointer"
           >
             <span className="material-symbols-outlined text-[15px]" aria-hidden="true">check_circle</span>
             Accept
