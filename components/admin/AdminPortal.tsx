@@ -283,25 +283,45 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
         {/* Dashboard Content */}
         <div className="flex-1 p-6 md:p-8 mt-16 max-w-6xl mx-auto w-full">
           {/* Page Header & Actions */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground font-['Space_Grotesk']">Current Requests</h2>
-              <p className="text-sm text-muted-foreground mt-1">Partnership performance analytics and administrative management.</p>
-            </div>
-            <div className="flex items-center gap-2 bg-card border border-border rounded-[--radius] p-1.5 shadow-sm">
-              <Calendar className="w-4 h-4 text-muted-foreground ml-2" />
-              <select 
-                value={timeRange}
-                onChange={(e) => setTimeRange(e.target.value)}
-                className="bg-transparent border-none text-sm text-foreground focus:ring-0 cursor-pointer pl-1 pr-6 py-1 appearance-none"
-              >
-                <option value="today" className="bg-card text-foreground">Today</option>
-                <option value="7d" className="bg-card text-foreground">Last 7 Days</option>
-                <option value="30d" className="bg-card text-foreground">Last 30 Days</option>
-                <option value="ytd" className="bg-card text-foreground">Year to Date</option>
-              </select>
-            </div>
-          </div>
+          {(() => {
+            const headerInfo = (() => {
+              switch (activeTab) {
+                case 'requests':
+                  return { title: "Current Requests", desc: "Partnership performance analytics and administrative management." };
+                case 'clients':
+                  return { title: "User & Partner Directory", desc: "Manage registered users, roles, and administrative permissions." };
+                case 'vehicles':
+                  return { title: "Construction & Property Portfolio", desc: "Monitor active construction sites, assets, and health ratings." };
+                case 'logs':
+                  return { title: "System Activity & RLS Audit Logs", desc: "Real-time security audits and transaction logs." };
+                case 'overview':
+                default:
+                  return { title: "Overview", desc: "Real-time performance metrics and operational insights." };
+              }
+            })();
+
+            return (
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground font-['Space_Grotesk']">{headerInfo.title}</h2>
+                  <p className="text-sm text-muted-foreground mt-1">{headerInfo.desc}</p>
+                </div>
+                <div className="flex items-center gap-2 bg-card border border-border rounded-[--radius] p-1.5 shadow-sm">
+                  <Calendar className="w-4 h-4 text-muted-foreground ml-2" />
+                  <select 
+                    value={timeRange}
+                    onChange={(e) => setTimeRange(e.target.value)}
+                    className="bg-transparent border-none text-sm text-foreground focus:ring-0 cursor-pointer pl-1 pr-6 py-1 appearance-none"
+                  >
+                    <option value="today" className="bg-card text-foreground">Today</option>
+                    <option value="7d" className="bg-card text-foreground">Last 7 Days</option>
+                    <option value="30d" className="bg-card text-foreground">Last 30 Days</option>
+                    <option value="ytd" className="bg-card text-foreground">Year to Date</option>
+                  </select>
+                </div>
+              </div>
+            );
+          })()}
 
           {activeTab === 'overview' && (
             <>
