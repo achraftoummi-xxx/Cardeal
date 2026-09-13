@@ -66,8 +66,7 @@ export default function SiteHeader({
           {/* Desktop right controls & mobile sticky partner CTA */}
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <Button
-              variant="outline"
-              className="text-xs sm:text-sm font-semibold shrink-0 px-3 py-2 border-primary/40 text-primary hover:bg-primary/10 shadow-sm"
+              className="text-xs sm:text-sm font-semibold shrink-0 px-3.5 py-2 bg-[var(--cardeal-primary)] text-white hover:bg-[#9E1F23] shadow-sm"
               onClick={onPartner}
             >
               {t("buttons.becomePartner")}
