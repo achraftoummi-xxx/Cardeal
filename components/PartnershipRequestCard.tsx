@@ -14,7 +14,8 @@ import {
   ChevronUp, 
   Wrench, 
   ShieldCheck,
-  Clock
+  Clock,
+  ExternalLink
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -44,7 +45,7 @@ export default function PartnershipRequestCard({
   onReject,
   className,
 }: PartnershipRequestCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [showMoreServices, setShowMoreServices] = useState(false);
 
   const services = Array.isArray(request.services_offered)
     ? request.services_offered
@@ -52,199 +53,208 @@ export default function PartnershipRequestCard({
     ? JSON.parse(request.services_offered || '[]')
     : [];
 
+  const mainServices = services.slice(0, 3);
+  const extraServices = services.slice(3);
+
+  // Helper to generate initials for monogram avatar
+  const getInitials = (name: string) => {
+    if (!name) return "CD";
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase();
+  };
+
   return (
-    <article
-      id={`partnership-request-${request.id}`}
-      onClick={() => setIsExpanded((prev) => !prev)}
-      className={cn(
-        "group cursor-pointer rounded-2xl border border-border bg-card/60 overflow-hidden shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-blue-500/30",
-        className
-      )}
-    >
-      {/* Compact Main Card Row */}
-      <div className="p-5 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3.5 flex-1 min-w-0">
-          <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 shrink-0 shadow-sm">
-            <Building2 size={20} />
-          </div>
-          <div className="min-w-0 flex-1 flex items-center gap-3 flex-wrap sm:flex-nowrap">
-            <h3 className="text-base font-bold text-foreground font-['Space_Grotesk'] truncate">
-              {request.company_name}
-            </h3>
-            <span
-              className={cn(
-                "rounded-lg px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider shrink-0",
-                request.status === 'accepted'
-                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-                  : request.status === 'denied'
-                  ? 'bg-red-500/10 text-red-400 border border-red-500/30'
-                  : 'bg-amber-500/10 text-amber-500 border border-amber-500/30'
-              )}
-            >
-              {request.status}
-            </span>
-          </div>
+    <div className={cn("w-full max-w-5xl mx-auto space-y-3", className)}>
+      {/* Context Label / Breadcrumb Hint */}
+      <div className="flex items-center justify-between px-2 text-xs font-medium text-neutral-400">
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--cardeal-primary)]/10 border border-[var(--cardeal-primary)]/30 text-red-400 text-[11px] font-mono font-medium tracking-wide">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--cardeal-primary)] animate-pulse"></span>
+            {request.status === 'pending' ? 'NOUVELLE DEMANDE' : request.status.toUpperCase()}
+          </span>
+          <span className="text-neutral-500 font-mono">ID #{request.id ? request.id.slice(0, 8).toUpperCase() : 'REQ-2023'}</span>
         </div>
-
-        <div className="flex items-center gap-3 shrink-0" onClick={(e) => e.stopPropagation()}>
-          {request.status === 'pending' && (
-            <div className="flex items-center gap-2">
-              {onAccept && (
-                <button
-                  type="button"
-                  onClick={() => onAccept(request)}
-                  className="inline-flex items-center justify-center gap-1 rounded-xl bg-emerald-500/20 border border-emerald-500/50 px-3.5 py-2 text-xs font-bold text-emerald-400 hover:bg-emerald-500/30 transition shadow-sm"
-                  aria-label={`Accept ${request.company_name}`}
-                >
-                  <CheckCircle2 size={14} />
-                  <span className="hidden sm:inline">Accept</span>
-                </button>
-              )}
-              {onReject && (
-                <button
-                  type="button"
-                  onClick={() => onReject(request)}
-                  className="inline-flex items-center justify-center gap-1 rounded-xl bg-secondary border border-border px-3.5 py-2 text-xs font-bold text-red-500 hover:bg-accent transition shadow-sm"
-                  aria-label={`Reject ${request.company_name}`}
-                >
-                  <XCircle size={14} />
-                  <span className="hidden sm:inline">Reject</span>
-                </button>
-              )}
-            </div>
-          )}
-
-          <button
-            type="button"
-            onClick={() => setIsExpanded((prev) => !prev)}
-            className="w-9 h-9 rounded-xl border border-border bg-secondary/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent transition"
-            aria-label="Toggle details"
-          >
-            {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-          </button>
+        <div className="flex items-center gap-3 text-neutral-400">
+          <span className="flex items-center gap-1 text-[11px]">
+            <Clock size={13} className="text-neutral-500" /> 
+            {request.created_at ? new Date(request.created_at).toLocaleDateString() : 'Récemment'}
+          </span>
+          <span className="text-neutral-700">•</span>
+          <span className="flex items-center gap-1 text-[11px] text-neutral-400">
+            <Building2 size={13} className="text-neutral-500" /> Réseau Tunisie
+          </span>
         </div>
       </div>
 
-      {/* Expandable Detailed View */}
-      {isExpanded && (
-        <div 
-          className="border-t border-border bg-secondary/30 p-6 space-y-6 animate-fadeIn" 
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Header metadata */}
-          <div className="flex items-center justify-between border-b border-border/60 pb-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 font-['Space_Grotesk']">
-              <Tag size={14} className="text-blue-500" />
-              Automotive Service Partnership Application Details
-            </h4>
-            {request.created_at && (
-              <span className="text-xs text-muted-foreground flex items-center gap-1.5">
-                <Clock size={12} className="text-blue-500" />
-                Submitted on {new Date(request.created_at).toLocaleString()}
+      {/* MAIN REDESIGNED CARD */}
+      <article
+        id={`partnership-request-${request.id}`}
+        className="group relative rounded-2xl bg-[#14161b]/95 border border-white/[0.08] hover:border-[var(--cardeal-primary)]/40 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.45)] hover:shadow-[0_12px_40px_rgba(186,37,41,0.12)] overflow-hidden"
+      >
+        {/* Subtle top glowing brand gradient line */}
+        <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--cardeal-primary)]/80 to-transparent opacity-70 group-hover:opacity-100 transition-opacity"></div>
+
+        <div className="p-5 md:p-6 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
+          
+          {/* LEFT SECTION: Applicant Profile & Identity */}
+          <div className="flex items-start gap-4 sm:gap-4.5 min-w-[280px] shrink-0">
+            {/* Monogram Avatar */}
+            <div className="relative shrink-0">
+              <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-[#232731] to-[#16181f] border border-white/10 flex items-center justify-center font-mono font-bold text-base sm:text-lg text-white shadow-inner tracking-wider">
+                {getInitials(request.company_name)}
+              </div>
+              <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#14161b] flex items-center justify-center border border-white/10">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
               </span>
-            )}
+            </div>
+
+            {/* Name & Details */}
+            <div className="space-y-1.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="font-mono font-bold text-lg text-white tracking-tight leading-tight group-hover:text-red-100 transition-colors">
+                  {request.company_name}
+                </h3>
+                {/* Badge: Type de partenariat */}
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-red-950/50 border border-red-800/40 text-red-300">
+                  <Tag size={12} className="text-red-400" />
+                  Partenariat
+                </span>
+              </div>
+
+              {/* Email address with copy/link styling */}
+              <div className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-neutral-200 transition-colors">
+                <Mail size={14} className="text-neutral-500" />
+                <a href={`mailto:${request.email}`} className="hover:underline font-mono">{request.email}</a>
+              </div>
+
+              {/* Business Meta Badges */}
+              <div className="flex flex-wrap items-center gap-2 pt-0.5 text-xs">
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/[0.06] text-neutral-300 text-[11px]">
+                  <Wrench size={13} className="text-red-400" />
+                  {request.category || 'Atelier de Mécanique'}
+                </span>
+                <span className="inline-flex items-center gap-1 text-[11px] text-neutral-500 font-mono">
+                  <ShieldCheck size={13} className="text-neutral-500" /> Garage Certifié
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Core Structured Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Partner Name & Establishment */}
-            <div className="bg-card border border-border p-4 rounded-xl space-y-1.5 shadow-sm">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 font-['Space_Grotesk']">
-                <Building2 size={13} className="text-blue-500" /> Partner Name
-              </span>
-              <div className="text-sm font-bold text-foreground">
-                {request.company_name}
+          {/* CENTER SECTION: Proposed Services (Structured Tags) */}
+          <div className="flex-1 lg:px-6 lg:border-l lg:border-r border-white/[0.06] flex flex-col justify-center">
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="flex items-center gap-1.5">
+                <Wrench size={16} className="text-[var(--cardeal-primary)]" />
+                <span className="text-[11px] font-mono uppercase tracking-wider font-semibold text-neutral-400">
+                  Services Proposés ({services.length})
+                </span>
               </div>
-              {request.establishment_type && (
-                <span className="inline-block text-[11px] font-medium text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">
-                  {request.establishment_type}
+              {request.address && (
+                <span className="text-[11px] font-mono text-neutral-400 flex items-center gap-1 truncate max-w-[200px]">
+                  <MapPin size={12} className="text-neutral-500 shrink-0" />
+                  <span className="truncate">{request.address}</span>
                 </span>
               )}
             </div>
 
-            {/* Contact Email */}
-            <div className="bg-card border border-border p-4 rounded-xl space-y-1.5 shadow-sm">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 font-['Space_Grotesk']">
-                <Mail size={13} className="text-blue-500" /> Email Address
-              </span>
-              <a
-                href={`mailto:${request.email}`}
-                className="text-sm font-semibold text-blue-500 hover:underline block truncate"
-              >
-                {request.email}
-              </a>
-            </div>
+            {/* Chips Grid / Wrap */}
+            <div className="flex flex-wrap gap-2 items-center">
+              {mainServices.map((svc: string, idx: number) => (
+                <span 
+                  key={idx}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#1a1d24] border border-white/[0.08] hover:border-red-500/30 text-xs text-neutral-200 transition-colors"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--cardeal-primary)]"></span>
+                  {svc}
+                </span>
+              ))}
 
-            {/* Phone Number */}
-            <div className="bg-card border border-border p-4 rounded-xl space-y-1.5 shadow-sm">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 font-['Space_Grotesk']">
-                <Phone size={13} className="text-blue-500" /> Phone Number
-              </span>
-              <a
-                href={request.phone ? `tel:${request.phone}` : undefined}
-                className={cn(
-                  "text-sm font-semibold block truncate",
-                  request.phone ? "text-foreground hover:text-blue-500" : "text-muted-foreground italic"
-                )}
-              >
-                {request.phone || 'Not provided'}
-              </a>
-            </div>
+              {extraServices.length > 0 && (
+                <div className="relative group/more">
+                  <button 
+                    type="button" 
+                    onClick={() => setShowMoreServices(!showMoreServices)}
+                    className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#20242e] border border-white/10 hover:border-white/20 text-xs font-medium text-neutral-300 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <span className="font-mono text-red-400 font-semibold">+{extraServices.length} autres</span>
+                    <ChevronDown size={15} className={cn("text-neutral-400 transition-transform", showMoreServices && "rotate-180")} />
+                  </button>
+                  
+                  {/* Popover preview of hidden services */}
+                  {(showMoreServices || false) && (
+                    <div className="absolute left-0 bottom-full mb-2 flex flex-col gap-1.5 p-2.5 bg-[#1a1d24] border border-white/10 rounded-xl shadow-2xl z-20 min-w-[260px]">
+                      <div className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 px-1 pb-1 border-b border-white/5">Autres prestations demandées</div>
+                      {extraServices.map((svc: string, idx: number) => (
+                        <div key={idx} className="flex items-center gap-2 text-xs text-neutral-300 px-1 py-0.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[var(--cardeal-primary)]"></span>
+                          {svc}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
-            {/* Business Category */}
-            <div className="bg-card border border-border p-4 rounded-xl space-y-1.5 shadow-sm">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 font-['Space_Grotesk']">
-                <ShieldCheck size={13} className="text-blue-500" /> Service Category
-              </span>
-              <span className="text-sm font-bold text-foreground block truncate">
-                {request.category || 'General Automotive Service'}
-              </span>
-            </div>
-
-            {/* Workshop Address */}
-            <div className="bg-card border border-border p-4 rounded-xl space-y-1.5 shadow-sm sm:col-span-2 lg:col-span-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 font-['Space_Grotesk']">
-                <MapPin size={13} className="text-blue-500" /> Workshop Location & Address
-              </span>
-              <div className="text-sm font-medium text-foreground flex items-start gap-1.5">
-                <MapPin size={14} className="mt-0.5 shrink-0 text-blue-500" />
-                <span>{request.address || 'Address details pending verification'}</span>
-              </div>
+              {services.length === 0 && (
+                <span className="text-xs text-neutral-500 italic">Aucun service spécifique détaillé.</span>
+              )}
             </div>
           </div>
 
-          {/* Itemized Services Offered Array */}
-          <div className="bg-card border border-border p-4 rounded-xl space-y-3 shadow-sm">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 font-['Space_Grotesk']">
-                <Wrench size={14} className="text-blue-500" />
-                Services Offered & Workshop Capabilities
-              </span>
-              <span className="rounded-full bg-blue-500/10 text-blue-500 px-2 py-0.5 text-xs font-semibold">
-                {services.length} {services.length === 1 ? 'service' : 'services'}
-              </span>
-            </div>
+          {/* RIGHT SECTION: Distinct Actions (Accept / Refuse) */}
+          <div className="flex items-center sm:justify-end gap-3 shrink-0 pt-3 sm:pt-0 border-t sm:border-t-0 border-white/[0.06]">
+            {request.status === 'pending' ? (
+              <>
+                {/* Refuse Button */}
+                <button 
+                  type="button" 
+                  onClick={() => onReject?.(request)}
+                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-red-950/30 hover:bg-red-950/60 border border-red-800/40 hover:border-red-700/60 text-red-300 hover:text-red-200 text-xs font-mono font-medium tracking-wide transition-all shadow-sm active:scale-95 cursor-pointer"
+                >
+                  <XCircle size={16} className="text-red-400" />
+                  Refuser
+                </button>
 
-            {services.length === 0 ? (
-              <p className="text-xs text-muted-foreground italic py-1">
-                No specific maintenance services itemized in this partnership application.
-              </p>
+                {/* Accept Button */}
+                <button 
+                  type="button" 
+                  onClick={() => onAccept?.(request)}
+                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-950/50 hover:bg-emerald-900/60 border border-emerald-500/40 hover:border-emerald-400/60 text-emerald-300 hover:text-emerald-100 text-xs font-mono font-semibold tracking-wide transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)] hover:shadow-[0_0_20px_rgba(16,185,129,0.25)] active:scale-95 cursor-pointer"
+                >
+                  <CheckCircle2 size={17} className="text-emerald-400" />
+                  Accepter
+                </button>
+              </>
             ) : (
-              <div className="flex flex-wrap gap-2 pt-1">
-                {services.map((svc: string, idx: number) => (
-                  <span
-                    key={idx}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-blue-500/10 text-blue-500 border border-blue-500/25 shadow-sm transition hover:bg-blue-500/20"
-                  >
-                    <Wrench size={12} className="shrink-0" />
-                    <span>{svc}</span>
-                  </span>
-                ))}
-              </div>
+              <span className={cn(
+                "px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider",
+                request.status === 'accepted' ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30" : "bg-red-500/10 text-red-400 border border-red-500/30"
+              )}>
+                {request.status === 'accepted' ? 'Accepté' : 'Refusé'}
+              </span>
             )}
           </div>
+
         </div>
-      )}
-    </article>
+
+        {/* Quick footer metadata strip inside card */}
+        <div className="px-5 py-2 bg-white/[0.02] border-t border-white/[0.04] flex items-center justify-between text-[11px] text-neutral-500 font-mono">
+          <span className="flex items-center gap-1.5">
+            <ShieldCheck size={13} className="text-neutral-600" />
+            Conforme charte qualité CarDeal 2024
+          </span>
+          {request.phone && (
+            <span className="flex items-center gap-1.5 text-neutral-400">
+              <Phone size={12} className="text-neutral-500" />
+              {request.phone}
+            </span>
+          )}
+        </div>
+
+      </article>
+    </div>
   );
 }
