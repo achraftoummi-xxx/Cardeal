@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 export interface PartnershipRequest {
@@ -70,7 +70,7 @@ export default function PartnershipRequestCard({
   isBusy = false,
   className,
 }: PartnershipRequestCardProps) {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = useState(true);
 
   const partner = partnerProp || {
     name: request?.company_name || 'AutoMaroc Group',
@@ -121,7 +121,7 @@ export default function PartnershipRequestCard({
   return (
     <details
       className={cn(
-        'animate-fade-up group/card relative w-full overflow-hidden rounded-lg border border-[var(--border-default,#27272a)] bg-[var(--surface-2,#18181b)]/95 backdrop-blur-xl transition-colors duration-300 hover:border-[var(--border-strong,#3a3a3f)]',
+        'animate-fade-up group/card relative w-full max-w-sm overflow-hidden rounded-lg border border-[var(--border-default,#27272a)] bg-[var(--surface-2,#18181b)]/95 backdrop-blur-xl transition-colors duration-300 hover:border-[var(--border-strong,#3a3a3f)]',
         className
       )}
       open={isOpen}
@@ -141,7 +141,7 @@ export default function PartnershipRequestCard({
               <span className="material-symbols-outlined text-[16px]" aria-hidden="true">handshake</span>
             </div>
             <div>
-              <h3 className="font-['Space_Grotesk'] text-[17px] font-semibold text-[var(--fg-primary,#fafafa)] leading-none">
+              <h3 className="font-display text-[17px] font-semibold text-[var(--fg-primary,#fafafa)] leading-none">
                 {title}
               </h3>
               <p className="mt-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">
@@ -168,7 +168,7 @@ export default function PartnershipRequestCard({
           <div className="relative shrink-0">
             <div
               aria-hidden="true"
-              className="grid size-11 place-items-center rounded-md bg-gradient-to-br from-[var(--brand-500,#932024)] to-[var(--brand-700,#4A0A0C)] font-['Space_Grotesk'] text-[13px] font-semibold text-[var(--brand-100,#ffdad7)] ring-1 ring-inset ring-white/5"
+              className="grid size-11 place-items-center rounded-md bg-gradient-to-br from-[var(--brand-500,#932024)] to-[var(--brand-700,#4A0A0C)] font-display text-[13px] font-semibold text-[var(--brand-100,#ffdad7)] ring-1 ring-inset ring-white/5"
             >
               {partner.initials || 'AM'}
             </div>
@@ -178,7 +178,7 @@ export default function PartnershipRequestCard({
 
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
-              <h4 className="truncate font-['Space_Grotesk'] text-[13px] font-semibold text-[var(--fg-primary,#fafafa)]">
+              <h4 className="truncate font-display text-[13px] font-semibold text-[var(--fg-primary,#fafafa)]">
                 {partner.name}
               </h4>
               {partner.verified && (
@@ -195,99 +195,111 @@ export default function PartnershipRequestCard({
 
           <div className="shrink-0 text-right">
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">{stats[0]?.label || 'Fleet'}</p>
-            <p className="mt-0.5 font-['Space_Grotesk'] text-[13px] font-semibold text-[var(--fg-primary,#fafafa)]">{stats[0]?.value || '240+'}</p>
+            <p className="mt-0.5 font-display text-[13px] font-semibold text-[var(--fg-primary,#fafafa)]">{stats[0]?.value || '240+'}</p>
           </div>
         </div>
       </summary>
 
-      {/* COLLAPSIBLE BODY */}
-      <div className="px-5 pt-4 pb-4 space-y-4">
-        <p className="text-[13px] text-[var(--fg-secondary,#a1a1aa)] leading-[1.55]">
-          {message}
-        </p>
+      {/* COLLAPSIBLE BODY (Grid Template Rows animation) */}
+      <div className={cn("grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]", isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
+        <div className="overflow-hidden">
+          {/* Message */}
+          <p className="px-5 pt-4 pb-3 text-[13px] leading-[1.55] text-[var(--fg-secondary,#a1a1aa)]">
+            {message}
+          </p>
 
-        {/* Mini stats */}
-        {stats.length > 0 && (
-          <div className="grid grid-cols-3 divide-x divide-[var(--border-subtle,#1f1f22)] overflow-hidden rounded border border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/40">
-            {stats.map((stat) => (
-              <div key={stat.id} className="px-3 py-2.5">
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">{stat.label}</p>
-                <p className="mt-1 font-['Space_Grotesk'] text-[13px] font-semibold text-[var(--fg-primary,#fafafa)]">{stat.value}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* SERVICE CATALOG */}
-        {servicesList && (
-          <details className="overflow-hidden rounded border border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/40 group/catalog">
-            <summary className="flex cursor-pointer select-none items-center justify-between gap-2 border-b border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/70 px-3.5 py-2.5 transition-colors duration-150 hover:bg-[var(--surface-1,#131313)] list-none [&::-webkit-details-marker]:hidden">
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[13px] text-[var(--brand-400,#BA2529)]" aria-hidden="true">build</span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">Services Offered</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="rounded-sm border border-[var(--brand-500,#932024)]/40 bg-[var(--brand-700,#4A0A0C)]/60 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--brand-100,#ffdad7)]">
-                  {servicesList.items.length}
-                </span>
-                <span className="grid size-5 place-items-center rounded text-[var(--fg-tertiary,#71717a)] group-open/catalog:rotate-180 transition-transform" aria-hidden="true">
-                  <span className="material-symbols-outlined text-[14px]">expand_more</span>
-                </span>
-              </div>
-            </summary>
-
-            <div className="px-3.5 pt-3 pb-1.5">
-              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">{servicesList.category}</p>
-            </div>
-
-            <ul className="divide-y divide-[var(--border-subtle,#1f1f22)]" role="list">
-              {servicesList.items.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-2.5 px-3.5 py-2.5 transition-colors duration-150 hover:bg-white/[0.02]">
-                  <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-sm bg-[var(--brand-700,#4A0A0C)] text-[var(--brand-100,#ffdad7)] ring-1 ring-inset ring-[var(--brand-500,#932024)]/40" aria-hidden="true">
-                    <span className="material-symbols-outlined text-[10px]">check</span>
-                  </span>
-                  <p className="text-[13px] text-[var(--fg-primary,#fafafa)]">{item}</p>
-                </li>
+          {/* Mini stats */}
+          {stats.length > 0 && (
+            <div className="mx-5 mb-4 grid grid-cols-3 divide-x divide-[var(--border-subtle,#1f1f22)] overflow-hidden rounded border border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/40">
+              {stats.map((stat) => (
+                <div key={stat.id} className="px-3 py-2.5">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">{stat.label}</p>
+                  <p className="mt-1 font-display text-[13px] font-semibold text-[var(--fg-primary,#fafafa)]">{stat.value}</p>
+                </div>
               ))}
-            </ul>
-          </details>
-        )}
-      </div>
+            </div>
+          )}
 
-      {/* ACTIONS FOOTER */}
-      <footer className="flex items-center gap-2 border-t border-[var(--border-default,#27272a)] bg-[var(--surface-1,#131313)]/60 px-5 py-3.5">
-        <button
-          type="button"
-          disabled={isBusy}
-          onClick={handleDecline}
-          className="inline-flex items-center justify-center gap-1.5 rounded px-2.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--fg-tertiary,#71717a)] transition-colors duration-150 hover:bg-white/[0.04] hover:text-[var(--fg-secondary,#a1a1aa)] disabled:opacity-50 cursor-pointer"
-        >
-          <span className="material-symbols-outlined text-[15px]" aria-hidden="true">block</span>
-          Decline
-        </button>
+          {/* SERVICE CATALOG (nested collapsible) */}
+          {servicesList && (
+            <details className="mx-5 mb-4 overflow-hidden rounded border border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/40 group/catalog">
+              <summary className="flex cursor-pointer select-none items-center justify-between gap-2 border-b border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/70 px-3.5 py-2.5 transition-colors duration-150 hover:bg-[var(--surface-1,#131313)] list-none [&::-webkit-details-marker]:hidden">
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[13px] text-[var(--brand-400,#BA2529)]" aria-hidden="true">build</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">Services Offered</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="rounded-sm border border-[var(--brand-500,#932024)]/40 bg-[var(--brand-700,#4A0A0C)]/60 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--brand-100,#ffdad7)]">
+                    {servicesList.items.length}
+                  </span>
+                  <span className="grid size-5 place-items-center rounded text-[var(--fg-tertiary,#71717a)] group-open/catalog:rotate-180 transition-transform duration-200" aria-hidden="true">
+                    <span className="material-symbols-outlined text-[14px]">expand_more</span>
+                  </span>
+                </div>
+              </summary>
 
-        <div className="ml-auto flex items-center gap-2">
-          <button
-            type="button"
-            disabled={isBusy}
-            onClick={onMessage}
-            className="inline-flex size-9 items-center justify-center rounded border border-[var(--border-default,#27272a)] text-[var(--fg-primary,#fafafa)] transition-colors duration-150 hover:border-[var(--border-strong,#3a3a3f)] hover:bg-white/[0.04] disabled:opacity-50 cursor-pointer"
-            aria-label="Message partner"
-          >
-            <span className="material-symbols-outlined text-[16px]" aria-hidden="true">chat_bubble</span>
-          </button>
+              <div className="px-3.5 pt-3 pb-1.5">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">{servicesList.category}</p>
+              </div>
 
-          <button
-            type="button"
-            disabled={isBusy}
-            onClick={handleAccept}
-            className="inline-flex items-center justify-center gap-1.5 rounded bg-[var(--brand-400,#BA2529)] px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-[inset_0_-2px_0_0_#4A0A0C] transition-all duration-200 hover:bg-[var(--brand-300,#d94448)] hover:shadow-[inset_0_-2px_0_0_#4A0A0C,0_6px_20px_-6px_rgba(186,37,41,0.7)] active:translate-y-px disabled:opacity-50 cursor-pointer"
-          >
-            <span className="material-symbols-outlined text-[15px]" aria-hidden="true">check_circle</span>
-            Accept
-          </button>
+              <ul className="divide-y divide-[var(--border-subtle,#1f1f22)]" role="list">
+                {servicesList.items.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5 px-3.5 py-2.5 transition-colors duration-150 hover:bg-white/[0.02]">
+                    <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-sm bg-[var(--brand-700,#4A0A0C)] text-[var(--brand-100,#ffdad7)] ring-1 ring-inset ring-[var(--brand-500,#932024)]/40" aria-hidden="true">
+                      <span className="material-symbols-outlined text-[10px]">check</span>
+                    </span>
+                    <p className="text-[13px] text-[var(--fg-primary,#fafafa)]">{item}</p>
+                  </li>
+                ))}
+              </ul>
+
+              <a
+                href="#"
+                onClick={(e) => e.preventDefault()}
+                className="group/svc flex items-center justify-between border-t border-[var(--border-subtle,#1f1f22)] px-3.5 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)] transition-colors duration-150 hover:bg-white/[0.02] hover:text-[var(--brand-400,#BA2529)]"
+              >
+                View full catalog
+                <span className="material-symbols-outlined text-[13px] transition-transform duration-200 group-hover/svc:translate-x-0.5" aria-hidden="true">arrow_forward</span>
+              </a>
+            </details>
+          )}
+
+          {/* ACTIONS FOOTER */}
+          <footer className="flex items-center gap-2 border-t border-[var(--border-default,#27272a)] bg-[var(--surface-1,#131313)]/60 px-5 py-3.5">
+            <button
+              type="button"
+              disabled={isBusy}
+              onClick={handleDecline}
+              className="inline-flex items-center justify-center gap-1.5 rounded px-2.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--fg-tertiary,#71717a)] transition-colors duration-150 hover:bg-white/[0.04] hover:text-[var(--fg-secondary,#a1a1aa)] disabled:opacity-50 cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[15px]" aria-hidden="true">block</span>
+              Decline
+            </button>
+
+            <div className="ml-auto flex items-center gap-2">
+              <button
+                type="button"
+                disabled={isBusy}
+                onClick={onMessage}
+                className="inline-flex size-9 items-center justify-center rounded border border-[var(--border-default,#27272a)] text-[var(--fg-primary,#fafafa)] transition-colors duration-150 hover:border-[var(--border-strong,#3a3a3f)] hover:bg-white/[0.04] disabled:opacity-50 cursor-pointer"
+                aria-label="Message partner"
+              >
+                <span className="material-symbols-outlined text-[16px]" aria-hidden="true">chat_bubble</span>
+              </button>
+
+              <button
+                type="button"
+                disabled={isBusy}
+                onClick={handleAccept}
+                className="group/btn inline-flex items-center justify-center gap-1.5 rounded bg-[var(--brand-400,#BA2529)] px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-[inset_0_-2px_0_0_#4A0A0C] transition-all duration-200 hover:bg-[var(--brand-300,#d94448)] hover:shadow-[inset_0_-2px_0_0_#4A0A0C,0_6px_20px_-6px_rgba(186,37,41,0.7)] active:translate-y-px disabled:opacity-50 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[15px]" aria-hidden="true">check_circle</span>
+                Accept
+              </button>
+            </div>
+          </footer>
         </div>
-      </footer>
+      </div>
     </details>
   );
 }
