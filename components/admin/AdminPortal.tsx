@@ -63,6 +63,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
   });
   const [loading, setLoading] = useState(true);
   const [selectedVehicle, setSelectedVehicle] = useState<any | null>(null);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -250,11 +251,83 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             </div>
           </div>
           <div className="flex items-center gap-4 ml-auto">
-            <div className="flex items-center gap-2">
-              <button className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:bg-accent hover:text-[var(--cardeal-primary)] transition-colors relative">
+            <div className="flex items-center gap-2 relative">
+              <button 
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:bg-accent hover:text-[var(--cardeal-primary)] transition-colors relative"
+              >
                 <Bell size={18} />
-                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[var(--cardeal-primary)] rounded-full"></span>
+                {pendingRequests.length > 0 && (
+                  <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[var(--cardeal-primary)] rounded-full"></span>
+                )}
               </button>
+
+              {showNotifications && (
+                <div className="absolute right-0 top-12 w-80 sm:w-96 bg-card border border-border rounded-xl shadow-xl z-50 p-4 animate-fadeIn">
+                  <div className="flex items-center justify-between pb-3 border-b border-border mb-3">
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-semibold text-foreground text-sm font-['Space_Grotesk']">Partnership Requests</h4>
+                      <span className="bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] text-xs font-bold px-2 py-0.5 rounded-full">
+                        {pendingRequests.length}
+                      </span>
+                    </div>
+                    <button 
+                      onClick={() => setShowNotifications(false)}
+                      className="text-muted-foreground hover:text-foreground text-xs"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  
+                  <div className="max-h-72 overflow-y-auto space-y-2 pr-1">
+                    {pendingRequests.length === 0 ? (
+                      <p className="text-xs text-muted-foreground py-6 text-center">No pending partnership requests.</p>
+                    ) : (
+                      pendingRequests.map((req) => (
+                        <div 
+                          key={req.id} 
+                          onClick={() => {
+                            setActiveTab('requests');
+                            setShowNotifications(false);
+                          }}
+                          className="bg-secondary/40 hover:bg-accent/60 border border-border/80 rounded-xl p-3 cursor-pointer transition text-left group"
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="font-semibold text-foreground text-xs group-hover:text-[var(--cardeal-primary)] transition-colors">
+                              {req.company_name}
+                            </span>
+                            <span className="text-[10px] text-muted-foreground">
+                              {new Date(req.created_at || Date.now()).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground truncate mb-1">{req.email}</p>
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] px-2 py-0.5 rounded font-medium">
+                              {req.category || 'Partner'}
+                            </span>
+                            <span className="text-[10px] font-semibold text-foreground group-hover:underline flex items-center gap-1">
+                              View request →
+                            </span>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  <div className="pt-3 border-t border-border mt-3 text-center">
+                    <button 
+                      onClick={() => {
+                        setActiveTab('requests');
+                        setShowNotifications(false);
+                      }}
+                      className="text-xs font-semibold text-[var(--cardeal-primary)] hover:underline"
+                    >
+                      View all requests in portal
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <button onClick={onClose} className="w-10 h-10 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:bg-accent hover:text-[var(--cardeal-primary)] transition-colors">
                 ✕
               </button>
