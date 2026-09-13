@@ -155,7 +155,7 @@ export default function PartnershipRequestCard({
           <span
             aria-hidden="true"
             className={cn(
-              'grid size-7 shrink-0 place-items-center rounded border border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/60 text-[var(--fg-tertiary,#71717a)] transition-transform duration-300',
+              'chevron grid size-7 shrink-0 place-items-center rounded border border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/60 text-[var(--fg-tertiary,#71717a)] transition-transform duration-300',
               isOpen && 'rotate-180'
             )}
           >
@@ -201,8 +201,8 @@ export default function PartnershipRequestCard({
       </summary>
 
       {/* COLLAPSIBLE BODY (Grid Template Rows animation) */}
-      <div className={cn("grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]", isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
-        <div className="overflow-hidden">
+      <div className={cn("collapse-grid", isOpen && "is-open")}>
+        <div className="collapse-inner">
           {/* Message */}
           <p className="px-5 pt-4 pb-3 text-[13px] leading-[1.55] text-[var(--fg-secondary,#a1a1aa)]">
             {message}
@@ -232,7 +232,7 @@ export default function PartnershipRequestCard({
                   <span className="rounded-sm border border-[var(--brand-500,#932024)]/40 bg-[var(--brand-700,#4A0A0C)]/60 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--brand-100,#ffdad7)]">
                     {servicesList.items.length}
                   </span>
-                  <span className="grid size-5 place-items-center rounded text-[var(--fg-tertiary,#71717a)] group-open/catalog:rotate-180 transition-transform duration-200" aria-hidden="true">
+                  <span className="chevron grid size-5 place-items-center rounded text-[var(--fg-tertiary,#71717a)]" aria-hidden="true">
                     <span className="material-symbols-outlined text-[14px]">expand_more</span>
                   </span>
                 </div>
