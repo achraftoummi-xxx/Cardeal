@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Clock, CheckCircle2, XCircle, Building2, MapPin, Mail, Phone, ChevronDown, ChevronUp, AlertTriangle, Wrench, Calendar as CalendarIcon, Tag } from "lucide-react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import PartnershipRequestCard from "@/components/PartnershipRequestCard";
 
 export default function AdminRequestsPage() {
   const [requests, setRequests] = useState<any[]>([]);
@@ -148,151 +149,14 @@ export default function AdminRequestsPage() {
         </p>
       ) : (
         <div className="space-y-4">
-          {requests.map((req) => {
-            const isExpanded = !!expandedIds[req.id];
-            const services = Array.isArray(req.services_offered) 
-              ? req.services_offered 
-              : (typeof req.services_offered === 'string' ? JSON.parse(req.services_offered || '[]') : []);
-
-            return (
-              <div 
-                key={req.id} 
-                className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-sm transition-all"
-              >
-                {/* Compact Main Card Row (Name & Status Badge ONLY when collapsed) */}
-                <div 
-                  className="p-5 flex items-center justify-between gap-4 cursor-pointer hover:bg-secondary/20 transition-colors"
-                  onClick={() => toggleExpand(req.id)}
-                >
-                  <div className="flex items-center gap-3.5 flex-1 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--cardeal-primary)]/10 border border-[var(--cardeal-primary)]/20 flex items-center justify-center text-[var(--cardeal-primary)] shrink-0">
-                      <Building2 size={20} />
-                    </div>
-                    <div className="min-w-0 flex-1 flex items-center gap-3">
-                      <h3 className="text-base font-bold text-foreground font-['Space_Grotesk'] truncate">{req.company_name}</h3>
-                      <span className={`rounded-lg px-2.5 py-0.5 text-[10px] font-bold uppercase shrink-0 ${
-                        req.status === 'accepted' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' :
-                        req.status === 'denied' ? 'bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] border border-[var(--cardeal-primary)]/30' :
-                        'bg-amber-500/10 text-amber-500 border border-amber-500/30'
-                      }`}>
-                        {req.status}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 shrink-0" onClick={(e) => e.stopPropagation()}>
-                    {req.status === 'pending' && (
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => openConfirmModal(req, 'accepted')}
-                          className="inline-flex items-center justify-center gap-1 rounded-xl bg-emerald-500/20 border border-emerald-500/50 px-3.5 py-2 text-xs font-bold text-emerald-400 hover:bg-emerald-500/30 transition"
-                        >
-                          <CheckCircle2 size={14} /> Accept
-                        </button>
-                        <button
-                          onClick={() => openConfirmModal(req, 'denied')}
-                          className="inline-flex items-center justify-center gap-1 rounded-xl bg-secondary border border-border px-3.5 py-2 text-xs font-bold text-[var(--cardeal-primary)] hover:bg-accent transition"
-                        >
-                          <XCircle size={14} /> Reject
-                        </button>
-                      </div>
-                    )}
-
-                    <button 
-                      onClick={() => toggleExpand(req.id)}
-                      className="w-9 h-9 rounded-xl border border-border bg-secondary/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent transition"
-                      aria-label="Toggle details"
-                    >
-                      {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Expandable Detailed View */}
-                {isExpanded && (
-                  <div className="border-t border-border bg-secondary/30 p-6 space-y-5 animate-fadeIn">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                        <Tag size={14} className="text-[var(--cardeal-primary)]" />
-                        Detailed Submission Attributes
-                      </h4>
-                      <span className="text-xs text-muted-foreground flex items-center gap-1">
-                        <CalendarIcon size={12} />
-                        {new Date(req.created_at || Date.now()).toLocaleString()}
-                      </span>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {/* Contact Email */}
-                      <div className="bg-card border border-border p-4 rounded-xl space-y-1 shadow-sm">
-                        <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1.5">
-                          <Mail size={13} className="text-[var(--cardeal-primary)]" /> Contact Email
-                        </span>
-                        <a href={`mailto:${req.email}`} className="text-sm font-semibold text-foreground hover:underline block truncate">
-                          {req.email}
-                        </a>
-                      </div>
-
-                      {/* Phone Number */}
-                      <div className="bg-card border border-border p-4 rounded-xl space-y-1 shadow-sm">
-                        <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1.5">
-                          <Phone size={13} className="text-[var(--cardeal-primary)]" /> Phone Number
-                        </span>
-                        <span className="text-sm font-semibold text-foreground block truncate">
-                          {req.phone || 'Not provided'}
-                        </span>
-                      </div>
-
-                      {/* Business Category */}
-                      <div className="bg-card border border-border p-4 rounded-xl space-y-1 shadow-sm">
-                        <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1.5">
-                          <Building2 size={13} className="text-[var(--cardeal-primary)]" /> Category
-                        </span>
-                        <span className="text-sm font-semibold text-[var(--cardeal-primary)] block truncate">
-                          {req.category || 'General'}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Address if available */}
-                    {req.address && (
-                      <div className="bg-card border border-border p-4 rounded-xl space-y-1 shadow-sm">
-                        <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1.5">
-                          <MapPin size={13} className="text-[var(--cardeal-primary)]" /> Workshop Location / Address
-                        </span>
-                        <span className="text-sm font-medium text-foreground block">
-                          {req.address}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Itemized Services Offered Array */}
-                    <div className="bg-card border border-border p-4 rounded-xl space-y-3 shadow-sm">
-                      <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                        <Wrench size={14} className="text-[var(--cardeal-primary)]" />
-                        Services Offered ({services.length})
-                      </span>
-                      {services.length === 0 ? (
-                        <p className="text-xs text-muted-foreground italic">No specific services itemized in application.</p>
-                      ) : (
-                        <div className="flex flex-wrap gap-2">
-                          {services.map((svc: string, idx: number) => (
-                            <span 
-                              key={idx}
-                              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] border border-[var(--cardeal-primary)]/25"
-                            >
-                              <Wrench size={12} />
-                              {svc}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {requests.map((req) => (
+            <PartnershipRequestCard
+              key={req.id}
+              request={req}
+              onAccept={(r) => openConfirmModal(r, 'accepted')}
+              onReject={(r) => openConfirmModal(r, 'denied')}
+            />
+          ))}
         </div>
       )}
 
