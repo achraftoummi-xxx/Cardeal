@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
+import { useTranslation } from '@/components/TranslationProvider';
+import LanguageSelector from '@/components/LanguageSelector';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import cardealLogo from '@/assets/images/cardeal_logo.png';
 import { 
@@ -44,6 +46,7 @@ interface AdminPortalProps {
 export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => {
   const pathname = usePathname();
   const { userName: authUserName, email: authEmail, avatarUrl: authAvatarUrl } = useAuth();
+  const { t } = useTranslation();
   const [timeRange, setTimeRange] = useState('7d');
   const [activeTab, setActiveTab] = useState<'overview' | 'requests' | 'clients' | 'vehicles' | 'logs'>('overview');
   
@@ -172,7 +175,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             }`}
           >
             <LayoutDashboard size={18} className={`shrink-0 ${activeTab === 'overview' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm truncate">Dashboard</span>
+            <span className="text-sm truncate">{t('admin.nav.dashboard') !== 'admin.nav.dashboard' ? t('admin.nav.dashboard') : 'Dashboard'}</span>
           </button>
 
           <button
@@ -184,7 +187,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             }`}
           >
             <Handshake size={18} className={`shrink-0 ${activeTab === 'requests' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm truncate">Partnership Requests ({pendingRequests.length})</span>
+            <span className="text-sm truncate">{t('admin.nav.requests') !== 'admin.nav.requests' ? t('admin.nav.requests') : 'Partnership Requests'} ({pendingRequests.length})</span>
           </button>
 
           <button
@@ -196,7 +199,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             }`}
           >
             <Users size={18} className={`shrink-0 ${activeTab === 'clients' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm truncate">Users ({clients.length})</span>
+            <span className="text-sm truncate">{t('admin.nav.users') !== 'admin.nav.users' ? t('admin.nav.users') : 'Users'} ({clients.length})</span>
           </button>
 
           <button
@@ -208,7 +211,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             }`}
           >
             <Car size={18} className={`shrink-0 ${activeTab === 'vehicles' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm truncate">Projects & Portfolios</span>
+            <span className="text-sm truncate">{t('admin.nav.portfolios') !== 'admin.nav.portfolios' ? t('admin.nav.portfolios') : 'Projects & Portfolios'}</span>
           </button>
 
           <button
@@ -220,15 +223,16 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
             }`}
           >
             <FileText size={18} className={`shrink-0 ${activeTab === 'logs' ? 'text-[var(--cardeal-primary)]' : 'group-hover:text-foreground'} transition-colors`} />
-            <span className="text-sm truncate">System Logs</span>
+            <span className="text-sm truncate">{t('admin.nav.logs') !== 'admin.nav.logs' ? t('admin.nav.logs') : 'System Logs'}</span>
           </button>
         </div>
 
         {/* CTA / Footer */}
-        <div className="p-4 border-t border-border">
-          <button onClick={onClose} className="w-full flex items-center justify-center gap-2 bg-secondary hover:bg-accent text-foreground border border-border py-2.5 rounded-xl transition-colors text-sm font-medium">
+        <div className="p-4 border-t border-border flex items-center justify-between gap-2">
+          <LanguageSelector />
+          <button onClick={onClose} className="flex-1 flex items-center justify-center gap-2 bg-secondary hover:bg-accent text-foreground border border-border py-2.5 rounded-xl transition-colors text-sm font-medium">
             <ArrowLeft size={16} />
-            Close Portal
+            {t('admin.nav.close') !== 'admin.nav.close' ? t('admin.nav.close') : 'Close Portal'}
           </button>
         </div>
       </nav>
@@ -245,7 +249,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-[var(--cardeal-primary)] transition-colors" size={16} />
               <input 
                 className="w-full bg-background border border-border rounded-xl pl-10 pr-4 py-2 text-sm text-foreground focus:outline-none focus:border-[var(--cardeal-primary)] focus:ring-1 focus:ring-[var(--cardeal-primary)] transition-all placeholder:text-muted-foreground" 
-                placeholder="Search projects, invoices, or users..." 
+                placeholder={t('admin.search.placeholder') !== 'admin.search.placeholder' ? t('admin.search.placeholder') : "Search projects, invoices, or users..."} 
                 type="text" 
               />
             </div>
@@ -266,7 +270,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                 <div className="absolute right-0 top-12 w-80 sm:w-96 bg-card border border-border rounded-xl shadow-xl z-50 p-4 animate-fadeIn">
                   <div className="flex items-center justify-between pb-3 border-b border-border mb-3">
                     <div className="flex items-center gap-2">
-                      <h4 className="font-semibold text-foreground text-sm font-['Space_Grotesk']">Partnership Requests</h4>
+                      <h4 className="font-semibold text-foreground text-sm font-['Space_Grotesk']">{t('admin.notifications.title') !== 'admin.notifications.title' ? t('admin.notifications.title') : 'Partnership Requests'}</h4>
                       <span className="bg-[var(--cardeal-primary)]/10 text-[var(--cardeal-primary)] text-xs font-bold px-2 py-0.5 rounded-full">
                         {pendingRequests.length}
                       </span>
@@ -281,7 +285,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                   
                   <div className="max-h-72 overflow-y-auto space-y-2 pr-1">
                     {pendingRequests.length === 0 ? (
-                      <p className="text-xs text-muted-foreground py-6 text-center">No pending partnership requests.</p>
+                      <p className="text-xs text-muted-foreground py-6 text-center">{t('admin.notifications.empty') !== 'admin.notifications.empty' ? t('admin.notifications.empty') : 'No pending partnership requests.'}</p>
                     ) : (
                       pendingRequests.map((req) => (
                         <div 
@@ -306,7 +310,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                               {req.category || 'Partner'}
                             </span>
                             <span className="text-[10px] font-semibold text-foreground group-hover:underline flex items-center gap-1">
-                              View request →
+                              {t('admin.notifications.view') !== 'admin.notifications.view' ? t('admin.notifications.view') : 'View request →'}
                             </span>
                           </div>
                         </div>
@@ -322,7 +326,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                       }}
                       className="text-xs font-semibold text-[var(--cardeal-primary)] hover:underline"
                     >
-                      View all requests in portal
+                      {t('admin.notifications.viewAll') !== 'admin.notifications.viewAll' ? t('admin.notifications.viewAll') : 'View all requests in portal'}
                     </button>
                   </div>
                 </div>
