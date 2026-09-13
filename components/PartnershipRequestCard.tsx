@@ -135,6 +135,7 @@ export default function PartnershipRequestCard({
         className="cursor-pointer select-none focus-visible:outline-none list-none [&::-webkit-details-marker]:hidden"
         aria-label="Toggle partnership request details"
       >
+        {/* Header */}
         <div className="flex items-center justify-between gap-3 px-5 pt-5">
           <div className="flex items-center gap-2.5">
             <div className="grid size-8 place-items-center rounded bg-[var(--brand-700,#4A0A0C)] text-[var(--brand-100,#ffdad7)] ring-1 ring-inset ring-[var(--brand-400,#BA2529)]/30">
@@ -152,6 +153,7 @@ export default function PartnershipRequestCard({
             </div>
           </div>
 
+          {/* Collapse chevron */}
           <span
             aria-hidden="true"
             className={cn(
@@ -163,7 +165,7 @@ export default function PartnershipRequestCard({
           </span>
         </div>
 
-        {/* Sender block */}
+        {/* Sender */}
         <div className="mt-5 flex items-center gap-3 border-y border-[var(--border-subtle,#1f1f22)] bg-[var(--surface-1,#131313)]/50 px-5 py-4">
           <div className="relative shrink-0">
             <div
@@ -193,6 +195,7 @@ export default function PartnershipRequestCard({
             )}
           </div>
 
+          {/* Inline quick summary */}
           <div className="shrink-0 text-right">
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--fg-tertiary,#71717a)]">{stats[0]?.label || 'Fleet'}</p>
             <p className="mt-0.5 font-display text-[13px] font-semibold text-[var(--fg-primary,#fafafa)]">{stats[0]?.value || '240+'}</p>
@@ -201,8 +204,8 @@ export default function PartnershipRequestCard({
       </summary>
 
       {/* COLLAPSIBLE BODY (Grid Template Rows animation) */}
-      <div className={cn("collapse-grid", isOpen && "is-open")}>
-        <div className="collapse-inner">
+      <div className={cn("grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]", isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
+        <div className="overflow-hidden">
           {/* Message */}
           <p className="px-5 pt-4 pb-3 text-[13px] leading-[1.55] text-[var(--fg-secondary,#a1a1aa)]">
             {message}
@@ -264,7 +267,7 @@ export default function PartnershipRequestCard({
             </details>
           )}
 
-          {/* ACTIONS FOOTER */}
+          {/* ACTIONS */}
           <footer className="flex items-center gap-2 border-t border-[var(--border-default,#27272a)] bg-[var(--surface-1,#131313)]/60 px-5 py-3.5">
             <button
               type="button"
