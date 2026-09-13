@@ -5,6 +5,7 @@ import { X, CheckCircle2, AlertCircle, Loader2, CalendarDays, FileText } from "l
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "./TranslationProvider";
+import { SpellCheckInput, SpellCheckTextarea } from "@/components/SpellCheckField";
 import { supabase } from "@/lib/supabase";
 import type { Partner } from "@/lib/partners";
 import {
@@ -184,7 +185,7 @@ export default function RequestModal({ partner, mode, onClose }: Props) {
                 <label htmlFor="request-name" className={labelClasses}>
                   {t("appointment.fullName")}
                 </label>
-                <input
+                <SpellCheckInput
                   ref={nameRef}
                   id="request-name"
                   type="text"
@@ -253,7 +254,7 @@ export default function RequestModal({ partner, mode, onClose }: Props) {
                 <label htmlFor="request-notes" className={labelClasses}>
                   {t("appointment.notes")}
                 </label>
-                <textarea
+                <SpellCheckTextarea
                   id="request-notes"
                   rows={3}
                   value={form.notes}
