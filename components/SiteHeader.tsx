@@ -63,26 +63,34 @@ export default function SiteHeader({
               </a>
             ))}
           </div>
-          {/* Desktop right controls */}
-          <div className="hidden lg:flex shrink-0 items-center gap-3">
-            <ThemeToggle />
-            <LanguageSelector />
-            <Button variant="outline" className="text-sm" onClick={onPartner}>{t("buttons.becomePartner")}</Button>
-            <Button onClick={onLogin} className="text-sm">
-              {t("buttons.login")}
-            </Button>
-          </div>
-          {/* Mobile hamburger toggle (only logo + hamburger on mobile top bar) */}
-          <div className="flex lg:hidden shrink-0 items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setMenuOpen((o) => !o)}
-              aria-expanded={menuOpen}
-              aria-label={t("nav.menu")}
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-zinc-700/50 bg-white text-zinc-700 shadow-sm transition-all hover:border-zinc-600/50 hover:bg-zinc-700/30 dark:bg-zinc-800/30 dark:text-zinc-300 dark:hover:border-zinc-600/50 dark:hover:bg-zinc-700/30"
+          {/* Desktop right controls & mobile sticky partner CTA */}
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <Button
+              variant="outline"
+              className="text-xs sm:text-sm font-semibold shrink-0 px-3 py-2 border-primary/40 text-primary hover:bg-primary/10 shadow-sm"
+              onClick={onPartner}
             >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+              {t("buttons.becomePartner")}
+            </Button>
+            <div className="hidden lg:flex items-center gap-3">
+              <ThemeToggle />
+              <LanguageSelector />
+              <Button onClick={onLogin} className="text-sm">
+                {t("buttons.login")}
+              </Button>
+            </div>
+            {/* Mobile hamburger toggle */}
+            <div className="flex lg:hidden shrink-0 items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setMenuOpen((o) => !o)}
+                aria-expanded={menuOpen}
+                aria-label={t("nav.menu")}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-zinc-700/50 bg-white text-zinc-700 shadow-sm transition-all hover:border-zinc-600/50 hover:bg-zinc-700/30 dark:bg-zinc-800/30 dark:text-zinc-300 dark:hover:border-zinc-600/50 dark:hover:bg-zinc-700/30"
+              >
+                {menuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
         </nav>
         {/* Mobile nav panel with all controls relocated inside */}
