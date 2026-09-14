@@ -75,20 +75,6 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
   useEffect(() => {
     if (isOpen) {
       fetchAdminData();
-
-      const interval = setInterval(() => {
-        fetchAdminData();
-      }, 10000);
-
-      const onFocus = () => {
-        fetchAdminData();
-      };
-      window.addEventListener('focus', onFocus);
-
-      return () => {
-        clearInterval(interval);
-        window.removeEventListener('focus', onFocus);
-      };
     }
   }, [isOpen]);
 
@@ -147,7 +133,61 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     try {
       if (action === 'accept') {
         await supabase.from('partner_requests').update({ status: 'accepted' }).eq('id', requestId);
-        await supabase.from('profiles').update({ role: 'partner', category }).eq('email', email);
+        
+        // Find partner ID or create partner record
+        const reqObj = pendingRequests.find(r => r.id === requestId);
+        let partnerId = null;
+        if (reqObj) {
+          const { data: partnerMatch } = await supabase
+            .from('partners')
+            .select('id')
+            .ilike('email', email.trim())
+            .maybeSingle();
+
+          if (partnerMatch) {
+            partnerId = partnerMatch.id;
+          } else {
+            const { data: newPart } = await supabase
+              .from('partners')
+              .insert({
+                name: reqObj.company_name,
+                email: email.trim(),
+                phone: reqObj.phone || null,
+                city: reqObj.address || 'Tunis',
+                establishment_type: category || 'Atelier de mécanique automobile',
+                services_offered: Array.isArray(reqObj.services_offered) ? reqObj.services_offered.join('\n') : reqObj.services_offered
+              })
+              .select('id')
+              .maybeSingle();
+            if (newPart) partnerId = newPart.id;
+          }
+        }
+
+        // Update profiles table: set role to 'partner', status to 'approved', and link partner_id
+        const { data: existingProf } = await supabase
+          .from('profiles')
+          .select('*')
+          .ilike('email', email.trim())
+          .maybeSingle();
+
+        if (existingProf) {
+          await supabase.from('profiles').update({
+            role: 'partner',
+            status: 'approved',
+            category: category || 'Général',
+            ...(partnerId ? { partner_id: partnerId } : {})
+          }).ilike('email', email.trim());
+        } else {
+          await supabase.from('profiles').insert({
+            email: email.trim(),
+            full_name: email.split('@')[0],
+            role: 'partner',
+            status: 'approved',
+            category: category || 'Général',
+            ...(partnerId ? { partner_id: partnerId } : {})
+          });
+        }
+
         setAuditLogs(prev => [
           { id: `log-${Date.now()}`, action: 'Partner Request Accepted', details: `Successfully accepted request for ${email} in category ${category}`, type: 'success', timestamp },
           ...prev
