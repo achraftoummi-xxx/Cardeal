@@ -120,10 +120,50 @@ export default function AdminRequestsPage() {
       return;
     }
 
-    await supabase.from('partner_requests').update({ status: action }).eq('id', requestId);
-    if (action === 'accepted') {
-      await supabase.from('profiles').update({ role: 'partner', category }).eq('email', email);
+    try {
+      // 1. Update partner_request status
+      await supabase.from('partner_requests').update({ status: action }).eq('id', requestId);
+
+      if (action === 'accepted') {
+        // Find partner ID corresponding to this email or company name
+        const reqObj = requests.find(r => r.id === requestId);
+        let partnerId = null;
+        if (reqObj) {
+          const { data: partnerMatch } = await supabase
+            .from('partners')
+            .select('id')
+            .or(`email.ilike.${reqObj.email},name.ilike.%${reqObj.company_name}%`)
+            .maybeSingle();
+          if (partnerMatch) partnerId = partnerMatch.id;
+        }
+
+        // 2. Upsert profile to role = 'partner', status = 'approved', and bind partner_id
+        const { data: existingProf } = await supabase
+          .from('profiles')
+          .select('*')
+          .ilike('email', email.trim())
+          .maybeSingle();
+
+        if (existingProf) {
+          await supabase.from('profiles').update({
+            role: 'partner',
+            status: 'approved',
+            ...(partnerId ? { partner_id: partnerId } : {})
+          }).ilike('email', email.trim());
+        } else {
+          await supabase.from('profiles').insert({
+            email: email.trim(),
+            full_name: email.split('@')[0],
+            role: 'partner',
+            status: 'approved',
+            ...(partnerId ? { partner_id: partnerId } : {})
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Error executing partner approval action:", err);
     }
+
     setConfirmModal(null);
     fetchRequests();
   }

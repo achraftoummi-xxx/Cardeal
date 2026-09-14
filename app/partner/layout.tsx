@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   CalendarDays,
@@ -11,10 +11,13 @@ import {
   Package,
   Settings,
   ArrowLeft,
-  ShieldCheck
+  ShieldCheck,
+  ShieldAlert,
+  Loader2
 } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSelector from "@/components/LanguageSelector";
+import { usePartnerAuth } from "@/components/partner/usePartnerAuth";
 
 const partnerNavItems = [
   { label: "Dashboard", href: "/partner/dashboard", icon: LayoutDashboard },
@@ -27,6 +30,39 @@ const partnerNavItems = [
 
 export default function PartnerRootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { loading, isPartner, profile } = usePartnerAuth();
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
+        <Loader2 className="h-10 w-10 animate-spin text-[var(--cardeal-primary)]" />
+      </div>
+    );
+  }
+
+  if (!isPartner) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background px-4 text-foreground">
+        <div className="w-full max-w-md rounded-[--radius] border border-border bg-card p-8 text-center shadow-xl">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--cardeal-primary)]/15 ring-1 ring-[var(--cardeal-primary)]/30">
+            <ShieldAlert size={26} className="text-[var(--cardeal-primary)]" />
+          </span>
+          <h1 className="mt-4 text-lg font-bold text-foreground font-['Space_Grotesk']">Accès Partenaire Restreint</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {profile
+              ? "Votre compte n'est pas encore approuvé en tant que partenaire, ou vous n'avez pas les privilèges requis."
+              : "Veuillez vous connecter avec un compte partenaire CarDeal approuvé pour accéder à cette interface."}
+          </p>
+          <Link
+            href="/dashboard"
+            className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-[--radius] bg-[var(--cardeal-primary)] px-5 text-sm font-medium text-white transition-colors hover:bg-[#9E1F23]"
+          >
+            Retourner au Tableau de Bord
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col font-['Manrope'] antialiased">
