@@ -98,54 +98,58 @@ export default function AdminRequestsPage() {
     if (!confirmModal) return;
     const { requestId, email, category, action } = confirmModal;
 
-    console.log("[AdminRequests] executeAction started for request:", requestId, "action:", action);
+    console.log("[ACCEPT-DEBUG-4] executeAction ENTERED for request:", requestId, "action:", action);
 
     if (!isSupabaseConfigured || !supabase) {
-      console.log("[AdminRequests] Supabase not configured, mocking action locally.");
+      console.log("[ACCEPT-DEBUG] Supabase not configured, mocking action locally.");
       setRequests(requests.map((r) => r.id === requestId ? { ...r, status: action } : r));
       setConfirmModal(null);
       return;
     }
 
     try {
+      // 0. Verify current auth user
+      console.log("[ACCEPT-DEBUG] BEFORE auth.getUser()");
+      const { data: authData, error: authErr } = await supabase.auth.getUser();
+      console.log("[ACCEPT-DEBUG] AFTER auth.getUser()", { user: authData?.user?.email, error: authErr });
+
       // 1. Update partner_request status
-      console.log("[AdminRequests] Step 1: Updating partner_request status to:", action);
-      const { error: reqUpdateErr } = await supabase
+      console.log("[ACCEPT-DEBUG] BEFORE partner_requests UPDATE");
+      const { data: reqUpdateData, error: reqUpdateErr } = await supabase
         .from('partner_requests')
         .update({ status: action })
-        .eq('id', requestId);
+        .eq('id', requestId)
+        .select();
+
+      console.log("[ACCEPT-DEBUG] AFTER partner_requests UPDATE", { data: reqUpdateData, error: reqUpdateErr });
 
       if (reqUpdateErr) {
-        console.error("[AdminRequests] Error updating partner_request status:", reqUpdateErr);
-        alert(`Erreur de mise à jour de la requête: ${reqUpdateErr.message}`);
-      } else {
-        console.log("[AdminRequests] Step 1 success: partner_request updated.");
+        console.error("[ACCEPT-DEBUG] FATAL ERROR on partner_requests UPDATE", reqUpdateErr);
+        alert(`ACCEPT FAILED (partner_requests update):\n\n${JSON.stringify(reqUpdateErr, null, 2)}`);
+        return;
       }
 
       if (action === 'accepted') {
         const reqObj = requests.find(r => r.id === requestId);
         let partnerId = null;
 
-        console.log("[AdminRequests] Step 2: Finding or creating partner record for:", reqObj?.company_name || email);
+        console.log("[ACCEPT-DEBUG] BEFORE partners MATCH/INSERT for:", reqObj?.company_name || email);
 
         if (reqObj) {
-          // Find matching partner in partners table by email or company name
+          // Find matching partner in partners table by unique email first
           const { data: partnerMatch, error: partnerMatchErr } = await supabase
             .from('partners')
             .select('id')
-            .or(`email.ilike.${reqObj.email},name.ilike.%${reqObj.company_name}%`)
+            .ilike('email', reqObj.email.trim())
             .maybeSingle();
 
-          if (partnerMatchErr) {
-            console.warn("[AdminRequests] Partner match query warning:", partnerMatchErr);
-          }
+          console.log("[ACCEPT-DEBUG] partners MATCH result:", { partnerMatch, error: partnerMatchErr });
 
           if (partnerMatch) {
             partnerId = partnerMatch.id;
-            console.log("[AdminRequests] Found existing partner ID:", partnerId);
+            console.log("[ACCEPT-DEBUG] Found existing partner ID by email:", partnerId);
           } else {
-            console.log("[AdminRequests] Partner not found in partners table. Creating new partner record...");
-            // If partner record doesn't exist in partners table yet, create one
+            console.log("[ACCEPT-DEBUG] BEFORE partners INSERT");
             const { data: newPartner, error: newPartnerErr } = await supabase
               .from('partners')
               .insert({
@@ -159,31 +163,32 @@ export default function AdminRequestsPage() {
               .select('id')
               .maybeSingle();
 
+            console.log("[ACCEPT-DEBUG] AFTER partners INSERT", { data: newPartner, error: newPartnerErr });
+
             if (newPartnerErr) {
-              console.error("[AdminRequests] Error creating partner record:", newPartnerErr);
-              alert(`Erreur de création du partenaire: ${newPartnerErr.message}`);
+              console.error("[ACCEPT-DEBUG] FATAL ERROR on partners INSERT", newPartnerErr);
+              alert(`ACCEPT FAILED (partners insert):\n\n${JSON.stringify(newPartnerErr, null, 2)}`);
+              return;
             } else if (newPartner) {
               partnerId = newPartner.id;
-              console.log("[AdminRequests] Created new partner record with ID:", partnerId);
+              console.log("[ACCEPT-DEBUG] Created new partner record with ID:", partnerId);
             }
           }
         }
 
         // 3. Check if profile exists in profiles table
-        console.log("[AdminRequests] Step 3: Checking profile for email:", email);
+        console.log("[ACCEPT-DEBUG] BEFORE profiles SELECT for email:", email);
         const { data: existingProf, error: profLookupErr } = await supabase
           .from('profiles')
           .select('*')
           .ilike('email', email.trim())
           .maybeSingle();
 
-        if (profLookupErr) {
-          console.warn("[AdminRequests] Profile lookup warning:", profLookupErr);
-        }
+        console.log("[ACCEPT-DEBUG] AFTER profiles SELECT", { data: existingProf, error: profLookupErr });
 
         if (existingProf) {
-          console.log("[AdminRequests] Existing profile found. Upgrading role to 'partner'...");
-          const { error: profUpdateErr } = await supabase
+          console.log("[ACCEPT-DEBUG] BEFORE profiles UPDATE");
+          const { data: profUpdateData, error: profUpdateErr } = await supabase
             .from('profiles')
             .update({
               role: 'partner',
@@ -191,18 +196,19 @@ export default function AdminRequestsPage() {
               category: category || 'Général',
               ...(partnerId ? { partner_id: partnerId } : {})
             })
-            .ilike('email', email.trim());
+            .ilike('email', email.trim())
+            .select();
+
+          console.log("[ACCEPT-DEBUG] AFTER profiles UPDATE", { data: profUpdateData, error: profUpdateErr });
 
           if (profUpdateErr) {
-            console.error("[AdminRequests] Error updating existing profile:", profUpdateErr);
-            alert(`Erreur de mise à jour du profil: ${profUpdateErr.message}`);
-          } else {
-            console.log("[AdminRequests] Profile successfully upgraded to partner.");
+            console.error("[ACCEPT-DEBUG] FATAL ERROR on profiles UPDATE", profUpdateErr);
+            alert(`ACCEPT FAILED (profiles update):\n\n${JSON.stringify(profUpdateErr, null, 2)}`);
+            return;
           }
         } else {
-          console.log("[AdminRequests] No profile found for email. Provisioning new profile...");
-          // Fallback edge case: user hasn't created a profile yet; provision one instantly
-          const { error: profInsertErr } = await supabase
+          console.log("[ACCEPT-DEBUG] BEFORE profiles INSERT");
+          const { data: profInsertData, error: profInsertErr } = await supabase
             .from('profiles')
             .insert({
               email: email.trim(),
@@ -211,24 +217,28 @@ export default function AdminRequestsPage() {
               status: 'approved',
               category: category || 'Général',
               ...(partnerId ? { partner_id: partnerId } : {})
-            });
+            })
+            .select();
+
+          console.log("[ACCEPT-DEBUG] AFTER profiles INSERT", { data: profInsertData, error: profInsertErr });
 
           if (profInsertErr) {
-            console.error("[AdminRequests] Error inserting new profile:", profInsertErr);
-            alert(`Erreur de création du profil: ${profInsertErr.message}`);
-          } else {
-            console.log("[AdminRequests] New profile successfully provisioned with partner role.");
+            console.error("[ACCEPT-DEBUG] FATAL ERROR on profiles INSERT", profInsertErr);
+            alert(`ACCEPT FAILED (profiles insert):\n\n${JSON.stringify(profInsertErr, null, 2)}`);
+            return;
           }
         }
       }
-    } catch (err: any) {
-      console.error("[AdminRequests] Exception in executeAction:", err);
-      alert(`Erreur critique lors de l'acceptation: ${err?.message || err}`);
-    }
 
-    console.log("[AdminRequests] executeAction completed. Closing modal and refreshing requests...");
-    setConfirmModal(null);
-    await fetchRequests();
+      console.log("[ACCEPT-DEBUG] WORKFLOW SUCCESS");
+    } catch (err: any) {
+      console.error("[ACCEPT-DEBUG] FATAL EXCEPTION in executeAction:", err);
+      alert(`ACCEPT FAILED (exception):\n\n${err?.message || JSON.stringify(err, null, 2)}`);
+    } finally {
+      console.log("[ACCEPT-DEBUG] FINALLY block executed. Resetting modal state and refreshing requests.");
+      setConfirmModal(null);
+      await fetchRequests();
+    }
   }
 
   if (loading) {
@@ -295,12 +305,15 @@ export default function AdminRequestsPage() {
                 Cancel
               </button>
               <button
-                onClick={executeAction}
+                onClick={() => {
+                  console.log("[ACCEPT-DEBUG-3] CONFIRM BUTTON CLICKED");
+                  executeAction();
+                }}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold text-white transition ${
                   confirmModal.action === 'accepted' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-[var(--cardeal-primary)] hover:bg-red-700'
                 }`}
               >
-                Confirm {confirmModal.action === 'accepted' ? 'Acceptance' : 'Rejection'}
+                CONFIRM ACCEPTANCE — DEBUG
               </button>
             </div>
           </div>
