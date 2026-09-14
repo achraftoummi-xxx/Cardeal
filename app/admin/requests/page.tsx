@@ -106,7 +106,14 @@ export default function AdminRequestsPage() {
 
     try {
       // 1. Update partner_request status
-      await supabase.from('partner_requests').update({ status: action }).eq('id', requestId);
+      const { error: reqUpdateErr } = await supabase
+        .from('partner_requests')
+        .update({ status: action })
+        .eq('id', requestId);
+
+      if (reqUpdateErr) {
+        console.error("Error updating partner_request status:", reqUpdateErr);
+      }
 
       if (action === 'accepted') {
         const reqObj = requests.find(r => r.id === requestId);
@@ -151,22 +158,35 @@ export default function AdminRequestsPage() {
           .maybeSingle();
 
         if (existingProf) {
-          await supabase.from('profiles').update({
-            role: 'partner',
-            status: 'approved',
-            category: category || 'Général',
-            ...(partnerId ? { partner_id: partnerId } : {})
-          }).ilike('email', email.trim());
+          const { error: profUpdateErr } = await supabase
+            .from('profiles')
+            .update({
+              role: 'partner',
+              status: 'approved',
+              category: category || 'Général',
+              ...(partnerId ? { partner_id: partnerId } : {})
+            })
+            .ilike('email', email.trim());
+
+          if (profUpdateErr) {
+            console.error("Error updating existing profile:", profUpdateErr);
+          }
         } else {
           // Fallback edge case: user hasn't created a profile yet; provision one instantly
-          await supabase.from('profiles').insert({
-            email: email.trim(),
-            full_name: email.split('@')[0],
-            role: 'partner',
-            status: 'approved',
-            category: category || 'Général',
-            ...(partnerId ? { partner_id: partnerId } : {})
-          });
+          const { error: profInsertErr } = await supabase
+            .from('profiles')
+            .insert({
+              email: email.trim(),
+              full_name: email.split('@')[0],
+              role: 'partner',
+              status: 'approved',
+              category: category || 'Général',
+              ...(partnerId ? { partner_id: partnerId } : {})
+            });
+
+          if (profInsertErr) {
+            console.error("Error inserting new profile:", profInsertErr);
+          }
         }
       }
     } catch (err) {
@@ -174,7 +194,7 @@ export default function AdminRequestsPage() {
     }
 
     setConfirmModal(null);
-    fetchRequests();
+    await fetchRequests();
   }
 
   if (loading) {
