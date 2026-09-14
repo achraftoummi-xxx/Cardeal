@@ -109,19 +109,41 @@ export default function AdminRequestsPage() {
       await supabase.from('partner_requests').update({ status: action }).eq('id', requestId);
 
       if (action === 'accepted') {
-        // Find partner ID corresponding to this email or company name
         const reqObj = requests.find(r => r.id === requestId);
         let partnerId = null;
+
         if (reqObj) {
+          // Find matching partner in partners table by email or company name
           const { data: partnerMatch } = await supabase
             .from('partners')
             .select('id')
             .or(`email.ilike.${reqObj.email},name.ilike.%${reqObj.company_name}%`)
             .maybeSingle();
-          if (partnerMatch) partnerId = partnerMatch.id;
+
+          if (partnerMatch) {
+            partnerId = partnerMatch.id;
+          } else {
+            // If partner record doesn't exist in partners table yet, create one
+            const { data: newPartner } = await supabase
+              .from('partners')
+              .insert({
+                name: reqObj.company_name,
+                email: reqObj.email,
+                phone: reqObj.phone || null,
+                city: reqObj.address || 'Tunis',
+                establishment_type: reqObj.category || 'Atelier de mécanique automobile',
+                services_offered: Array.isArray(reqObj.services_offered) ? reqObj.services_offered.join('\n') : reqObj.services_offered
+              })
+              .select('id')
+              .maybeSingle();
+
+            if (newPartner) {
+              partnerId = newPartner.id;
+            }
+          }
         }
 
-        // 2. Upsert profile to role = 'partner', status = 'approved', and bind partner_id
+        // 2. Check if profile exists in profiles table
         const { data: existingProf } = await supabase
           .from('profiles')
           .select('*')
@@ -132,14 +154,17 @@ export default function AdminRequestsPage() {
           await supabase.from('profiles').update({
             role: 'partner',
             status: 'approved',
+            category: category || 'Général',
             ...(partnerId ? { partner_id: partnerId } : {})
           }).ilike('email', email.trim());
         } else {
+          // Fallback edge case: user hasn't created a profile yet; provision one instantly
           await supabase.from('profiles').insert({
             email: email.trim(),
             full_name: email.split('@')[0],
             role: 'partner',
             status: 'approved',
+            category: category || 'Général',
             ...(partnerId ? { partner_id: partnerId } : {})
           });
         }

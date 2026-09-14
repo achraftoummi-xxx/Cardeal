@@ -41,7 +41,7 @@ export function usePartnerAuth() {
           return;
         }
 
-        // Query profiles table
+        // Query profiles table by email
         const { data: profData, error: profErr } = await supabase
           .from("profiles")
           .select("*")
@@ -49,55 +49,152 @@ export function usePartnerAuth() {
           .maybeSingle();
 
         if (profData) {
-          setProfile(profData as PartnerProfile);
-          if (profData.partner_id) {
-            setPartnerId(profData.partner_id);
+          // If profile exists, check if role is partner and approved
+          if (profData.role === 'partner' && profData.status === 'approved') {
+            setProfile(profData as PartnerProfile);
+            if (profData.partner_id) {
+              setPartnerId(profData.partner_id);
+            } else {
+              const { data: partnerData } = await supabase
+                .from("partners")
+                .select("id")
+                .ilike("email", email.trim())
+                .maybeSingle();
+              if (partnerData) {
+                setPartnerId(partnerData.id);
+              }
+            }
           } else {
-            // Find partner by email in partners table
-            const { data: partnerData } = await supabase
-              .from("partners")
-              .select("id")
+            // Check if there is an accepted partner_request for this email
+            const { data: reqData } = await supabase
+              .from("partner_requests")
+              .select("*")
               .ilike("email", email.trim())
               .maybeSingle();
-            if (partnerData) {
-              setPartnerId(partnerData.id);
+
+            if (reqData && reqData.status === 'accepted') {
+              // Auto-promote profile to partner if admin accepted their request previously
+              let partnerIdVal = null;
+              const { data: partnerMatch } = await supabase
+                .from("partners")
+                .select("id")
+                .or(`email.ilike.${reqData.email},name.ilike.%${reqData.company_name}%`)
+                .maybeSingle();
+
+              if (partnerMatch) {
+                partnerIdVal = partnerMatch.id;
+              } else {
+                const { data: newPart } = await supabase
+                  .from("partners")
+                  .insert({
+                    name: reqData.company_name,
+                    email: reqData.email,
+                    phone: reqData.phone || null,
+                    city: reqData.address || 'Tunis',
+                    establishment_type: reqData.category || 'Atelier de mécanique automobile'
+                  })
+                  .select('id')
+                  .maybeSingle();
+                if (newPart) partnerIdVal = newPart.id;
+              }
+
+              await supabase
+                .from("profiles")
+                .update({ role: 'partner', status: 'approved', ...(partnerIdVal ? { partner_id: partnerIdVal } : {}) })
+                .ilike("email", email.trim());
+
+              const promotedProf: PartnerProfile = {
+                ...profData,
+                role: 'partner',
+                status: 'approved',
+                partner_id: partnerIdVal || undefined
+              };
+              setProfile(promotedProf);
+              if (partnerIdVal) setPartnerId(partnerIdVal);
+            } else {
+              setProfile(profData as PartnerProfile);
             }
           }
         } else {
-          // If profile doesn't exist yet, check if partner exists by email
-          const { data: partnerData } = await supabase
-            .from("partners")
-            .select("id")
+          // If profile doesn't exist yet, check if partner_requests has an accepted entry
+          const { data: reqData } = await supabase
+            .from("partner_requests")
+            .select("*")
             .ilike("email", email.trim())
             .maybeSingle();
 
-          if (partnerData) {
+          if (reqData && reqData.status === 'accepted') {
+            let partnerIdVal = null;
+            const { data: partnerMatch } = await supabase
+              .from("partners")
+              .select("id")
+              .or(`email.ilike.${reqData.email},name.ilike.%${reqData.company_name}%`)
+              .maybeSingle();
+
+            if (partnerMatch) {
+              partnerIdVal = partnerMatch.id;
+            } else {
+              const { data: newPart } = await supabase
+                .from("partners")
+                .insert({
+                  name: reqData.company_name,
+                  email: reqData.email,
+                  phone: reqData.phone || null,
+                  city: reqData.address || 'Tunis',
+                  establishment_type: reqData.category || 'Atelier de mécanique automobile'
+                })
+                .select('id')
+                .maybeSingle();
+              if (newPart) partnerIdVal = newPart.id;
+            }
+
             const newProf: PartnerProfile = {
               id: crypto.randomUUID(),
               email: email,
               full_name: email.split("@")[0],
               role: "partner",
               status: "approved",
-              partner_id: partnerData.id
+              partner_id: partnerIdVal || undefined
             };
             await supabase.from("profiles").upsert(newProf);
             setProfile(newProf);
-            setPartnerId(partnerData.id);
+            if (partnerIdVal) setPartnerId(partnerIdVal);
           } else {
-            // Check if user is Achref (admin/partner override for dev)
-            if (email.toLowerCase().includes("achref") || email.toLowerCase().includes("mokhtari")) {
-              const { data: firstPartner } = await supabase.from("partners").select("id").limit(1).maybeSingle();
-              const pId = firstPartner?.id || "mock-partner-uuid";
-              const adminProf: PartnerProfile = {
+            // Check if partner exists by email directly
+            const { data: partnerData } = await supabase
+              .from("partners")
+              .select("id")
+              .ilike("email", email.trim())
+              .maybeSingle();
+
+            if (partnerData) {
+              const newProf: PartnerProfile = {
                 id: crypto.randomUUID(),
                 email: email,
-                full_name: "Admin Partner",
+                full_name: email.split("@")[0],
                 role: "partner",
                 status: "approved",
-                partner_id: pId
+                partner_id: partnerData.id
               };
-              setProfile(adminProf);
-              setPartnerId(pId);
+              await supabase.from("profiles").upsert(newProf);
+              setProfile(newProf);
+              setPartnerId(partnerData.id);
+            } else {
+              // Check if user is Achref (admin/partner override for dev)
+              if (email.toLowerCase().includes("achref") || email.toLowerCase().includes("mokhtari")) {
+                const { data: firstPartner } = await supabase.from("partners").select("id").limit(1).maybeSingle();
+                const pId = firstPartner?.id || "mock-partner-uuid";
+                const adminProf: PartnerProfile = {
+                  id: crypto.randomUUID(),
+                  email: email,
+                  full_name: "Admin Partner",
+                  role: "partner",
+                  status: "approved",
+                  partner_id: pId
+                };
+                setProfile(adminProf);
+                setPartnerId(pId);
+              }
             }
           }
         }
