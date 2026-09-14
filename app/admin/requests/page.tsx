@@ -22,21 +22,6 @@ export default function AdminRequestsPage() {
 
   useEffect(() => {
     fetchRequests();
-
-    // Polling interval & window focus listener for zero-delay instant updates
-    const interval = setInterval(() => {
-      fetchRequests();
-    }, 10000);
-
-    const onFocus = () => {
-      fetchRequests();
-    };
-    window.addEventListener('focus', onFocus);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('focus', onFocus);
-    };
   }, []);
 
   async function fetchRequests() {
@@ -71,7 +56,6 @@ export default function AdminRequestsPage() {
     }
     try {
       const { data, error } = await supabase.from('partner_requests').select('*').order('created_at', { ascending: false });
-      console.log("Supabase partner_requests fetch result:", { data, error, count: data?.length });
       if (error) {
         console.error("Error fetching partner_requests:", error);
       }
