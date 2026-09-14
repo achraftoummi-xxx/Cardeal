@@ -98,7 +98,10 @@ export default function AdminRequestsPage() {
     if (!confirmModal) return;
     const { requestId, email, category, action } = confirmModal;
 
+    console.log("[AdminRequests] executeAction started for request:", requestId, "action:", action);
+
     if (!isSupabaseConfigured || !supabase) {
+      console.log("[AdminRequests] Supabase not configured, mocking action locally.");
       setRequests(requests.map((r) => r.id === requestId ? { ...r, status: action } : r));
       setConfirmModal(null);
       return;
@@ -106,32 +109,44 @@ export default function AdminRequestsPage() {
 
     try {
       // 1. Update partner_request status
+      console.log("[AdminRequests] Step 1: Updating partner_request status to:", action);
       const { error: reqUpdateErr } = await supabase
         .from('partner_requests')
         .update({ status: action })
         .eq('id', requestId);
 
       if (reqUpdateErr) {
-        console.error("Error updating partner_request status:", reqUpdateErr);
+        console.error("[AdminRequests] Error updating partner_request status:", reqUpdateErr);
+        alert(`Erreur de mise à jour de la requête: ${reqUpdateErr.message}`);
+      } else {
+        console.log("[AdminRequests] Step 1 success: partner_request updated.");
       }
 
       if (action === 'accepted') {
         const reqObj = requests.find(r => r.id === requestId);
         let partnerId = null;
 
+        console.log("[AdminRequests] Step 2: Finding or creating partner record for:", reqObj?.company_name || email);
+
         if (reqObj) {
           // Find matching partner in partners table by email or company name
-          const { data: partnerMatch } = await supabase
+          const { data: partnerMatch, error: partnerMatchErr } = await supabase
             .from('partners')
             .select('id')
             .or(`email.ilike.${reqObj.email},name.ilike.%${reqObj.company_name}%`)
             .maybeSingle();
 
+          if (partnerMatchErr) {
+            console.warn("[AdminRequests] Partner match query warning:", partnerMatchErr);
+          }
+
           if (partnerMatch) {
             partnerId = partnerMatch.id;
+            console.log("[AdminRequests] Found existing partner ID:", partnerId);
           } else {
+            console.log("[AdminRequests] Partner not found in partners table. Creating new partner record...");
             // If partner record doesn't exist in partners table yet, create one
-            const { data: newPartner } = await supabase
+            const { data: newPartner, error: newPartnerErr } = await supabase
               .from('partners')
               .insert({
                 name: reqObj.company_name,
@@ -144,20 +159,30 @@ export default function AdminRequestsPage() {
               .select('id')
               .maybeSingle();
 
-            if (newPartner) {
+            if (newPartnerErr) {
+              console.error("[AdminRequests] Error creating partner record:", newPartnerErr);
+              alert(`Erreur de création du partenaire: ${newPartnerErr.message}`);
+            } else if (newPartner) {
               partnerId = newPartner.id;
+              console.log("[AdminRequests] Created new partner record with ID:", partnerId);
             }
           }
         }
 
-        // 2. Check if profile exists in profiles table
-        const { data: existingProf } = await supabase
+        // 3. Check if profile exists in profiles table
+        console.log("[AdminRequests] Step 3: Checking profile for email:", email);
+        const { data: existingProf, error: profLookupErr } = await supabase
           .from('profiles')
           .select('*')
           .ilike('email', email.trim())
           .maybeSingle();
 
+        if (profLookupErr) {
+          console.warn("[AdminRequests] Profile lookup warning:", profLookupErr);
+        }
+
         if (existingProf) {
+          console.log("[AdminRequests] Existing profile found. Upgrading role to 'partner'...");
           const { error: profUpdateErr } = await supabase
             .from('profiles')
             .update({
@@ -169,9 +194,13 @@ export default function AdminRequestsPage() {
             .ilike('email', email.trim());
 
           if (profUpdateErr) {
-            console.error("Error updating existing profile:", profUpdateErr);
+            console.error("[AdminRequests] Error updating existing profile:", profUpdateErr);
+            alert(`Erreur de mise à jour du profil: ${profUpdateErr.message}`);
+          } else {
+            console.log("[AdminRequests] Profile successfully upgraded to partner.");
           }
         } else {
+          console.log("[AdminRequests] No profile found for email. Provisioning new profile...");
           // Fallback edge case: user hasn't created a profile yet; provision one instantly
           const { error: profInsertErr } = await supabase
             .from('profiles')
@@ -185,14 +214,19 @@ export default function AdminRequestsPage() {
             });
 
           if (profInsertErr) {
-            console.error("Error inserting new profile:", profInsertErr);
+            console.error("[AdminRequests] Error inserting new profile:", profInsertErr);
+            alert(`Erreur de création du profil: ${profInsertErr.message}`);
+          } else {
+            console.log("[AdminRequests] New profile successfully provisioned with partner role.");
           }
         }
       }
-    } catch (err) {
-      console.error("Error executing partner approval action:", err);
+    } catch (err: any) {
+      console.error("[AdminRequests] Exception in executeAction:", err);
+      alert(`Erreur critique lors de l'acceptation: ${err?.message || err}`);
     }
 
+    console.log("[AdminRequests] executeAction completed. Closing modal and refreshing requests...");
     setConfirmModal(null);
     await fetchRequests();
   }
