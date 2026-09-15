@@ -11,7 +11,6 @@ as $$
 declare
   v_request public.partner_requests;
   v_partner_id uuid;
-  v_user_id uuid;
   v_email text := lower(coalesce(auth.jwt() ->> 'email', ''));
 begin
   if v_email not in ('mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com')
@@ -61,11 +60,6 @@ begin
     )
     returning id into v_partner_id;
   end if;
-
-  select id into v_user_id
-  from auth.users
-  where lower(email) = lower(v_request.email)
-  limit 1;
 
   insert into public.profiles (email, full_name, role, status, category, partner_id)
   values (
