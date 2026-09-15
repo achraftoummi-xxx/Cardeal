@@ -25,8 +25,8 @@
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.24.0",
-    "next": "^16.2.12",
-    "postcss": "^8.5.25",
+    "next": "^16.3.5",
+    "postcss": "^8.5.28",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-leaflet": "^5.0.0",
@@ -44,6 +44,17 @@
     "eslint": "latest",
     "prettier": "latest",
     "typescript": "5.7.3",
-    "wrangler": "^4.0.0"
+    "wrangler": "^4.132.0"
+  },
+  "overrides": {
+    "baseline-browser-mapping": "^2.11.0",
+    "brace-expansion": "^5.0.12",
+    "browserslist": "^4.29.0",
+    "maplibre-gl": "^6.9.1",
+    "nanoid": "^6.0.1",
+    "postcss": "^8.5.28",
+    "qs": "^6.16.0",
+    "sharp": "^0.35.4",
+    "undici": "^8.10.2"
   }
 }

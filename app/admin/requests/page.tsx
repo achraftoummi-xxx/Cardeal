@@ -98,63 +98,51 @@ export default function AdminRequestsPage() {
     if (!confirmModal) return;
     const { requestId, email, category, action } = confirmModal;
 
-    console.log("[ACCEPT-DEBUG-4] executeAction ENTERED for request:", requestId, "action:", action);
-
     if (!isSupabaseConfigured || !supabase) {
-      console.log("[ACCEPT-DEBUG] Supabase not configured, mocking action locally.");
       setRequests(requests.map((r) => r.id === requestId ? { ...r, status: action } : r));
       setConfirmModal(null);
       return;
     }
 
     try {
-      // 0. Verify current auth user
-      console.log("[ACCEPT-DEBUG] BEFORE auth.getUser()");
-      const { data: authData, error: authErr } = await supabase.auth.getUser();
-      console.log("[ACCEPT-DEBUG] AFTER auth.getUser()", { user: authData?.user?.email, error: authErr });
+      const { data: authData } = await supabase.auth.getUser();
+      const normalizedEmail = email.trim();
 
-      // 1. Update partner_request status
-      console.log("[ACCEPT-DEBUG] BEFORE partner_requests UPDATE");
       const { data: reqUpdateData, error: reqUpdateErr } = await supabase
         .from('partner_requests')
         .update({ status: action })
         .eq('id', requestId)
         .select();
 
-      console.log("[ACCEPT-DEBUG] AFTER partner_requests UPDATE", { data: reqUpdateData, error: reqUpdateErr });
-
       if (reqUpdateErr) {
-        console.error("[ACCEPT-DEBUG] FATAL ERROR on partner_requests UPDATE", reqUpdateErr);
+        console.error("partner_requests update failed:", reqUpdateErr);
         alert(`ACCEPT FAILED (partner_requests update):\n\n${JSON.stringify(reqUpdateErr, null, 2)}`);
         return;
       }
 
       if (action === 'accepted') {
-        const reqObj = requests.find(r => r.id === requestId);
+        const reqObj = requests.find(r => r.id === requestId) ?? (reqUpdateData && reqUpdateData[0]);
         let partnerId = null;
 
-        console.log("[ACCEPT-DEBUG] BEFORE partners MATCH/INSERT for:", reqObj?.company_name || email);
-
         if (reqObj) {
-          // Find matching partner in partners table by unique email first
           const { data: partnerMatch, error: partnerMatchErr } = await supabase
             .from('partners')
             .select('id')
-            .ilike('email', reqObj.email.trim())
+            .ilike('email', normalizedEmail)
             .maybeSingle();
 
-          console.log("[ACCEPT-DEBUG] partners MATCH result:", { partnerMatch, error: partnerMatchErr });
+          if (partnerMatchErr) {
+            throw partnerMatchErr;
+          }
 
           if (partnerMatch) {
             partnerId = partnerMatch.id;
-            console.log("[ACCEPT-DEBUG] Found existing partner ID by email:", partnerId);
           } else {
-            console.log("[ACCEPT-DEBUG] BEFORE partners INSERT");
             const { data: newPartner, error: newPartnerErr } = await supabase
               .from('partners')
               .insert({
                 name: reqObj.company_name,
-                email: reqObj.email,
+                email: normalizedEmail,
                 phone: reqObj.phone || null,
                 city: reqObj.address || 'Tunis',
                 establishment_type: reqObj.category || 'Atelier de mécanique automobile',
@@ -163,79 +151,71 @@ export default function AdminRequestsPage() {
               .select('id')
               .maybeSingle();
 
-            console.log("[ACCEPT-DEBUG] AFTER partners INSERT", { data: newPartner, error: newPartnerErr });
-
             if (newPartnerErr) {
-              console.error("[ACCEPT-DEBUG] FATAL ERROR on partners INSERT", newPartnerErr);
+              console.error("partners insert failed:", newPartnerErr);
               alert(`ACCEPT FAILED (partners insert):\n\n${JSON.stringify(newPartnerErr, null, 2)}`);
               return;
-            } else if (newPartner) {
+            }
+
+            if (newPartner) {
               partnerId = newPartner.id;
-              console.log("[ACCEPT-DEBUG] Created new partner record with ID:", partnerId);
             }
           }
         }
 
-        // 3. Check if profile exists in profiles table
-        console.log("[ACCEPT-DEBUG] BEFORE profiles SELECT for email:", email);
-        const { data: existingProf, error: profLookupErr } = await supabase
+        const profileLookup = await supabase
           .from('profiles')
           .select('*')
-          .ilike('email', email.trim())
+          .or(
+            authData?.user?.id
+              ? `id.eq.${authData.user.id},email.eq.${normalizedEmail}`
+              : `email.eq.${normalizedEmail}`
+          )
+          .limit(1)
           .maybeSingle();
 
-        console.log("[ACCEPT-DEBUG] AFTER profiles SELECT", { data: existingProf, error: profLookupErr });
+        const existingProf = profileLookup.data;
 
         if (existingProf) {
-          console.log("[ACCEPT-DEBUG] BEFORE profiles UPDATE");
-          const { data: profUpdateData, error: profUpdateErr } = await supabase
+          const { error: profUpdateErr } = await supabase
             .from('profiles')
             .update({
               role: 'partner',
               status: 'approved',
-              category: category || 'Général',
+              category: category || existingProf.category || 'Général',
               ...(partnerId ? { partner_id: partnerId } : {})
             })
-            .ilike('email', email.trim())
-            .select();
-
-          console.log("[ACCEPT-DEBUG] AFTER profiles UPDATE", { data: profUpdateData, error: profUpdateErr });
+            .eq('id', existingProf.id);
 
           if (profUpdateErr) {
-            console.error("[ACCEPT-DEBUG] FATAL ERROR on profiles UPDATE", profUpdateErr);
+            console.error("profiles update failed:", profUpdateErr);
             alert(`ACCEPT FAILED (profiles update):\n\n${JSON.stringify(profUpdateErr, null, 2)}`);
             return;
           }
         } else {
-          console.log("[ACCEPT-DEBUG] BEFORE profiles INSERT");
-          const { data: profInsertData, error: profInsertErr } = await supabase
+          const { error: profInsertErr } = await supabase
             .from('profiles')
             .insert({
-              email: email.trim(),
+              id: authData?.user?.id || undefined,
+              email: normalizedEmail,
               full_name: email.split('@')[0],
               role: 'partner',
               status: 'approved',
               category: category || 'Général',
               ...(partnerId ? { partner_id: partnerId } : {})
-            })
-            .select();
-
-          console.log("[ACCEPT-DEBUG] AFTER profiles INSERT", { data: profInsertData, error: profInsertErr });
+            });
 
           if (profInsertErr) {
-            console.error("[ACCEPT-DEBUG] FATAL ERROR on profiles INSERT", profInsertErr);
+            console.error("profiles insert failed:", profInsertErr);
             alert(`ACCEPT FAILED (profiles insert):\n\n${JSON.stringify(profInsertErr, null, 2)}`);
             return;
           }
         }
       }
-
-      console.log("[ACCEPT-DEBUG] WORKFLOW SUCCESS");
     } catch (err: any) {
-      console.error("[ACCEPT-DEBUG] FATAL EXCEPTION in executeAction:", err);
+      console.error("executeAction fatal error:", err);
       alert(`ACCEPT FAILED (exception):\n\n${err?.message || JSON.stringify(err, null, 2)}`);
     } finally {
-      console.log("[ACCEPT-DEBUG] FINALLY block executed. Resetting modal state and refreshing requests.");
       setConfirmModal(null);
       await fetchRequests();
     }

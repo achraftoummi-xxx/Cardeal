@@ -73,9 +73,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
   ]);
 
   useEffect(() => {
-    if (isOpen) {
-      fetchAdminData();
-    }
+    if (!isOpen) return;
+    void fetchAdminData();
   }, [isOpen]);
 
   async function fetchAdminData() {
@@ -133,9 +132,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     try {
       if (action === 'accept') {
         await supabase.from('partner_requests').update({ status: 'accepted' }).eq('id', requestId);
-        
-        // Find partner ID or create partner record
-        const reqObj = pendingRequests.find(r => r.id === requestId);
+
+        const reqObj = pendingRequests.find(r => r.id === requestId) ?? (await supabase.from('partner_requests').select('*').eq('id', requestId).maybeSingle()).data;
         let partnerId = null;
         if (reqObj) {
           const { data: partnerMatch } = await supabase
@@ -163,23 +161,32 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           }
         }
 
-        // Update profiles table: set role to 'partner', status to 'approved', and link partner_id
-        const { data: existingProf } = await supabase
+        const { data: authData } = await supabase.auth.getUser();
+        const normalizedEmail = email.trim();
+        const profileLookup = await supabase
           .from('profiles')
           .select('*')
-          .ilike('email', email.trim())
+          .or(
+            authData?.user?.id
+              ? `id.eq.${authData.user.id},email.eq.${normalizedEmail}`
+              : `email.eq.${normalizedEmail}`
+          )
+          .limit(1)
           .maybeSingle();
+
+        const existingProf = profileLookup.data;
 
         if (existingProf) {
           await supabase.from('profiles').update({
             role: 'partner',
             status: 'approved',
-            category: category || 'Général',
+            category: category || existingProf.category || 'Général',
             ...(partnerId ? { partner_id: partnerId } : {})
-          }).ilike('email', email.trim());
+          }).eq('id', existingProf.id);
         } else {
           await supabase.from('profiles').insert({
-            email: email.trim(),
+            id: authData?.user?.id || undefined,
+            email: normalizedEmail,
             full_name: email.split('@')[0],
             role: 'partner',
             status: 'approved',
@@ -206,7 +213,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
         ...prev
       ]);
     }
-    fetchAdminData();
+    await fetchAdminData();
   }
 
   if (!isOpen) return null;
