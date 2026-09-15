@@ -125,9 +125,17 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     const timestamp = new Date().toLocaleTimeString();
     if (processingRequestId) return;
     setProcessingRequestId(requestId);
-    setPendingRequests(prev => prev.map(request => (
-      request.id === requestId ? { ...request, status: action === 'accept' ? 'accepted' : 'denied' } : request
-    )));
+    
+    // Instant optimistic removal for accepted requests or update for denied
+    if (action === 'accept') {
+      setPendingRequests(prev => prev.filter(request => request.id !== requestId));
+      setMetrics(prev => ({ ...prev, clients: prev.clients + 1, pending: Math.max(0, prev.pending - 1) }));
+    } else {
+      setPendingRequests(prev => prev.map(request => (
+        request.id === requestId ? { ...request, status: 'denied' } : request
+      )));
+    }
+
     if (!isSupabaseConfigured || !supabase) {
       setToastMessage(action === 'accept' ? 'Partnership approved successfully.' : 'Partnership request refused.');
       setAuditLogs(prev => [
@@ -148,7 +156,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           { id: `log-${Date.now()}`, action: 'Partner Request Accepted', details: `Successfully accepted request for ${email} in category ${category}`, type: 'success', timestamp },
           ...prev
         ]);
-          setToastMessage('Partnership approved successfully.');
+        setToastMessage('Partnership approved successfully.');
       } else {
         const { error: requestUpdateError } = await supabase
           .from('partner_requests')
@@ -167,15 +175,12 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
         { id: `log-${Date.now()}`, action: 'Action Error', details: err?.message || 'Failed to process partnership request', type: 'error', timestamp },
         ...prev
       ]);
-      setPendingRequests(prev => prev.map(request => (
-        request.id === requestId ? { ...request, status: 'pending' } : request
-      )));
+      // Re-fetch on error
+      await fetchAdminData();
       setToastMessage(err?.message || 'Unable to update partnership request.');
+    } finally {
       setProcessingRequestId(null);
-      return;
     }
-    await fetchAdminData();
-    setProcessingRequestId(null);
   }
 
   if (!isOpen) return null;

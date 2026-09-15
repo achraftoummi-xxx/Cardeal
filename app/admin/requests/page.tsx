@@ -98,9 +98,15 @@ export default function AdminRequestsPage() {
     if (!confirmModal) return;
     const { requestId, email, category, action } = confirmModal;
 
+    // Optimistic local state update for instant card removal & count feedback
+    if (action === 'accepted') {
+      setRequests(prev => prev.filter(r => r.id !== requestId));
+    } else {
+      setRequests(prev => prev.map(r => r.id === requestId ? { ...r, status: 'denied' } : r));
+    }
+    setConfirmModal(null);
+
     if (!isSupabaseConfigured || !supabase) {
-      setRequests(requests.map((r) => r.id === requestId ? { ...r, status: action } : r));
-      setConfirmModal(null);
       return;
     }
 
@@ -120,8 +126,7 @@ export default function AdminRequestsPage() {
     } catch (err: any) {
       console.error("executeAction fatal error:", err);
       alert(`ACCEPT FAILED (exception):\n\n${err?.message || JSON.stringify(err, null, 2)}`);
-    } finally {
-      setConfirmModal(null);
+      // Re-fetch on error to ensure sync
       await fetchRequests();
     }
   }
