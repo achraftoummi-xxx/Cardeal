@@ -11,6 +11,7 @@ as $$
 declare
   v_request public.partner_requests;
   v_partner_id uuid;
+  v_user_id uuid;
   v_email text := lower(coalesce(auth.jwt() ->> 'email', ''));
 begin
   if v_email not in ('mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com')
@@ -61,8 +62,14 @@ begin
     returning id into v_partner_id;
   end if;
 
-  insert into public.profiles (email, full_name, role, status, category, partner_id)
+  select id into v_user_id
+  from auth.users
+  where lower(email) = lower(v_request.email)
+  limit 1;
+
+  insert into public.profiles (user_id, email, full_name, role, status, category, partner_id)
   values (
+    v_user_id,
     lower(v_request.email),
     split_part(v_request.email, '@', 1),
     'partner',
@@ -71,6 +78,7 @@ begin
     v_partner_id
   )
   on conflict (email) do update set
+    user_id = coalesce(excluded.user_id, public.profiles.user_id),
     role = 'partner',
     status = 'approved',
     category = excluded.category,
