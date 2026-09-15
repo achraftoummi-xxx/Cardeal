@@ -131,83 +131,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     }
     try {
       if (action === 'accept') {
-        const { data: requestUpdate, error: requestUpdateError } = await supabase
-          .from('partner_requests')
-          .update({ status: 'accepted' })
-          .eq('id', requestId)
-          .select()
-          .maybeSingle();
-
-        if (requestUpdateError || !requestUpdate) {
-          throw requestUpdateError || new Error(`Partnership request ${requestId} was not updated`);
-        }
-
-        const reqObj = pendingRequests.find(r => r.id === requestId) ?? requestUpdate;
-        let partnerId = null;
-        if (reqObj) {
-          const { data: partnerMatch, error: partnerLookupError } = await supabase
-            .from('partners')
-            .select('id')
-            .ilike('email', email.trim())
-            .maybeSingle();
-
-          if (partnerLookupError) throw partnerLookupError;
-
-          if (partnerMatch) {
-            partnerId = partnerMatch.id;
-          } else {
-            const { data: newPart, error: partnerInsertError } = await supabase
-              .from('partners')
-              .insert({
-                name: reqObj.company_name,
-                email: email.trim(),
-                phone: reqObj.phone || null,
-                city: reqObj.address || 'Tunis',
-                establishment_type: category || 'Atelier de mécanique automobile',
-                services_offered: Array.isArray(reqObj.services_offered) ? reqObj.services_offered.join('\n') : reqObj.services_offered
-              })
-              .select('id')
-              .maybeSingle();
-            if (partnerInsertError) throw partnerInsertError;
-            if (newPart) partnerId = newPart.id;
-          }
-        }
-
-        const { data: authData } = await supabase.auth.getUser();
-        const normalizedEmail = email.trim();
-        const authUserMatchesRequest = authData?.user?.email?.toLowerCase() === normalizedEmail.toLowerCase();
-        const profileLookup = await supabase
-          .from('profiles')
-          .select('*')
-          .or(
-            authUserMatchesRequest && authData?.user?.id
-              ? `id.eq.${authData.user.id},email.eq.${normalizedEmail}`
-              : `email.eq.${normalizedEmail}`
-          )
-          .limit(1)
-          .maybeSingle();
-
-        if (profileLookup.error) throw profileLookup.error;
-
-        const existingProf = profileLookup.data;
-
-        if (existingProf) {
-          const { error: profileUpdateError } = await supabase.from('profiles').update({
-            role: 'partner',
-            status: 'approved',
-            ...(partnerId ? { partner_id: partnerId } : {})
-          }).eq('id', existingProf.id);
-          if (profileUpdateError) throw profileUpdateError;
-        } else {
-          const { error: profileInsertError } = await supabase.from('profiles').insert({
-            email: normalizedEmail,
-            full_name: email.split('@')[0],
-            role: 'partner',
-            status: 'approved',
-            ...(partnerId ? { partner_id: partnerId } : {})
-          });
-          if (profileInsertError) throw profileInsertError;
-        }
+        const { error: acceptanceError } = await supabase.rpc('accept_partner_request', {
+          p_request_id: requestId,
+        });
+        if (acceptanceError) throw acceptanceError;
 
         setAuditLogs(prev => [
           { id: `log-${Date.now()}`, action: 'Partner Request Accepted', details: `Successfully accepted request for ${email} in category ${category}`, type: 'success', timestamp },

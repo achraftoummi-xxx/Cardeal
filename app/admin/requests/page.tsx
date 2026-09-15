@@ -105,113 +105,17 @@ export default function AdminRequestsPage() {
     }
 
     try {
-      const { data: authData } = await supabase.auth.getUser();
-      const normalizedEmail = email.trim();
-
-      const { data: reqUpdateData, error: reqUpdateErr } = await supabase
-        .from('partner_requests')
-        .update({ status: action })
-        .eq('id', requestId)
-        .select();
-
-      if (reqUpdateErr) {
-        console.error("partner_requests update failed:", reqUpdateErr);
-        alert(`ACCEPT FAILED (partner_requests update):\n\n${JSON.stringify(reqUpdateErr, null, 2)}`);
-        return;
-      }
-
       if (action === 'accepted') {
-        const reqObj = requests.find(r => r.id === requestId) ?? (reqUpdateData && reqUpdateData[0]);
-        let partnerId = null;
-
-        if (reqObj) {
-          const { data: partnerMatch, error: partnerMatchErr } = await supabase
-            .from('partners')
-            .select('id')
-            .ilike('email', normalizedEmail)
-            .maybeSingle();
-
-          if (partnerMatchErr) {
-            throw partnerMatchErr;
-          }
-
-          if (partnerMatch) {
-            partnerId = partnerMatch.id;
-          } else {
-            const { data: newPartner, error: newPartnerErr } = await supabase
-              .from('partners')
-              .insert({
-                name: reqObj.company_name,
-                email: normalizedEmail,
-                phone: reqObj.phone || null,
-                city: reqObj.address || 'Tunis',
-                establishment_type: reqObj.category || 'Atelier de mécanique automobile',
-                services_offered: Array.isArray(reqObj.services_offered) ? reqObj.services_offered.join('\n') : reqObj.services_offered
-              })
-              .select('id')
-              .maybeSingle();
-
-            if (newPartnerErr) {
-              console.error("partners insert failed:", newPartnerErr);
-              alert(`ACCEPT FAILED (partners insert):\n\n${JSON.stringify(newPartnerErr, null, 2)}`);
-              return;
-            }
-
-            if (newPartner) {
-              partnerId = newPartner.id;
-            }
-          }
-        }
-
-        const profileLookup = await supabase
-          .from('profiles')
-          .select('*')
-          .or(
-            authData?.user?.id && authData.user.email?.toLowerCase() === normalizedEmail.toLowerCase()
-              ? `id.eq.${authData.user.id},email.eq.${normalizedEmail}`
-              : `email.eq.${normalizedEmail}`
-          )
-          .limit(1)
-          .maybeSingle();
-
-        if (profileLookup.error) {
-          throw profileLookup.error;
-        }
-
-        const existingProf = profileLookup.data;
-
-        if (existingProf) {
-          const { error: profUpdateErr } = await supabase
-            .from('profiles')
-            .update({
-              role: 'partner',
-              status: 'approved',
-              ...(partnerId ? { partner_id: partnerId } : {})
-            })
-            .eq('id', existingProf.id);
-
-          if (profUpdateErr) {
-            console.error("profiles update failed:", profUpdateErr);
-            alert(`ACCEPT FAILED (profiles update):\n\n${JSON.stringify(profUpdateErr, null, 2)}`);
-            return;
-          }
-        } else {
-          const { error: profInsertErr } = await supabase
-            .from('profiles')
-            .insert({
-              email: normalizedEmail,
-              full_name: email.split('@')[0],
-              role: 'partner',
-              status: 'approved',
-              ...(partnerId ? { partner_id: partnerId } : {})
-            });
-
-          if (profInsertErr) {
-            console.error("profiles insert failed:", profInsertErr);
-            alert(`ACCEPT FAILED (profiles insert):\n\n${JSON.stringify(profInsertErr, null, 2)}`);
-            return;
-          }
-        }
+        const { error: acceptanceError } = await supabase.rpc('accept_partner_request', {
+          p_request_id: requestId,
+        });
+        if (acceptanceError) throw acceptanceError;
+      } else {
+        const { error: requestUpdateError } = await supabase
+          .from('partner_requests')
+          .update({ status: 'denied' })
+          .eq('id', requestId);
+        if (requestUpdateError) throw requestUpdateError;
       }
     } catch (err: any) {
       console.error("executeAction fatal error:", err);
