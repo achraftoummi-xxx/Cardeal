@@ -167,12 +167,16 @@ export default function AdminRequestsPage() {
           .from('profiles')
           .select('*')
           .or(
-            authData?.user?.id
+            authData?.user?.id && authData.user.email?.toLowerCase() === normalizedEmail.toLowerCase()
               ? `id.eq.${authData.user.id},email.eq.${normalizedEmail}`
               : `email.eq.${normalizedEmail}`
           )
           .limit(1)
           .maybeSingle();
+
+        if (profileLookup.error) {
+          throw profileLookup.error;
+        }
 
         const existingProf = profileLookup.data;
 
@@ -182,7 +186,6 @@ export default function AdminRequestsPage() {
             .update({
               role: 'partner',
               status: 'approved',
-              category: category || existingProf.category || 'Général',
               ...(partnerId ? { partner_id: partnerId } : {})
             })
             .eq('id', existingProf.id);
@@ -196,12 +199,10 @@ export default function AdminRequestsPage() {
           const { error: profInsertErr } = await supabase
             .from('profiles')
             .insert({
-              id: authData?.user?.id || undefined,
               email: normalizedEmail,
               full_name: email.split('@')[0],
               role: 'partner',
               status: 'approved',
-              category: category || 'Général',
               ...(partnerId ? { partner_id: partnerId } : {})
             });
 

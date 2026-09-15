@@ -131,21 +131,32 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     }
     try {
       if (action === 'accept') {
-        await supabase.from('partner_requests').update({ status: 'accepted' }).eq('id', requestId);
+        const { data: requestUpdate, error: requestUpdateError } = await supabase
+          .from('partner_requests')
+          .update({ status: 'accepted' })
+          .eq('id', requestId)
+          .select()
+          .maybeSingle();
 
-        const reqObj = pendingRequests.find(r => r.id === requestId) ?? (await supabase.from('partner_requests').select('*').eq('id', requestId).maybeSingle()).data;
+        if (requestUpdateError || !requestUpdate) {
+          throw requestUpdateError || new Error(`Partnership request ${requestId} was not updated`);
+        }
+
+        const reqObj = pendingRequests.find(r => r.id === requestId) ?? requestUpdate;
         let partnerId = null;
         if (reqObj) {
-          const { data: partnerMatch } = await supabase
+          const { data: partnerMatch, error: partnerLookupError } = await supabase
             .from('partners')
             .select('id')
             .ilike('email', email.trim())
             .maybeSingle();
 
+          if (partnerLookupError) throw partnerLookupError;
+
           if (partnerMatch) {
             partnerId = partnerMatch.id;
           } else {
-            const { data: newPart } = await supabase
+            const { data: newPart, error: partnerInsertError } = await supabase
               .from('partners')
               .insert({
                 name: reqObj.company_name,
@@ -157,42 +168,45 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
               })
               .select('id')
               .maybeSingle();
+            if (partnerInsertError) throw partnerInsertError;
             if (newPart) partnerId = newPart.id;
           }
         }
 
         const { data: authData } = await supabase.auth.getUser();
         const normalizedEmail = email.trim();
+        const authUserMatchesRequest = authData?.user?.email?.toLowerCase() === normalizedEmail.toLowerCase();
         const profileLookup = await supabase
           .from('profiles')
           .select('*')
           .or(
-            authData?.user?.id
+            authUserMatchesRequest && authData?.user?.id
               ? `id.eq.${authData.user.id},email.eq.${normalizedEmail}`
               : `email.eq.${normalizedEmail}`
           )
           .limit(1)
           .maybeSingle();
 
+        if (profileLookup.error) throw profileLookup.error;
+
         const existingProf = profileLookup.data;
 
         if (existingProf) {
-          await supabase.from('profiles').update({
+          const { error: profileUpdateError } = await supabase.from('profiles').update({
             role: 'partner',
             status: 'approved',
-            category: category || existingProf.category || 'Général',
             ...(partnerId ? { partner_id: partnerId } : {})
           }).eq('id', existingProf.id);
+          if (profileUpdateError) throw profileUpdateError;
         } else {
-          await supabase.from('profiles').insert({
-            id: authData?.user?.id || undefined,
+          const { error: profileInsertError } = await supabase.from('profiles').insert({
             email: normalizedEmail,
             full_name: email.split('@')[0],
             role: 'partner',
             status: 'approved',
-            category: category || 'Général',
             ...(partnerId ? { partner_id: partnerId } : {})
           });
+          if (profileInsertError) throw profileInsertError;
         }
 
         setAuditLogs(prev => [
@@ -200,7 +214,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           ...prev
         ]);
       } else {
-        await supabase.from('partner_requests').update({ status: 'denied' }).eq('id', requestId);
+        const { error: requestUpdateError } = await supabase
+          .from('partner_requests')
+          .update({ status: 'denied' })
+          .eq('id', requestId);
+        if (requestUpdateError) throw requestUpdateError;
         setAuditLogs(prev => [
           { id: `log-${Date.now()}`, action: 'Partner Request Refused', details: `Refused partnership request for ${email}`, type: 'warning', timestamp },
           ...prev
@@ -212,7 +230,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
         { id: `log-${Date.now()}`, action: 'Action Error', details: err?.message || 'Failed to process partnership request', type: 'error', timestamp },
         ...prev
       ]);
+      return;
     }
+    setPendingRequests(prev => prev.map(request => (
+      request.id === requestId ? { ...request, status: action === 'accept' ? 'accepted' : 'denied' } : request
+    )));
     await fetchAdminData();
   }
 
