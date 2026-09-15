@@ -125,7 +125,7 @@ export default function AdminRequestsPage() {
       }
     } catch (err: any) {
       console.error("executeAction fatal error:", err);
-      alert(`ACCEPT FAILED (exception):\n\n${err?.message || JSON.stringify(err, null, 2)}`);
+      alert("Failed to accept partnership request. Please try again.");
       // Re-fetch on error to ensure sync
       await fetchRequests();
     }

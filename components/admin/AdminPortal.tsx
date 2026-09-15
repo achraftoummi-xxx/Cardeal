@@ -177,7 +177,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
       ]);
       // Re-fetch on error
       await fetchAdminData();
-      setToastMessage(err?.message || 'Unable to update partnership request.');
+      setToastMessage('Failed to accept partnership request. Please try again.');
     } finally {
       setProcessingRequestId(null);
     }

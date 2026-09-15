@@ -67,9 +67,8 @@ begin
   where lower(email) = lower(v_request.email)
   limit 1;
 
-  insert into public.profiles (user_id, email, full_name, role, status, category, partner_id)
+  insert into public.profiles (email, full_name, role, status, category, partner_id)
   values (
-    v_user_id,
     lower(v_request.email),
     split_part(v_request.email, '@', 1),
     'partner',
@@ -78,7 +77,6 @@ begin
     v_partner_id
   )
   on conflict (email) do update set
-    user_id = coalesce(excluded.user_id, public.profiles.user_id),
     role = 'partner',
     status = 'approved',
     category = excluded.category,
