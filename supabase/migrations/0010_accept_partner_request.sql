@@ -1,4 +1,7 @@
 -- Atomic admin workflow for accepting a partnership request.
+alter table public.profiles
+  add column if not exists category text;
+
 create or replace function public.accept_partner_request(p_request_id uuid)
 returns public.partner_requests
 language plpgsql
@@ -64,19 +67,21 @@ begin
   where lower(email) = lower(v_request.email)
   limit 1;
 
-  insert into public.profiles (user_id, email, full_name, role, status, partner_id)
+  insert into public.profiles (user_id, email, full_name, role, status, category, partner_id)
   values (
     v_user_id,
     lower(v_request.email),
     split_part(v_request.email, '@', 1),
     'partner',
     'approved',
+    v_request.category,
     v_partner_id
   )
   on conflict (email) do update set
     user_id = coalesce(excluded.user_id, public.profiles.user_id),
     role = 'partner',
     status = 'approved',
+    category = excluded.category,
     partner_id = excluded.partner_id;
 
   return v_request;

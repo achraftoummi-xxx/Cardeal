@@ -65,6 +65,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     commissionEarnings: "0"
   });
   const [loading, setLoading] = useState(true);
+  const [processingRequestId, setProcessingRequestId] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [selectedVehicle, setSelectedVehicle] = useState<any | null>(null);
   const [showNotifications, setShowNotifications] = useState(false);
   const [auditLogs, setAuditLogs] = useState<Array<{ id: string; action: string; details: string; type: 'success' | 'warning' | 'info' | 'error'; timestamp: string }>>([
@@ -121,12 +123,18 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
   async function handlePartnerAction(requestId: string, email: string, category: string, action: 'accept' | 'denied') {
     const timestamp = new Date().toLocaleTimeString();
+    if (processingRequestId) return;
+    setProcessingRequestId(requestId);
+    setPendingRequests(prev => prev.map(request => (
+      request.id === requestId ? { ...request, status: action === 'accept' ? 'accepted' : 'denied' } : request
+    )));
     if (!isSupabaseConfigured || !supabase) {
-      setPendingRequests(prev => prev.filter(r => r.id !== requestId));
+      setToastMessage(action === 'accept' ? 'Partnership approved successfully.' : 'Partnership request refused.');
       setAuditLogs(prev => [
         { id: `log-${Date.now()}`, action: action === 'accept' ? 'Partner Request Accepted' : 'Partner Request Refused', details: `Request ID: ${requestId} for ${email} (${category})`, type: action === 'accept' ? 'success' : 'warning', timestamp },
         ...prev
       ]);
+      setProcessingRequestId(null);
       return;
     }
     try {
@@ -140,6 +148,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           { id: `log-${Date.now()}`, action: 'Partner Request Accepted', details: `Successfully accepted request for ${email} in category ${category}`, type: 'success', timestamp },
           ...prev
         ]);
+          setToastMessage('Partnership approved successfully.');
       } else {
         const { error: requestUpdateError } = await supabase
           .from('partner_requests')
@@ -150,6 +159,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           { id: `log-${Date.now()}`, action: 'Partner Request Refused', details: `Refused partnership request for ${email}`, type: 'warning', timestamp },
           ...prev
         ]);
+        setToastMessage('Partnership request refused.');
       }
     } catch (err: any) {
       console.error("Error handling partner action", err);
@@ -157,18 +167,28 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
         { id: `log-${Date.now()}`, action: 'Action Error', details: err?.message || 'Failed to process partnership request', type: 'error', timestamp },
         ...prev
       ]);
+      setPendingRequests(prev => prev.map(request => (
+        request.id === requestId ? { ...request, status: 'pending' } : request
+      )));
+      setToastMessage(err?.message || 'Unable to update partnership request.');
+      setProcessingRequestId(null);
       return;
     }
-    setPendingRequests(prev => prev.map(request => (
-      request.id === requestId ? { ...request, status: action === 'accept' ? 'accepted' : 'denied' } : request
-    )));
     await fetchAdminData();
+    setProcessingRequestId(null);
   }
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-end bg-background/85 backdrop-blur-md animate-fadeIn overflow-x-hidden text-foreground antialiased font-sans">
+      {toastMessage && (
+        <div className="fixed right-6 top-6 z-[60] flex items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/15 px-4 py-3 text-sm font-semibold text-emerald-300 shadow-xl" role="status">
+          <CheckCircle2 size={16} />
+          <span>{toastMessage}</span>
+          <button type="button" onClick={() => setToastMessage(null)} className="ml-2 text-emerald-200 hover:text-white" aria-label="Dismiss notification">x</button>
+        </div>
+      )}
       {/* SideNavBar Component */}
       <nav className="hidden md:flex flex-col h-screen w-72 fixed left-0 top-0 bg-card border-r border-border py-4 z-40 backdrop-blur-xl shadow-sm">
         {/* Brand Header */}
@@ -552,12 +572,20 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                         </div>
                       </div>
                       <div className="flex gap-2 w-full sm:w-auto">
-                        <button 
+                        <button
+                          type="button"
+                          disabled={req.status === 'accepted' || processingRequestId !== null}
                           onClick={() => handlePartnerAction(req.id, req.email, req.category, 'accept')}
-                          className="flex-1 sm:flex-none bg-emerald-500/20 border border-emerald-500/40 hover:bg-emerald-500/30 text-emerald-400 px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
-                          <CheckCircle2 size={14} /> Accept
+                          className={`flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition ${
+                            req.status === 'accepted'
+                              ? 'bg-emerald-500/30 border border-emerald-500/50 text-emerald-300'
+                              : 'bg-emerald-500/20 border border-emerald-500/40 hover:bg-emerald-500/30 text-emerald-400'
+                          }`}>
+                          <CheckCircle2 size={14} /> {req.status === 'accepted' ? 'Accepted' : 'Accept'}
                         </button>
                         <button 
+                          type="button"
+                          disabled={processingRequestId !== null}
                           onClick={() => handlePartnerAction(req.id, req.email, req.category, 'denied')}
                           className="flex-1 sm:flex-none bg-secondary hover:bg-accent border border-border text-[var(--cardeal-primary)] px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
                           <XCircle size={14} /> Refuse

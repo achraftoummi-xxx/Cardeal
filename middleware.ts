@@ -1,26 +1,44 @@
+import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
 
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
-  // If Supabase is not configured, pass through
-  if (!supabase) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
     return NextResponse.next();
   }
 
-  // Check auth session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  let response = NextResponse.next({ request: req });
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return req.cookies.getAll();
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
+        response = NextResponse.next({ request: req });
+        cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+      },
+    },
+  });
+
+  const { data: { user } } = await supabase.auth.getUser();
+  const redirect = (path: string) => {
+    const redirectResponse = NextResponse.redirect(new URL(path, req.url));
+    response.cookies.getAll().forEach(({ name, value, ...options }) => {
+      redirectResponse.cookies.set(name, value, options);
+    });
+    return redirectResponse;
+  };
 
   // Protect /admin routes
   if (pathname.startsWith("/admin")) {
-    if (!session) {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
+    if (!user) return redirect("/");
     const ADMIN_EMAILS = ['mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com'];
-    const email = session.user.email?.toLowerCase() || "";
+    const email = user.email?.toLowerCase() || "";
     const isAdminEmail = ADMIN_EMAILS.includes(email);
 
     if (!isAdminEmail) {
@@ -31,17 +49,15 @@ export async function middleware(req: NextRequest) {
         .maybeSingle();
 
       if (profile?.role !== "admin") {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
+        return redirect("/dashboard");
       }
     }
   }
 
   // Protect /partner routes
   if (pathname.startsWith("/partner")) {
-    if (!session) {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
-    const email = session.user.email?.toLowerCase() || "";
+    if (!user) return redirect("/");
+    const email = user.email?.toLowerCase() || "";
     const ADMIN_EMAILS = ['mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com'];
     const isAdminEmail = ADMIN_EMAILS.includes(email);
 
@@ -53,12 +69,12 @@ export async function middleware(req: NextRequest) {
         .maybeSingle();
 
       if (profile?.role !== "partner" || profile?.status !== "approved") {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
+        return redirect("/dashboard");
       }
     }
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
