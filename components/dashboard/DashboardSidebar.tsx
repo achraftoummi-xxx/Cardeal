@@ -96,14 +96,14 @@ export default function DashboardSidebar({
         aria-label={t("dashboard.nav.home")}
       >
         <div className="flex items-center justify-between px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] lg:pt-4">
-          <Link href="/" onClick={onClose} aria-label={t("site.name")}>
+          <div aria-label={t("site.name")}>
             <img
               src={cardealLogo.src}
               alt={t("site.name")}
               draggable={false}
               className="h-14 w-auto dark:brightness-150"
             />
-          </Link>
+          </div>
           <button
             type="button"
             onClick={onClose}
