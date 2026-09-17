@@ -4,8 +4,10 @@ import React from "react";
 import { Wrench, Save } from "lucide-react";
 import { useBusiness } from "@/components/business/BusinessProvider";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/components/TranslationProvider";
 
 export default function ServicesSettingsPage() {
+  const { t } = useTranslation();
   const { verticals } = useBusiness();
 
   return (
@@ -17,10 +19,10 @@ export default function ServicesSettingsPage() {
           </div>
           <div>
             <h1 className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
-              Services & Rates
+              {t("business.settings.services.title")}
             </h1>
             <p className="text-xs text-muted-foreground">
-              Configure capabilities, rates, and labor fees per vertical
+              {t("business.settings.services.description")}
             </p>
           </div>
         </div>
@@ -30,7 +32,7 @@ export default function ServicesSettingsPage() {
         <div className="rounded-2xl border border-dashed border-border bg-secondary/30 p-8 text-center">
           <Wrench size={24} className="mx-auto text-muted-foreground/50 mb-2" />
           <p className="text-sm text-muted-foreground">
-            No active verticals. Add business types first.
+            {t("business.settings.services.noVerticals")}
           </p>
         </div>
       ) : (
@@ -46,7 +48,7 @@ export default function ServicesSettingsPage() {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                    Standard Labor Rate (TND/hr)
+                    {t("business.settings.services.laborRate")}
                   </label>
                   <input
                     type="number"
@@ -56,7 +58,7 @@ export default function ServicesSettingsPage() {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                    Diagnostic Fee (TND)
+                    {t("business.settings.services.diagnosticFee")}
                   </label>
                   <input
                     type="number"
@@ -67,11 +69,11 @@ export default function ServicesSettingsPage() {
               </div>
               <div>
                 <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  Service Terms & Conditions
+                  {t("business.settings.services.terms")}
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="Describe your service terms..."
+                  placeholder={t("business.settings.services.termsPlaceholder")}
                   className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 resize-none"
                 />
               </div>
@@ -83,7 +85,7 @@ export default function ServicesSettingsPage() {
       <div className="flex justify-end">
         <Button variant="primary" className="flex items-center gap-2">
           <Save size={14} />
-          Save Services
+          {t("business.settings.services.save")}
         </Button>
       </div>
     </div>

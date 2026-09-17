@@ -25,6 +25,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/components/TranslationProvider";
 
 type SettingsTab = {
   id: string;
@@ -35,33 +36,33 @@ type SettingsTab = {
 };
 
 const SETTINGS_TABS: SettingsTab[] = [
-  { id: "profile", label: "Profile", href: "/business/settings/profile", icon: User, group: "Business Info" },
-  { id: "types", label: "Business Types", href: "/business/settings/types", icon: Layers, group: "Business Info" },
-  { id: "locations", label: "Locations", href: "/business/settings/locations", icon: MapPin, group: "Business Info" },
-  { id: "hours", label: "Operating Hours", href: "/business/settings/hours", icon: Clock, group: "Business Info" },
-  { id: "services", label: "Services & Rates", href: "/business/settings/services", icon: Wrench, group: "Business Info" },
+  { id: "profile", label: "Profile", href: "/business/settings/profile", icon: User, group: "businessInfo" },
+  { id: "types", label: "Business Types", href: "/business/settings/types", icon: Layers, group: "businessInfo" },
+  { id: "locations", label: "Locations", href: "/business/settings/locations", icon: MapPin, group: "businessInfo" },
+  { id: "hours", label: "Operating Hours", href: "/business/settings/hours", icon: Clock, group: "businessInfo" },
+  { id: "services", label: "Services & Rates", href: "/business/settings/services", icon: Wrench, group: "businessInfo" },
 
-  { id: "features", label: "Features", href: "/business/settings/features", icon: Settings, group: "Operations" },
-  { id: "team", label: "Team Members", href: "/business/settings/team", icon: Users, group: "Operations" },
-  { id: "notifications", label: "Notifications", href: "/business/settings/notifications", icon: Bell, group: "Operations" },
+  { id: "features", label: "Features", href: "/business/settings/features", icon: Settings, group: "operations" },
+  { id: "team", label: "Team Members", href: "/business/settings/team", icon: Users, group: "operations" },
+  { id: "notifications", label: "Notifications", href: "/business/settings/notifications", icon: Bell, group: "operations" },
 
-  { id: "invoices", label: "Invoicing", href: "/business/settings/invoices", icon: Receipt, group: "Finance" },
-  { id: "payments", label: "Payments & Payouts", href: "/business/settings/payments", icon: Banknote, group: "Finance" },
-  { id: "billing", label: "Subscription & Billing", href: "/business/settings/billing", icon: CreditCard, group: "Finance" },
+  { id: "invoices", label: "Invoicing", href: "/business/settings/invoices", icon: Receipt, group: "finance" },
+  { id: "payments", label: "Payments & Payouts", href: "/business/settings/payments", icon: Banknote, group: "finance" },
+  { id: "billing", label: "Subscription & Billing", href: "/business/settings/billing", icon: CreditCard, group: "finance" },
 
-  { id: "integrations", label: "Integrations", href: "/business/settings/integrations", icon: Plug, group: "Technical" },
-  { id: "api", label: "API Access", href: "/business/settings/api", icon: Key, group: "Technical" },
-  { id: "security", label: "Security", href: "/business/settings/security", icon: ShieldCheck, group: "Technical" },
-  { id: "account", label: "Account Management", href: "/business/settings/account", icon: Trash2, group: "Technical" },
+  { id: "integrations", label: "Integrations", href: "/business/settings/integrations", icon: Plug, group: "technical" },
+  { id: "api", label: "API Access", href: "/business/settings/api", icon: Key, group: "technical" },
+  { id: "security", label: "Security", href: "/business/settings/security", icon: ShieldCheck, group: "technical" },
+  { id: "account", label: "Account Management", href: "/business/settings/account", icon: Trash2, group: "technical" },
 ];
 
-const GROUP_ORDER = ["Business Info", "Operations", "Finance", "Technical"];
+const GROUP_ORDER = ["businessInfo", "operations", "finance", "technical"];
 
 const GROUP_COLORS: Record<string, string> = {
-  "Business Info": "text-blue-500",
-  Operations: "text-amber-500",
-  Finance: "text-emerald-500",
-  Technical: "text-slate-400",
+  businessInfo: "text-blue-500",
+  operations: "text-amber-500",
+  finance: "text-emerald-500",
+  technical: "text-slate-400",
 };
 
 function SettingsNav({
@@ -70,6 +71,7 @@ function SettingsNav({
   onNavigate: () => void;
 }) {
   const pathname = usePathname();
+  const { t } = useTranslation();
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
@@ -89,7 +91,7 @@ function SettingsNav({
                   : "text-muted-foreground"
               )}
             >
-              {group}
+              {t(`business.settings.groups.${group}`)}
             </p>
             <ul className="space-y-0.5">
               {tabs.map((tab) => {
@@ -115,7 +117,7 @@ function SettingsNav({
                           active ? "text-emerald-500" : "text-muted-foreground"
                         )}
                       />
-                      <span className="truncate">{tab.label}</span>
+                      <span className="truncate">{t(`business.settings.tabs.${tab.id}`)}</span>
                     </Link>
                   </li>
                 );
@@ -134,6 +136,7 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="flex gap-6 lg:gap-8">
@@ -141,7 +144,7 @@ export default function SettingsLayout({
       <aside className="hidden lg:flex w-56 shrink-0 flex-col rounded-2xl border border-border bg-card shadow-sm sticky top-20 self-start max-h-[calc(100vh-6rem)]">
         <div className="px-4 pt-4 pb-2">
           <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-            Settings
+            {t("business.settings.settings")}
           </p>
         </div>
         <SettingsNav onNavigate={() => {}} />
@@ -170,7 +173,7 @@ export default function SettingsLayout({
           <aside className="fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-border bg-card lg:hidden">
             <div className="flex items-center justify-between px-4 pt-4 pb-2">
               <p className="text-sm font-bold font-['Space_Grotesk'] text-foreground">
-                Settings
+                {t("business.settings.settings")}
               </p>
               <button
                 type="button"

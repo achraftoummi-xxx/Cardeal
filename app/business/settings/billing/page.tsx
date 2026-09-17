@@ -2,32 +2,13 @@
 
 import React from "react";
 import { CreditCard, Check } from "lucide-react";
+import { useTranslation } from "@/components/TranslationProvider";
 
-const PLANS = [
-  {
-    id: "starter",
-    name: "Starter",
-    price: "Free",
-    features: ["5 bookings/month", "Basic analytics", "Email support", "1 team member"],
-    current: false,
-  },
-  {
-    id: "pro",
-    name: "Professional",
-    price: "49 TND/mo",
-    features: ["Unlimited bookings", "Advanced analytics", "Priority support", "10 team members", "Invoicing", "API access"],
-    current: true,
-  },
-  {
-    id: "enterprise",
-    name: "Enterprise",
-    price: "149 TND/mo",
-    features: ["Everything in Pro", "Unlimited team", "Custom integrations", "Dedicated account manager", "SLA guarantee"],
-    current: false,
-  },
-];
+const PLAN_IDS = ["starter", "pro", "enterprise"] as const;
 
 export default function BillingSettingsPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6 max-w-3xl">
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
@@ -37,10 +18,10 @@ export default function BillingSettingsPage() {
           </div>
           <div>
             <h1 className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
-              Subscription & Billing
+              {t("business.settings.billing.title")}
             </h1>
             <p className="text-xs text-muted-foreground">
-              Manage your plan and usage metrics
+              {t("business.settings.billing.description")}
             </p>
           </div>
         </div>
@@ -48,48 +29,52 @@ export default function BillingSettingsPage() {
 
       {/* Usage */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm space-y-4">
-        <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground">Current Usage</h2>
+        <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground">{t("business.settings.billing.currentUsage")}</h2>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <UsageStat label="Bookings" value="23" limit="Unlimited" />
-          <UsageStat label="Team Members" value="2" limit="10" />
-          <UsageStat label="API Calls" value="1,247" limit="10,000/mo" />
-          <UsageStat label="Storage" value="180 MB" limit="1 GB" />
+          <UsageStat label={t("business.settings.billing.usage.bookings")} value="23" limit="Unlimited" />
+          <UsageStat label={t("business.settings.billing.usage.teamMembers")} value="2" limit="10" />
+          <UsageStat label={t("business.settings.billing.usage.apiCalls")} value="1,247" limit="10,000/mo" />
+          <UsageStat label={t("business.settings.billing.usage.storage")} value="180 MB" limit="1 GB" />
         </div>
       </div>
 
       {/* Plans */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {PLANS.map((plan) => (
-          <div
-            key={plan.id}
-            className={`rounded-2xl border bg-card p-6 shadow-sm ${
-              plan.current
-                ? "border-emerald-500/50 ring-2 ring-emerald-500/20"
-                : "border-border"
-            }`}
-          >
-            {plan.current && (
-              <span className="mb-3 inline-flex rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
-                Current Plan
-              </span>
-            )}
-            <h3 className="text-base font-bold font-['Space_Grotesk'] text-foreground">{plan.name}</h3>
-            <p className="mt-1 text-2xl font-extrabold font-['Space_Grotesk'] text-foreground">{plan.price}</p>
-            <ul className="mt-4 space-y-2">
-              {plan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-xs text-muted-foreground">
-                  <Check size={14} className="shrink-0 text-emerald-500 mt-0.5" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            {!plan.current && (
-              <button className="mt-6 w-full rounded-xl border border-border bg-secondary px-4 py-2 text-xs font-semibold text-foreground hover:bg-accent transition-colors">
-                {plan.id === "enterprise" ? "Contact Sales" : "Upgrade"}
-              </button>
-            )}
-          </div>
-        ))}
+        {PLAN_IDS.map((planId) => {
+          const isCurrent = planId === "pro";
+          const planFeatures = t(`business.settings.billing.plans.${planId}.features`);
+          return (
+            <div
+              key={planId}
+              className={`rounded-2xl border bg-card p-6 shadow-sm ${
+                isCurrent
+                  ? "border-emerald-500/50 ring-2 ring-emerald-500/20"
+                  : "border-border"
+              }`}
+            >
+              {isCurrent && (
+                <span className="mb-3 inline-flex rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+                  {t("business.settings.billing.currentPlan")}
+                </span>
+              )}
+              <h3 className="text-base font-bold font-['Space_Grotesk'] text-foreground">{t(`business.settings.billing.plans.${planId}.name`)}</h3>
+              <p className="mt-1 text-2xl font-extrabold font-['Space_Grotesk'] text-foreground">{t(`business.settings.billing.plans.${planId}.price`)}</p>
+              <ul className="mt-4 space-y-2">
+                {Array.isArray(planFeatures) && planFeatures.map((f: string) => (
+                  <li key={f} className="flex items-start gap-2 text-xs text-muted-foreground">
+                    <Check size={14} className="shrink-0 text-emerald-500 mt-0.5" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              {!isCurrent && (
+                <button className="mt-6 w-full rounded-xl border border-border bg-secondary px-4 py-2 text-xs font-semibold text-foreground hover:bg-accent transition-colors">
+                  {planId === "enterprise" ? t("business.settings.billing.contactSales") : t("business.settings.billing.upgrade")}
+                </button>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

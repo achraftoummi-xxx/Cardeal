@@ -4,8 +4,10 @@ import React from "react";
 import { User, Save, Building2, Globe, Mail, Phone, MapPin } from "lucide-react";
 import { useBusiness } from "@/components/business/BusinessProvider";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/components/TranslationProvider";
 
 export default function ProfileSettingsPage() {
+  const { t } = useTranslation();
   const { partner } = useBusiness();
 
   return (
@@ -17,10 +19,10 @@ export default function ProfileSettingsPage() {
           </div>
           <div>
             <h1 className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
-              Business Profile
+              {t("business.settings.profile.title")}
             </h1>
             <p className="text-xs text-muted-foreground">
-              Manage your business identity, legal info, and contact details
+              {t("business.settings.profile.description")}
             </p>
           </div>
         </div>
@@ -30,13 +32,13 @@ export default function ProfileSettingsPage() {
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm space-y-4">
         <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground flex items-center gap-2">
           <Building2 size={16} className="text-muted-foreground" />
-          Business Identity
+          {t("business.settings.profile.sections.identity")}
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field label="Legal Business Name" value={partner?.name || ""} placeholder="e.g. El Japouni Auto Service SARL" />
-          <Field label="Trade Register Number" placeholder="e.g. RN0012345678" />
-          <Field label="Tax / VAT ID" placeholder="e.g. 12345678/M" />
-          <Field label="Establishment Type" value={partner?.establishment_type || ""} />
+          <Field label={t("business.settings.profile.fields.legalName")} value={partner?.name || ""} placeholder={t("business.settings.profile.placeholders.legalName")} />
+          <Field label={t("business.settings.profile.fields.tradeRegister")} placeholder={t("business.settings.profile.placeholders.tradeRegister")} />
+          <Field label={t("business.settings.profile.fields.taxId")} placeholder={t("business.settings.profile.placeholders.taxId")} />
+          <Field label={t("business.settings.profile.fields.establishmentType")} value={partner?.establishment_type || ""} />
         </div>
       </div>
 
@@ -44,42 +46,42 @@ export default function ProfileSettingsPage() {
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm space-y-4">
         <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground flex items-center gap-2">
           <Phone size={16} className="text-muted-foreground" />
-          Contact Information
+          {t("business.settings.profile.sections.contact")}
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field label="Phone Number" value={partner?.phone || ""} icon={<Phone size={14} />} />
-          <Field label="Email" value={partner?.email || ""} icon={<Mail size={14} />} />
-          <Field label="Address" value={partner?.address || ""} icon={<MapPin size={14} />} className="sm:col-span-2" />
-          <Field label="Website" value={partner?.website || ""} icon={<Globe size={14} />} placeholder="https://" className="sm:col-span-2" />
+          <Field label={t("business.settings.profile.fields.phone")} value={partner?.phone || ""} icon={<Phone size={14} />} />
+          <Field label={t("business.settings.profile.fields.email")} value={partner?.email || ""} icon={<Mail size={14} />} />
+          <Field label={t("business.settings.profile.fields.address")} value={partner?.address || ""} icon={<MapPin size={14} />} className="sm:col-span-2" />
+          <Field label={t("business.settings.profile.fields.website")} value={partner?.website || ""} icon={<Globe size={14} />} placeholder={t("business.settings.profile.placeholders.website")} className="sm:col-span-2" />
         </div>
       </div>
 
       {/* Social Links */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm space-y-4">
         <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground">
-          Social Media Links
+          {t("business.settings.profile.sections.social")}
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field label="Facebook URL" value={partner?.facebook_url || ""} placeholder="https://facebook.com/..." />
-          <Field label="Instagram URL" value={partner?.instagram_url || ""} placeholder="https://instagram.com/..." />
+          <Field label={t("business.settings.profile.fields.facebook")} value={partner?.facebook_url || ""} placeholder={t("business.settings.profile.placeholders.facebook")} />
+          <Field label={t("business.settings.profile.fields.instagram")} value={partner?.instagram_url || ""} placeholder={t("business.settings.profile.placeholders.instagram")} />
         </div>
       </div>
 
       {/* Locale */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm space-y-4">
         <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground">
-          Locale & Display
+          {t("business.settings.profile.sections.locale")}
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field label="Currency" value="TND" placeholder="TND" />
-          <Field label="Timezone" value="Africa/Tunis" placeholder="Africa/Tunis" />
+          <Field label={t("business.settings.profile.fields.currency")} value="TND" placeholder="TND" />
+          <Field label={t("business.settings.profile.fields.timezone")} value="Africa/Tunis" placeholder="Africa/Tunis" />
         </div>
       </div>
 
       <div className="flex justify-end">
         <Button variant="primary" className="flex items-center gap-2">
           <Save size={14} />
-          Save Profile
+          {t("business.settings.profile.save")}
         </Button>
       </div>
     </div>

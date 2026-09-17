@@ -3,17 +3,19 @@
 import React from "react";
 import { Layers, CheckCircle2, Clock, AlertCircle } from "lucide-react";
 import { useBusiness } from "@/components/business/BusinessProvider";
+import { useTranslation } from "@/components/TranslationProvider";
 
 export default function TypesSettingsPage() {
+  const { t } = useTranslation();
   const { verticals } = useBusiness();
 
   const ALL_VERTICALS = [
-    { id: "workshop", label: "Workshop / Garage", description: "General automotive repair and maintenance" },
-    { id: "tire_shop", label: "Tire Shop", description: "Tire sales, mounting, and balancing" },
-    { id: "body_shop", label: "Body Shop", description: "Collision repair, painting, and bodywork" },
-    { id: "dealership", label: "Dealership", description: "New and used vehicle sales" },
-    { id: "rental", label: "Car Rental", description: "Vehicle rental and fleet management" },
-    { id: "mobile_mechanic", label: "Mobile Mechanic", description: "On-site repair and roadside assistance" },
+    { id: "workshop", label: t("business.settings.types.verticals.workshop"), description: t("business.settings.types.verticals.workshopDesc") },
+    { id: "tire_shop", label: t("business.settings.types.verticals.tire_shop"), description: t("business.settings.types.verticals.tire_shopDesc") },
+    { id: "body_shop", label: t("business.settings.types.verticals.body_shop"), description: t("business.settings.types.verticals.body_shopDesc") },
+    { id: "dealership", label: t("business.settings.types.verticals.dealership"), description: t("business.settings.types.verticals.dealershipDesc") },
+    { id: "rental", label: t("business.settings.types.verticals.rental"), description: t("business.settings.types.verticals.rentalDesc") },
+    { id: "mobile_mechanic", label: t("business.settings.types.verticals.mobile_mechanic"), description: t("business.settings.types.verticals.mobile_mechanicDesc") },
   ];
 
   return (
@@ -25,10 +27,10 @@ export default function TypesSettingsPage() {
           </div>
           <div>
             <h1 className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
-              Business Types
+              {t("business.settings.types.title")}
             </h1>
             <p className="text-xs text-muted-foreground">
-              Your registered verticals and their approval status
+              {t("business.settings.types.description")}
             </p>
           </div>
         </div>
@@ -66,7 +68,7 @@ export default function TypesSettingsPage() {
                     : "bg-muted text-muted-foreground"
                 }`}
               >
-                {active ? "Active" : "Inactive"}
+                {active ? t("business.settings.types.active") : t("business.settings.types.inactive")}
               </span>
             </div>
           );

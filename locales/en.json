@@ -800,6 +800,351 @@
       "integrationsDesc": "Third-party service integrations",
       "apiAccess": "API Access",
       "apiAccessDesc": "API keys and developer access management"
+    },
+    "portal": {
+      "title": "CarDeal Business Portal",
+      "dashboard": "Dashboard",
+      "verifiedPartner": "Verified Partner",
+      "openNav": "Open navigation menu",
+      "backToDashboard": "Back to Dashboard",
+      "partnerFallback": "Partner Portal",
+      "businessFallback": "Business Account"
+    },
+    "sidebar": {
+      "settings": "Settings"
+    },
+    "dashboard": {
+      "manageFeatures": "Manage Features",
+      "activeJobs": "Active Jobs",
+      "currentBookings": "Current bookings",
+      "messages": "Messages",
+      "unreadConversations": "Unread conversations",
+      "pendingQuotes": "Pending Quotes",
+      "awaitingResponse": "Awaiting response",
+      "teamMembers": "Team Members",
+      "activeStaff": "Active staff",
+      "quickAccess": "Quick Access",
+      "featureStatus": "Feature Status",
+      "configure": "Configure →",
+      "on": "ON",
+      "off": "OFF",
+      "required": "Required"
+    },
+    "stub": {
+      "comingSoon": "{module} management coming soon."
+    },
+    "settings": {
+      "settings": "Settings",
+      "groups": {
+        "businessInfo": "Business Info",
+        "operations": "Operations",
+        "finance": "Finance",
+        "technical": "Technical"
+      },
+      "tabs": {
+        "profile": "Profile",
+        "types": "Business Types",
+        "locations": "Locations",
+        "hours": "Operating Hours",
+        "services": "Services & Rates",
+        "features": "Features",
+        "team": "Team Members",
+        "notifications": "Notifications",
+        "invoices": "Invoicing",
+        "payments": "Payments & Payouts",
+        "billing": "Subscription & Billing",
+        "integrations": "Integrations",
+        "api": "API Access",
+        "security": "Security",
+        "account": "Account Management"
+      },
+      "profile": {
+        "title": "Business Profile",
+        "description": "Manage your business identity, legal info, and contact details",
+        "sections": {
+          "identity": "Business Identity",
+          "contact": "Contact Information",
+          "social": "Social Media Links",
+          "locale": "Locale & Display"
+        },
+        "fields": {
+          "legalName": "Legal Business Name",
+          "tradeRegister": "Trade Register Number",
+          "taxId": "Tax / VAT ID",
+          "establishmentType": "Establishment Type",
+          "phone": "Phone Number",
+          "email": "Email",
+          "address": "Address",
+          "website": "Website",
+          "facebook": "Facebook URL",
+          "instagram": "Instagram URL",
+          "currency": "Currency",
+          "timezone": "Timezone"
+        },
+        "placeholders": {
+          "legalName": "e.g. El Japouni Auto Service SARL",
+          "tradeRegister": "e.g. RN0012345678",
+          "taxId": "e.g. 12345678/M",
+          "website": "https://",
+          "facebook": "https://facebook.com/...",
+          "instagram": "https://instagram.com/..."
+        },
+        "save": "Save Profile"
+      },
+      "types": {
+        "title": "Business Types",
+        "description": "Your registered verticals and their approval status",
+        "verticals": {
+          "workshop": "Workshop / Garage",
+          "workshopDesc": "General automotive repair and maintenance",
+          "tire_shop": "Tire Shop",
+          "tire_shopDesc": "Tire sales, mounting, and balancing",
+          "body_shop": "Body Shop",
+          "body_shopDesc": "Collision repair, painting, and bodywork",
+          "dealership": "Dealership",
+          "dealershipDesc": "New and used vehicle sales",
+          "rental": "Car Rental",
+          "rentalDesc": "Vehicle rental and fleet management",
+          "mobile_mechanic": "Mobile Mechanic",
+          "mobile_mechanicDesc": "On-site repair and roadside assistance"
+        },
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "locations": {
+        "title": "Locations",
+        "description": "Manage branches, addresses, and geo coordinates",
+        "addLocation": "Add Location",
+        "primary": "Primary",
+        "mainBranch": "Main Branch",
+        "noAddress": "No address set",
+        "emptyHint": "Add additional branch locations to expand your service area"
+      },
+      "hours": {
+        "title": "Operating Hours",
+        "description": "Set weekly hours, breaks, holidays, and special overrides",
+        "days": {
+          "monday": "Monday",
+          "tuesday": "Tuesday",
+          "wednesday": "Wednesday",
+          "thursday": "Thursday",
+          "friday": "Friday",
+          "saturday": "Saturday",
+          "sunday": "Sunday"
+        },
+        "to": "to",
+        "open": "Open",
+        "save": "Save Hours"
+      },
+      "services": {
+        "title": "Services & Rates",
+        "description": "Configure capabilities, rates, and labor fees per vertical",
+        "noVerticals": "No active verticals. Add business types first.",
+        "laborRate": "Standard Labor Rate (TND/hr)",
+        "diagnosticFee": "Diagnostic Fee (TND)",
+        "terms": "Service Terms & Conditions",
+        "termsPlaceholder": "Describe your service terms...",
+        "save": "Save Services"
+      },
+      "features": {
+        "title": "Feature Settings",
+        "description": "Enable or disable features for your business portal",
+        "resolvedHint": "Features are resolved based on your business vertical",
+        "mandatoryHint": "Mandatory features cannot be disabled.",
+        "required": "Required",
+        "disabledByAdmin": "Disabled by Admin",
+        "requires": "Requires: {deps}",
+        "missingDeps": "Missing dependencies: {deps}",
+        "requiredReason": "This feature is required and cannot be disabled.",
+        "killSwitchReason": "This feature has been disabled by the platform.",
+        "depsReason": "Missing dependencies: {deps}",
+        "disableConfirm": "Disabling this feature will also turn off: {names}. Continue?",
+        "activeCount": "{count}/{total} active"
+      },
+      "team": {
+        "title": "Team Members",
+        "description": "Manage roles and invitations for your team",
+        "inviteMember": "Invite Member"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Configure event-by-channel notification preferences",
+        "eventHeader": "Event",
+        "events": {
+          "newBooking": "New Booking",
+          "quoteRequest": "Quote Request",
+          "messageReceived": "Message Received",
+          "paymentReceived": "Payment Received",
+          "reviewPosted": "Review Posted",
+          "teamJoined": "Team Member Joined"
+        },
+        "channels": {
+          "email": "Email",
+          "sms": "SMS",
+          "push": "Push"
+        },
+        "digest": "Digest & Quiet Hours",
+        "digestFrequency": "Digest Frequency",
+        "frequencyOptions": {
+          "realtime": "Real-time",
+          "hourly": "Hourly",
+          "daily": "Daily",
+          "weekly": "Weekly"
+        },
+        "quietHours": "Quiet Hours (Do Not Disturb)",
+        "save": "Save Preferences"
+      },
+      "invoices": {
+        "title": "Invoicing",
+        "description": "Tax rates, invoice numbering, payment terms, and footer text",
+        "defaults": "Invoice Defaults",
+        "prefix": "Invoice Prefix",
+        "nextNumber": "Next Number",
+        "taxRate": "Tax Rate (%)",
+        "paymentTerms": "Payment Terms (days)",
+        "footer": "Invoice Footer Text",
+        "footerPlaceholder": "e.g. Thank you for your business. Payment is due within 30 days.",
+        "save": "Save Invoicing"
+      },
+      "payments": {
+        "title": "Payments & Payouts",
+        "description": "Bank details, payout schedules, and tax forms",
+        "bankDetails": "Bank Details",
+        "accountHolder": "Account Holder",
+        "bankName": "Bank Name",
+        "iban": "IBAN",
+        "swift": "SWIFT / BIC",
+        "payoutSchedule": "Payout Schedule",
+        "payoutFrequency": "Payout Frequency",
+        "frequencyOptions": {
+          "weekly": "Weekly",
+          "biweekly": "Bi-weekly",
+          "monthly": "Monthly"
+        },
+        "minimumPayout": "Minimum Payout (TND)",
+        "save": "Save Payment Details"
+      },
+      "billing": {
+        "title": "Subscription & Billing",
+        "description": "Manage your plan and usage metrics",
+        "currentUsage": "Current Usage",
+        "usage": {
+          "bookings": "Bookings",
+          "teamMembers": "Team Members",
+          "apiCalls": "API Calls",
+          "storage": "Storage"
+        },
+        "currentPlan": "Current Plan",
+        "upgrade": "Upgrade",
+        "contactSales": "Contact Sales",
+        "plans": {
+          "starter": {
+            "name": "Starter",
+            "price": "Free",
+            "features": ["5 bookings/month", "Basic analytics", "Email support", "1 team member"]
+          },
+          "pro": {
+            "name": "Professional",
+            "price": "49 TND/mo",
+            "features": ["Unlimited bookings", "Advanced analytics", "Priority support", "10 team members", "Invoicing", "API access"]
+          },
+          "enterprise": {
+            "name": "Enterprise",
+            "price": "149 TND/mo",
+            "features": ["Everything in Pro", "Unlimited team", "Custom integrations", "Dedicated account manager", "SLA guarantee"]
+          }
+        }
+      },
+      "integrations": {
+        "title": "Integrations",
+        "description": "Connect third-party services and sync status",
+        "items": {
+          "googleCalendar": {
+            "name": "Google Calendar",
+            "description": "Sync appointments with Google Calendar"
+          },
+          "stripe": {
+            "name": "Stripe Payments",
+            "description": "Accept online payments via Stripe"
+          },
+          "whatsapp": {
+            "name": "WhatsApp Business",
+            "description": "Send updates and notifications via WhatsApp"
+          }
+        },
+        "configure": "Configure",
+        "connect": "Connect"
+      },
+      "api": {
+        "title": "API Access",
+        "description": "Manage API keys and webhook endpoints",
+        "generateKey": "Generate Key",
+        "webhooks": "Webhook Endpoints",
+        "endpointUrl": "Endpoint URL",
+        "endpointPlaceholder": "https://your-server.com/webhooks/cardeal",
+        "signingSecret": "Signing Secret",
+        "secretPlaceholder": "whsec_...",
+        "created": "Created",
+        "lastUsed": "Last used",
+        "copyKey": "Copy key",
+        "deleteKey": "Delete key"
+      },
+      "security": {
+        "title": "Security",
+        "description": "Password, two-factor authentication, and active sessions",
+        "changePassword": "Change Password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm New Password",
+        "updatePassword": "Update Password",
+        "twoFactor": "Two-Factor Authentication",
+        "twoFactorDisabled": "2FA is not enabled",
+        "twoFactorHint": "Add an extra layer of security to your account",
+        "enable2fa": "Enable 2FA",
+        "activeSessions": "Active Sessions",
+        "currentSession": "Current Session",
+        "active": "Active"
+      },
+      "account": {
+        "title": "Account Management",
+        "description": "High-impact actions that affect your business account, data, and team access.",
+        "deactivate": {
+          "title": "Deactivate Account",
+          "description": "Deactivating your account will hide your profile from customers and pause all active bookings. You can reactivate at any time by logging back in.",
+          "button": "Deactivate Account"
+        },
+        "export": {
+          "title": "Export Data",
+          "description": "Download a copy of all your business data including clients, bookings, invoices, and financial records in CSV format.",
+          "button": "Export All Data"
+        },
+        "transfer": {
+          "title": "Transfer Ownership",
+          "description": "Transfer this business account to another team member. The new owner will have full administrative control and you will become a regular team member.",
+          "emailLabel": "New Owner Email",
+          "emailPlaceholder": "new-owner@example.com",
+          "button": "Transfer Ownership"
+        },
+        "removeVertical": {
+          "title": "Remove Business Vertical",
+          "description": "Remove a registered business vertical from your account. Associated services, pricing, and job history for that vertical will be archived.",
+          "selectLabel": "Select Vertical",
+          "selectPlaceholder": "Choose a vertical…",
+          "button": "Remove Vertical"
+        },
+        "resetFeatures": {
+          "title": "Reset Features to Defaults",
+          "description": "Reset all feature toggles to their default state for your account type. Custom overrides and manual adjustments will be lost.",
+          "button": "Reset All Features"
+        },
+        "delete": {
+          "title": "Delete Account Permanently",
+          "description": "This will permanently delete your account, all associated data, booking history, and financial records. This action cannot be undone.",
+          "confirmLabel": "Type {text} to confirm",
+          "confirmText": "DELETE MY ACCOUNT",
+          "button": "Delete Account Permanently"
+        }
+      }
     }
   }
 }

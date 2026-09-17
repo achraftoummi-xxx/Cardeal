@@ -11,6 +11,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useBusiness } from "@/components/business/BusinessProvider";
+import { useTranslation } from "@/components/TranslationProvider";
 import {
   FEATURES,
   featuresByCategory,
@@ -35,6 +36,7 @@ function FeatureToggle({
   disabledReason: string | null;
 }) {
   const Icon = feature.icon;
+  const { t } = useTranslation();
   const canToggle = !state.mandatory && !state.killSwitched && state.depsMet;
 
   return (
@@ -58,23 +60,23 @@ function FeatureToggle({
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <p className="text-sm font-semibold text-foreground">
-            {feature.id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+            {t(`business.features.${feature.id}`) || feature.id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
           </p>
           {state.mandatory && (
             <span className="rounded-full bg-blue-500/15 px-2 py-0.5 text-[10px] font-semibold text-blue-600 dark:text-blue-400">
-              Required
+              {t("business.settings.features.required")}
             </span>
           )}
           {state.killSwitched && (
             <span className="rounded-full bg-red-500/15 px-2 py-0.5 text-[10px] font-semibold text-red-500">
-              Disabled by Admin
+              {t("business.settings.features.disabledByAdmin")}
             </span>
           )}
         </div>
         {!state.depsMet && state.missingDeps.length > 0 && (
           <p className="mt-0.5 text-[11px] text-amber-500 flex items-center gap-1">
             <AlertTriangle size={11} />
-            Requires: {state.missingDeps.map((d) => FEATURES[d]?.id ?? d).join(", ")}
+            {t("business.settings.features.requires", { deps: state.missingDeps.map((d) => FEATURES[d]?.id ?? d).join(", ") })}
           </p>
         )}
       </div>
@@ -101,6 +103,7 @@ function FeatureToggle({
 
 export default function FeaturesSettingsPage() {
   const { resolved, toggleFeature, saving, partner, verticals } = useBusiness();
+  const { t } = useTranslation();
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set(FEATURE_CATEGORIES.map((c) => c.id))
   );
@@ -116,7 +119,6 @@ export default function FeaturesSettingsPage() {
 
   const handleToggle = useCallback(
     (featureId: string, enabled: boolean) => {
-      // If disabling, check for dependents
       if (!enabled) {
         const affected = dependentsOf(featureId);
         const activeDependents = affected.filter(
@@ -128,12 +130,11 @@ export default function FeaturesSettingsPage() {
             .join(", ");
           if (
             !window.confirm(
-              `Disabling this feature will also turn off: ${names}. Continue?`
+              t("business.settings.features.disableConfirm", { names })
             )
           ) {
             return;
           }
-          // Disable dependents first
           for (const depId of activeDependents) {
             toggleFeature(depId, false);
           }
@@ -141,7 +142,7 @@ export default function FeaturesSettingsPage() {
       }
       toggleFeature(featureId, enabled);
     },
-    [resolved.features, toggleFeature]
+    [resolved.features, toggleFeature, t]
   );
 
   const grouped = featuresByCategory();
@@ -156,10 +157,10 @@ export default function FeaturesSettingsPage() {
           </div>
           <div>
             <h1 className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
-              Feature Settings
+              {t("business.settings.features.title")}
             </h1>
             <p className="text-xs text-muted-foreground">
-              Enable or disable features for your business portal
+              {t("business.settings.features.description")}
             </p>
           </div>
         </div>
@@ -170,7 +171,7 @@ export default function FeaturesSettingsPage() {
         <div className="flex items-center gap-3 text-sm">
           <Info size={16} className="text-muted-foreground shrink-0" />
           <p className="text-muted-foreground">
-            Features are resolved based on your business vertical
+            {t("business.settings.features.resolvedHint")}
             {verticals.length > 0 && (
               <>
                 {" "}(
@@ -178,8 +179,7 @@ export default function FeaturesSettingsPage() {
                 )
               </>
             )}
-            , your custom overrides, and platform-wide settings. Mandatory features
-            cannot be disabled.
+            , your custom overrides, and platform-wide settings. {t("business.settings.features.mandatoryHint")}
           </p>
         </div>
       </div>
@@ -212,10 +212,10 @@ export default function FeaturesSettingsPage() {
                   )}
                   <div>
                     <p className="text-sm font-bold font-['Space_Grotesk'] text-foreground capitalize">
-                      {cat.id}
+                      {t(`business.categories.${cat.id}`)}
                     </p>
                     <p className="text-[11px] text-muted-foreground">
-                      {enabledCount}/{features.length} active
+                      {t("business.settings.features.activeCount", { count: enabledCount, total: features.length })}
                     </p>
                   </div>
                 </div>
@@ -241,9 +241,9 @@ export default function FeaturesSettingsPage() {
                     if (!state) return null;
 
                     let disabledReason: string | null = null;
-                    if (state.mandatory) disabledReason = "This feature is required and cannot be disabled.";
-                    else if (state.killSwitched) disabledReason = "This feature has been disabled by the platform.";
-                    else if (!state.depsMet) disabledReason = `Missing dependencies: ${state.missingDeps.join(", ")}`;
+                    if (state.mandatory) disabledReason = t("business.settings.features.requiredReason");
+                    else if (state.killSwitched) disabledReason = t("business.settings.features.killSwitchReason");
+                    else if (!state.depsMet) disabledReason = t("business.settings.features.depsReason", { deps: state.missingDeps.join(", ") });
 
                     return (
                       <FeatureToggle

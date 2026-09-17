@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Users, Plus, Shield, UserCheck, Eye } from "lucide-react";
+import { useTranslation } from "@/components/TranslationProvider";
 
 const MOCK_MEMBERS = [
   { name: "Achref Mokhtari", email: "achref@cardeal.tn", role: "owner", status: "active" },
@@ -16,6 +17,8 @@ const ROLE_BADGES: Record<string, string> = {
 };
 
 export default function TeamSettingsPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6 max-w-3xl">
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
@@ -26,16 +29,16 @@ export default function TeamSettingsPage() {
             </div>
             <div>
               <h1 className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
-                Team Members
+                {t("business.settings.team.title")}
               </h1>
               <p className="text-xs text-muted-foreground">
-                Manage roles and invitations for your team
+                {t("business.settings.team.description")}
               </p>
             </div>
           </div>
           <button className="flex items-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-600 transition-colors">
             <Plus size={14} />
-            Invite Member
+            {t("business.settings.team.inviteMember")}
           </button>
         </div>
       </div>

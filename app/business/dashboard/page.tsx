@@ -16,11 +16,13 @@ import {
   Loader2,
 } from "lucide-react";
 import { useBusiness } from "@/components/business/BusinessProvider";
+import { useTranslation } from "@/components/TranslationProvider";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { FEATURES, type FeatureDefinition } from "@/lib/business/features";
 
 export default function BusinessDashboardPage() {
   const { partner, resolved, verticals } = useBusiness();
+  const { t } = useTranslation();
   const [stats, setStats] = useState({
     jobsCount: 0,
     messagesCount: 0,
@@ -81,11 +83,11 @@ export default function BusinessDashboardPage() {
                   {partner?.name}
                 </h1>
                 <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                  Verified Partner
+                  {t("business.portal.verifiedPartner")}
                 </span>
               </div>
               <p className="text-sm text-muted-foreground mt-0.5">
-                {partner?.establishment_type || "Business Account"}
+                {partner?.establishment_type || t("business.portal.businessFallback")}
               </p>
               <div className="flex flex-wrap gap-2 mt-2">
                 {verticals.map((v) => (
@@ -104,7 +106,7 @@ export default function BusinessDashboardPage() {
             className="inline-flex items-center justify-center rounded-[--radius] bg-secondary px-4 py-2.5 text-xs font-semibold text-foreground hover:bg-accent transition"
           >
             <Settings size={14} className="mr-1.5" />
-            Manage Features
+            {t("business.dashboard.manageFeatures")}
           </Link>
         </div>
       </div>
@@ -119,7 +121,7 @@ export default function BusinessDashboardPage() {
           <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Active Jobs
+                {t("business.dashboard.activeJobs")}
               </p>
               <span className="rounded-xl bg-blue-500/15 p-2 text-blue-600 dark:text-blue-400">
                 <Hammer size={20} />
@@ -128,13 +130,13 @@ export default function BusinessDashboardPage() {
             <p className="mt-4 text-2xl font-extrabold font-['Space_Grotesk'] text-foreground">
               {stats.jobsCount}
             </p>
-            <p className="mt-1 text-xs text-muted-foreground">Current bookings</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("business.dashboard.currentBookings")}</p>
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Messages
+                {t("business.dashboard.messages")}
               </p>
               <span className="rounded-xl bg-emerald-500/15 p-2 text-emerald-600 dark:text-emerald-400">
                 <MessageSquare size={20} />
@@ -143,13 +145,13 @@ export default function BusinessDashboardPage() {
             <p className="mt-4 text-2xl font-extrabold font-['Space_Grotesk'] text-foreground">
               {stats.messagesCount}
             </p>
-            <p className="mt-1 text-xs text-muted-foreground">Unread conversations</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("business.dashboard.unreadConversations")}</p>
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Pending Quotes
+                {t("business.dashboard.pendingQuotes")}
               </p>
               <span className="rounded-xl bg-amber-500/15 p-2 text-amber-600 dark:text-amber-400">
                 <FileText size={20} />
@@ -158,13 +160,13 @@ export default function BusinessDashboardPage() {
             <p className="mt-4 text-2xl font-extrabold font-['Space_Grotesk'] text-foreground">
               {stats.quotesCount}
             </p>
-            <p className="mt-1 text-xs text-muted-foreground">Awaiting response</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("business.dashboard.awaitingResponse")}</p>
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Team Members
+                {t("business.dashboard.teamMembers")}
               </p>
               <span className="rounded-xl bg-purple-500/15 p-2 text-purple-600 dark:text-purple-400">
                 <Users size={20} />
@@ -173,7 +175,7 @@ export default function BusinessDashboardPage() {
             <p className="mt-4 text-2xl font-extrabold font-['Space_Grotesk'] text-foreground">
               {stats.teamCount}
             </p>
-            <p className="mt-1 text-xs text-muted-foreground">Active staff</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("business.dashboard.activeStaff")}</p>
           </div>
         </div>
       )}
@@ -182,7 +184,7 @@ export default function BusinessDashboardPage() {
       {enabledFeatures.length > 0 && (
         <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
           <h2 className="text-base font-bold font-['Space_Grotesk'] text-foreground mb-4">
-            Quick Access
+            {t("business.dashboard.quickAccess")}
           </h2>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {enabledFeatures.map((f) => {
@@ -195,7 +197,7 @@ export default function BusinessDashboardPage() {
                 >
                   <Icon size={22} className="text-muted-foreground" />
                   <span className="text-xs font-semibold text-foreground">
-                    {f.id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                    {t(`business.features.${f.id}`) || f.id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
                   </span>
                 </Link>
               );
@@ -208,13 +210,13 @@ export default function BusinessDashboardPage() {
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-base font-bold font-['Space_Grotesk'] text-foreground">
-            Feature Status
+            {t("business.dashboard.featureStatus")}
           </h2>
           <Link
             href="/business/settings/features"
             className="text-xs font-semibold text-emerald-500 hover:underline"
           >
-            Configure →
+            {t("business.dashboard.configure")}
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -236,7 +238,7 @@ export default function BusinessDashboardPage() {
                   className={state.enabled ? "text-emerald-500" : "text-muted-foreground"}
                 />
                 <span className="flex-1 font-medium text-foreground">
-                  {id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                  {t(`business.features.${id}`) || id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
                 </span>
                 <span
                   className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
@@ -245,11 +247,11 @@ export default function BusinessDashboardPage() {
                       : "bg-muted text-muted-foreground"
                   }`}
                 >
-                  {state.enabled ? "ON" : "OFF"}
+                  {state.enabled ? t("business.dashboard.on") : t("business.dashboard.off")}
                 </span>
                 {state.mandatory && (
                   <span className="rounded-full bg-blue-500/15 px-2 py-0.5 text-[10px] font-semibold text-blue-600 dark:text-blue-400">
-                    Required
+                    {t("business.dashboard.required")}
                   </span>
                 )}
               </div>

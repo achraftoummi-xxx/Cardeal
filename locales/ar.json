@@ -776,6 +776,351 @@
       "integrationsDesc": "تكاملات الخدمات الخارجية",
       "apiAccess": "الوصول إلى API",
       "apiAccessDesc": "إدارة مفاتيح API ووصول المطورين"
+    },
+    "portal": {
+      "title": "بوابة شريك CarDeal",
+      "dashboard": "لوحة التحكم",
+      "verifiedPartner": "شريك موثق",
+      "openNav": "فتح قائمة التنقل",
+      "backToDashboard": "العودة إلى لوحة التحكم",
+      "partnerFallback": "بوابة الشريك",
+      "businessFallback": "حساب العمل"
+    },
+    "sidebar": {
+      "settings": "الإعدادات"
+    },
+    "dashboard": {
+      "manageFeatures": "إدارة الميزات",
+      "activeJobs": "الوظائف النشطة",
+      "currentBookings": "الحجوزات الحالية",
+      "messages": "الرسائل",
+      "unreadConversations": "المحادثات غير المقروءة",
+      "pendingQuotes": "عروض الأسعار المعلقة",
+      "awaitingResponse": "بانتظار الرد",
+      "teamMembers": "أعضاء الفريق",
+      "activeStaff": "الموظفون النشطون",
+      "quickAccess": "الوصول السريع",
+      "featureStatus": "حالة الميزات",
+      "configure": "← تكوين",
+      "on": "مفعّل",
+      "off": "معطّل",
+      "required": "مطلوب"
+    },
+    "stub": {
+      "comingSoon": "إدارة {module} قادمة قريباً."
+    },
+    "settings": {
+      "settings": "الإعدادات",
+      "groups": {
+        "businessInfo": "معلومات العمل",
+        "operations": "العمليات",
+        "finance": "المالية",
+        "technical": "الفنية"
+      },
+      "tabs": {
+        "profile": "الملف الشخصي",
+        "types": "أنواع العمل",
+        "locations": "المواقع",
+        "hours": "ساعات العمل",
+        "services": "الخدمات والأسعار",
+        "features": "الميزات",
+        "team": "أعضاء الفريق",
+        "notifications": "الإشعارات",
+        "invoices": "الفواتير",
+        "payments": "المدفوعات والتحويلات",
+        "billing": "الاشتراك والفواتير",
+        "integrations": "التكاملات",
+        "api": "الوصول إلى API",
+        "security": "الأمان",
+        "account": "إدارة الحساب"
+      },
+      "profile": {
+        "title": "ملف العمل",
+        "description": "إدارة هوية عملك والمعلومات القانونية وبيانات الاتصال",
+        "sections": {
+          "identity": "هوية العمل",
+          "contact": "معلومات الاتصال",
+          "social": "روابط وسائل التواصل",
+          "locale": "اللغة والعرض"
+        },
+        "fields": {
+          "legalName": "الاسم القانوني للعمل",
+          "tradeRegister": "رقم السجل التجاري",
+          "taxId": "المعرّف الضريبي / الضريبة على القيمة المضافة",
+          "establishmentType": "نوع المنشأة",
+          "phone": "رقم الهاتف",
+          "email": "البريد الإلكتروني",
+          "address": "العنوان",
+          "website": "الموقع الإلكتروني",
+          "facebook": "رابط فيسبوك",
+          "instagram": "رابط إنستغرام",
+          "currency": "العملة",
+          "timezone": "المنطقة الزمنية"
+        },
+        "placeholders": {
+          "legalName": "مثال: El Japouni Auto Service SARL",
+          "tradeRegister": "مثال: RN0012345678",
+          "taxId": "مثال: 12345678/M",
+          "website": "https://",
+          "facebook": "https://facebook.com/...",
+          "instagram": "https://instagram.com/..."
+        },
+        "save": "حفظ الملف الشخصي"
+      },
+      "types": {
+        "title": "أنواع العمل",
+        "description": "الفئات المسجلة لديك وحالة موافقتها",
+        "verticals": {
+          "workshop": "ورشة / جراج",
+          "workshopDesc": "إصلاح وصيانة السيارات العامة",
+          "tire_shop": "محل الإطارات",
+          "tire_shopDesc": "بيع وتثبيت وموازنة الإطارات",
+          "body_shop": "ورشة корпус السيارة",
+          "body_shopDesc": "إصلاح التلفات والطلاء وأعمال الهيكل",
+          "dealership": "وكالة سيارات",
+          "dealershipDesc": "بيع السيارات الجديدة والمستعملة",
+          "rental": "تأجير السيارات",
+          "rentalDesc": "تأجير المركبات وإدارة الأسطول",
+          "mobile_mechanic": "ميكانيكي متنقل",
+          "mobile_mechanicDesc": "الإصلاح في الموقع والمساعدة على الطريق"
+        },
+        "active": "نشط",
+        "inactive": "غير نشط"
+      },
+      "locations": {
+        "title": "المواقع",
+        "description": "إدارة الفروع والعناوين والإحداثيات الجغرافية",
+        "addLocation": "إضافة موقع",
+        "primary": "الرئيسي",
+        "mainBranch": "الفرع الرئيسي",
+        "noAddress": "لم يتم تعيين عنوان",
+        "emptyHint": "أضف مواقع فرعية إضافية لتوسيع منطقة خدمتك"
+      },
+      "hours": {
+        "title": "ساعات العمل",
+        "description": "تحديد الجدول الأسبوعي والاستراحات والأعياد والاستثناءات",
+        "days": {
+          "monday": "الإثنين",
+          "tuesday": "الثلاثاء",
+          "wednesday": "الأربعاء",
+          "thursday": "الخميس",
+          "friday": "الجمعة",
+          "saturday": "السبت",
+          "sunday": "الأحد"
+        },
+        "to": "إلى",
+        "open": "مفتوح",
+        "save": "حفظ الساعات"
+      },
+      "services": {
+        "title": "الخدمات والأسعار",
+        "description": "تكوين القدرات والأسعار ورسوم العمل لكل فئة",
+        "noVerticals": "لا توجد فئات نشطة. أضف أنواع العمل أولاً.",
+        "laborRate": "معدل العمل الأساسي (تунس/ساعة)",
+        "diagnosticFee": "رسوم التشخيص (تунس)",
+        "terms": "شروط وأحكام الخدمة",
+        "termsPlaceholder": "صف شروط خدمتك...",
+        "save": "حفظ الخدمات"
+      },
+      "features": {
+        "title": "إعدادات الميزات",
+        "description": "تفعيل أو تعطيل ميزات بوابة العمل الخاصة بك",
+        "resolvedHint": "يتم حل الميزات بناءً على فئة عملك",
+        "mandatoryHint": "لا يمكن تعطيل الميزات الإلزامية.",
+        "required": "مطلوب",
+        "disabledByAdmin": "معطّل من قبل المسؤول",
+        "requires": "يتطلب: {deps}",
+        "missingDeps": "تبعيات مفقودة: {deps}",
+        "requiredReason": "هذه الميزة مطلوبة ولا يمكن تعطيلها.",
+        "killSwitchReason": "تم تعطيل هذه الميزة من قبل المنصة.",
+        "depsReason": "تبعيات مفقودة: {deps}",
+        "disableConfirm": "تعطيل هذه الميزة سيؤدي أيضاً إلى تعطيل: {names}. متابعة؟",
+        "activeCount": "{count}/{total} نشطة"
+      },
+      "team": {
+        "title": "أعضاء الفريق",
+        "description": "إدارة الأدوار ودعوات فريقك",
+        "inviteMember": "دعوة عضو"
+      },
+      "notifications": {
+        "title": "الإشعارات",
+        "description": "تكوين تفضيلات الإشعار لكل حدث وقناة",
+        "eventHeader": "الحدث",
+        "events": {
+          "newBooking": "حجز جديد",
+          "quoteRequest": "طلب عرض سعر",
+          "messageReceived": "رسالة مستلمة",
+          "paymentReceived": "دفعة مستلمة",
+          "review_posted": "تقييم منشور",
+          "teamJoined": "عضو انضم للفريق"
+        },
+        "channels": {
+          "email": "البريد الإلكتروني",
+          "sms": "الرسائل النصية",
+          "push": "الإشعارات الفورية"
+        },
+        "digest": "الملخص والساعات الهادئة",
+        "digestFrequency": "تكرار الملخص",
+        "frequencyOptions": {
+          "realtime": "الوقت الحقيقي",
+          "hourly": "كل ساعة",
+          "daily": "يومي",
+          "weekly": "أسبوعي"
+        },
+        "quietHours": "الساعات الهادئة (عدم الإزعاج)",
+        "save": "حفظ التفضيلات"
+      },
+      "invoices": {
+        "title": "الفواتير",
+        "description": "معدلات الضرائب وترقيم الفواتير وشروط الدفع والنص التوضيحي",
+        "defaults": "الإعدادات الافتراضية للفواتير",
+        "prefix": "بادئة الفاتورة",
+        "nextNumber": "الرقم التالي",
+        "taxRate": "معدل الضريبة (%)",
+        "paymentTerms": "شروط الدفع (أيام)",
+        "footer": "نص تذييل الفاتورة",
+        "footerPlaceholder": "مثال: شكراً لثقتكم. الدفع مستحق خلال 30 يوماً.",
+        "save": "حفظ إعدادات الفواتير"
+      },
+      "payments": {
+        "title": "المدفوعات والتحويلات",
+        "description": "البيانات المصرفية وجدول التحويلات والنماذج الضريبية",
+        "bankDetails": "البيانات المصرفية",
+        "accountHolder": "صاحب الحساب",
+        "bankName": "اسم البنك",
+        "iban": "IBAN",
+        "swift": "SWIFT / BIC",
+        "payoutSchedule": "جدول التحويلات",
+        "payoutFrequency": "تكرار التحويلات",
+        "frequencyOptions": {
+          "weekly": "أسبوعي",
+          "biweekly": "كل أسبوعين",
+          "monthly": "شهري"
+        },
+        "minimumPayout": "الحد الأدنى للتحويل (تунس)",
+        "save": "حفظ البيانات المصرفية"
+      },
+      "billing": {
+        "title": "الاشتراك والفواتير",
+        "description": "إدارة خطتك و مقاييس الاستخدام",
+        "currentUsage": "الاستخدام الحالي",
+        "usage": {
+          "bookings": "الحجوزات",
+          "teamMembers": "أعضاء الفريق",
+          "apiCalls": "استدعاءات API",
+          "storage": "التخزين"
+        },
+        "currentPlan": "الخطة الحالية",
+        "upgrade": "ترقية",
+        "contactSales": "التواصل مع المبيعات",
+        "plans": {
+          "starter": {
+            "name": "المبتدئ",
+            "price": "مجاني",
+            "features": ["5 حجوزات/شهر", "تحليلات أساسية", "دعم بالبريد الإلكتروني", "1 عضو"]
+          },
+          "pro": {
+            "name": "المحترف",
+            "price": "49 تونس/شهر",
+            "features": ["حجوزات غير محدودة", "تحليلات متقدمة", "دعم أولوية", "10 أعضاء", "الفواتير", "الوصول إلى API"]
+          },
+          "enterprise": {
+            "name": "المؤسسات",
+            "price": "149 تونس/شهر",
+            "features": ["كل ميزات Pro", "فريق غير محدود", "تكاملات مخصصة", "مدير حساب مخصص", "ضمان SLA"]
+          }
+        }
+      },
+      "integrations": {
+        "title": "التكاملات",
+        "description": "ربط الخدمات الخارجية ومزامنة الحالات",
+        "items": {
+          "googleCalendar": {
+            "name": "تقويم جوجل",
+            "description": "مزامنة المواعيد مع تقويم جوجل"
+          },
+          "stripe": {
+            "name": "مدفوعات Stripe",
+            "description": "قبول المدفوعات عبر الإنترنت عبر Stripe"
+          },
+          "whatsapp": {
+            "name": "واتساب للأعمال",
+            "description": "إرسال التحديثات والإشعارات عبر واتساب"
+          }
+        },
+        "configure": "تكوين",
+        "connect": "ربط"
+      },
+      "api": {
+        "title": "الوصول إلى API",
+        "description": "إدارة مفاتيح API ونقاط نهاية الويب هوك",
+        "generateKey": "إنشاء مفتاح",
+        "webhooks": "نقاط نهاية الويب هوك",
+        "endpointUrl": "رابط نقطة النهاية",
+        "endpointPlaceholder": "https://خادمك.com/webhooks/cardeal",
+        "signingSecret": "مفتاح التوقيع",
+        "secretPlaceholder": "whsec_...",
+        "created": "أنشئ في",
+        "lastUsed": "آخر استخدام",
+        "copyKey": "نسخ المفتاح",
+        "deleteKey": "حذف المفتاح"
+      },
+      "security": {
+        "title": "الأمان",
+        "description": "كلمة المرور والمصادقة الثنائية والجلسات النشطة",
+        "changePassword": "تغيير كلمة المرور",
+        "currentPassword": "كلمة المرور الحالية",
+        "newPassword": "كلمة المرور الجديدة",
+        "confirmPassword": "تأكيد كلمة المرور",
+        "updatePassword": "تحديث كلمة المرور",
+        "twoFactor": "المصادقة الثنائية",
+        "twoFactorDisabled": "المصادقة الثنائية غير مفعّلة",
+        "twoFactorHint": "أضف طبقة أمان إضافية لحسابك",
+        "enable2fa": "تفعيل المصادقة الثنائية",
+        "activeSessions": "الجلسات النشطة",
+        "currentSession": "الجلسة الحالية",
+        "active": "نشط"
+      },
+      "account": {
+        "title": "إدارة الحساب",
+        "description": "إجراءات عالية التأثير تؤثر على حساب عملك وبياناتك ووصول فريقك.",
+        "deactivate": {
+          "title": "تعطيل الحساب",
+          "description": "سيؤدي تعطيل حسابك إلى إخفاء ملفك الشخصي من العملاء وإيقاف جميع الحجوزات النشطة. يمكنك إعادة التنشيط في أي وقت عن طريق تسجيل الدخول مرة أخرى.",
+          "button": "تعطيل الحساب"
+        },
+        "export": {
+          "title": "تصدير البيانات",
+          "description": "تنزيل نسخة من جميع بيانات عملك بما في ذلك العملاء والحجوزات والفاتير وسجلات المالية بتنسيق CSV.",
+          "button": "تصدير جميع البيانات"
+        },
+        "transfer": {
+          "title": "نقل الملكية",
+          "description": "نقل حساب العمل هذا إلى عضو آخر في الفريق. سيكون المالك الجديد صاحب السيطرة الإدارية الكاملة وستصبح عضواً عادياً في الفريق.",
+          "emailLabel": "البريد الإلكتروني للمالك الجديد",
+          "emailPlaceholder": "malik-jadid@exemple.com",
+          "button": "نقل الملكية"
+        },
+        "removeVertical": {
+          "title": "إزالة فئة العمل",
+          "description": "إزالة فئة عمل مسجلة من حسابك. سيتم أرشفة الخدمات والأسعار والتاريخ المرتبط بهذه الفئة.",
+          "selectLabel": "اختر فئة",
+          "selectPlaceholder": "اختر فئة…",
+          "button": "إزالة الفئة"
+        },
+        "resetFeatures": {
+          "title": "إعادة تعيين الميزات",
+          "description": "إعادة تعيين جميع أزرار الميزات إلى حالتها الافتراضية لنوع حسابك. ستفقد التخصيصات والتعديلات اليدوية.",
+          "button": "إعادة تعيين جميع الميزات"
+        },
+        "delete": {
+          "title": "حذف الحساب نهائياً",
+          "description": "سيؤدي هذا إلى حذف حسابك نهائياً وجميع البيانات المرتبطة به وسجل الحجوزات والسجلات المالية. هذا الإجراء لا يمكن التراجع عنه.",
+          "confirmLabel": "اكتب {text} للتأكيد",
+          "confirmText": "حذف حسابي",
+          "button": "حذف الحساب نهائياً"
+        }
+      }
     }
   }
 }

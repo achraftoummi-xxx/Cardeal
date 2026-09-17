@@ -3,8 +3,11 @@
 import React from "react";
 import { Banknote, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/components/TranslationProvider";
 
 export default function PaymentsSettingsPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6 max-w-3xl">
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
@@ -14,50 +17,50 @@ export default function PaymentsSettingsPage() {
           </div>
           <div>
             <h1 className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
-              Payments & Payouts
+              {t("business.settings.payments.title")}
             </h1>
             <p className="text-xs text-muted-foreground">
-              Bank details, payout schedules, and tax forms
+              {t("business.settings.payments.description")}
             </p>
           </div>
         </div>
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm space-y-4">
-        <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground">Bank Details</h2>
+        <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground">{t("business.settings.payments.bankDetails")}</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">Account Holder</label>
+            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("business.settings.payments.accountHolder")}</label>
             <input type="text" placeholder="e.g. El Japouni Auto Service SARL" className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">Bank Name</label>
+            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("business.settings.payments.bankName")}</label>
             <input type="text" placeholder="e.g. Banque Internationale Arabe de Tunisie" className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">IBAN</label>
+            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("business.settings.payments.iban")}</label>
             <input type="text" placeholder="e.g. TN59 0400 0000 0000 0000 0000" className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">SWIFT / BIC</label>
+            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("business.settings.payments.swift")}</label>
             <input type="text" placeholder="e.g. BIATITT" className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
           </div>
         </div>
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm space-y-4">
-        <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground">Payout Schedule</h2>
+        <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground">{t("business.settings.payments.payoutSchedule")}</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">Payout Frequency</label>
+            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("business.settings.payments.payoutFrequency")}</label>
             <select className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20">
-              <option value="weekly">Weekly</option>
-              <option value="biweekly">Bi-weekly</option>
-              <option value="monthly" selected>Monthly</option>
+              <option value="weekly">{t("business.settings.payments.frequencyOptions.weekly")}</option>
+              <option value="biweekly">{t("business.settings.payments.frequencyOptions.biweekly")}</option>
+              <option value="monthly" selected>{t("business.settings.payments.frequencyOptions.monthly")}</option>
             </select>
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">Minimum Payout (TND)</label>
+            <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("business.settings.payments.minimumPayout")}</label>
             <input type="number" defaultValue="100" className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
           </div>
         </div>
@@ -66,7 +69,7 @@ export default function PaymentsSettingsPage() {
       <div className="flex justify-end">
         <Button variant="primary" className="flex items-center gap-2">
           <Save size={14} />
-          Save Payment Details
+          {t("business.settings.payments.save")}
         </Button>
       </div>
     </div>

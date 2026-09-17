@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ShieldOff, ArrowLeft } from "lucide-react";
 import { useBusiness } from "@/components/business/BusinessProvider";
+import { useTranslation } from "@/components/TranslationProvider";
 import { FEATURES } from "@/lib/business/features";
 
 /**
@@ -18,6 +19,7 @@ export default function FeatureGate({
   children: React.ReactNode;
 }) {
   const { resolved } = useBusiness();
+  const { t } = useTranslation();
   const state = resolved.features[featureId];
 
   if (!state?.enabled) {
@@ -29,21 +31,21 @@ export default function FeatureGate({
             <ShieldOff size={26} className="text-muted-foreground" />
           </span>
           <h1 className="mt-4 text-lg font-bold font-['Space_Grotesk'] text-foreground">
-            Feature Unavailable
+            {t("business.settings.features.title")}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
             {state?.killSwitched
-              ? "This feature has been temporarily disabled by the platform."
+              ? t("business.settings.features.killSwitchReason")
               : state?.mandatory === false && !state?.depsMet
-                ? `This feature requires: ${state.missingDeps.map((d) => FEATURES[d]?.id?.replace(/_/g, " ") ?? d).join(", ")}`
-                : "This feature is not enabled for your account. Enable it in Feature Settings."}
+                ? t("business.settings.features.requires", { deps: state.missingDeps.map((d) => FEATURES[d]?.id?.replace(/_/g, " ") ?? d).join(", ") })
+                : t("business.settings.features.description")}
           </p>
           <Link
             href="/business/dashboard"
             className="mt-6 inline-flex items-center gap-2 min-h-11 rounded-[--radius] bg-[var(--cardeal-primary)] px-5 text-sm font-medium text-white transition-colors hover:bg-[#9E1F23]"
           >
             <ArrowLeft size={16} />
-            Back to Dashboard
+            {t("business.portal.backToDashboard")}
           </Link>
         </div>
       </div>

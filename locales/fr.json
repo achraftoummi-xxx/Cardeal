@@ -800,6 +800,351 @@
       "integrationsDesc": "Intégrations de services tiers",
       "apiAccess": "Accès API",
       "apiAccessDesc": "Gestion des clés API et accès développeur"
+    },
+    "portal": {
+      "title": "Portail Partenaire CarDeal",
+      "dashboard": "Tableau de bord",
+      "verifiedPartner": "Partenaire vérifié",
+      "openNav": "Ouvrir le menu de navigation",
+      "backToDashboard": "Retour au tableau de bord",
+      "partnerFallback": "Portail partenaire",
+      "businessFallback": "Compte professionnel"
+    },
+    "sidebar": {
+      "settings": "Paramètres"
+    },
+    "dashboard": {
+      "manageFeatures": "Gérer les fonctionnalités",
+      "activeJobs": "Travaux actifs",
+      "currentBookings": "Réservations en cours",
+      "messages": "Messages",
+      "unreadConversations": "Conversations non lues",
+      "pendingQuotes": "Devis en attente",
+      "awaitingResponse": "En attente de réponse",
+      "teamMembers": "Membres de l'équipe",
+      "activeStaff": "Personnel actif",
+      "quickAccess": "Accès rapide",
+      "featureStatus": "État des fonctionnalités",
+      "configure": "Configurer →",
+      "on": "OUI",
+      "off": "NON",
+      "required": "Requis"
+    },
+    "stub": {
+      "comingSoon": "Gestion de {module} bientôt disponible."
+    },
+    "settings": {
+      "settings": "Paramètres",
+      "groups": {
+        "businessInfo": "Infos entreprise",
+        "operations": "Opérations",
+        "finance": "Finance",
+        "technical": "Technique"
+      },
+      "tabs": {
+        "profile": "Profil",
+        "types": "Types d'entreprise",
+        "locations": "Emplacements",
+        "hours": "Horaires d'ouverture",
+        "services": "Services et tarifs",
+        "features": "Fonctionnalités",
+        "team": "Membres de l'équipe",
+        "notifications": "Notifications",
+        "invoices": "Facturation",
+        "payments": "Paiements et virements",
+        "billing": "Abonnement et facturation",
+        "integrations": "Intégrations",
+        "api": "Accès API",
+        "security": "Sécurité",
+        "account": "Gestion du compte"
+      },
+      "profile": {
+        "title": "Profil de l'entreprise",
+        "description": "Gérez l'identité, les informations légales et les coordonnées de votre entreprise",
+        "sections": {
+          "identity": "Identité de l'entreprise",
+          "contact": "Coordonnées",
+          "social": "Liens réseaux sociaux",
+          "locale": "Langue et affichage"
+        },
+        "fields": {
+          "legalName": "Raison sociale",
+          "tradeRegister": "Numéro du registre du commerce",
+          "taxId": "Identifiant fiscal / TVA",
+          "establishmentType": "Type d'établissement",
+          "phone": "Numéro de téléphone",
+          "email": "E-mail",
+          "address": "Adresse",
+          "website": "Site web",
+          "facebook": "URL Facebook",
+          "instagram": "URL Instagram",
+          "currency": "Devise",
+          "timezone": "Fuseau horaire"
+        },
+        "placeholders": {
+          "legalName": "ex. El Japouni Auto Service SARL",
+          "tradeRegister": "ex. RN0012345678",
+          "taxId": "ex. 12345678/M",
+          "website": "https://",
+          "facebook": "https://facebook.com/...",
+          "instagram": "https://instagram.com/..."
+        },
+        "save": "Enregistrer le profil"
+      },
+      "types": {
+        "title": "Types d'entreprise",
+        "description": "Vos verticales enregistrées et leur statut d'approbation",
+        "verticals": {
+          "workshop": "Atelier / Garage",
+          "workshopDesc": "Réparation et entretien automobile général",
+          "tire_shop": "Pneumatiques",
+          "tire_shopDesc": "Vente, montage et équilibrage de pneus",
+          "body_shop": "Carrosserie",
+          "body_shopDesc": "Réparation de carrosserie, peinture et travaux de tôlerie",
+          "dealership": "Concessionnaire",
+          "dealershipDesc": "Vente de véhicules neufs et d'occasion",
+          "rental": "Location de voitures",
+          "rentalDesc": "Location de véhicules et gestion de flotte",
+          "mobile_mechanic": "Mécanicien mobile",
+          "mobile_mechanicDesc": "Réparation sur site et assistance routière"
+        },
+        "active": "Actif",
+        "inactive": "Inactif"
+      },
+      "locations": {
+        "title": "Emplacements",
+        "description": "Gérez les agences, adresses et coordonnées géographiques",
+        "addLocation": "Ajouter un emplacement",
+        "primary": "Principal",
+        "mainBranch": "Siège principal",
+        "noAddress": "Aucune adresse définie",
+        "emptyHint": "Ajoutez des emplacements supplémentaires pour étendre votre zone de service"
+      },
+      "hours": {
+        "title": "Horaires d'ouverture",
+        "description": "Définissez les horaires hebdomadaires, pauses, jours fériés et exceptions",
+        "days": {
+          "monday": "Lundi",
+          "tuesday": "Mardi",
+          "wednesday": "Mercredi",
+          "thursday": "Jeudi",
+          "friday": "Vendredi",
+          "saturday": "Samedi",
+          "sunday": "Dimanche"
+        },
+        "to": "à",
+        "open": "Ouvert",
+        "save": "Enregistrer les horaires"
+      },
+      "services": {
+        "title": "Services et tarifs",
+        "description": "Configurez les capacités, tarifs et frais de main-d'œuvre par verticale",
+        "noVerticals": "Aucune verticale active. Ajoutez d'abord des types d'entreprise.",
+        "laborRate": "Taux horaire standard (TND/h)",
+        "diagnosticFee": "Frais de diagnostic (TND)",
+        "terms": "Conditions générales de service",
+        "termsPlaceholder": "Décrivez vos conditions de service...",
+        "save": "Enregistrer les services"
+      },
+      "features": {
+        "title": "Paramètres des fonctionnalités",
+        "description": "Activez ou désactivez les fonctionnalités de votre portail professionnel",
+        "resolvedHint": "Les fonctionnalités sont résolues en fonction de votre verticale",
+        "mandatoryHint": "Les fonctionnalités obligatoires ne peuvent pas être désactivées.",
+        "required": "Requis",
+        "disabledByAdmin": "Désactivé par l'admin",
+        "requires": "Nécessite : {deps}",
+        "missingDeps": "Dépendances manquantes : {deps}",
+        "requiredReason": "Cette fonctionnalité est requise et ne peut pas être désactivée.",
+        "killSwitchReason": "Cette fonctionnalité a été désactivée par la plateforme.",
+        "depsReason": "Dépendances manquantes : {deps}",
+        "disableConfirm": "Désactiver cette fonctionnalité désactivera aussi : {names}. Continuer ?",
+        "activeCount": "{count}/{total} actives"
+      },
+      "team": {
+        "title": "Membres de l'équipe",
+        "description": "Gérez les rôles et invitations de votre équipe",
+        "inviteMember": "Inviter un membre"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Configurez les préférences de notification par événement et canal",
+        "eventHeader": "Événement",
+        "events": {
+          "newBooking": "Nouvelle réservation",
+          "quoteRequest": "Demande de devis",
+          "messageReceived": "Message reçu",
+          "paymentReceived": "Paiement reçu",
+          "reviewPosted": "Avis publié",
+          "teamJoined": "Membre rejoint l'équipe"
+        },
+        "channels": {
+          "email": "E-mail",
+          "sms": "SMS",
+          "push": "Push"
+        },
+        "digest": "Résumé et heures silencieuses",
+        "digestFrequency": "Fréquence du résumé",
+        "frequencyOptions": {
+          "realtime": "En temps réel",
+          "hourly": "Horaire",
+          "daily": "Quotidien",
+          "weekly": "Hebdomadaire"
+        },
+        "quietHours": "Heures silencieuses (Ne pas déranger)",
+        "save": "Enregistrer les préférences"
+      },
+      "invoices": {
+        "title": "Facturation",
+        "description": "Taux de TVA, numérotation des factures, délais de paiement et pied de page",
+        "defaults": "Paramètres par défaut des factures",
+        "prefix": "Préfixe de facture",
+        "nextNumber": "Numéro suivant",
+        "taxRate": "Taux de TVA (%)",
+        "paymentTerms": "Délai de paiement (jours)",
+        "footer": "Texte de pied de page",
+        "footerPlaceholder": "ex. Merci pour votre confiance. Le paiement est dû dans 30 jours.",
+        "save": "Enregistrer la facturation"
+      },
+      "payments": {
+        "title": "Paiements et virements",
+        "description": "Coordonnées bancaires, calendrier de virements et formulaires fiscaux",
+        "bankDetails": "Coordonnées bancaires",
+        "accountHolder": "Titulaire du compte",
+        "bankName": "Nom de la banque",
+        "iban": "IBAN",
+        "swift": "SWIFT / BIC",
+        "payoutSchedule": "Calendrier des virements",
+        "payoutFrequency": "Fréquence des virements",
+        "frequencyOptions": {
+          "weekly": "Hebdomadaire",
+          "biweekly": "Bimensuel",
+          "monthly": "Mensuel"
+        },
+        "minimumPayout": "Virement minimum (TND)",
+        "save": "Enregistrer les coordonnées bancaires"
+      },
+      "billing": {
+        "title": "Abonnement et facturation",
+        "description": "Gérez votre forfait et vos métriques d'utilisation",
+        "currentUsage": "Utilisation actuelle",
+        "usage": {
+          "bookings": "Réservations",
+          "teamMembers": "Membres de l'équipe",
+          "apiCalls": "Appels API",
+          "storage": "Stockage"
+        },
+        "currentPlan": "Forfait actuel",
+        "upgrade": "Mettre à niveau",
+        "contactSales": "Contacter les ventes",
+        "plans": {
+          "starter": {
+            "name": "Starter",
+            "price": "Gratuit",
+            "features": ["5 réservations/mois", "Analyses de base", "Support par e-mail", "1 membre"]
+          },
+          "pro": {
+            "name": "Professionnel",
+            "price": "49 TND/mois",
+            "features": ["Réservations illimitées", "Analyses avancées", "Support prioritaire", "10 membres", "Facturation", "Accès API"]
+          },
+          "enterprise": {
+            "name": "Entreprise",
+            "price": "149 TND/mois",
+            "features": ["Tout dans Pro", "Équipe illimitée", "Intégrations sur mesure", "Gestionnaire dédié", "SLA garanti"]
+          }
+        }
+      },
+      "integrations": {
+        "title": "Intégrations",
+        "description": "Connectez des services tiers et synchronisez les statuts",
+        "items": {
+          "googleCalendar": {
+            "name": "Google Calendar",
+            "description": "Synchroniser les rendez-vous avec Google Calendar"
+          },
+          "stripe": {
+            "name": "Paiements Stripe",
+            "description": "Accepter les paiements en ligne via Stripe"
+          },
+          "whatsapp": {
+            "name": "WhatsApp Business",
+            "description": "Envoyer des mises à jour et notifications via WhatsApp"
+          }
+        },
+        "configure": "Configurer",
+        "connect": "Connecter"
+      },
+      "api": {
+        "title": "Accès API",
+        "description": "Gérez les clés API et les endpoints webhook",
+        "generateKey": "Générer une clé",
+        "webhooks": "Endpoints webhook",
+        "endpointUrl": "URL de l'endpoint",
+        "endpointPlaceholder": "https://votre-serveur.com/webhooks/cardeal",
+        "signingSecret": "Clé de signature",
+        "secretPlaceholder": "whsec_...",
+        "created": "Créé",
+        "lastUsed": "Dernière utilisation",
+        "copyKey": "Copier la clé",
+        "deleteKey": "Supprimer la clé"
+      },
+      "security": {
+        "title": "Sécurité",
+        "description": "Mot de passe, authentification à deux facteurs et sessions actives",
+        "changePassword": "Changer le mot de passe",
+        "currentPassword": "Mot de passe actuel",
+        "newPassword": "Nouveau mot de passe",
+        "confirmPassword": "Confirmer le mot de passe",
+        "updatePassword": "Mettre à jour le mot de passe",
+        "twoFactor": "Authentification à deux facteurs",
+        "twoFactorDisabled": "L'authentification à deux facteurs n'est pas activée",
+        "twoFactorHint": "Ajoutez une couche de sécurité supplémentaire à votre compte",
+        "enable2fa": "Activer l'2FA",
+        "activeSessions": "Sessions actives",
+        "currentSession": "Session actuelle",
+        "active": "Actif"
+      },
+      "account": {
+        "title": "Gestion du compte",
+        "description": "Actions à fort impact qui affectent votre compte professionnel, vos données et l'accès de votre équipe.",
+        "deactivate": {
+          "title": "Désactiver le compte",
+          "description": "La désactivation masquera votre profil des clients et mettra en pause toutes les réservations actives. Vous pouvez réactiver à tout moment en vous reconnectant.",
+          "button": "Désactiver le compte"
+        },
+        "export": {
+          "title": "Exporter les données",
+          "description": "Téléchargez une copie de toutes les données de votre entreprise incluant clients, réservations, factures et registres financiers au format CSV.",
+          "button": "Exporter toutes les données"
+        },
+        "transfer": {
+          "title": "Transférer la propriété",
+          "description": "Transférez ce compte professionnel à un autre membre de l'équipe. Le nouveau propriétaire aura le contrôle administratif complet et vous deviendrez un membre ordinaire.",
+          "emailLabel": "E-mail du nouveau propriétaire",
+          "emailPlaceholder": "nouveau-proprietaire@exemple.com",
+          "button": "Transférer la propriété"
+        },
+        "removeVertical": {
+          "title": "Supprimer une verticale",
+          "description": "Supprimez une verticale enregistrée de votre compte. Les services, tarifs et l'historique associés seront archivés.",
+          "selectLabel": "Sélectionner une verticale",
+          "selectPlaceholder": "Choisir une verticale…",
+          "button": "Supprimer la verticale"
+        },
+        "resetFeatures": {
+          "title": "Réinitialiser les fonctionnalités",
+          "description": "Réinitialisez tous les boutons de fonctionnalités à leur état par défaut pour votre type de compte. Les personnalisations et réglages manuels seront perdus.",
+          "button": "Réinitialiser toutes les fonctionnalités"
+        },
+        "delete": {
+          "title": "Supprimer le compte définitivement",
+          "description": "Cette action supprimera définitivement votre compte, toutes les données associées, l'historique des réservations et les registres financiers. Cette action est irréversible.",
+          "confirmLabel": "Tapez {text} pour confirmer",
+          "confirmText": "SUPPRIMER MON COMPTE",
+          "button": "Supprimer le compte définitivement"
+        }
+      }
     }
   }
 }

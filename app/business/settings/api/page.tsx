@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Key, Plus, Copy, Trash2, Eye, EyeOff } from "lucide-react";
+import { useTranslation } from "@/components/TranslationProvider";
 
 const MOCK_KEYS = [
   { id: "key_1", name: "Production API Key", prefix: "cd_live_****", created: "2025-01-15", lastUsed: "2 hours ago" },
@@ -9,6 +10,7 @@ const MOCK_KEYS = [
 ];
 
 export default function ApiSettingsPage() {
+  const { t } = useTranslation();
   const [showKey, setShowKey] = useState<string | null>(null);
 
   return (
@@ -21,16 +23,16 @@ export default function ApiSettingsPage() {
             </div>
             <div>
               <h1 className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
-                API Access
+                {t("business.settings.api.title")}
               </h1>
               <p className="text-xs text-muted-foreground">
-                Manage API keys and webhook endpoints
+                {t("business.settings.api.description")}
               </p>
             </div>
           </div>
           <button className="flex items-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-600 transition-colors">
             <Plus size={14} />
-            Generate Key
+            {t("business.settings.api.generateKey")}
           </button>
         </div>
       </div>
@@ -50,14 +52,14 @@ export default function ApiSettingsPage() {
               <p className="text-sm font-semibold text-foreground">{k.name}</p>
               <p className="font-mono text-[11px] text-muted-foreground">{k.prefix}</p>
               <p className="text-[10px] text-muted-foreground/70 mt-0.5">
-                Created {k.created} · Last used {k.lastUsed}
+                {t("business.settings.api.created")} {k.created} · {t("business.settings.api.lastUsed")} {k.lastUsed}
               </p>
             </div>
             <div className="flex items-center gap-1.5">
-              <button className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors" title="Copy key">
+              <button className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors" title={t("business.settings.api.copyKey")}>
                 <Copy size={14} />
               </button>
-              <button className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors" title="Delete key">
+              <button className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors" title={t("business.settings.api.deleteKey")}>
                 <Trash2 size={14} />
               </button>
             </div>
@@ -67,14 +69,14 @@ export default function ApiSettingsPage() {
 
       {/* Webhooks */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm space-y-4">
-        <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground">Webhook Endpoints</h2>
+        <h2 className="text-sm font-bold font-['Space_Grotesk'] text-foreground">{t("business.settings.api.webhooks")}</h2>
         <div>
-          <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">Endpoint URL</label>
-          <input type="url" placeholder="https://your-server.com/webhooks/cardeal" className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
+          <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("business.settings.api.endpointUrl")}</label>
+          <input type="url" placeholder={t("business.settings.api.endpointPlaceholder")} className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
         </div>
         <div>
-          <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">Signing Secret</label>
-          <input type="password" placeholder="whsec_..." className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
+          <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("business.settings.api.signingSecret")}</label>
+          <input type="password" placeholder={t("business.settings.api.secretPlaceholder")} className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
         </div>
       </div>
     </div>

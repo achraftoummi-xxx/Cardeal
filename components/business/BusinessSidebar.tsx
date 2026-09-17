@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useBusiness } from "@/components/business/BusinessProvider";
+import { useTranslation } from "@/components/TranslationProvider";
 import {
   FEATURES,
   FEATURE_CATEGORIES,
@@ -20,15 +21,12 @@ import {
 import { cn } from "@/lib/utils";
 import cardealLogo from "@/assets/images/cardeal_logo.png";
 
-const CATEGORY_META: Record<
-  FeatureCategory,
-  { label: string; color: string }
-> = {
-  core: { label: "Core", color: "text-blue-500" },
-  operations: { label: "Operations", color: "text-amber-500" },
-  finance: { label: "Finance", color: "text-emerald-500" },
-  growth: { label: "Growth", color: "text-purple-500" },
-  advanced: { label: "Advanced", color: "text-slate-400" },
+const CATEGORY_COLORS: Record<FeatureCategory, string> = {
+  core: "text-blue-500",
+  operations: "text-amber-500",
+  finance: "text-emerald-500",
+  growth: "text-purple-500",
+  advanced: "text-slate-400",
 };
 
 export default function BusinessSidebar({
@@ -40,6 +38,7 @@ export default function BusinessSidebar({
 }) {
   const pathname = usePathname();
   const { resolved, partner } = useBusiness();
+  const { t } = useTranslation();
 
   const isActive = (href: string) =>
     href === "/business/dashboard"
@@ -99,10 +98,10 @@ export default function BusinessSidebar({
         {/* Partner info */}
         <div className="mx-4 mb-3 rounded-xl border border-border bg-secondary/50 px-3 py-2.5">
           <p className="text-xs font-bold text-foreground truncate">
-            {partner?.name || "Partner Portal"}
+            {partner?.name || t("business.portal.partnerFallback")}
           </p>
           <p className="text-[11px] text-muted-foreground truncate">
-            {partner?.establishment_type || "Business Account"}
+            {partner?.establishment_type || t("business.portal.businessFallback")}
           </p>
         </div>
 
@@ -114,7 +113,7 @@ export default function BusinessSidebar({
               <SidebarLink
                 href="/business/dashboard"
                 icon={LayoutDashboard}
-                label="Dashboard"
+                label={t("business.portal.dashboard")}
                 active={isActive("/business/dashboard")}
                 onClick={onClose}
               />
@@ -122,16 +121,16 @@ export default function BusinessSidebar({
 
             {/* Feature groups */}
             {enabledByCategory.map((cat) => {
-              const meta = CATEGORY_META[cat.id];
+              const color = CATEGORY_COLORS[cat.id];
               return (
                 <li key={cat.id} className="mt-3">
                   <p
                     className={cn(
                       "mb-1 px-3.5 text-[10px] font-bold uppercase tracking-widest",
-                      meta.color
+                      color
                     )}
                   >
-                    {meta.label}
+                    {t(`business.categories.${cat.id}`)}
                   </p>
                   <ul className="space-y-0.5">
                     {cat.items.map((f) => {
@@ -142,9 +141,7 @@ export default function BusinessSidebar({
                           <SidebarLink
                             href={href}
                             icon={Icon}
-                            label={f.id
-                              .replace(/_/g, " ")
-                              .replace(/\b\w/g, (c) => c.toUpperCase())}
+                            label={t(`business.features.${f.id}`) || f.id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
                             active={isActive(href)}
                             onClick={onClose}
                           />
@@ -159,14 +156,14 @@ export default function BusinessSidebar({
             {/* Settings — always visible */}
             <li className="mt-3">
               <p className="mb-1 px-3.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                Settings
+                {t("business.sidebar.settings")}
               </p>
               <ul className="space-y-0.5">
                 <li>
                   <SidebarLink
                     href="/business/settings"
                     icon={Settings}
-                    label="Settings"
+                    label={t("business.sidebar.settings")}
                     active={isActive("/business/settings")}
                     onClick={onClose}
                   />
@@ -184,7 +181,7 @@ export default function BusinessSidebar({
             className="flex min-h-10 items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           >
             <ArrowLeft size={16} className="shrink-0" />
-            <span className="truncate">Back to Dashboard</span>
+            <span className="truncate">{t("business.portal.backToDashboard")}</span>
           </Link>
         </div>
       </aside>
