@@ -81,7 +81,7 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
         {/* Conditional Business Portal Trigger */}
         {isPartner && (
           <Link
-            href="/partner/dashboard"
+            href="/business/dashboard"
             className="flex h-10 items-center gap-1 rounded-lg border border-emerald-500/50 bg-emerald-600/20 px-2.5 sm:px-3 text-xs font-semibold text-emerald-400 shadow-sm transition-colors hover:bg-emerald-600/30 hover:text-emerald-300"
           >
             <Briefcase size={15} /> <span className="hidden md:inline">{t("buttons.businessPortal")}</span>
@@ -205,11 +205,11 @@ export default function DashboardHeader({ onMenu }: { onMenu: () => void }) {
                  )}
                  {isPartner && (
                    <li>
-                     <Link
-                       href="/partner/dashboard"
-                       onClick={() => setProfileOpen(false)}
-                       className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-emerald-400 font-semibold transition-colors hover:bg-emerald-500/10"
-                     >
+                      <Link
+                        href="/business/dashboard"
+                        onClick={() => setProfileOpen(false)}
+                        className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-emerald-400 font-semibold transition-colors hover:bg-emerald-500/10"
+                      >
                        <Briefcase size={15} className="text-emerald-500" />
                        {t("buttons.businessPortal")}
                      </Link>

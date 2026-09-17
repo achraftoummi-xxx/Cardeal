@@ -759,8 +759,47 @@
         "title": "Low vehicle health",
         "body": "Your health score dropped below 55%. Have your car serviced as soon as possible.",
         "viewVehicles": "View my vehicles",
-        "dismiss": "Dismiss"
+         "dismiss": "Dismiss"
         }
       }
+  },
+  "business": {
+    "categories": {
+      "core": "Core",
+      "operations": "Operations",
+      "finance": "Finance",
+      "growth": "Growth",
+      "advanced": "Advanced"
+    },
+    "features": {
+      "jobs": "Jobs",
+      "jobsDesc": "Manage active jobs and customer bookings",
+      "messages": "Messages",
+      "messagesDesc": "Customer conversations and notifications",
+      "quotes": "Quotes",
+      "quotesDesc": "Price quote requests and responses",
+      "schedule": "Schedule",
+      "scheduleDesc": "Appointment scheduling and calendar management",
+      "catalog": "Catalog",
+      "catalogDesc": "Parts and services catalog management",
+      "fleet": "Fleet",
+      "fleetDesc": "Fleet and vehicle management",
+      "claims": "Claims",
+      "claimsDesc": "Insurance and warranty claims processing",
+      "invoices": "Invoices",
+      "invoicesDesc": "Invoice generation and tracking",
+      "payouts": "Payouts",
+      "payoutsDesc": "Payment processing and payout management",
+      "reviews": "Reviews",
+      "reviewsDesc": "Customer reviews and ratings management",
+      "team": "Team",
+      "teamDesc": "Team member and staff management",
+      "analytics": "Analytics",
+      "analyticsDesc": "Business performance analytics and reporting",
+      "integrations": "Integrations",
+      "integrationsDesc": "Third-party service integrations",
+      "apiAccess": "API Access",
+      "apiAccessDesc": "API keys and developer access management"
+    }
   }
 }

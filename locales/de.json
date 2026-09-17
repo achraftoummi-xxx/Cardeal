@@ -735,8 +735,47 @@
         "title": "Fahrzeuggesundheit niedrig",
         "body": "Der Gesundheitswert liegt unter 55 %. Lassen Sie Ihr Auto so schnell wie möglich warten.",
         "viewVehicles": "Meine Fahrzeuge ansehen",
-        "dismiss": "Schließen"
+         "dismiss": "Schließen"
         }
       }
+  },
+  "business": {
+    "categories": {
+      "core": "Kern",
+      "operations": "Operationen",
+      "finance": "Finanzen",
+      "growth": "Wachstum",
+      "advanced": "Erweitert"
+    },
+    "features": {
+      "jobs": "Aufträge",
+      "jobsDesc": "Aktive Aufträge und Kundenbuchungen verwalten",
+      "messages": "Nachrichten",
+      "messagesDesc": "Kundengespräche und Benachrichtigungen",
+      "quotes": "Angebote",
+      "quotesDesc": "Anfrage und Antwort auf Kostenvoranschläge",
+      "schedule": "Zeitplan",
+      "scheduleDesc": "Terminplanung und Kalenderverwaltung",
+      "catalog": "Katalog",
+      "catalogDesc": "Teile- und Servicekatalog verwalten",
+      "fleet": "Flotte",
+      "fleetDesc": "Flotten- und Fahrzeugverwaltung",
+      "claims": "Schadensfälle",
+      "claimsDesc": "Versicherungs- und Garantieansprüche bearbeiten",
+      "invoices": "Rechnungen",
+      "invoicesDesc": "Rechnungserstellung und -verfolgung",
+      "payouts": "Auszahlungen",
+      "payoutsDesc": "Zahlungsabwicklung und Auszahlungsverwaltung",
+      "reviews": "Bewertungen",
+      "reviewsDesc": "Kundenbewertungen und Bewertungsverwaltung",
+      "team": "Team",
+      "teamDesc": "Teammitglieder und Personal verwalten",
+      "analytics": "Analytik",
+      "analyticsDesc": "Geschäftsleistungsanalyse und Berichterstattung",
+      "integrations": "Integrationen",
+      "integrationsDesc": "Drittanbieter-Service-Integrationen",
+      "apiAccess": "API-Zugang",
+      "apiAccessDesc": "API-Schlüssel und Entwicklerzugang verwalten"
+    }
   }
 }

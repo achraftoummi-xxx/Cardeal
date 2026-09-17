@@ -74,9 +74,29 @@ export async function middleware(req: NextRequest) {
     }
   }
 
+  // Protect /business routes (approved partners only)
+  if (pathname.startsWith("/business")) {
+    if (!user) return redirect("/");
+    const email = user.email?.toLowerCase() || "";
+    const ADMIN_EMAILS = ['mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com'];
+    const isAdminEmail = ADMIN_EMAILS.includes(email);
+
+    if (!isAdminEmail) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role, status")
+        .eq("email", email)
+        .maybeSingle();
+
+      if (profile?.role !== "partner" || profile?.status !== "approved") {
+        return redirect("/dashboard");
+      }
+    }
+  }
+
   return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/partner/:path*"],
+  matcher: ["/admin/:path*", "/partner/:path*", "/business/:path*"],
 };

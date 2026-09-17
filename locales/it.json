@@ -735,8 +735,47 @@
         "title": "Salute del veicolo bassa",
         "body": "Il punteggio di salute è sceso sotto il 55%. Fai controllare l'auto al più presto.",
         "viewVehicles": "Vedi i miei veicoli",
-        "dismiss": "Chiudi"
+         "dismiss": "Chiudi"
         }
       }
+  },
+  "business": {
+    "categories": {
+      "core": "Principale",
+      "operations": "Operazioni",
+      "finance": "Finanza",
+      "growth": "Crescita",
+      "advanced": "Avanzato"
+    },
+    "features": {
+      "jobs": "Lavori",
+      "jobsDesc": "Gestisci lavori attivi e prenotazioni clienti",
+      "messages": "Messaggi",
+      "messagesDesc": "Conversazioni clienti e notifiche",
+      "quotes": "Preventivi",
+      "quotesDesc": "Richieste e risposte ai preventivi",
+      "schedule": "Programma",
+      "scheduleDesc": "Gestione appuntamenti e calendario",
+      "catalog": "Catalogo",
+      "catalogDesc": "Gestione catalogo pezzi e servizi",
+      "fleet": "Flotta",
+      "fleetDesc": "Gestione flotta e veicoli",
+      "claims": "Sinistri",
+      "claimsDesc": "Elaborazione sinistri assicurativi e garanzia",
+      "invoices": "Fatture",
+      "invoicesDesc": "Generazione e tracciamento fatture",
+      "payouts": "Pagamenti",
+      "payoutsDesc": "Elaborazione pagamenti e gestione bonifici",
+      "reviews": "Recensioni",
+      "reviewsDesc": "Gestione recensioni e valutazioni clienti",
+      "team": "Team",
+      "teamDesc": "Gestione membri del team e personale",
+      "analytics": "Analisi",
+      "analyticsDesc": "Analisi e reportistica delle performance aziendali",
+      "integrations": "Integrazioni",
+      "integrationsDesc": "Integrazioni di servizi di terze parti",
+      "apiAccess": "Accesso API",
+      "apiAccessDesc": "Gestione chiavi API e accesso sviluppatore"
+    }
   }
 }

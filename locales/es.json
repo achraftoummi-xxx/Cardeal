@@ -1236,8 +1236,47 @@
         "title": "Salud del vehículo baja",
         "body": "La puntuación de salud bajó del 55%. Haga revisar su coche lo antes posible.",
         "viewVehicles": "Ver mis vehículos",
-        "dismiss": "Cerrar"
+         "dismiss": "Cerrar"
         }
       }
+  },
+  "business": {
+    "categories": {
+      "core": "Principal",
+      "operations": "Operaciones",
+      "finance": "Finanzas",
+      "growth": "Crecimiento",
+      "advanced": "Avanzado"
+    },
+    "features": {
+      "jobs": "Trabajos",
+      "jobsDesc": "Gestionar trabajos activos y reservas de clientes",
+      "messages": "Mensajes",
+      "messagesDesc": "Conversaciones de clientes y notificaciones",
+      "quotes": "Presupuestos",
+      "quotesDesc": "Solicitudes y respuestas de presupuestos",
+      "schedule": "Horario",
+      "scheduleDesc": "Gestión de citas y calendario",
+      "catalog": "Catálogo",
+      "catalogDesc": "Gestión del catálogo de piezas y servicios",
+      "fleet": "Flota",
+      "fleetDesc": "Gestión de flota y vehículos",
+      "claims": "Reclamaciones",
+      "claimsDesc": "Procesamiento de reclamaciones de seguro y garantía",
+      "invoices": "Facturas",
+      "invoicesDesc": "Generación y seguimiento de facturas",
+      "payouts": "Pagos",
+      "payoutsDesc": "Procesamiento de pagos y gestión de transferencias",
+      "reviews": "Reseñas",
+      "reviewsDesc": "Gestión de reseñas y valoraciones de clientes",
+      "team": "Equipo",
+      "teamDesc": "Gestión de miembros del equipo y personal",
+      "analytics": "Analítica",
+      "analyticsDesc": "Análisis e informes de rendimiento del negocio",
+      "integrations": "Integraciones",
+      "integrationsDesc": "Integraciones de servicios de terceros",
+      "apiAccess": "Acceso API",
+      "apiAccessDesc": "Gestión de claves API y acceso de desarrolladores"
+    }
   }
 }

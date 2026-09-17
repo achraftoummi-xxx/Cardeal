@@ -762,5 +762,44 @@
         "dismiss": "Fermer"
         }
       }
+  },
+  "business": {
+    "categories": {
+      "core": "Essentiel",
+      "operations": "Opérations",
+      "finance": "Finance",
+      "growth": "Croissance",
+      "advanced": "Avancé"
+    },
+    "features": {
+      "jobs": "Travaux",
+      "jobsDesc": "Gérer les travaux actifs et les réservations clients",
+      "messages": "Messages",
+      "messagesDesc": "Conversations clients et notifications",
+      "quotes": "Devis",
+      "quotesDesc": "Demandes et réponses de devis",
+      "schedule": "Planning",
+      "scheduleDesc": "Prise de rendez-vous et gestion du calendrier",
+      "catalog": "Catalogue",
+      "catalogDesc": "Gestion du catalogue de pièces et services",
+      "fleet": "Flotte",
+      "fleetDesc": "Gestion de flotte et de véhicules",
+      "claims": "Réclamations",
+      "claimsDesc": "Traitement des réclamations d'assurance et de garantie",
+      "invoices": "Factures",
+      "invoicesDesc": "Génération et suivi des factures",
+      "payouts": "Virements",
+      "payoutsDesc": "Traitement des paiements et gestion des virements",
+      "reviews": "Avis",
+      "reviewsDesc": "Gestion des avis et notes clients",
+      "team": "Équipe",
+      "teamDesc": "Gestion des membres de l'équipe et du personnel",
+      "analytics": "Analyses",
+      "analyticsDesc": "Analyses et rapports de performance",
+      "integrations": "Intégrations",
+      "integrationsDesc": "Intégrations de services tiers",
+      "apiAccess": "Accès API",
+      "apiAccessDesc": "Gestion des clés API et accès développeur"
+    }
   }
 }
