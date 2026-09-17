@@ -24,20 +24,23 @@ export function usePartnerAuth() {
       return;
     }
 
-    const fetchPartnerProfile = async () => {
+    let cancelled = false;
+
+    const fetchPartnerProfile = async (attempt = 1) => {
       try {
         if (!isSupabaseConfigured || !supabase) {
           // Fallback mock mode for testing partner portal
-          setProfile({
-            id: "mock-prof-id",
-            email: email,
-            full_name: "Mock Partner",
-            role: "partner",
-            status: "approved",
-            partner_id: "mock-partner-uuid"
-          });
-          setPartnerId("mock-partner-uuid");
-          setLoading(false);
+          if (!cancelled) {
+            setProfile({
+              id: "mock-prof-id",
+              email: email,
+              full_name: "Mock Partner",
+              role: "partner",
+              status: "approved",
+              partner_id: "mock-partner-uuid"
+            });
+            setPartnerId("mock-partner-uuid");
+          }
           return;
         }
 
@@ -47,6 +50,20 @@ export function usePartnerAuth() {
           .select("*")
           .ilike("email", email.trim())
           .maybeSingle();
+
+        if (cancelled) return;
+
+        if (profErr) {
+          console.error("usePartnerAuth: profiles query error:", profErr.message);
+          // Retry up to 2 times on transient errors (network, RLS race, etc.)
+          if (attempt < 3) {
+            await new Promise((r) => setTimeout(r, attempt * 300));
+            return fetchPartnerProfile(attempt + 1);
+          }
+          // All retries exhausted — leave profile as null so the
+          // "Access Denied" screen is shown instead of silently failing.
+          return;
+        }
 
         if (profData) {
           // If profile exists, check if role is partner and approved
@@ -201,11 +218,15 @@ export function usePartnerAuth() {
       } catch (err) {
         console.error("Partner auth verification error:", err);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     void fetchPartnerProfile();
+
+    return () => {
+      cancelled = true;
+    };
   }, [authed, email, authLoading]);
 
   return { loading, profile, partnerId, isPartner: profile?.role === "partner" && profile?.status === "approved" };

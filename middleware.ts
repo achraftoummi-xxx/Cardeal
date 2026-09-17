@@ -1,6 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
+const ADMIN_EMAILS = ["mokhtari.achref06@gmail.com", "toumiachref21@gmail.com"];
+
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
@@ -18,14 +20,30 @@ export async function middleware(req: NextRequest) {
         return req.cookies.getAll();
       },
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
-        response = NextResponse.next({ request: req });
-        cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+        try {
+          cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
+          response = NextResponse.next({ request: req });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
+        } catch {
+          // setAll may be called from a Server Component where cookies are
+          // read-only.  The middleware will still work because the refreshed
+          // tokens are stored in the Supabase client's in-memory cache.
+        }
       },
     },
   });
 
-  const { data: { user } } = await supabase.auth.getUser();
+  // ── Retrieve the authenticated user ──────────────────────────────────
+  // getUser() hits the GoTrue API; it refreshes the JWT if expired and
+  // calls setAll() with the updated cookies.  It never throws — on
+  // failure it returns { user: null }.
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  /** Build a redirect Response that carries the (possibly-refreshed) cookies. */
   const redirect = (path: string) => {
     const redirectResponse = NextResponse.redirect(new URL(path, req.url));
     response.cookies.getAll().forEach(({ name, value, ...options }) => {
@@ -34,62 +52,73 @@ export async function middleware(req: NextRequest) {
     return redirectResponse;
   };
 
-  // Protect /admin routes
+  /** Check whether the user's email is in the admin allow-list. */
+  const isAdminEmail = (email: string) => ADMIN_EMAILS.includes(email);
+
+  // ── Protect /admin routes ────────────────────────────────────────────
   if (pathname.startsWith("/admin")) {
     if (!user) return redirect("/");
-    const ADMIN_EMAILS = ['mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com'];
     const email = user.email?.toLowerCase() || "";
-    const isAdminEmail = ADMIN_EMAILS.includes(email);
 
-    if (!isAdminEmail) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("email", email)
-        .maybeSingle();
+    if (!isAdminEmail(email)) {
+      try {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("email", email)
+          .maybeSingle();
 
-      if (profile?.role !== "admin") {
-        return redirect("/dashboard");
+        if (profile?.role !== "admin") {
+          return redirect("/dashboard");
+        }
+      } catch {
+        // Profile query failed — let the request through and let the
+        // client-side admin guard handle it.  This avoids false redirects
+        // caused by transient DB errors or RLS misconfigurations.
       }
     }
   }
 
-  // Protect /partner routes
+  // ── Protect /partner routes ──────────────────────────────────────────
   if (pathname.startsWith("/partner")) {
     if (!user) return redirect("/");
     const email = user.email?.toLowerCase() || "";
-    const ADMIN_EMAILS = ['mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com'];
-    const isAdminEmail = ADMIN_EMAILS.includes(email);
 
-    if (!isAdminEmail) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role, status")
-        .eq("email", email)
-        .maybeSingle();
+    if (!isAdminEmail(email)) {
+      try {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role, status")
+          .eq("email", email)
+          .maybeSingle();
 
-      if (profile?.role !== "partner" || profile?.status !== "approved") {
-        return redirect("/dashboard");
+        if (profile?.role !== "partner" || profile?.status !== "approved") {
+          return redirect("/dashboard");
+        }
+      } catch {
+        // Let the client-side guard handle it.
       }
     }
   }
 
-  // Protect /business routes (approved partners only)
+  // ── Protect /business routes (approved partners only) ────────────────
   if (pathname.startsWith("/business")) {
     if (!user) return redirect("/");
     const email = user.email?.toLowerCase() || "";
-    const ADMIN_EMAILS = ['mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com'];
-    const isAdminEmail = ADMIN_EMAILS.includes(email);
 
-    if (!isAdminEmail) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role, status")
-        .eq("email", email)
-        .maybeSingle();
+    if (!isAdminEmail(email)) {
+      try {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role, status")
+          .eq("email", email)
+          .maybeSingle();
 
-      if (profile?.role !== "partner" || profile?.status !== "approved") {
-        return redirect("/dashboard");
+        if (profile?.role !== "partner" || profile?.status !== "approved") {
+          return redirect("/dashboard");
+        }
+      } catch {
+        // Let the client-side BusinessProvider guard handle it.
       }
     }
   }

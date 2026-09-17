@@ -9,7 +9,7 @@ import React, {
   useState,
   type ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { usePartnerAuth } from "@/components/partner/usePartnerAuth";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
@@ -46,7 +46,6 @@ export function useBusiness() {
 
 export default function BusinessProvider({ children }: { children: ReactNode }) {
   const { loading: authLoading, partnerId, profile } = usePartnerAuth();
-  const router = useRouter();
 
   const [partner, setPartner] = useState<Partner | null>(null);
   const [verticals, setVerticals] = useState<FeatureVertical[]>([]);
@@ -63,42 +62,57 @@ export default function BusinessProvider({ children }: { children: ReactNode }) 
       return;
     }
 
-    const load = async () => {
+    let cancelled = false;
+
+    const load = async (attempt = 1) => {
       try {
         if (!isSupabaseConfigured || !supabase) {
           // Mock mode
-          setPartner({
-            id: partnerId,
-            name: "El Japouni Auto Service",
-            city: "Tunis",
-            zip_code: "1002",
-            address: "37 Rue du Liban, Tunis",
-            phone: "24505823",
-            email: profile?.email || "partner@cardeal.tn",
-            establishment_type: "Atelier de mécanique automobile",
-            website: null,
-            google_map_coords: "36.81283333, 10.17763889",
-            latitude: 36.81283333,
-            longitude: 10.17763889,
-            facebook_url: null,
-            instagram_url: null,
-            google_rating: 4.9,
-            review_count: 64,
-            opening_hours: "Ouvert 24/24",
-            services_offered: "Vidange",
-            additional_info: null,
-            garage_capacity: 5,
-          });
-          setVerticals(["workshop"]);
-          setOverrides(null);
+          if (!cancelled) {
+            setPartner({
+              id: partnerId,
+              name: "El Japouni Auto Service",
+              city: "Tunis",
+              zip_code: "1002",
+              address: "37 Rue du Liban, Tunis",
+              phone: "24505823",
+              email: profile?.email || "partner@cardeal.tn",
+              establishment_type: "Atelier de mécanique automobile",
+              website: null,
+              google_map_coords: "36.81283333, 10.17763889",
+              latitude: 36.81283333,
+              longitude: 10.17763889,
+              facebook_url: null,
+              instagram_url: null,
+              google_rating: 4.9,
+              review_count: 64,
+              opening_hours: "Ouvert 24/24",
+              services_offered: "Vidange",
+              additional_info: null,
+              garage_capacity: 5,
+            });
+            setVerticals(["workshop"]);
+            setOverrides(null);
+          }
           return;
         }
 
-        const { data: pData } = await supabase
+        const { data: pData, error: pErr } = await supabase
           .from("partners")
           .select("*")
           .eq("id", partnerId)
           .maybeSingle();
+
+        if (cancelled) return;
+
+        if (pErr) {
+          console.error("BusinessProvider: partner query error:", pErr.message);
+          // Retry up to 2 times on transient errors
+          if (attempt < 3) {
+            await new Promise((r) => setTimeout(r, attempt * 500));
+            return load(attempt + 1);
+          }
+        }
 
         if (pData) {
           setPartner(pData as Partner);
@@ -129,11 +143,15 @@ export default function BusinessProvider({ children }: { children: ReactNode }) 
       } catch (err) {
         console.error("BusinessProvider load error:", err);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     void load();
+
+    return () => {
+      cancelled = true;
+    };
   }, [authLoading, partnerId, profile]);
 
   /* ── Resolve features ── */
@@ -168,13 +186,6 @@ export default function BusinessProvider({ children }: { children: ReactNode }) 
     [overrides, partnerId]
   );
 
-  /* ── Redirect unauthenticated users ── */
-  useEffect(() => {
-    if (!authLoading && !profile) {
-      router.replace("/");
-    }
-  }, [authLoading, profile, router]);
-
   const value = useMemo<BusinessContextValue>(
     () => ({
       partner,
@@ -207,12 +218,12 @@ export default function BusinessProvider({ children }: { children: ReactNode }) 
           <p className="mt-2 text-sm text-muted-foreground">
             An approved partner account is required to access the Business Portal.
           </p>
-          <a
+          <Link
             href="/dashboard"
             className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-[--radius] bg-[var(--cardeal-primary)] px-5 text-sm font-medium text-white transition-colors hover:bg-[#9E1F23]"
           >
             Return to Dashboard
-          </a>
+          </Link>
         </div>
       </div>
     );
