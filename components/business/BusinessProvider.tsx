@@ -9,7 +9,6 @@ import React, {
   useState,
   type ReactNode,
 } from "react";
-import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { usePartnerAuth } from "@/components/partner/usePartnerAuth";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
@@ -203,28 +202,6 @@ export default function BusinessProvider({ children }: { children: ReactNode }) 
     return (
       <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
         <Loader2 className="h-10 w-10 animate-spin text-[var(--cardeal-primary)]" />
-      </div>
-    );
-  }
-
-  /* ── Access denied ── */
-  if (!profile || !partnerId) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background px-4 text-foreground">
-        <div className="w-full max-w-md rounded-[--radius] border border-border bg-card p-8 text-center shadow-xl">
-          <h1 className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
-            Access Restricted
-          </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            An approved partner account is required to access the Business Portal.
-          </p>
-          <Link
-            href="/dashboard"
-            className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-[--radius] bg-[var(--cardeal-primary)] px-5 text-sm font-medium text-white transition-colors hover:bg-[#9E1F23]"
-          >
-            Return to Dashboard
-          </Link>
-        </div>
       </div>
     );
   }

@@ -1,77 +1,23 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   ShieldCheck,
+  BarChart3,
   Users,
-  Car,
   Clock,
   Wrench,
-  Activity,
-  CheckCircle2,
-  XCircle,
-  ChevronRight,
-  BarChart3,
   Settings,
   ArrowLeft,
-  FileText,
-  AlertCircle
+  Activity,
 } from "lucide-react";
-import { supabase, isSupabaseConfigured } from "@/lib/supabase";
-import { useAuth } from "@/components/AuthProvider";
-import { useAdminRole } from "@/components/admin/useAdminRole";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSelector from "@/components/LanguageSelector";
 
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
   const pathname = usePathname();
-  const { email, authed } = useAuth();
-  const { isAdmin } = useAdminRole(undefined, email);
-  const [authorized, setAuthorized] = useState<boolean | null>(null);
-
-  const ADMIN_EMAILS = ['mokhtari.achref06@gmail.com', 'toumiachref21@gmail.com'];
-  const isUserAdmin = isAdmin || (email && ADMIN_EMAILS.includes(email.toLowerCase()));
-
-  useEffect(() => {
-    if (!authed) {
-      router.replace("/");
-      return;
-    }
-    setAuthorized(Boolean(isUserAdmin));
-  }, [authed, isUserAdmin, router]);
-
-  if (authorized === null) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
-        <div className="h-10 w-10 animate-spin rounded-full border-2 border-border border-t-[var(--cardeal-primary)]" />
-      </div>
-    );
-  }
-
-  if (!authorized) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background px-4 text-foreground">
-        <div className="w-full max-w-md rounded-[--radius] border border-border bg-card p-8 text-center shadow-xl">
-          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--cardeal-primary)]/15 ring-1 ring-[var(--cardeal-primary)]/30">
-            <AlertCircle size={26} className="text-[var(--cardeal-primary)]" />
-          </span>
-          <h1 className="mt-4 text-lg font-bold text-foreground font-['Space_Grotesk']">Accès Restreint Admin</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Vous n'avez pas les autorisations requises pour accéder au sous-système d'administration global.
-          </p>
-          <Link
-            href="/dashboard"
-            className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-[--radius] bg-[var(--cardeal-primary)] px-5 text-sm font-medium text-white transition-colors hover:bg-[#9E1F23]"
-          >
-            Retourner au Tableau de Bord
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   const tabs = [
     { label: "Dashboard", href: "/admin", icon: BarChart3 },
