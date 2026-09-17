@@ -12,7 +12,7 @@ const ADMIN_EMAILS = ["mokhtari.achref06@gmail.com", "toumiachref21@gmail.com"];
  *   3. Auth      /dashboard/*  – must be logged in (any user)
  *   4. Public    everything else – no gate
  *
- * When a gate fails the user is redirected to /login?redirect=<original-path>
+ * When a gate fails the user is redirected to /auth?redirect=<original-path>
  * so the login flow can bounce them back afterwards.
  */
 export async function middleware(req: NextRequest) {
@@ -53,11 +53,11 @@ export async function middleware(req: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  /** Redirect to /login (or /) with ?redirect= so we can bounce back after auth. */
+  /** Redirect to /auth with ?redirect= so we can bounce back after auth. */
   const redirectToLogin = () => {
-    const loginUrl = new URL("/login", req.url);
-    loginUrl.searchParams.set("redirect", pathname);
-    const redirectResponse = NextResponse.redirect(loginUrl);
+    const authUrl = new URL("/auth", req.url);
+    authUrl.searchParams.set("redirect", pathname);
+    const redirectResponse = NextResponse.redirect(authUrl);
     response.cookies.getAll().forEach(({ name, value, ...options }) => {
       redirectResponse.cookies.set(name, value, options);
     });
@@ -152,6 +152,12 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
+    /*
+     * Only run the middleware on protected routes.
+     * Public routes (/, /auth, /auth/callback, /bons-plans, etc.) are
+     * intentionally excluded so the OAuth callback can exchange the
+     * authorization code without being intercepted.
+     */
     "/dashboard/:path*",
     "/admin/:path*",
     "/partner/:path*",
