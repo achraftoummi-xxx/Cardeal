@@ -52,7 +52,7 @@ const SETTINGS_TABS: SettingsTab[] = [
   { id: "integrations", label: "Integrations", href: "/business/settings/integrations", icon: Plug, group: "Technical" },
   { id: "api", label: "API Access", href: "/business/settings/api", icon: Key, group: "Technical" },
   { id: "security", label: "Security", href: "/business/settings/security", icon: ShieldCheck, group: "Technical" },
-  { id: "danger", label: "Danger Zone", href: "/business/settings/danger", icon: Trash2, group: "Technical" },
+  { id: "account", label: "Account Management", href: "/business/settings/account", icon: Trash2, group: "Technical" },
 ];
 
 const GROUP_ORDER = ["Business Info", "Operations", "Finance", "Technical"];
