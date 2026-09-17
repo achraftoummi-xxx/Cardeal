@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import Link from "next/link";
+import { Menu, X, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -19,7 +20,7 @@ export default function SiteHeader({
   onPartner: () => void;
 }) {
   const { t } = useTranslation();
-  const { authed, email } = useAuth();
+  const { authed, email, isPartner } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
 
@@ -60,12 +61,22 @@ export default function SiteHeader({
           </div>
           {/* Desktop right controls & mobile sticky partner CTA */}
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <Button
-              className="text-xs sm:text-sm font-semibold shrink-0 px-3.5 py-2 bg-[var(--cardeal-primary)] text-white hover:bg-[#9E1F23] shadow-sm"
-              onClick={onPartner}
-            >
-              {t("buttons.becomePartner")}
-            </Button>
+            {isPartner ? (
+              <Link
+                href="/partner/dashboard"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold shrink-0 px-3.5 py-2 rounded-lg border border-emerald-500/50 bg-emerald-600/20 text-emerald-400 shadow-sm transition-colors hover:bg-emerald-600/30 hover:text-emerald-300"
+              >
+                <Briefcase size={15} />
+                {t("buttons.businessPortal")}
+              </Link>
+            ) : (
+              <Button
+                className="text-xs sm:text-sm font-semibold shrink-0 px-3.5 py-2 bg-[var(--cardeal-primary)] text-white hover:bg-[#9E1F23] shadow-sm"
+                onClick={onPartner}
+              >
+                {t("buttons.becomePartner")}
+              </Button>
+            )}
             <div className="hidden lg:flex items-center gap-3">
               <ThemeToggle />
               <LanguageSelector />
@@ -131,6 +142,19 @@ export default function SiteHeader({
                 </div>
               )}
 
+              {authed && isPartner && (
+                <div className="px-3">
+                  <a
+                    href="/partner/dashboard"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-emerald-500/50 bg-emerald-600/20 px-4 text-xs font-semibold text-emerald-400 shadow-sm transition-colors hover:bg-emerald-600/30"
+                  >
+                    <Briefcase size={15} />
+                    <span>{t("buttons.businessPortal")}</span>
+                  </a>
+                </div>
+              )}
+
               {isUserAdmin && (
                 <div className="px-3">
                   <button
@@ -147,18 +171,20 @@ export default function SiteHeader({
               )}
 
               <div className="grid grid-cols-2 gap-2 px-3 pt-1">
+                {!isPartner && (
+                  <Button
+                    variant="outline"
+                    className="w-full min-h-11 text-xs"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      onPartner();
+                    }}
+                  >
+                    {t("buttons.becomePartner")}
+                  </Button>
+                )}
                 <Button
-                  variant="outline"
-                  className="w-full min-h-11 text-xs"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    onPartner();
-                  }}
-                >
-                  {t("buttons.becomePartner")}
-                </Button>
-                <Button
-                  className="w-full min-h-11 text-xs bg-[var(--cardeal-primary)] text-white hover:bg-[#9E1F23]"
+                  className={`w-full min-h-11 text-xs bg-[var(--cardeal-primary)] text-white hover:bg-[#9E1F23] ${isPartner ? "col-span-2" : ""}`}
                   onClick={() => {
                     setMenuOpen(false);
                     onLogin();

@@ -26,6 +26,8 @@ type AuthContextValue = {
   setAvatarUrl: (url: string) => void;
   /** True until the initial session check has completed. */
   loading: boolean;
+  /** True when the user has a partner profile with role='partner' and status='approved'. */
+  isPartner: boolean;
 };
 
 const AuthContext = createContext<AuthContextValue>({
@@ -35,6 +37,7 @@ const AuthContext = createContext<AuthContextValue>({
   avatarUrl: "",
   setAvatarUrl: () => {},
   loading: true,
+  isPartner: false,
 });
 
 export function useAuth() {
@@ -70,6 +73,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [email, setEmail] = useState("");
   const [avatarUrl, setAvatarUrlState] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isPartner, setIsPartner] = useState(false);
 
   const applySession = useCallback((session: Session | null) => {
     if (session?.user) {
@@ -88,6 +92,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       setEmail("");
       setAvatarUrlState("");
       setAuthed(false);
+      setIsPartner(false);
     }
   }, []);
 
@@ -101,11 +106,30 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  /** Check if the current user has an approved partner profile. */
+  const checkPartnerStatus = useCallback(async (userEmail: string) => {
+    if (!isSupabaseConfigured || !supabase) {
+      setIsPartner(true);
+      return;
+    }
+    try {
+      const { data } = await supabase
+        .from("profiles")
+        .select("role, status")
+        .ilike("email", userEmail.trim())
+        .maybeSingle();
+      setIsPartner(data?.role === "partner" && data?.status === "approved");
+    } catch {
+      setIsPartner(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (!isSupabaseConfigured || !supabase) {
       /* Mock mode: no backend, mirror the sessionStorage flag. */
       setAuthed(isAuthenticated());
       setAvatarUrlState(loadAvatarUrl());
+      setIsPartner(isAuthenticated());
       setLoading(false);
       return;
     }
@@ -157,6 +181,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       const { data } = await supabase.auth.getSession();
       if (!active) return;
       applySession(data.session);
+      if (data.session?.user?.email) {
+        void checkPartnerStatus(data.session.user.email);
+      }
       setLoading(false);
     };
 
@@ -169,6 +196,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         event === "TOKEN_REFRESHED"
       ) {
         applySession(session);
+        if (session?.user?.email) {
+          void checkPartnerStatus(session.user.email);
+        }
       } else if (event === "SIGNED_OUT") {
         applySession(null);
       }
@@ -179,10 +209,10 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       active = false;
       sub.subscription.unsubscribe();
     };
-  }, [applySession]);
+  }, [applySession, checkPartnerStatus]);
 
   return (
-    <AuthContext.Provider value={{ authed, userName, email, avatarUrl, setAvatarUrl, loading }}>
+    <AuthContext.Provider value={{ authed, userName, email, avatarUrl, setAvatarUrl, loading, isPartner }}>
       {children}
     </AuthContext.Provider>
   );
