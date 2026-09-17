@@ -67,6 +67,54 @@ begin
   where lower(email) = lower(v_request.email)
   limit 1;
 
+  -- Provision a passwordless auth account when the partner email is not yet
+  -- registered, so the profiles.user_id foreign key is always satisfied.
+  if v_user_id is null then
+    insert into auth.users (
+      instance_id,
+      id,
+      aud,
+      role,
+      email,
+      encrypted_password,
+      email_confirmed_at,
+      raw_app_meta_data,
+      raw_user_meta_data,
+      created_at,
+      updated_at,
+      is_sso_user,
+      is_anonymous
+    ) values (
+      '00000000-0000-0000-0000-000000000000',
+      gen_random_uuid(),
+      'authenticated',
+      'authenticated',
+      lower(v_request.email),
+      '',
+      now(),
+      jsonb_build_object('provider', 'email', 'providers', jsonb_build_array('email')),
+      jsonb_build_object('full_name', v_request.company_name, 'is_partner', true),
+      now(),
+      now(),
+      false,
+      false
+    )
+    on conflict do nothing
+    returning id into v_user_id;
+
+    -- A concurrent registration may have inserted the user before us.
+    if v_user_id is null then
+      select id into v_user_id
+      from auth.users
+      where lower(email) = lower(v_request.email)
+      limit 1;
+    end if;
+  end if;
+
+  if v_user_id is null then
+    raise exception 'Could not resolve an auth user for partner email %', v_request.email;
+  end if;
+
   insert into public.profiles (user_id, email, full_name, role, status, category, partner_id)
   values (
     v_user_id,
