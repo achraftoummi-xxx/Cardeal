@@ -164,10 +164,10 @@ export default function BusinessSidebar({
               <ul className="space-y-0.5">
                 <li>
                   <SidebarLink
-                    href="/business/settings/features"
+                    href="/business/settings"
                     icon={Settings}
-                    label="Features"
-                    active={isActive("/business/settings/features")}
+                    label="Settings"
+                    active={isActive("/business/settings")}
                     onClick={onClose}
                   />
                 </li>
