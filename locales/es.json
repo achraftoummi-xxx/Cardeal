@@ -1245,7 +1245,9 @@
       "core": "Principal",
       "operations": "Operaciones",
       "finance": "Finanzas",
+      "relationships": "Relaciones",
       "growth": "Crecimiento",
+      "legal": "Legal",
       "advanced": "Avanzado"
     },
     "features": {
@@ -1253,6 +1255,8 @@
       "jobsDesc": "Gestionar trabajos activos y reservas de clientes",
       "messages": "Mensajes",
       "messagesDesc": "Conversaciones de clientes y notificaciones",
+      "notifications": "Notificaciones",
+      "notificationsDesc": "Notificaciones push, alertas por correo y mensajes en la aplicación",
       "quotes": "Presupuestos",
       "quotesDesc": "Solicitudes y respuestas de presupuestos",
       "schedule": "Horario",
@@ -1267,16 +1271,30 @@
       "invoicesDesc": "Generación y seguimiento de facturas",
       "payouts": "Pagos",
       "payoutsDesc": "Procesamiento de pagos y gestión de transferencias",
-      "reviews": "Reseñas",
-      "reviewsDesc": "Gestión de reseñas y valoraciones de clientes",
+      "customers": "Clientes",
+      "customersDesc": "Base de datos de clientes y gestión de relaciones",
+      "partners": "Socios",
+      "partnersDesc": "Red de socios y gestión de colaboraciones",
+      "suppliers": "Proveedores",
+      "suppliersDesc": "Directorio de proveedores y gestión de compras",
       "team": "Equipo",
       "teamDesc": "Gestión de miembros del equipo y personal",
+      "reviews": "Reseñas",
+      "reviewsDesc": "Gestión de reseñas y valoraciones de clientes",
       "analytics": "Analítica",
       "analyticsDesc": "Análisis e informes de rendimiento del negocio",
+      "reports": "Informes",
+      "reportsDesc": "Informes detallados del negocio y exportación de datos",
+      "documents": "Documentos",
+      "documentsDesc": "Contratos, órdenes de compra y gestión de facturas",
+      "conflicts": "Conflictos",
+      "conflictsDesc": "Registro de disputas vinculado a clientes, proveedores y socios",
       "integrations": "Integraciones",
       "integrationsDesc": "Integraciones de servicios de terceros",
       "apiAccess": "Acceso API",
-      "apiAccessDesc": "Gestión de claves API y acceso de desarrolladores"
+      "apiAccessDesc": "Gestión de claves API y acceso de desarrolladores",
+      "logs": "Registros",
+      "logsDesc": "Auditoría de acciones principales, inmutable y exportable"
     }
   }
 }

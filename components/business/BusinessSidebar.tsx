@@ -25,7 +25,9 @@ const CATEGORY_COLORS: Record<FeatureCategory, string> = {
   core: "text-blue-500",
   operations: "text-amber-500",
   finance: "text-emerald-500",
+  relationships: "text-rose-500",
   growth: "text-purple-500",
+  legal: "text-slate-400",
   advanced: "text-slate-400",
 };
 
@@ -141,7 +143,7 @@ export default function BusinessSidebar({
                           <SidebarLink
                             href={href}
                             icon={Icon}
-                            label={t(`business.features.${f.id}`) || f.id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                            label={t(f.labelKey) || f.id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
                             active={isActive(href)}
                             onClick={onClose}
                           />

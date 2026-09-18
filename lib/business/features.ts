@@ -13,10 +13,24 @@ import {
   BarChart3,
   Plug,
   Key,
+  Bell,
+  Contact,
+  Handshake,
+  FileSpreadsheet,
+  FileStack,
+  AlertTriangle,
+  ScrollText,
   type LucideIcon,
 } from "lucide-react";
 
-export type FeatureCategory = "core" | "operations" | "finance" | "growth" | "advanced";
+export type FeatureCategory =
+  | "core"
+  | "operations"
+  | "finance"
+  | "relationships"
+  | "growth"
+  | "legal"
+  | "advanced";
 
 export type FeatureVertical =
   | "workshop"
@@ -69,6 +83,17 @@ export const FEATURES: Record<string, FeatureDefinition> = {
     dependencies: [],
     mandatory: true,
     route: "messages",
+  },
+  notifications: {
+    id: "notifications",
+    labelKey: "business.features.notifications",
+    descriptionKey: "business.features.notificationsDesc",
+    icon: Bell,
+    category: "core",
+    defaultVerticals: [],
+    dependencies: [],
+    mandatory: false,
+    route: "notifications",
   },
   quotes: {
     id: "quotes",
@@ -152,6 +177,52 @@ export const FEATURES: Record<string, FeatureDefinition> = {
     route: "payouts",
   },
 
+  /* ─── Relationships ─── */
+  customers: {
+    id: "customers",
+    labelKey: "business.features.customers",
+    descriptionKey: "business.features.customersDesc",
+    icon: Contact,
+    category: "relationships",
+    defaultVerticals: [],
+    dependencies: [],
+    mandatory: false,
+    route: "customers",
+  },
+  partners: {
+    id: "partners",
+    labelKey: "business.features.partners",
+    descriptionKey: "business.features.partnersDesc",
+    icon: Handshake,
+    category: "relationships",
+    defaultVerticals: [],
+    dependencies: [],
+    mandatory: false,
+    route: "partners",
+  },
+  suppliers: {
+    id: "suppliers",
+    labelKey: "business.features.suppliers",
+    descriptionKey: "business.features.suppliersDesc",
+    icon: Truck,
+    category: "relationships",
+    defaultVerticals: [],
+    dependencies: [],
+    mandatory: false,
+    route: "suppliers",
+  },
+  team: {
+    id: "team",
+    labelKey: "business.features.team",
+    descriptionKey: "business.features.teamDesc",
+    icon: Users,
+    category: "relationships",
+    defaultVerticals: [],
+    dependencies: [],
+    mandatory: false,
+    route: "team",
+  },
+
   /* ─── Growth ─── */
   reviews: {
     id: "reviews",
@@ -164,17 +235,6 @@ export const FEATURES: Record<string, FeatureDefinition> = {
     mandatory: false,
     route: "reviews",
   },
-  team: {
-    id: "team",
-    labelKey: "business.features.team",
-    descriptionKey: "business.features.teamDesc",
-    icon: Users,
-    category: "growth",
-    defaultVerticals: [],
-    dependencies: [],
-    mandatory: false,
-    route: "team",
-  },
   analytics: {
     id: "analytics",
     labelKey: "business.features.analytics",
@@ -185,6 +245,41 @@ export const FEATURES: Record<string, FeatureDefinition> = {
     dependencies: [],
     mandatory: false,
     route: "analytics",
+  },
+  reports: {
+    id: "reports",
+    labelKey: "business.features.reports",
+    descriptionKey: "business.features.reportsDesc",
+    icon: FileSpreadsheet,
+    category: "growth",
+    defaultVerticals: [],
+    dependencies: ["analytics"],
+    mandatory: false,
+    route: "reports",
+  },
+
+  /* ─── Legal ─── */
+  documents: {
+    id: "documents",
+    labelKey: "business.features.documents",
+    descriptionKey: "business.features.documentsDesc",
+    icon: FileStack,
+    category: "legal",
+    defaultVerticals: [],
+    dependencies: [],
+    mandatory: false,
+    route: "documents",
+  },
+  conflicts: {
+    id: "conflicts",
+    labelKey: "business.features.conflicts",
+    descriptionKey: "business.features.conflictsDesc",
+    icon: AlertTriangle,
+    category: "legal",
+    defaultVerticals: [],
+    dependencies: [],
+    mandatory: false,
+    route: "conflicts",
   },
 
   /* ─── Advanced ─── */
@@ -210,6 +305,17 @@ export const FEATURES: Record<string, FeatureDefinition> = {
     mandatory: false,
     route: "api-access",
   },
+  logs: {
+    id: "logs",
+    labelKey: "business.features.logs",
+    descriptionKey: "business.features.logsDesc",
+    icon: ScrollText,
+    category: "advanced",
+    defaultVerticals: [],
+    dependencies: [],
+    mandatory: false,
+    route: "logs",
+  },
 };
 
 export const FEATURE_IDS = Object.keys(FEATURES) as (keyof typeof FEATURES)[];
@@ -218,7 +324,9 @@ export const FEATURE_CATEGORIES: { id: FeatureCategory; labelKey: string }[] = [
   { id: "core", labelKey: "business.categories.core" },
   { id: "operations", labelKey: "business.categories.operations" },
   { id: "finance", labelKey: "business.categories.finance" },
+  { id: "relationships", labelKey: "business.categories.relationships" },
   { id: "growth", labelKey: "business.categories.growth" },
+  { id: "legal", labelKey: "business.categories.legal" },
   { id: "advanced", labelKey: "business.categories.advanced" },
 ];
 

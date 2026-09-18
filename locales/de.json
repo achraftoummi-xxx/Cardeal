@@ -744,7 +744,9 @@
       "core": "Kern",
       "operations": "Operationen",
       "finance": "Finanzen",
+      "relationships": "Beziehungen",
       "growth": "Wachstum",
+      "legal": "Recht",
       "advanced": "Erweitert"
     },
     "features": {
@@ -752,6 +754,8 @@
       "jobsDesc": "Aktive Aufträge und Kundenbuchungen verwalten",
       "messages": "Nachrichten",
       "messagesDesc": "Kundengespräche und Benachrichtigungen",
+      "notifications": "Benachrichtigungen",
+      "notificationsDesc": "Push-Benachrichtigungen, E-Mail-Alarme und In-App-Nachrichten",
       "quotes": "Angebote",
       "quotesDesc": "Anfrage und Antwort auf Kostenvoranschläge",
       "schedule": "Zeitplan",
@@ -766,16 +770,30 @@
       "invoicesDesc": "Rechnungserstellung und -verfolgung",
       "payouts": "Auszahlungen",
       "payoutsDesc": "Zahlungsabwicklung und Auszahlungsverwaltung",
-      "reviews": "Bewertungen",
-      "reviewsDesc": "Kundenbewertungen und Bewertungsverwaltung",
+      "customers": "Kunden",
+      "customersDesc": "Kundendatenbank und Beziehungsmanagement",
+      "partners": "Partner",
+      "partnersDesc": "Partnernetzwerk und Kooperationsverwaltung",
+      "suppliers": "Lieferanten",
+      "suppliersDesc": "Lieferantenverzeichnis und Beschaffungsmanagement",
       "team": "Team",
       "teamDesc": "Teammitglieder und Personal verwalten",
+      "reviews": "Bewertungen",
+      "reviewsDesc": "Kundenbewertungen und Bewertungsverwaltung",
       "analytics": "Analytik",
       "analyticsDesc": "Geschäftsleistungsanalyse und Berichterstattung",
+      "reports": "Berichte",
+      "reportsDesc": "Detaillierte Geschäftsberichte und Datenexport",
+      "documents": "Dokumente",
+      "documentsDesc": "Verträge, Bestellscheine und Rechnungsverwaltung",
+      "conflicts": "Konflikte",
+      "conflictsDesc": "Streitlog verknüpft mit Kunden, Lieferanten und Partnern",
       "integrations": "Integrationen",
       "integrationsDesc": "Drittanbieter-Service-Integrationen",
       "apiAccess": "API-Zugang",
-      "apiAccessDesc": "API-Schlüssel und Entwicklerzugang verwalten"
+      "apiAccessDesc": "API-Schlüssel und Entwicklerzugang verwalten",
+      "logs": "Protokolle",
+      "logsDesc": "Audit-Trail wichtiger Aktionen, unveränderlich und exportierbar"
     }
   }
 }

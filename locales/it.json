@@ -744,7 +744,9 @@
       "core": "Principale",
       "operations": "Operazioni",
       "finance": "Finanza",
+      "relationships": "Relazioni",
       "growth": "Crescita",
+      "legal": "Legale",
       "advanced": "Avanzato"
     },
     "features": {
@@ -752,6 +754,8 @@
       "jobsDesc": "Gestisci lavori attivi e prenotazioni clienti",
       "messages": "Messaggi",
       "messagesDesc": "Conversazioni clienti e notifiche",
+      "notifications": "Notifiche",
+      "notificationsDesc": "Notifiche push, avvisi e-mail e messaggi in-app",
       "quotes": "Preventivi",
       "quotesDesc": "Richieste e risposte ai preventivi",
       "schedule": "Programma",
@@ -766,16 +770,30 @@
       "invoicesDesc": "Generazione e tracciamento fatture",
       "payouts": "Pagamenti",
       "payoutsDesc": "Elaborazione pagamenti e gestione bonifici",
-      "reviews": "Recensioni",
-      "reviewsDesc": "Gestione recensioni e valutazioni clienti",
+      "customers": "Clienti",
+      "customersDesc": "Database clienti e gestione delle relazioni",
+      "partners": "Partner",
+      "partnersDesc": "Rete di partner e gestione delle collaborazioni",
+      "suppliers": "Fornitori",
+      "suppliersDesc": "Elenco fornitori e gestione degli acquisti",
       "team": "Team",
       "teamDesc": "Gestione membri del team e personale",
+      "reviews": "Recensioni",
+      "reviewsDesc": "Gestione recensioni e valutazioni clienti",
       "analytics": "Analisi",
       "analyticsDesc": "Analisi e reportistica delle performance aziendali",
+      "reports": "Report",
+      "reportsDesc": "Report dettagliati ed esportazione dati",
+      "documents": "Documenti",
+      "documentsDesc": "Contratti, ordini di acquisto e gestione fatture",
+      "conflicts": "Controversie",
+      "conflictsDesc": "Registro dispute collegato a clienti, fornitori e partner",
       "integrations": "Integrazioni",
       "integrationsDesc": "Integrazioni di servizi di terze parti",
       "apiAccess": "Accesso API",
-      "apiAccessDesc": "Gestione chiavi API e accesso sviluppatore"
+      "apiAccessDesc": "Gestione chiavi API e accesso sviluppatore",
+      "logs": "Log",
+      "logsDesc": "Audit trail delle azioni principali, immutabile ed esportabile"
     }
   }
 }
