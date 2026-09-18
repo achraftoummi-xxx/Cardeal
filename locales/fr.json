@@ -772,8 +772,8 @@
       "advanced": "Avancé"
     },
     "features": {
-      "jobs": "Travaux",
-      "jobsDesc": "Gérer les travaux actifs et les réservations clients",
+      "jobs": "Interventions",
+      "jobsDesc": "Gérer les interventions actives et les réservations clients",
       "messages": "Messages",
       "messagesDesc": "Conversations clients et notifications",
       "quotes": "Devis",
@@ -815,7 +815,7 @@
     },
     "dashboard": {
       "manageFeatures": "Gérer les fonctionnalités",
-      "activeJobs": "Travaux actifs",
+      "activeJobs": "Interventions actives",
       "currentBookings": "Réservations en cours",
       "messages": "Messages",
       "unreadConversations": "Conversations non lues",
